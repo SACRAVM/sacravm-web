@@ -121,6 +121,15 @@ nav,footer{scroll-snap-align:none}
 .nos-ph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px}
 .nos-ph span{font-size:10px;letter-spacing:.16em;color:rgba(60,40,10,.25)}
 
+/* ── ARTISTAS ── */
+.artista-card{display:grid;grid-template-columns:200px 1fr;gap:40px;align-items:start;max-width:760px}
+.artista-photo{aspect-ratio:1;border-radius:50%;overflow:hidden;box-shadow:var(--sh);position:relative;background:linear-gradient(160deg,#E0D8C8 0%,#D0C5B0 60%,#D5C9B5 100%)}
+.artista-photo img{width:100%;height:100%;object-fit:cover;display:block}
+.artista-nombre{font-family:var(--serif);font-size:27px;font-weight:400;color:var(--tx);margin-bottom:4px}
+.artista-rol{font-size:11px;letter-spacing:.14em;color:var(--a);font-weight:600;margin-bottom:16px}
+.artista-bio{font-size:15px;color:var(--t2);line-height:1.9;margin-bottom:18px}
+@media(max-width:720px){.artista-card{grid-template-columns:1fr;justify-items:center;text-align:center}.artista-photo{width:160px}}
+
 /* ── SERVICES ─── */
 #servicios{background:var(--bg);border-top:1px solid var(--bdr)}
 .svcs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:48px}
@@ -213,6 +222,14 @@ nav,footer{scroll-snap-align:none}
 .art-name{font-family:var(--serif);font-size:19px;font-weight:400;color:var(--tx);margin-bottom:4px}
 .art-meta{font-size:12px;color:var(--t2)}
 @media(max-width:720px){.art-grid{grid-template-columns:1fr}}
+
+/* ── EXPERIENCES — vídeo y fotos de eventos reales ── */
+.exp-video-wrap{border-radius:10px;overflow:hidden;box-shadow:var(--sh);margin-bottom:18px;background:#000;aspect-ratio:16/9}
+.exp-video-wrap video,.exp-video-wrap iframe{width:100%;height:100%;display:block;border:none;object-fit:cover}
+.exp-fotos-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.exp-foto{aspect-ratio:1;border-radius:6px;overflow:hidden;box-shadow:var(--sh)}
+.exp-foto img{width:100%;height:100%;object-fit:cover;display:block}
+@media(max-width:720px){.exp-fotos-grid{grid-template-columns:repeat(2,1fr)}}
 .col-soon{background:var(--w);border:1px solid var(--bdr);border-radius:6px;padding:44px 28px;text-align:center;box-shadow:var(--sh)}
 .col-soon strong{font-family:var(--serif);font-size:26px;font-weight:400;color:var(--tx);display:block;margin-bottom:10px}
 .col-soon p{font-size:15px;color:var(--t2);line-height:1.8;max-width:440px;margin:0 auto}
@@ -380,11 +397,37 @@ footer{background:var(--dk);border-top:1px solid rgba(255,255,255,.05);padding:2
 .wz-svc-card strong{font-family:var(--serif);font-size:18px;font-weight:400;display:block;margin-bottom:3px;color:var(--tx)}
 .wz-svc-card span{font-size:13px;color:var(--t2);letter-spacing:.02em}
 .wz-svc-card em{display:block;font-size:14px;color:var(--a);font-style:normal;margin-top:6px;font-weight:500}
+.wz-tier-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:8px}
+.wz-tier-grid .wz-svc-card{padding:14px 16px;text-align:center}
+.wz-tier-grid .wz-svc-card strong{font-size:16px}
+.btn-copy{background:none;border:1px solid var(--dBdr);color:var(--dtx);font-size:11px;padding:8px 14px;border-radius:4px;cursor:pointer;letter-spacing:.05em;margin-top:10px;transition:all .15s;font-family:var(--sans)}
+.btn-copy:hover{border-color:rgba(196,160,80,.5);color:rgba(196,160,80,.95)}
 .wz-horarios{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 8px}
 .wz-hora{border:1px solid var(--bdr2);background:var(--bg);color:var(--t2);font-size:14px;padding:9px 16px;border-radius:20px;cursor:pointer;transition:all .15s;letter-spacing:.03em}
 .wz-hora:hover{border-color:var(--aBdr);color:var(--a)}
 .wz-hora.sel{background:var(--dk);border-color:var(--dk);color:var(--dtx)}
+.wz-hora.taken{opacity:.35;text-decoration:line-through;cursor:not-allowed;pointer-events:none}
 .wz-label{font-size:12px;letter-spacing:.16em;color:var(--t3);margin:18px 0 6px;font-weight:600}
+
+/* ── CALENDARIO (hotel-style) ── */
+.wz-cal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.wz-cal-month{font-family:var(--serif);font-size:21px;font-weight:400;color:var(--tx);text-transform:capitalize}
+.wz-cal-nav{background:none;border:1px solid var(--bdr2);color:var(--t2);width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.wz-cal-nav:hover:not(:disabled){border-color:var(--a);color:var(--a)}
+.wz-cal-nav:disabled{opacity:.25;cursor:default}
+.wz-cal-dow-row{display:grid;grid-template-columns:repeat(7,1fr);margin-bottom:6px}
+.wz-cal-dow-row span{font-size:10px;letter-spacing:.08em;color:var(--t3);text-align:center;text-transform:uppercase}
+.wz-cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:7px;margin-bottom:12px}
+.wz-cal-day{aspect-ratio:1;border-radius:9px;border:none;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:var(--sans);transition:all .15s;font-weight:600}
+.wz-cal-day.free{background:rgba(62,158,104,.14);color:#2E7D4F}
+.wz-cal-day.free:hover{background:rgba(62,158,104,.28)}
+.wz-cal-day.full{background:rgba(192,64,64,.09);color:#B5473A;cursor:not-allowed;opacity:.55}
+.wz-cal-day.empty{visibility:hidden;cursor:default}
+.wz-cal-day.sel{background:var(--dk)!important;color:var(--dtx)!important;box-shadow:0 0 0 2px var(--a)}
+.wz-cal-legend{display:flex;gap:18px;font-size:11.5px;color:var(--t2);margin-bottom:6px}
+.wz-cal-dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;vertical-align:middle}
+.wz-cal-dot.free{background:#3E9E68}
+.wz-cal-dot.full{background:#C04040}
 .wz-opt-toggle{background:none;border:none;color:var(--a);font-size:13px;font-weight:600;cursor:pointer;padding:14px 0 4px;text-align:left;font-family:var(--sans);letter-spacing:.02em}
 .wz-opt-toggle:hover{text-decoration:underline}
 .wz-label:first-child{margin-top:0}
@@ -464,6 +507,13 @@ body.wz-lock{overflow:hidden}
 .gift-bizum strong{font-size:11px;color:rgba(196,160,80,.85);letter-spacing:.08em;display:block;margin-bottom:8px}
 .gift-bizum p{font-size:13px;color:var(--dt2);line-height:1.8;margin:0}
 .gift-bizum span{color:var(--dtx);font-weight:600}
+/* Sobre fondo claro (asistente de reserva) — tokens propios en vez de los oscuros */
+.wz-box .gift-bizum{background:var(--aLt);border-color:var(--aBdr)}
+.wz-box .gift-bizum strong{color:var(--a)}
+.wz-box .gift-bizum p{color:var(--t2)}
+.wz-box .gift-bizum span{color:var(--tx)}
+.wz-box .btn-copy{border-color:var(--bdr2);color:var(--a)}
+.wz-box .btn-copy:hover{border-color:var(--a);background:var(--aLt)}
 
 /* ── POP-UP DE CAPTACIÓN ── */
 .lp-overlay{position:fixed;inset:0;background:rgba(60,50,40,.35);backdrop-filter:blur(4px);z-index:1100;display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;pointer-events:none;transition:opacity .3s ease}
@@ -531,7 +581,7 @@ body.wz-lock{overflow:hidden}
     <div class="mf-pre">SACRAVM · NACIÓ PARA ESTO</div>
     <h2 class="mf-title">Tu historia<br><em>merece ser</em><br>eterna.</h2>
     <div class="mf-rule"></div>
-    <p class="mf-sub">Un tatuaje de SACRAVM no es un dibujo. Es lo que decides llevar contigo el resto de tu vida. Eso no se improvisa en media hora.</p>
+    <p class="mf-sub">El tatuaje va más allá de la piel. No es un dibujo — es lo que decides llevar contigo el resto de tu vida. Eso no se improvisa en media hora.</p>
   </div>
 </section>
 
@@ -553,14 +603,14 @@ body.wz-lock{overflow:hidden}
   <div class="origen-inner">
     <div class="rv">
       <div class="origen-label">EL ORIGEN</div>
-      <h2 class="origen-title">SACRAVM nació para hacer<br><em>lo que el tattoo debería ser:</em><br>un acto consciente.</h2>
+      <h2 class="origen-title">SACRAVM nació para hacer<br><em>lo que el tattoo debería ser:</em><br>una obra de arte para siempre.</h2>
     </div>
     <div class="origen-grid rv">
       <div class="origen-body">
         <p>SACRAVM toma su nombre del latín <em style="color:rgba(196,160,80,.7)">"sacrum"</em> — sagrado — y del eco de Asturica Augusta, la ciudad romana que fundó esta tierra. Un nombre que no es casual: elige lo permanente sobre lo efímero, lo significativo sobre lo decorativo.</p>
         <p>Nací tatuando en estudios compartidos, acumulando técnica y clientes, llegando a los 15.000 seguidores y a una lista de espera de 25 personas. Y me di cuenta de que el formato no me representaba.</p>
         <p>Lo que yo quería ofrecer no cabe en un estudio con tres artistas, turnos y walk-ins. Cabe en un espacio privado, con tiempo de sobra, donde el cliente entra sabiendo que esa sesión es suya.</p>
-        <p>SACRAVM es eso. Un atelier donde cada tatuaje empieza con una conversación real, continúa con un diseño pensado solo para esa persona, y termina en una pieza que tiene sentido treinta años después.</p>
+        <p>SACRAVM nació de la idea de crear una experiencia única e inolvidable — no un simple tatuaje. Es un atelier donde cada pieza empieza con una idea, pensando en construir la mejor historia posible: tu idea y la nuestra, juntas, hasta crear algo que no existía antes.</p>
       </div>
       <div class="origen-values">
         <div class="origen-val">
@@ -647,6 +697,30 @@ body.wz-lock{overflow:hidden}
   </div>
 </section>
 
+<!-- ARTISTAS -->
+<section id="artistas" style="background:var(--s1);border-top:1px solid var(--bdr)">
+  <div class="sec-inner">
+    <div class="rv" style="margin-bottom:44px">
+      <div class="sec-label">ARTISTAS</div>
+      <h2 class="sec-title">Quién hay detrás de cada pieza.</h2>
+      <p style="font-size:16px;color:var(--t2);line-height:1.9;margin-top:12px;max-width:560px">Hoy, un artista. Mañana, puede que más — pero siempre con el mismo criterio.</p>
+    </div>
+    <div class="rv artista-card">
+      <div class="artista-photo" id="artista-photo-wrap"><div class="nos-ph"><span>★ FOTO → edita en /admin</span></div></div>
+      <div class="artista-info">
+        <div class="artista-nombre" id="artista-nombre-txt">JJ Rodríguez</div>
+        <div class="artista-rol">FUNDADOR · SACRAVM</div>
+        <p class="artista-bio">Empecé tatuando en estudios compartidos, absorbiendo técnica y construyendo una comunidad que hoy supera los 15.000 seguidores — hasta que entendí que lo que quería ofrecer no cabía en ese formato. Creo que un buen tatuaje no es copiar una referencia: es escuchar tu idea, entender lo que significa para ti, y traducirla con mi propio lenguaje visual hasta convertirla en algo que solo existe en tu piel. Tu historia, mi técnica — juntas, un diseño que no se ha hecho antes ni se repetirá después.</p>
+        <div class="form-pills">
+          <span class="pill">Micro-realismo</span>
+          <span class="pill">Realismo conceptual</span>
+          <span class="pill">Fine line</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- SERVICIOS -->
 <section id="servicios">
   <div class="sec-inner">
@@ -705,9 +779,9 @@ body.wz-lock{overflow:hidden}
   <div class="sec-inner" style="max-width:1000px">
 
     <div class="rv" style="text-align:center;max-width:640px;margin:0 auto 64px">
-      <div class="exp-tag" style="margin:0 auto 20px"><div class="exp-tag-dot"></div><span>SACRAVM EXPERIENCES · BODAS</span></div>
-      <h2 class="exp-title">Tu historia merece ser eterna.<br><span style="font-style:normal;color:var(--tx);font-size:.75em">También la de tu boda.</span></h2>
-      <p style="font-size:16px;color:var(--t2);line-height:1.9;margin-top:18px">SACRAVM Experience no es un photocall de tatuajes. Es el mismo ritual del Atelier trasladado al día más importante de tu vida. Mismo cuidado en el diseño, misma pulcritud en la ejecución, mismo Certificado de Autenticidad al cierre.</p>
+      <div class="exp-tag" style="margin:0 auto 20px"><div class="exp-tag-dot"></div><span>SACRAVM EXPERIENCES · BODAS Y EVENTOS PRIVADOS</span></div>
+      <h2 class="exp-title">Tu historia merece ser eterna.<br><span style="font-style:normal;color:var(--tx);font-size:.75em">No dudes en grabar en la piel para siempre el momento más importante de tu vida.</span></h2>
+      <p style="font-size:16px;color:var(--t2);line-height:1.9;margin-top:18px">SACRAVM Experience no es un photocall de tatuajes. Es el mismo ritual del Atelier trasladado a tu boda o a cualquier evento privado que merezca quedarse para siempre. Mismo cuidado en el diseño, misma pulcritud en la ejecución, mismo Certificado de Autenticidad al cierre.</p>
     </div>
 
     <div class="rv" style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:48px">
@@ -768,11 +842,13 @@ body.wz-lock{overflow:hidden}
       <div><div style="font-family:var(--serif);font-size:26px;color:var(--a);margin-bottom:4px">∞</div><div style="font-size:12px;letter-spacing:.12em;color:var(--t2)">CERTIFICADO DE AUTENTICIDAD</div></div>
     </div>
 
+    <div class="rv" id="exp-showcase" style="margin-bottom:52px"></div>
+
     <div id="exp-form-wrap" class="rv" style="display:grid;grid-template-columns:1fr 1fr;gap:52px;align-items:start">
       <div>
         <div class="sec-label">CÓMO FUNCIONA</div>
-        <h3 style="font-family:var(--serif);font-size:30px;font-weight:300;color:var(--tx);margin:10px 0 16px">Ninguna boda se confirma sin una consulta previa</h3>
-        <p style="font-size:15px;color:var(--t2);line-height:1.85;margin-bottom:16px">Valoramos si la boda encaja con la estética y los valores de SACRAVM, definimos el paquete, aprobamos los diseños con antelación y coordinamos la logística con el venue.</p>
+        <h3 style="font-family:var(--serif);font-size:30px;font-weight:300;color:var(--tx);margin:10px 0 16px">Ningún evento se confirma sin una consulta previa</h3>
+        <p style="font-size:15px;color:var(--t2);line-height:1.85;margin-bottom:16px">Valoramos si tu boda o evento privado encaja con la estética y los valores de SACRAVM, definimos el paquete, aprobamos los diseños con antelación y coordinamos la logística con el lugar.</p>
         <div style="display:flex;flex-direction:column">
           <div style="padding:12px 0;border-top:1px solid var(--bdr)"><div style="font-size:14px;font-weight:600;color:var(--tx);margin-bottom:3px">No se improvisa ningún diseño el día del evento</div><div style="font-size:14px;color:var(--t2);line-height:1.6">Todos los diseños se aprueban con antelación</div></div>
           <div style="padding:12px 0;border-top:1px solid var(--bdr)"><div style="font-size:14px;font-weight:600;color:var(--tx);margin-bottom:3px">Desplazamiento incluido en un radio de 60km de León</div><div style="font-size:14px;color:var(--t2);line-height:1.6">Fuera de ese radio, se añade coste de desplazamiento</div></div>
@@ -787,18 +863,24 @@ body.wz-lock{overflow:hidden}
           <input class="fi-light" id="exp-nombre" placeholder="Tu nombre">
           <span class="lbl2">EMAIL</span>
           <input class="fi-light" type="email" id="exp-email" placeholder="tu@email.com">
+          <span class="lbl2">TIPO DE EVENTO</span>
+          <select class="fi-light" id="exp-evento" style="cursor:pointer">
+            <option value="">Selecciona...</option>
+            <option value="boda">Boda</option>
+            <option value="evento-privado">Evento privado</option>
+          </select>
           <span class="lbl2">PAQUETE DE INTERÉS</span>
           <select class="fi-light" id="exp-tipo" style="cursor:pointer">
             <option value="">Selecciona...</option>
             <option value="union">Unión — El gesto íntimo</option>
-            <option value="ritual">Ritual Compartido — Novios + invitados</option>
+            <option value="ritual">Ritual Compartido — Grupo reducido</option>
             <option value="legado">Legado — La experiencia completa</option>
             <option value="duda">Tengo dudas, quiero orientación</option>
           </select>
-          <span class="lbl2">FECHA DE LA BODA</span>
+          <span class="lbl2">FECHA DEL EVENTO</span>
           <input class="fi-light" type="date" id="exp-fecha">
           <span class="lbl2">CUÉNTAME MÁS</span>
-          <textarea class="fi-light" id="exp-notas" rows="3" placeholder="Lugar de la boda, número de invitados, ideas de diseño…" style="height:70px;padding:10px 11px;resize:none"></textarea>
+          <textarea class="fi-light" id="exp-notas" rows="3" placeholder="Lugar del evento, número de invitados, ideas de diseño…" style="height:70px;padding:10px 11px;resize:none"></textarea>
           <button class="btn-form" onclick="submitExperience()">CONSULTAR DISPONIBILIDAD →</button>
           <p class="form-note">Sin compromiso. Te respondo en menos de 48h.</p>
         </div>
@@ -830,7 +912,7 @@ body.wz-lock{overflow:hidden}
     <div class="rv">
       <div class="sec-label">GALERÍA DE ARTE</div>
       <h2 class="sec-title">Cuadros que también puedes colgar en la pared.</h2>
-      <p style="font-size:16px;color:var(--t2);line-height:1.9;margin-top:14px;max-width:560px">Antes de ser tatuaje, cada diseño nace como obra original. Óleo, acrílico y técnica mixta sobre lienzo — piezas únicas, firmadas y numeradas, sin reproducciones.</p>
+      <p style="font-size:16px;color:var(--t2);line-height:1.9;margin-top:14px;max-width:560px">Antes de ser tatuaje, cada diseño nace como obra original. Las primeras piezas están hechas a bolígrafo — bic. Me encanta trabajar así porque es la misma sensación que un tatuaje: no se puede borrar. Cada trazo tiene que ser el correcto a la primera, buscando expresar exactamente lo que siento en cada línea. Y para quien por lo que sea no puede — o todavía no quiere — hacerse un tatuaje, esta es otra forma de tener una pieza de arte para siempre.</p>
       <div class="form-pills">
         <span class="pill">Pieza única</span>
         <span class="pill">Firmada y numerada</span>
@@ -1078,6 +1160,7 @@ body.wz-lock{overflow:hidden}
       <div class="sec-label">SACRAVM ACADEMY</div>
       <h2 class="sec-title" id="txt-academy-titulo">Domina el oficio con quien ya se lo juega en piel real.</h2>
       <p id="txt-academy-texto" style="font-size:16px;color:var(--t2);line-height:1.9;margin-top:14px">Un programa online de 3-6 meses para tatuadores que no quieren aprender por prueba y error. Técnica, criterio, marca personal y captación de clientes.</p>
+      <p style="font-family:var(--serif);font-size:19px;font-style:italic;color:var(--a);line-height:1.6;margin-top:18px">Si buscas hacer las cosas bien — respetándote a ti y a tus clientes — esto es para ti. Si no, mejor pasa de largo.</p>
       <div class="form-pills">
         <span class="pill">3–6 meses</span>
         <span class="pill">Online + mentorías</span>
@@ -1169,6 +1252,7 @@ body.wz-lock{overflow:hidden}
   </div>
   <div class="foot-links">
     <button class="fl" onclick="scroll2('nosotros')">Quiénes somos</button>
+    <button class="fl" onclick="scroll2('artistas')">Artistas</button>
     <button class="fl" onclick="scroll2('portfolio')">Trabajo</button>
     <button class="fl" onclick="scroll2('servicios')">Servicios</button>
     <button class="fl" onclick="scroll2('experiences')">Experiences</button>
@@ -1204,15 +1288,27 @@ body.wz-lock{overflow:hidden}
       <div class="sec-label">PASO 1 DE 5</div>
       <h3 class="wz-title">¿Qué te gustaría reservar?</h3>
       <div class="wz-services" id="wz-services"></div>
+      <div class="wz-label">TAMAÑO DE LA PIEZA</div>
+      <div class="wz-tier-grid" id="wz-tier-grid"></div>
+      <div class="wz-err" id="wz-err-1"></div>
       <div class="wz-nav"><button class="btn-p" style="width:100%" onclick="wzNext()">SIGUIENTE →</button></div>
     </div>
 
     <div class="wz-step" id="wz-s2" style="display:none">
       <div class="sec-label">PASO 2 DE 5</div>
       <h3 class="wz-title">Elige fecha y hora preferida</h3>
-      <div class="wz-label">FECHA</div>
-      <input type="date" class="fi2" id="wz-fecha">
-      <div class="wz-label">HORA</div>
+      <input type="hidden" id="wz-fecha">
+      <div class="wz-cal-head">
+        <button type="button" class="wz-cal-nav" id="wz-cal-prev" onclick="wzCalMove(-1)">‹</button>
+        <span class="wz-cal-month" id="wz-cal-month"></span>
+        <button type="button" class="wz-cal-nav" id="wz-cal-next" onclick="wzCalMove(1)">›</button>
+      </div>
+      <div class="wz-cal-dow-row">
+        <span>L</span><span>M</span><span>X</span><span>J</span><span>V</span><span>S</span><span>D</span>
+      </div>
+      <div class="wz-cal-grid" id="wz-cal-grid"></div>
+      <div class="wz-cal-legend"><span><span class="wz-cal-dot free"></span>Libre</span><span><span class="wz-cal-dot full"></span>Sin hueco</span></div>
+      <div class="wz-label" id="wz-hora-label" style="display:none">HORA</div>
       <div class="wz-horarios" id="wz-horarios"></div>
       <div class="wz-err" id="wz-err-2"></div>
       <div class="wz-nav"><button class="btn-o" onclick="wzBack()">← ATRÁS</button><button class="btn-p" onclick="wzNext()">SIGUIENTE →</button></div>
@@ -1290,8 +1386,8 @@ body.wz-lock{overflow:hidden}
     <div class="wz-step" id="wz-success" style="display:none">
       <div class="wz-success">
         <div class="wz-success-icon">✦</div>
-        <h3 id="wz-success-title">Solicitud enviada</h3>
-        <p id="wz-success-msg">Te contactaré por WhatsApp en menos de 24h para confirmar fecha y fianza.</p>
+        <h3 id="wz-success-title">Tu cita está reservada</h3>
+        <p id="wz-success-msg">Ese hueco ya es tuyo. Completa el pago de la fianza abajo y te contactaré por email para confirmar la cita.</p>
         <div class="gift-bizum" id="wz-bizum-box" style="display:none;max-width:360px;margin:18px auto"></div>
         <button class="btn-p" onclick="closeWizard()">CERRAR</button>
       </div>
@@ -1377,11 +1473,15 @@ function renderSite(CONFIG) {
     heroWrap.innerHTML = `<div class="hero-r-ph"><span>★ Sube tu foto desde /admin</span></div><div class="hero-badge"><p>CITAS DISPONIBLES</p><strong>${CONFIG.nombre}</strong></div>`;
   }
   const perfilWrap = document.getElementById('perfil-wrap');
+  const artistaPhotoWrap = document.getElementById('artista-photo-wrap');
   if (CONFIG.fotos.perfil) {
     perfilWrap.innerHTML = `<img src="${CONFIG.fotos.perfil}" alt="${CONFIG.nombre}, tatuador en SACRAVM" style="width:100%;height:100%;object-fit:cover" loading="lazy">`;
+    artistaPhotoWrap.innerHTML = `<img src="${CONFIG.fotos.perfil}" alt="${CONFIG.nombre}, tatuador en SACRAVM" loading="lazy">`;
   } else {
     perfilWrap.innerHTML = `<div class="nos-ph"><span>★ Sube tu foto desde /admin</span></div>`;
+    artistaPhotoWrap.innerHTML = `<div class="nos-ph"><span>★ Sube tu foto desde /admin</span></div>`;
   }
+  document.getElementById('artista-nombre-txt').textContent = CONFIG.nombre;
 
   // ── Servicios ──────────────────────────────────────────────────
   document.getElementById('svcs-grid').innerHTML = CONFIG.servicios.map((s,i) => `
@@ -1439,6 +1539,18 @@ function renderSite(CONFIG) {
     <div class="gal-card"><div class="gal-img"><img src="${g.url}" alt="Tatuaje SACRAVM — ${g.estilo||''}${g.desc?', '+g.desc:''}" loading="lazy"></div><div class="gal-body"><div class="gal-est">${g.estilo||''}</div><div class="gal-desc">${g.desc||''}</div></div></div>
   `).join('');
 
+  // ── Experiences — vídeo y fotos de eventos reales ─────────────────
+  const expShowcase = document.getElementById('exp-showcase');
+  const expVideoUrl = CONFIG.experiencesVideoUrl || '';
+  const expFotos = CONFIG.experiencesFotos || [];
+  let videoHtml = '';
+  if (expVideoUrl) {
+    const embed = wzVideoEmbedUrl(expVideoUrl);
+    videoHtml = `<div class="exp-video-wrap">${embed.type === 'iframe' ? `<iframe src="${embed.url}" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>` : `<video src="${embed.url}" controls playsinline></video>`}</div>`;
+  }
+  const fotosHtml = expFotos.length ? `<div class="exp-fotos-grid">${expFotos.map(f => `<div class="exp-foto"><img src="${f.url}" alt="${f.desc || 'SACRAVM Experience'}" loading="lazy"></div>`).join('')}</div>` : '';
+  expShowcase.innerHTML = videoHtml + fotosHtml;
+
   // ── Reveal on scroll (incluye elementos recién creados) ──────────
   const obs = new IntersectionObserver(entries => {
     entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); } });
@@ -1458,6 +1570,30 @@ async function sendLead(payload) {
     return { ok: true };
   } catch (e) {
     return { ok: false };
+  }
+}
+
+// ── Copiar datos de Bizum (para pegar fácil en la app del banco) ────
+// ── Detecta YouTube/Vimeo y devuelve la URL de embed; si no, vídeo directo ──
+function wzVideoEmbedUrl(url) {
+  const yt = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([\w-]+)/);
+  if (yt) return { type: 'iframe', url: `https://www.youtube.com/embed/${yt[1]}` };
+  const vm = url.match(/vimeo\.com\/(\d+)/);
+  if (vm) return { type: 'iframe', url: `https://player.vimeo.com/video/${vm[1]}` };
+  return { type: 'video', url };
+}
+function copyBizumData(numero, importe, concepto, btnEl) {
+  const text = `Bizum a ${numero}\nImporte: ${importe}€\nConcepto: ${concepto}`;
+  const done = () => {
+    if (!btnEl) return;
+    const original = btnEl.textContent;
+    btnEl.textContent = '✓ COPIADO';
+    setTimeout(() => { btnEl.textContent = original; }, 2000);
+  };
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(done).catch(done);
+  } else {
+    done();
   }
 }
 
@@ -1518,7 +1654,9 @@ async function submitGiftCard() {
   document.getElementById('gift-form').style.display = 'none';
   const box = document.getElementById('gift-bizum');
   if (CONFIG.bizum) {
-    box.innerHTML = `<strong>PARA CONFIRMAR TU VALE</strong><p>Envía ${giftAmt}€ por Bizum a <span>${CONFIG.bizum}</span><br>Concepto: <span>Vale regalo - ${nombre || 'tu nombre'}</span></p>`;
+    const concepto = 'Vale regalo - ' + (nombre || 'tu nombre');
+    box.innerHTML = `<strong>PARA CONFIRMAR TU VALE</strong><p>Envía ${giftAmt}€ por Bizum a <span>${CONFIG.bizum}</span><br>Concepto: <span>${concepto}</span></p><button type="button" class="btn-copy" id="gift-copy-btn">📋 COPIAR DATOS DEL PAGO</button>`;
+    document.getElementById('gift-copy-btn').onclick = (e) => copyBizumData(CONFIG.bizum, giftAmt, concepto, e.target);
   }
   document.getElementById('gift-ok').classList.add('show');
 }
@@ -1528,10 +1666,13 @@ async function submitExperience() {
   const nombre = document.getElementById('exp-nombre').value.trim();
   const email = document.getElementById('exp-email').value.trim();
   if (!email) { document.getElementById('exp-email').focus(); return; }
+  const evento = document.getElementById('exp-evento').value;
+  const eventoLabel = evento === 'boda' ? 'Boda' : evento === 'evento-privado' ? 'Evento privado' : '';
   const tipo = document.getElementById('exp-tipo').value;
   const fecha = document.getElementById('exp-fecha').value;
   const notas = document.getElementById('exp-notas').value.trim();
-  const payload = { tipo: 'experience', nombre, email, servicio: tipo, fecha, mensaje: notas, fecha_envio: new Date().toISOString() };
+  const mensaje = (eventoLabel ? `[${eventoLabel}] ` : '') + notas;
+  const payload = { tipo: 'experience', nombre, email, servicio: tipo, fecha, mensaje, fecha_envio: new Date().toISOString() };
   await sendLead(payload);
   document.getElementById('exp-form').style.display = 'none';
   document.getElementById('exp-ok').classList.add('show');
@@ -1544,7 +1685,11 @@ function goHome() { closeWizard(); window.scrollTo({ top: 0, behavior: 'smooth' 
 // ╔══════════════════════════════════════════════════════════════════╗
 // ║   ASISTENTE DE RESERVA (WIZARD) — experiencia interactiva        ║
 // ╚══════════════════════════════════════════════════════════════════╝
-let wz = { step: 1, servicio: null, fecha: null, hora: null, nombre: '', email: '', whatsapp: '', zona: '', tamano: '', bebida: '', mensaje: '', repeticion: 'No', fuente: 'Instagram', referencias: [] };
+const WZ_TIERS = [
+  { id: 'pequeno', label: 'Pequeña', fianza: 50 },
+  { id: 'grande', label: 'Grande / proyecto', fianza: 100 },
+];
+let wz = { step: 1, servicio: null, tier: null, fianza: null, fecha: null, hora: null, nombre: '', email: '', whatsapp: '', zona: '', tamano: '', bebida: '', mensaje: '', repeticion: 'No', fuente: 'Instagram', referencias: [] };
 
 // ── Referencias (imágenes redimensionadas antes de enviar) ─────────
 const WZ_MAX_REFS = 6;
@@ -1612,16 +1757,100 @@ function renderWzServices() {
 }
 function wzSelectServicio(nombre) { wz.servicio = nombre; renderWzServices(); }
 
-function renderWzHorarios() {
-  document.getElementById('wz-horarios').innerHTML = CONFIG.horarios.map(h => `
-    <button type="button" class="wz-hora ${wz.hora===h?'sel':''}" onclick="wzSelectHora('${h}')">${h}</button>
+function renderWzTiers() {
+  document.getElementById('wz-tier-grid').innerHTML = WZ_TIERS.map(t => `
+    <button type="button" class="wz-svc-card ${wz.tier===t.id?'sel':''}" onclick="wzSelectTier('${t.id}')">
+      <strong>${t.label}</strong>
+      <span>Fianza ${t.fianza}€</span>
+    </button>
   `).join('');
 }
+function wzSelectTier(id) {
+  const t = WZ_TIERS.find(x => x.id === id);
+  wz.tier = id; wz.fianza = t.fianza;
+  renderWzTiers();
+}
+
+function renderWzHorarios() {
+  if (!wz.fecha) { document.getElementById('wz-horarios').innerHTML = ''; document.getElementById('wz-hora-label').style.display = 'none'; return; }
+  document.getElementById('wz-hora-label').style.display = 'block';
+  const ocupadas = wzHorasOcupadas(wz.fecha);
+  document.getElementById('wz-horarios').innerHTML = CONFIG.horarios.map(h => {
+    const taken = ocupadas.includes(h);
+    return `<button type="button" class="wz-hora ${wz.hora===h?'sel':''} ${taken?'taken':''}" ${taken?'disabled':''} onclick="wzSelectHora('${h}')">${h}</button>`;
+  }).join('');
+}
 function wzSelectHora(h) { wz.hora = h; renderWzHorarios(); }
+
+// ── Calendario tipo hotel (verde = libre, rojo = sin hueco) ────────
+let wzOcupados = [];
+let wzCalDate = new Date();
+async function wzLoadOcupados() {
+  try {
+    const res = await fetch('/api/ocupados');
+    const data = await res.json();
+    wzOcupados = data.ocupados || [];
+  } catch (e) { wzOcupados = []; }
+}
+function wzHorasOcupadas(fechaStr) {
+  return wzOcupados.filter(o => o.fecha === fechaStr).map(o => o.hora);
+}
+function wzDateStr(d) {
+  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+}
+function wzCalBounds() {
+  const min = new Date(); min.setHours(0,0,0,0);
+  min.setDate(min.getDate() + (CONFIG.diasMinReserva ?? 3));
+  const max = new Date(); max.setHours(0,0,0,0);
+  max.setDate(max.getDate() + (CONFIG.diasMaxReserva || 45));
+  return { min, max };
+}
+function wzCalMove(delta) {
+  wzCalDate.setMonth(wzCalDate.getMonth() + delta);
+  wzCalRender();
+}
+function wzCalRender() {
+  const { min, max } = wzCalBounds();
+  const year = wzCalDate.getFullYear(), month = wzCalDate.getMonth();
+  const first = new Date(year, month, 1);
+  const startOffset = (first.getDay() + 6) % 7; // lunes=0
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const monthLabel = wzCalDate.toLocaleDateString('es-ES', { month: 'long', year: 'numeric' });
+  document.getElementById('wz-cal-month').textContent = monthLabel;
+
+  const prevMonthEnd = new Date(year, month, 0);
+  document.getElementById('wz-cal-prev').disabled = (prevMonthEnd < new Date(min.getFullYear(), min.getMonth(), 1));
+  const nextMonthStart = new Date(year, month + 1, 1);
+  document.getElementById('wz-cal-next').disabled = (nextMonthStart > max);
+
+  let html = '';
+  for (let i = 0; i < startOffset; i++) html += `<div class="wz-cal-day empty"></div>`;
+  for (let d = 1; d <= daysInMonth; d++) {
+    const date = new Date(year, month, d); date.setHours(0,0,0,0);
+    const dateStr = wzDateStr(date);
+    if (date < min || date > max) {
+      html += `<div class="wz-cal-day empty">${d}</div>`;
+      continue;
+    }
+    const ocupadas = wzHorasOcupadas(dateStr);
+    const isFull = ocupadas.length >= (CONFIG.horarios || []).length;
+    const isSel = wz.fecha === dateStr;
+    html += `<button type="button" class="wz-cal-day ${isFull ? 'full' : 'free'} ${isSel ? 'sel' : ''}" ${isFull ? 'disabled' : ''} onclick="wzCalSelectDay('${dateStr}')">${d}</button>`;
+  }
+  document.getElementById('wz-cal-grid').innerHTML = html;
+}
+function wzCalSelectDay(dateStr) {
+  wz.fecha = dateStr;
+  wz.hora = null;
+  document.getElementById('wz-fecha').value = dateStr;
+  wzCalRender();
+  renderWzHorarios();
+}
 
 function renderWzSummary() {
   document.getElementById('wz-summary').innerHTML = `
     <div><strong>Servicio:</strong> ${wz.servicio}</div>
+    <div><strong>Tamaño de la pieza:</strong> ${WZ_TIERS.find(t=>t.id===wz.tier)?.label || '-'} (fianza ${wz.fianza}€)</div>
     <div><strong>Fecha:</strong> ${wz.fecha || '-'} ${wz.hora ? 'a las ' + wz.hora : ''}</div>
     <div><strong>Nombre:</strong> ${wz.nombre}</div>
     <div><strong>Email:</strong> ${wz.email}</div>
@@ -1649,21 +1878,18 @@ function showWzStep(n) {
     d.classList.toggle('active', s === n);
     d.classList.toggle('done', s < n);
   });
-  if (n === 2) renderWzHorarios();
+  if (n === 2) { wzCalRender(); renderWzHorarios(); }
   if (n === 5) renderWzSummary();
 }
 
 async function goBook(preselectServicio) {
   await contentReady;
-  wz = { step: 1, servicio: preselectServicio || null, fecha: null, hora: null, nombre: '', email: '', whatsapp: '', zona: '', tamano: '', bebida: '', mensaje: '', repeticion: 'No', fuente: 'Instagram', referencias: [] };
+  wz = { step: 1, servicio: preselectServicio || null, tier: null, fianza: null, fecha: null, hora: null, nombre: '', email: '', whatsapp: '', zona: '', tamano: '', bebida: '', mensaje: '', repeticion: 'No', fuente: 'Instagram', referencias: [] };
   renderWzServices();
-  const fechaInput = document.getElementById('wz-fecha');
-  const diasMax = CONFIG.diasMaxReserva || 45;
-  const maxD = new Date();
-  maxD.setDate(maxD.getDate() + diasMax);
-  fechaInput.min = new Date().toISOString().split('T')[0];
-  fechaInput.max = maxD.toISOString().split('T')[0];
-  fechaInput.value = '';
+  renderWzTiers();
+  wzCalDate = new Date();
+  wzLoadOcupados().then(() => wzCalRender());
+  document.getElementById('wz-fecha').value = '';
   document.getElementById('wz-nombre').value = '';
   document.getElementById('wz-email').value = '';
   document.getElementById('wz-whatsapp').value = '';
@@ -1687,7 +1913,9 @@ function closeWizard() {
 
 function wzNext() {
   if (wz.step === 1) {
-    if (!wz.servicio) { renderWzServices(); return; }
+    const err = document.getElementById('wz-err-1');
+    if (!wz.servicio || !wz.tier) { err.textContent = 'Elige un servicio y el tamaño de la pieza para continuar.'; return; }
+    err.textContent = '';
     wz.step = 2; showWzStep(2); return;
   }
   if (wz.step === 2) {
@@ -1733,18 +1961,21 @@ async function wzSubmit() {
     nombre: wz.nombre, email: wz.email, whatsapp: wz.whatsapp, mensaje: wz.mensaje,
     zona: wz.zona, tamano: wz.tamano, bebida: wz.bebida,
     ya_tatuado: wz.repeticion, fuente: wz.fuente,
+    tier: wz.tier, fianza: wz.fianza,
     referencias: wz.referencias.map(r => r.dataUrl),
     fecha_envio: new Date().toISOString()
   };
   const result = await sendLead(payload);
   btn.textContent = 'ENVIAR SOLICITUD →'; btn.disabled = false;
   if (result.ok) {
-    document.getElementById('wz-success-title').textContent = 'Solicitud enviada';
-    document.getElementById('wz-success-msg').textContent = 'Te contactaré por WhatsApp en menos de 24h para confirmar fecha y fianza.';
+    document.getElementById('wz-success-title').textContent = 'Tu cita está reservada';
+    document.getElementById('wz-success-msg').textContent = 'Ese hueco ya es tuyo. Completa el pago de la fianza abajo y te contactaré por email para confirmar la cita.';
     const bizumBox = document.getElementById('wz-bizum-box');
     if (CONFIG.bizum) {
+      const concepto = (wz.nombre || 'tu nombre') + ' - cita';
       bizumBox.style.display = 'block';
-      bizumBox.innerHTML = `<strong>PARA CONFIRMAR TU CITA</strong><p>Envía la fianza por Bizum a <span>${CONFIG.bizum}</span><br>Concepto: <span>${wz.nombre || 'tu nombre'} - cita</span><br><br>¿Prefieres abonar la sesión completa por adelantado? También puedes hacerlo por Bizum — dímelo por WhatsApp y te paso el importe exacto.</p>`;
+      bizumBox.innerHTML = `<strong>PARA CONFIRMAR TU CITA — FIANZA ${wz.fianza}€</strong><p>Envía ${wz.fianza}€ por Bizum a <span>${CONFIG.bizum}</span><br>Concepto: <span>${concepto}</span></p><button type="button" class="btn-copy" id="wz-copy-btn">📋 COPIAR DATOS DEL PAGO</button><p style="font-size:11px;color:var(--dt2);margin-top:10px">¿Prefieres pagar la sesión completa por adelantado? También puedes hacerlo por Bizum — dínoslo por WhatsApp y te paso el importe exacto.</p>`;
+      document.getElementById('wz-copy-btn').onclick = (e) => copyBizumData(CONFIG.bizum, wz.fianza, concepto, e.target);
     } else {
       bizumBox.style.display = 'none';
     }

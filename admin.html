@@ -202,6 +202,7 @@ const TABS = [
   { id: 'textos', label: 'Textos' },
   { id: 'cuadros', label: 'Cuadros' },
   { id: 'galeria', label: 'Galería' },
+  { id: 'experiences', label: 'Experiences' },
   { id: 'leads', label: 'Leads' },
   { id: 'password', label: 'Contraseña' },
 ];
@@ -244,6 +245,7 @@ function renderPanel() {
   if (activeTab === 'textos') area.innerHTML = panelTextos();
   if (activeTab === 'cuadros') area.innerHTML = panelCuadros();
   if (activeTab === 'galeria') area.innerHTML = panelGaleria();
+  if (activeTab === 'experiences') area.innerHTML = panelExperiences();
   if (activeTab === 'leads') { area.innerHTML = '<div class="panel-title">Leads</div><div class="panel-desc">Cargando…</div>'; loadLeads(); }
   if (activeTab === 'password') area.innerHTML = panelPassword();
   wireCurrentPanel();
@@ -294,6 +296,11 @@ function panelHorarios() {
       <input class="fi" type="number" min="1" id="f-diasMaxReserva" style="max-width:120px" value="${content.diasMaxReserva || 45}">
       <p style="font-size:12px;color:var(--t3);margin-top:6px">Por ejemplo, 45 días equivale a mes y medio. La agenda solo dejará elegir fechas dentro de ese rango.</p>
     </div>
+    <div class="card">
+      <p class="field-label">ANTELACIÓN MÍNIMA PARA RESERVAR (DÍAS)</p>
+      <input class="fi" type="number" min="0" id="f-diasMinReserva" style="max-width:120px" value="${content.diasMinReserva ?? 3}">
+      <p style="font-size:12px;color:var(--t3);margin-top:6px">Con 3, por ejemplo, un cliente no podrá reservar ni para hoy, ni mañana, ni pasado mañana — el primer día disponible en el calendario sería dentro de 3 días.</p>
+    </div>
   `;
 }
 function renderHorariosChips() {
@@ -314,6 +321,8 @@ function wireHorarios() {
   };
   const diasInput = document.getElementById('f-diasMaxReserva');
   diasInput.oninput = () => { content.diasMaxReserva = parseInt(diasInput.value, 10) || 45; };
+  const diasMinInput = document.getElementById('f-diasMinReserva');
+  diasMinInput.oninput = () => { content.diasMinReserva = parseInt(diasMinInput.value, 10); if (Number.isNaN(content.diasMinReserva)) content.diasMinReserva = 0; };
 }
 
 // ── Servicios ────────────────────────────────────────────────────
@@ -474,6 +483,44 @@ function wireGaleria() {
     renderGaleriaList();
   };
 }
+function panelExperiences() {
+  return `
+    <div class="panel-title">Experiences</div>
+    <div class="panel-desc">El vídeo y las fotos de bodas/eventos reales que se muestran en la sección Experiences.</div>
+    <div class="card">
+      <p class="field-label">VÍDEO — pega un enlace de YouTube, Vimeo, o un enlace directo a un archivo .mp4</p>
+      <input class="fi" id="f-expVideo" placeholder="https://youtube.com/watch?v=... o https://.../video.mp4" value="${esc(content.experiencesVideoUrl || '')}">
+      <p style="font-size:12px;color:var(--t3);margin-top:6px">Déjalo vacío si todavía no tienes vídeo — no aparecerá nada en su lugar.</p>
+    </div>
+    <div id="exp-fotos-list"></div>
+    <button class="btn-add-item" id="btn-add-exp-foto">+ AÑADIR FOTO</button>
+  `;
+}
+function renderExpFotosList() {
+  document.getElementById('exp-fotos-list').innerHTML = content.experiencesFotos.map((f,i) => {
+    const preview = f.url ? `<img src="${f.url}">` : `<span>Sin foto</span>`;
+    return `
+    <div class="card item-card">
+      <button class="item-remove" data-i="${i}" data-del="expfoto">✕</button>
+      <div class="foto-preview" style="max-width:220px">${preview}</div>
+      <label class="btn-upload" style="max-width:220px;margin-top:8px;display:inline-block">SUBIR FOTO<input type="file" accept="image/*" data-i="${i}" class="expfoto-input"></label>
+      <p class="field-label" style="margin-top:12px">DESCRIPCIÓN (opcional)</p><input class="fi" data-i="${i}" data-f="desc" value="${esc(f.desc)}">
+    </div>
+  `;
+  }).join('') || '<p class="empty-note">Todavía no has añadido ninguna foto.</p>';
+  document.querySelectorAll('[data-del="expfoto"]').forEach(b => b.onclick = () => { content.experiencesFotos.splice(+b.dataset.i,1); renderExpFotosList(); });
+  document.querySelectorAll('#exp-fotos-list [data-f]').forEach(el => el.oninput = () => { content.experiencesFotos[+el.dataset.i][el.dataset.f] = el.value; });
+  document.querySelectorAll('.expfoto-input').forEach(inp => inp.onchange = () => uploadListPhoto(inp, 'experiencesFotos', renderExpFotosList));
+}
+function wireExperiences() {
+  content.experiencesFotos = content.experiencesFotos || [];
+  renderExpFotosList();
+  document.getElementById('f-expVideo').oninput = (e) => { content.experiencesVideoUrl = e.target.value; };
+  document.getElementById('btn-add-exp-foto').onclick = () => {
+    content.experiencesFotos.push({ url: '', desc: '' });
+    renderExpFotosList();
+  };
+}
 async function uploadListPhoto(inp, listKey, rerender) {
   const file = inp.files[0];
   if (!file) return;
@@ -578,6 +625,10 @@ async function loadLeads() {
         <div><p class="field-label">TELÉFONO / WHATSAPP</p><input class="fi" id="fc-tel" placeholder="+34 600 000 000"></div>
       </div>
       <p class="field-label">IDEA DEL TATTOO</p><textarea class="fi" id="fc-idea" placeholder="Qué quiere tatuarse, referencias, zona..."></textarea>
+      <div class="row2">
+        <div><p class="field-label">FECHA DE LA CITA (opcional — bloquea el hueco en el calendario público)</p><input class="fi" type="date" id="fc-fecha"></div>
+        <div><p class="field-label">HORA</p><input class="fi" id="fc-hora" placeholder="ej. 12:00"></div>
+      </div>
       <p class="field-label">NOTAS (opcional)</p><input class="fi" id="fc-notas" placeholder="Cómo os conocisteis, cuándo habló contigo, lo que quieras recordar">
       <div class="auth-msg" id="ficha-msg"></div>
       <button class="btn-p" id="btn-save-ficha" style="width:auto;padding:12px 28px">GUARDAR FICHA</button>
@@ -597,21 +648,32 @@ async function saveFicha() {
   const email = document.getElementById('fc-email').value.trim();
   const tel = document.getElementById('fc-tel').value.trim();
   const idea = document.getElementById('fc-idea').value.trim();
+  const fecha = document.getElementById('fc-fecha').value;
+  const hora = document.getElementById('fc-hora').value.trim();
   const notas = document.getElementById('fc-notas').value.trim();
   const msg = document.getElementById('ficha-msg');
   if (!nombre && !email && !tel) { msg.textContent = 'Rellena al menos el nombre, el email o el teléfono.'; return; }
   const payload = {
-    tipo: 'manual', nombre, email, whatsapp: tel,
+    tipo: fecha ? 'reserva' : 'manual', nombre, email, whatsapp: tel,
+    fecha, hora,
     mensaje: idea + (notas ? ' — Notas: ' + notas : ''),
     fuente: 'Ficha manual (admin)',
   };
   const res = await fetch('/api/lead', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
   const data = await res.json();
   if (!data.ok) { msg.textContent = 'No se pudo guardar. Inténtalo de nuevo.'; return; }
-  ['fc-nombre','fc-email','fc-tel','fc-idea','fc-notas'].forEach(id => document.getElementById(id).value = '');
+  ['fc-nombre','fc-email','fc-tel','fc-idea','fc-fecha','fc-hora','fc-notas'].forEach(id => document.getElementById(id).value = '');
   msg.textContent = '';
   document.getElementById('ficha-panel').style.display = 'none';
   flashSaved('✓ Ficha guardada');
+  await renderLeadsTable();
+}
+
+async function toggleFianza(btn) {
+  const rowIndex = parseInt(btn.dataset.row, 10);
+  const nuevoEstado = btn.dataset.estado === 'pagada' ? '' : 'pagada';
+  btn.disabled = true;
+  await fetch('/api/lead-status', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ rowIndex, estado: nuevoEstado }) });
   await renderLeadsTable();
 }
 
@@ -628,7 +690,7 @@ async function renderLeadsTable() {
   wrap.innerHTML = `
     <div class="card" style="overflow-x:auto">
       <table class="leads-table">
-        <thead><tr><th>Fecha</th><th>Tipo</th><th>Nombre</th><th>Email</th><th>WhatsApp</th><th>Servicio</th><th>Cita</th><th>Mensaje</th></tr></thead>
+        <thead><tr><th>Fecha</th><th>Tipo</th><th>Nombre</th><th>Email</th><th>WhatsApp</th><th>Servicio</th><th>Cita</th><th>Mensaje</th><th>Fianza</th></tr></thead>
         <tbody>
           ${leads.map(l => `
             <tr>
@@ -640,6 +702,7 @@ async function renderLeadsTable() {
               <td>${esc(l.servicio)}</td>
               <td>${esc(l.fecha_cita)} ${esc(l.hora_cita)}</td>
               <td>${esc(l.mensaje || l.instagram)}</td>
+              <td>${l.tipo === 'reserva' ? `<button class="btn-o" style="padding:5px 10px;font-size:10px" data-row="${l._row}" data-estado="${esc(l.estado_fianza)}" onclick="toggleFianza(this)">${l.estado_fianza === 'pagada' ? '✓ Pagada' : '○ Pendiente'}</button>` : ''}</td>
             </tr>
           `).join('')}
         </tbody>
@@ -685,6 +748,7 @@ function wireCurrentPanel() {
   if (activeTab === 'textos') wireTextos();
   if (activeTab === 'cuadros') wireCuadros();
   if (activeTab === 'galeria') wireGaleria();
+  if (activeTab === 'experiences') wireExperiences();
   if (activeTab === 'password') wirePassword();
 }
 

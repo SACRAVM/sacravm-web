@@ -14,6 +14,7 @@
 // ═══════════════════════════════════════════════════════════════════
 
 const http = require('http');
+const https = require('https');
 const fs = require('fs');
 const path = require('path');
 const url = require('url');
@@ -43,16 +44,38 @@ function readJSON(file, fallback) {
 function writeJSON(file, data) {
   fs.writeFileSync(file, JSON.stringify(data, null, 2), 'utf8');
 }
+const LEADS_HEADER = ['fecha_registro','tipo','nombre','email','whatsapp','servicio','fecha_cita','hora_cita','mensaje','instagram','zona','tamano','bebida','ya_tatuado','fuente','tier','fianza','referencias','estado_fianza','recordatorio_enviado','seguimiento_enviado'];
+
 function ensureDirs() {
   if (!fs.existsSync(LEADS_DIR)) fs.mkdirSync(LEADS_DIR, { recursive: true });
   if (!fs.existsSync(UPLOADS_DIR)) fs.mkdirSync(UPLOADS_DIR, { recursive: true });
   if (!fs.existsSync(LEAD_REFS_DIR)) fs.mkdirSync(LEAD_REFS_DIR, { recursive: true });
   if (!fs.existsSync(LEADS_FILE)) {
-    fs.writeFileSync(LEADS_FILE, 'fecha_registro,tipo,nombre,email,whatsapp,servicio,fecha_cita,hora_cita,mensaje,instagram,zona,tamano,bebida,ya_tatuado,fuente,referencias\n', 'utf8');
+    fs.writeFileSync(LEADS_FILE, LEADS_HEADER.join(',') + '\n', 'utf8');
+  } else {
+    migrateLeadsSchema();
   }
   if (!fs.existsSync(CONTENT_FILE)) {
     writeJSON(CONTENT_FILE, DEFAULT_CONTENT);
   }
+}
+// Si leads.csv es de una versión anterior (le faltan columnas nuevas como
+// tier, fianza, estado_fianza...), lo reescribe añadiendo esas columnas
+// vacías al principio, sin tocar ni perder ningún dato ya guardado.
+function migrateLeadsSchema() {
+  const lines = fs.readFileSync(LEADS_FILE, 'utf8').split('\n').filter(l => l.trim().length);
+  if (!lines.length) return;
+  const currentHeader = parseCsvLine(lines[0]);
+  const missing = LEADS_HEADER.filter(h => !currentHeader.includes(h));
+  if (!missing.length) return;
+  const rows = lines.slice(1).map(line => {
+    const vals = parseCsvLine(line);
+    const obj = {};
+    currentHeader.forEach((h, i) => obj[h] = vals[i] || '');
+    return obj;
+  });
+  writeLeadsRaw(LEADS_HEADER, rows);
+  console.log('✓ leads.csv actualizado con las columnas nuevas:', missing.join(', '));
 }
 
 const DEFAULT_CONTENT = {
@@ -64,6 +87,7 @@ const DEFAULT_CONTENT = {
   instagram: 'sacravm',
   horarios: ['10:00', '12:00', '16:00', '18:00'],
   diasMaxReserva: 45,
+  diasMinReserva: 3,
   fotos: {
     hero: '/images/hero/hero.jpg', perfil: '/images/hero/perfil.jpg',
     tt1: { url: '/images/portfolio/tt1.jpg', estilo: 'Micro-realismo', desc: 'Retrato' },
@@ -84,9 +108,9 @@ const DEFAULT_CONTENT = {
     { txt: 'Se agradece que no haya prisas ni ruido. JJ se toma el tiempo de entender la idea y eso cambia completamente el resultado.', by: 'Lucía P.' },
   ],
   cuadros: [
-    { url: '', nombre: 'Pieza I', meta: 'Óleo sobre lienzo · 60×80cm' },
-    { url: '', nombre: 'Pieza II', meta: 'Técnica mixta · 50×70cm' },
-    { url: '', nombre: 'Pieza III', meta: 'Acrílico sobre lienzo · 40×50cm' },
+    { url: '', nombre: 'Pieza I', meta: 'Bic sobre papel' },
+    { url: '', nombre: 'Pieza II', meta: 'Bic sobre papel' },
+    { url: '', nombre: 'Pieza III', meta: 'Bic sobre papel' },
   ],
   galeria: [
     { url: '/images/galeria/g1.jpg', estilo: 'FINE LINE', desc: 'Composición vertical' },
@@ -98,6 +122,8 @@ const DEFAULT_CONTENT = {
     { url: '/images/galeria/g7.jpg', estilo: 'FINE LINE', desc: 'Botánico' },
     { url: '/images/galeria/g8.jpg', estilo: 'SACRAVM', desc: 'En sesión' },
   ],
+  experiencesVideoUrl: '',
+  experiencesFotos: [],
   textos: {
     valeRegaloTitulo: 'Regala algo único.\nY para siempre.',
     valeRegaloTexto: 'Unas flores se marchitan. Una cena se olvida. Un tatuaje de SACRAVM se queda para siempre — y lleva tu gesto dentro. Elige un importe, yo me encargo del resto.',
@@ -120,9 +146,174 @@ function appendLead(data, referenciasPaths) {
     new Date().toLocaleString('es-ES'), data.tipo || '', data.nombre || '', data.email || '',
     data.whatsapp || '', data.servicio || '', data.fecha || '', data.hora || '', data.mensaje || '', data.instagram || '',
     data.zona || '', data.tamano || '', data.bebida || '', data.ya_tatuado || '', data.fuente || '',
-    (referenciasPaths || []).join(';')
+    data.tier || '', data.fianza || '',
+    (referenciasPaths || []).join(';'),
+    '', // estado_fianza — vacío hasta que se marque como pagada desde el admin
+    '', '' // recordatorio_enviado, seguimiento_enviado — los rellena el planificador de emails
   ].map(csvEscape).join(',');
   fs.appendFileSync(LEADS_FILE, row + '\n', 'utf8');
+}
+// Devuelve las filas crudas (sin invertir), con su índice real de fila — para poder editar una en concreto
+function readLeadsRaw() {
+  ensureDirs();
+  const lines = fs.readFileSync(LEADS_FILE, 'utf8').split('\n').filter(l => l.trim().length);
+  if (!lines.length) return { headers: [], rows: [] };
+  const headers = parseCsvLine(lines[0]);
+  const rows = lines.slice(1).map((line, i) => {
+    const vals = parseCsvLine(line);
+    const obj = { _row: i };
+    headers.forEach((h, j) => obj[h] = vals[j] || '');
+    return obj;
+  });
+  return { headers, rows };
+}
+function writeLeadsRaw(headers, rows) {
+  const lines = [headers.join(',')];
+  rows.forEach(r => lines.push(headers.map(h => csvEscape(r[h])).join(',')));
+  fs.writeFileSync(LEADS_FILE, lines.join('\n') + '\n', 'utf8');
+}
+function setLeadEstadoFianza(rowIndex, estado) {
+  const { headers, rows } = readLeadsRaw();
+  const row = rows.find(r => r._row === rowIndex);
+  if (!row) return false;
+  row.estado_fianza = estado;
+  writeLeadsRaw(headers, rows);
+  return true;
+}
+// Fechas/horas ya reservadas (para pintar el calendario público en verde/rojo)
+function readOcupados() {
+  const { rows } = readLeadsRaw();
+  return rows
+    .filter(r => r.tipo === 'reserva' && r.fecha_cita)
+    .map(r => ({ fecha: r.fecha_cita, hora: r.hora_cita }));
+}
+
+// ── EMAILS AUTOMÁTICOS (confirmación, recordatorio, seguimiento) ────
+// Usa Resend (https://resend.com) por su API HTTP simple — sin librerías.
+// Configura RESEND_API_KEY (obligatoria) y opcionalmente RESEND_FROM
+// como variables de entorno en Render. Sin la API key, los emails se
+// omiten silenciosamente (no rompe nada, solo no se envían).
+function sendEmail(to, subject, html) {
+  return new Promise((resolve) => {
+    const apiKey = process.env.RESEND_API_KEY;
+    if (!apiKey || !to) { resolve({ ok: false, skipped: true }); return; }
+    const from = process.env.RESEND_FROM || 'SACRAVM <onboarding@resend.dev>';
+    const payload = JSON.stringify({ from, to: [to], subject, html });
+    const reqOpts = {
+      hostname: 'api.resend.com', path: '/emails', method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + apiKey,
+        'Content-Length': Buffer.byteLength(payload),
+      },
+    };
+    const httpReq = https.request(reqOpts, (httpRes) => {
+      let body = '';
+      httpRes.on('data', (c) => body += c);
+      httpRes.on('end', () => resolve({ ok: httpRes.statusCode < 300, status: httpRes.statusCode, body }));
+    });
+    httpReq.on('error', (e) => resolve({ ok: false, error: e.message }));
+    httpReq.write(payload);
+    httpReq.end();
+  });
+}
+
+function fmtFechaEs(fechaISO) {
+  if (!fechaISO) return '';
+  const [y, m, d] = fechaISO.split('-');
+  const meses = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  return `${parseInt(d, 10)} de ${meses[parseInt(m, 10) - 1]} de ${y}`;
+}
+
+const EMAIL_WRAP = (body) => `
+  <div style="font-family:Georgia,'Times New Roman',serif;max-width:520px;margin:0 auto;color:#1C1714;line-height:1.7">
+    <div style="font-size:22px;letter-spacing:.1em;margin-bottom:24px">SACR<em style="color:#8B5E2A;font-style:italic">AVM</em></div>
+    ${body}
+    <p style="margin-top:32px;font-size:13px;color:#6B6460">JJ Rodríguez · SACRAVM · León</p>
+  </div>`;
+
+function emailConfirmacion(lead) {
+  const nombre = (lead.nombre || '').split(' ')[0] || 'Hola';
+  const fecha = fmtFechaEs(lead.fecha_cita);
+  return {
+    subject: `Tu cita en SACRAVM — ${fecha}`,
+    html: EMAIL_WRAP(`
+      <p>Hola ${nombre},</p>
+      <p>Tu cita ha quedado reservada:</p>
+      <p><strong>Fecha:</strong> ${fecha}<br><strong>Hora:</strong> ${lead.hora_cita || ''}<br><strong>Servicio:</strong> ${lead.servicio || ''}</p>
+      <p>Para dejarla confirmada del todo, recuerda completar el pago de la fianza por Bizum si aún no lo has hecho.</p>
+      <p>Unos días antes te escribo con todo lo que conviene saber antes de la sesión.</p>
+      <p>Cualquier duda, escríbeme sin problema.</p>
+    `),
+  };
+}
+
+function emailRecordatorio(lead) {
+  const nombre = (lead.nombre || '').split(' ')[0] || 'Hola';
+  const fecha = fmtFechaEs(lead.fecha_cita);
+  return {
+    subject: `Tu cita es en 2 días — ${fecha}`,
+    html: EMAIL_WRAP(`
+      <p>Hola ${nombre},</p>
+      <p>Te escribo porque tu cita es en dos días, el <strong>${fecha}${lead.hora_cita ? ' a las ' + lead.hora_cita : ''}</strong>.</p>
+      <p>Antes de venir, unas recomendaciones para que la sesión vaya lo mejor posible:</p>
+      <ul>
+        <li>Duerme bien la noche anterior</li>
+        <li>Come antes de venir — nada de ayunas</li>
+        <li>Evita el alcohol en las 24h anteriores</li>
+        <li>Hidrata bien la zona a tatuar los días previos</li>
+        <li>Viste algo cómodo que deje acceso fácil a la zona</li>
+      </ul>
+      <p>Nos vemos pronto.</p>
+    `),
+  };
+}
+
+function emailSeguimiento(lead) {
+  const nombre = (lead.nombre || '').split(' ')[0] || 'Hola';
+  return {
+    subject: `¿Qué tal va tu tatuaje?`,
+    html: EMAIL_WRAP(`
+      <p>Hola ${nombre},</p>
+      <p>Ha pasado una semana desde tu sesión — espero que la curación esté yendo bien.</p>
+      <p>Un par de recordatorios rápidos:</p>
+      <ul>
+        <li>Sigue hidratando la zona con la crema que te indiqué</li>
+        <li>Evita el sol directo mientras cure</li>
+        <li>Nada de piscina, playa o baños largos hasta que esté cerrado del todo</li>
+      </ul>
+      <p>Si ves algo que no te convence o tienes cualquier duda, escríbeme y lo vemos. Y si te apetece, me encantaría ver una foto de cómo ha quedado una vez curado.</p>
+      <p>¡Gracias por confiar en SACRAVM!</p>
+    `),
+  };
+}
+
+// Comprueba citas para las que toca mandar recordatorio (2 días antes) o
+// seguimiento (7 días después), y las envía una sola vez por cita.
+async function runEmailScheduler() {
+  try {
+    const { headers, rows } = readLeadsRaw();
+    const today = new Date(); today.setHours(0, 0, 0, 0);
+    const fmt = (d) => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+    const in2days = new Date(today); in2days.setDate(in2days.getDate() + 2);
+    const ago7days = new Date(today); ago7days.setDate(ago7days.getDate() - 7);
+    const in2Str = fmt(in2days), ago7Str = fmt(ago7days);
+    let changed = false;
+    for (const row of rows) {
+      if (row.tipo !== 'reserva' || !row.fecha_cita || !row.email) continue;
+      if (row.fecha_cita === in2Str && row.recordatorio_enviado !== 'si') {
+        const { subject, html } = emailRecordatorio(row);
+        const r = await sendEmail(row.email, subject, html);
+        if (r.ok) { row.recordatorio_enviado = 'si'; changed = true; }
+      }
+      if (row.fecha_cita === ago7Str && row.seguimiento_enviado !== 'si') {
+        const { subject, html } = emailSeguimiento(row);
+        const r = await sendEmail(row.email, subject, html);
+        if (r.ok) { row.seguimiento_enviado = 'si'; changed = true; }
+      }
+    }
+    if (changed) writeLeadsRaw(headers, rows);
+  } catch (e) { console.error('Error en el planificador de emails:', e.message); }
 }
 function parseCsvLine(line) {
   const out = []; let cur = ''; let inQ = false;
@@ -142,16 +333,8 @@ function parseCsvLine(line) {
   return out;
 }
 function readLeads() {
-  ensureDirs();
-  const lines = fs.readFileSync(LEADS_FILE, 'utf8').split('\n').filter(l => l.trim().length);
-  if (!lines.length) return [];
-  const headers = parseCsvLine(lines[0]);
-  return lines.slice(1).reverse().map(line => {
-    const vals = parseCsvLine(line);
-    const obj = {};
-    headers.forEach((h, i) => obj[h] = vals[i] || '');
-    return obj;
-  });
+  const { rows } = readLeadsRaw();
+  return rows.slice().reverse();
 }
 
 // ── Contraseñas (hash con scrypt + sal, sin librerías externas) ────
@@ -231,7 +414,17 @@ const server = http.createServer(async (req, res) => {
       }).filter(Boolean);
       appendLead(data, referenciasPaths);
       console.log('✓ Nuevo lead:', data.tipo, '-', data.nombre || data.email, referenciasPaths.length ? `(${referenciasPaths.length} refs)` : '');
-      return sendJSON(res, 200, { ok: true }, { 'Access-Control-Allow-Origin': '*' });
+      sendJSON(res, 200, { ok: true }, { 'Access-Control-Allow-Origin': '*' });
+      // Email de confirmación — no bloquea la respuesta al cliente
+      if (data.tipo === 'reserva' && data.email) {
+        const { subject, html } = emailConfirmacion({ nombre: data.nombre, fecha_cita: data.fecha, hora_cita: data.hora, servicio: data.servicio });
+        sendEmail(data.email, subject, html).catch(() => {});
+      }
+      return;
+    }
+    // Fechas/horas ya reservadas — para pintar el calendario de citas en verde/rojo
+    if (pathname === '/api/ocupados' && req.method === 'GET') {
+      return sendJSON(res, 200, { ok: true, ocupados: readOcupados() });
     }
 
     // ═══ Estado de la cuenta / sesión ═══
@@ -276,10 +469,11 @@ const server = http.createServer(async (req, res) => {
     }
 
     // ═══ A partir de aquí, todo requiere sesión iniciada ═══
-    const protectedRoutes = ['/api/content', '/api/upload-photo', '/api/change-password', '/api/leads'];
+    const protectedRoutes = ['/api/content', '/api/upload-photo', '/api/change-password', '/api/leads', '/api/lead-status'];
     const isProtectedWrite = (pathname === '/api/content' && req.method === 'POST') ||
       pathname === '/api/upload-photo' || pathname === '/api/change-password' ||
-      (pathname === '/api/leads' && req.method === 'GET');
+      (pathname === '/api/leads' && req.method === 'GET') ||
+      (pathname === '/api/lead-status' && req.method === 'POST');
 
     if (isProtectedWrite && !getSession(req)) {
       return sendJSON(res, 401, { ok: false, error: 'Sesión no iniciada.' });
@@ -287,6 +481,15 @@ const server = http.createServer(async (req, res) => {
 
     if (pathname === '/api/leads' && req.method === 'GET') {
       return sendJSON(res, 200, { ok: true, leads: readLeads() });
+    }
+
+    if (pathname === '/api/lead-status' && req.method === 'POST') {
+      const body = JSON.parse(await readBody(req, 1e4) || '{}');
+      const rowIndex = Number(body.rowIndex);
+      const estado = body.estado === 'pagada' ? 'pagada' : '';
+      if (Number.isNaN(rowIndex)) return sendJSON(res, 400, { ok: false, error: 'Falta rowIndex.' });
+      const ok = setLeadEstadoFianza(rowIndex, estado);
+      return sendJSON(res, ok ? 200 : 404, { ok });
     }
 
     if (pathname === '/api/content' && req.method === 'POST') {
@@ -377,5 +580,14 @@ server.listen(PORT, () => {
   console.log('  → Panel de edición:  http://localhost:' + PORT + '/admin');
   console.log('  → Tus leads:         leads/leads.csv');
   console.log('  → Para parar: cierra esta ventana o pulsa Ctrl+C');
+  if (!process.env.RESEND_API_KEY) {
+    console.log('  ⚠ RESEND_API_KEY no configurada — los emails automáticos están desactivados.');
+  }
   console.log('');
 });
+
+// Planificador de emails: recordatorio (2 días antes) y seguimiento (7 días
+// después). Se comprueba al arrancar y luego cada hora — de sobra para no
+// perder el día exacto, incluso si el servicio se reinicia en Render.
+runEmailScheduler();
+setInterval(runEmailScheduler, 60 * 60 * 1000);
