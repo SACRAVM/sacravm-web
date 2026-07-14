@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SACRAVM · Panel de administración</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#FBF8F3;--s1:#F5EFE4;--s2:#EEE7D9;--w:#FDFCF9;
+  --bdr:rgba(60,40,10,.08);--bdr2:rgba(60,40,10,.16);
+  --tx:#1C1714;--t2:#6B6460;--t3:#A8A29C;
+  --a:#8B5E2A;--aLt:rgba(139,94,42,.08);--aBdr:rgba(139,94,42,.22);
+  --dk:#1C1714;--dtx:#EDE7DC;
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+  --sh:0 1px 20px rgba(60,40,10,.07);--r:5px;
+  --ok:#3F7A4E;--err:#B5473A;
+}
+body{background:var(--bg);color:var(--tx);font-family:var(--sans);line-height:1.6;min-height:100vh}
+input,select,textarea,button{font-family:var(--sans)}
+::placeholder{color:var(--t3)}
+
+/* ── AUTH SCREENS ─── */
+.auth-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+.auth-box{background:var(--w);border:1px solid var(--bdr);border-radius:10px;box-shadow:var(--sh);max-width:400px;width:100%;padding:44px 40px}
+.auth-logo{font-family:var(--serif);font-size:24px;letter-spacing:.2em;text-align:center;margin-bottom:4px}
+.auth-sub{font-size:10px;letter-spacing:.2em;color:var(--t3);text-align:center;margin-bottom:32px}
+.fi{width:100%;background:var(--bg);border:1px solid var(--bdr);border-radius:4px;padding:0 13px;height:42px;color:var(--tx);outline:none;transition:border-color .15s;font-size:14px;margin-bottom:12px}
+.fi:focus{border-color:var(--a)}
+.btn-p{background:var(--dk);border:none;color:var(--dtx);padding:13px 30px;font-size:12px;font-weight:600;letter-spacing:.1em;border-radius:var(--r);cursor:pointer;transition:opacity .15s;width:100%}
+.btn-p:hover{opacity:.85}
+.btn-p:disabled{opacity:.5;cursor:default}
+.btn-o{background:none;border:1px solid var(--bdr2);color:var(--t2);padding:10px 20px;font-size:12px;letter-spacing:.06em;border-radius:var(--r);cursor:pointer}
+.btn-o:hover{border-color:var(--aBdr);color:var(--a)}
+.auth-msg{font-size:12px;color:var(--err);margin-bottom:10px;min-height:16px}
+.auth-note{font-size:11px;color:var(--t3);text-align:center;margin-top:18px;line-height:1.7}
+
+/* ── DASHBOARD LAYOUT ─── */
+.topbar{position:sticky;top:0;z-index:50;height:58px;background:rgba(251,248,243,.96);backdrop-filter:blur(10px);border-bottom:1px solid var(--bdr);display:flex;align-items:center;justify-content:space-between;padding:0 28px}
+.tb-logo{font-family:var(--serif);font-size:18px;letter-spacing:.16em}
+.tb-logo small{font-size:9px;letter-spacing:.18em;color:var(--a);margin-left:10px}
+.tb-right{display:flex;gap:10px;align-items:center}
+.tb-link{font-size:11px;color:var(--t2);text-decoration:none;letter-spacing:.04em;padding:8px 12px;border-radius:4px}
+.tb-link:hover{color:var(--tx);background:var(--s1)}
+
+.layout{display:flex;max-width:1100px;margin:0 auto}
+.tabs{width:190px;flex-shrink:0;padding:28px 16px;position:sticky;top:58px;height:calc(100vh - 58px)}
+.tab-btn{display:block;width:100%;text-align:left;background:none;border:none;color:var(--t2);font-size:13px;padding:11px 14px;border-radius:5px;cursor:pointer;letter-spacing:.02em;margin-bottom:2px;transition:all .15s}
+.tab-btn:hover{background:var(--s1);color:var(--tx)}
+.tab-btn.active{background:var(--dk);color:var(--dtx)}
+.content{flex:1;padding:28px 28px 80px;min-width:0}
+.panel{display:none}
+.panel.active{display:block}
+.panel-title{font-family:var(--serif);font-size:30px;font-weight:300;margin-bottom:6px}
+.panel-desc{font-size:13px;color:var(--t2);margin-bottom:28px;line-height:1.7}
+
+.field-label{font-size:10px;letter-spacing:.14em;color:var(--t3);font-weight:600;margin:0 0 6px}
+.card{background:var(--w);border:1px solid var(--bdr);border-radius:8px;padding:22px;margin-bottom:16px;box-shadow:var(--sh)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+textarea.fi{height:80px;padding:10px 13px;resize:vertical}
+
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.chip{display:inline-flex;align-items:center;gap:8px;background:var(--s1);border:1px solid var(--bdr2);border-radius:20px;padding:7px 8px 7px 16px;font-size:12px}
+.chip button{background:none;border:none;color:var(--t3);cursor:pointer;font-size:13px;width:20px;height:20px;border-radius:50%}
+.chip button:hover{background:var(--bdr2);color:var(--err)}
+.add-row{display:flex;gap:8px}
+.add-row .fi{margin-bottom:0}
+.btn-add{background:var(--dk);color:var(--dtx);border:none;padding:0 20px;border-radius:4px;font-size:12px;cursor:pointer;letter-spacing:.06em;white-space:nowrap}
+
+.item-card{position:relative}
+.item-remove{position:absolute;top:14px;right:14px;background:none;border:none;color:var(--t3);cursor:pointer;font-size:13px;width:26px;height:26px;border-radius:50%}
+.item-remove:hover{background:var(--s1);color:var(--err)}
+.btn-add-item{border:1px dashed var(--bdr2);background:none;color:var(--t2);width:100%;padding:14px;border-radius:6px;cursor:pointer;font-size:12px;letter-spacing:.06em;margin-top:4px}
+.btn-add-item:hover{border-color:var(--aBdr);color:var(--a)}
+
+.foto-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px}
+.foto-slot{background:var(--w);border:1px solid var(--bdr);border-radius:8px;padding:14px;box-shadow:var(--sh)}
+.foto-preview{aspect-ratio:4/3;border-radius:5px;overflow:hidden;background:linear-gradient(160deg,#E0D8C8 0%,#D0C5B0 60%,#D5C9B5 100%);margin-bottom:10px;display:flex;align-items:center;justify-content:center}
+.foto-preview img{width:100%;height:100%;object-fit:cover}
+.foto-preview span{font-size:9px;letter-spacing:.1em;color:rgba(60,40,10,.3)}
+.foto-name{font-size:11px;font-weight:600;letter-spacing:.05em;margin-bottom:8px}
+.foto-slot input[type=file]{display:none}
+.btn-upload{display:block;text-align:center;background:var(--s1);border:1px solid var(--bdr2);color:var(--t2);padding:8px;border-radius:4px;cursor:pointer;font-size:11px;letter-spacing:.05em}
+.btn-upload:hover{border-color:var(--aBdr);color:var(--a)}
+.foto-mini-fields{margin-top:8px}
+.foto-mini-fields input{margin-bottom:6px;height:34px;font-size:12px}
+
+.savebar{position:fixed;bottom:0;left:0;right:0;background:rgba(251,248,243,.97);backdrop-filter:blur(10px);border-top:1px solid var(--bdr);padding:14px 28px;display:flex;justify-content:flex-end;align-items:center;gap:16px;z-index:40}
+.savebar .btn-p{width:auto;padding:12px 34px}
+.save-msg{font-size:12px;color:var(--ok);opacity:0;transition:opacity .3s}
+.save-msg.show{opacity:1}
+
+table.leads-table{width:100%;border-collapse:collapse;font-size:12px}
+table.leads-table th{text-align:left;font-size:10px;letter-spacing:.08em;color:var(--t3);padding:8px 10px;border-bottom:1px solid var(--bdr2)}
+table.leads-table td{padding:9px 10px;border-bottom:1px solid var(--bdr);color:var(--t2);vertical-align:top}
+table.leads-table tr:hover td{background:var(--s1)}
+.tag{display:inline-block;font-size:10px;padding:2px 8px;border-radius:10px;letter-spacing:.03em}
+.tag.reserva{background:var(--aLt);color:var(--a)}
+.tag.formacion{background:#EAE7F5;color:#6B5CA5}
+.empty-note{font-size:13px;color:var(--t3);padding:30px 0;text-align:center}
+
+@media(max-width:780px){
+  .layout{flex-direction:column}
+  .tabs{position:static;width:100%;height:auto;display:flex;overflow-x:auto;padding:14px 16px;gap:4px}
+  .tab-btn{white-space:nowrap;width:auto}
+  .row2{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div id="app"></div>
+
+<script>
+let content = null;
+let session = { hasAccount: false, loggedIn: false };
+let activeTab = 'datos';
+
+const app = document.getElementById('app');
+
+async function boot() {
+  const res = await fetch('/api/auth-status');
+  session = await res.json();
+  if (!session.hasAccount) return renderSetup();
+  if (!session.loggedIn) return renderLogin();
+  await loadContentAndRenderDashboard();
+}
+
+// ═══ SETUP (primera vez) ═══
+function renderSetup() {
+  app.innerHTML = `
+    <div class="auth-wrap">
+      <div class="auth-box">
+        <div class="auth-logo">SACRAVM</div>
+        <div class="auth-sub">CREAR TU CUENTA DE ACCESO</div>
+        <div class="auth-msg" id="msg"></div>
+        <input class="fi" id="username" placeholder="Elige un usuario" autocomplete="username">
+        <input class="fi" id="password" type="password" placeholder="Elige una contraseña (mín. 6 caracteres)" autocomplete="new-password">
+        <input class="fi" id="password2" type="password" placeholder="Repite la contraseña" autocomplete="new-password">
+        <button class="btn-p" id="btn-setup">CREAR CUENTA →</button>
+        <p class="auth-note">Esta es la única vez que se pide crear la cuenta.<br>Guarda bien tu usuario y contraseña.</p>
+      </div>
+    </div>
+  `;
+  document.getElementById('btn-setup').onclick = async () => {
+    const username = document.getElementById('username').value.trim();
+    const password = document.getElementById('password').value;
+    const password2 = document.getElementById('password2').value;
+    const msg = document.getElementById('msg');
+    if (!username || !password) { msg.textContent = 'Rellena usuario y contraseña.'; return; }
+    if (password !== password2) { msg.textContent = 'Las contraseñas no coinciden.'; return; }
+    const res = await fetch('/api/setup', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ username, password }) });
+    const data = await res.json();
+    if (!data.ok) { msg.textContent = data.error || 'Error al crear la cuenta.'; return; }
+    await loadContentAndRenderDashboard();
+  };
+}
+
+// ═══ LOGIN ═══
+function renderLogin() {
+  app.innerHTML = `
+    <div class="auth-wrap">
+      <div class="auth-box">
+        <div class="auth-logo">SACRAVM</div>
+        <div class="auth-sub">PANEL DE ADMINISTRACIÓN</div>
+        <div class="auth-msg" id="msg"></div>
+        <input class="fi" id="username" placeholder="Usuario" autocomplete="username">
+        <input class="fi" id="password" type="password" placeholder="Contraseña" autocomplete="current-password">
+        <button class="btn-p" id="btn-login">ENTRAR →</button>
+        <p class="auth-note"><a href="/" style="color:var(--t3)">← Volver a la web</a></p>
+      </div>
+    </div>
+  `;
+  const tryLogin = async () => {
+    const username = document.getElementById('username').value.trim();
+    const password = document.getElementById('password').value;
+    const msg = document.getElementById('msg');
+    const res = await fetch('/api/login', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ username, password }) });
+    const data = await res.json();
+    if (!data.ok) { msg.textContent = data.error || 'No se pudo iniciar sesión.'; return; }
+    await loadContentAndRenderDashboard();
+  };
+  document.getElementById('btn-login').onclick = tryLogin;
+  document.getElementById('password').addEventListener('keydown', e => { if (e.key === 'Enter') tryLogin(); });
+}
+
+// ═══ DASHBOARD ═══
+async function loadContentAndRenderDashboard() {
+  const res = await fetch('/api/content');
+  content = await res.json();
+  renderDashboard();
+}
+
+const TABS = [
+  { id: 'datos', label: 'Datos básicos' },
+  { id: 'horarios', label: 'Horarios' },
+  { id: 'servicios', label: 'Servicios' },
+  { id: 'fotos', label: 'Fotos' },
+  { id: 'testimonios', label: 'Testimonios' },
+  { id: 'textos', label: 'Textos' },
+  { id: 'cuadros', label: 'Cuadros' },
+  { id: 'galeria', label: 'Galería' },
+  { id: 'leads', label: 'Leads' },
+  { id: 'password', label: 'Contraseña' },
+];
+
+function renderDashboard() {
+  app.innerHTML = `
+    <div class="topbar">
+      <div class="tb-logo">SACRAVM <small>ADMIN</small></div>
+      <div class="tb-right">
+        <a class="tb-link" href="/" target="_blank">Ver mi web ↗</a>
+        <button class="tb-link" id="btn-logout" style="background:none;border:none;cursor:pointer">Cerrar sesión</button>
+      </div>
+    </div>
+    <div class="layout">
+      <div class="tabs" id="tabs"></div>
+      <div class="content" id="content-area"></div>
+    </div>
+    <div class="savebar">
+      <span class="save-msg" id="save-msg">✓ Cambios guardados</span>
+      <button class="btn-p" id="btn-save" style="width:auto">GUARDAR CAMBIOS</button>
+    </div>
+  `;
+  document.getElementById('btn-logout').onclick = async () => {
+    await fetch('/api/logout', { method: 'POST' });
+    location.reload();
+  };
+  document.getElementById('btn-save').onclick = saveContent;
+  document.getElementById('tabs').innerHTML = TABS.map(t => `<button class="tab-btn ${t.id===activeTab?'active':''}" data-tab="${t.id}">${t.label}</button>`).join('');
+  document.querySelectorAll('.tab-btn').forEach(b => b.onclick = () => { activeTab = b.dataset.tab; renderDashboard(); });
+  renderPanel();
+}
+
+function renderPanel() {
+  const area = document.getElementById('content-area');
+  if (activeTab === 'datos') area.innerHTML = panelDatos();
+  if (activeTab === 'horarios') area.innerHTML = panelHorarios();
+  if (activeTab === 'servicios') area.innerHTML = panelServicios();
+  if (activeTab === 'fotos') area.innerHTML = panelFotos();
+  if (activeTab === 'testimonios') area.innerHTML = panelTestimonios();
+  if (activeTab === 'textos') area.innerHTML = panelTextos();
+  if (activeTab === 'cuadros') area.innerHTML = panelCuadros();
+  if (activeTab === 'galeria') area.innerHTML = panelGaleria();
+  if (activeTab === 'leads') { area.innerHTML = '<div class="panel-title">Leads</div><div class="panel-desc">Cargando…</div>'; loadLeads(); }
+  if (activeTab === 'password') area.innerHTML = panelPassword();
+  wireCurrentPanel();
+}
+
+// ── Datos básicos ──────────────────────────────────────────────────
+function panelDatos() {
+  return `
+    <div class="panel-title">Datos básicos</div>
+    <div class="panel-desc">Esta información aparece en la web (nombre, ciudad, contacto).</div>
+    <div class="card">
+      <div class="row2">
+        <div><p class="field-label">NOMBRE</p><input class="fi" id="f-nombre" value="${esc(content.nombre)}"></div>
+        <div><p class="field-label">CIUDAD</p><input class="fi" id="f-ciudad" value="${esc(content.ciudad)}"></div>
+      </div>
+      <div class="row2">
+        <div><p class="field-label">EMAIL</p><input class="fi" id="f-email" value="${esc(content.email)}"></div>
+        <div><p class="field-label">WHATSAPP</p><input class="fi" id="f-whatsapp" placeholder="+34612345678" value="${esc(content.whatsapp)}"></div>
+      </div>
+      <div class="row2">
+        <div><p class="field-label">BIZUM (número para cobrar fianzas y vales regalo)</p><input class="fi" id="f-bizum" placeholder="+34612345678" value="${esc(content.bizum||'')}"></div>
+        <div><p class="field-label">INSTAGRAM (sin @)</p><input class="fi" id="f-instagram" value="${esc(content.instagram)}"></div>
+      </div>
+    </div>
+  `;
+}
+function wireDatos() {
+  ['nombre','ciudad','email','whatsapp','bizum','instagram'].forEach(k => {
+    const el = document.getElementById('f-'+k);
+    if (el) el.oninput = () => content[k] = el.value;
+  });
+}
+
+// ── Horarios ─────────────────────────────────────────────────────
+function panelHorarios() {
+  return `
+    <div class="panel-title">Horarios</div>
+    <div class="panel-desc">Estas son las horas que tus clientes pueden elegir al reservar cita.</div>
+    <div class="card">
+      <div class="chips" id="horarios-chips"></div>
+      <div class="add-row">
+        <input class="fi" id="nuevo-horario" placeholder="ej. 17:30" style="max-width:160px">
+        <button class="btn-add" id="btn-add-horario">AÑADIR</button>
+      </div>
+    </div>
+    <div class="card">
+      <p class="field-label">CON CUÁNTA ANTELACIÓN MÁXIMA SE PUEDE RESERVAR (DÍAS)</p>
+      <input class="fi" type="number" min="1" id="f-diasMaxReserva" style="max-width:120px" value="${content.diasMaxReserva || 45}">
+      <p style="font-size:12px;color:var(--t3);margin-top:6px">Por ejemplo, 45 días equivale a mes y medio. La agenda solo dejará elegir fechas dentro de ese rango.</p>
+    </div>
+  `;
+}
+function renderHorariosChips() {
+  document.getElementById('horarios-chips').innerHTML = content.horarios.map((h,i) => `
+    <span class="chip">${esc(h)}<button data-i="${i}" class="del-horario">✕</button></span>
+  `).join('') || '<span style="color:var(--t3);font-size:12px">Todavía no has añadido horarios.</span>';
+  document.querySelectorAll('.del-horario').forEach(b => b.onclick = () => { content.horarios.splice(+b.dataset.i,1); renderHorariosChips(); });
+}
+function wireHorarios() {
+  renderHorariosChips();
+  document.getElementById('btn-add-horario').onclick = () => {
+    const inp = document.getElementById('nuevo-horario');
+    const v = inp.value.trim();
+    if (!v) return;
+    content.horarios.push(v);
+    inp.value = '';
+    renderHorariosChips();
+  };
+  const diasInput = document.getElementById('f-diasMaxReserva');
+  diasInput.oninput = () => { content.diasMaxReserva = parseInt(diasInput.value, 10) || 45; };
+}
+
+// ── Servicios ────────────────────────────────────────────────────
+function panelServicios() {
+  return `
+    <div class="panel-title">Servicios y precios</div>
+    <div class="panel-desc">Cada servicio aparece como una tarjeta reservable en tu web.</div>
+    <div id="servicios-list"></div>
+    <button class="btn-add-item" id="btn-add-servicio">+ AÑADIR SERVICIO</button>
+  `;
+}
+function renderServiciosList() {
+  document.getElementById('servicios-list').innerHTML = content.servicios.map((s,i) => `
+    <div class="card item-card">
+      <button class="item-remove" data-i="${i}" data-del="servicio">✕</button>
+      <p class="field-label">NOMBRE</p><input class="fi" data-i="${i}" data-f="nombre" value="${esc(s.nombre)}">
+      <p class="field-label">DESCRIPCIÓN</p><textarea class="fi" data-i="${i}" data-f="descripcion">${esc(s.descripcion)}</textarea>
+      <div class="row2">
+        <div><p class="field-label">IDEAL PARA</p><input class="fi" data-i="${i}" data-f="ideal" value="${esc(s.ideal)}"></div>
+        <div><p class="field-label">PRECIO</p><input class="fi" data-i="${i}" data-f="precio" value="${esc(s.precio)}"></div>
+      </div>
+    </div>
+  `).join('');
+  document.querySelectorAll('[data-del="servicio"]').forEach(b => b.onclick = () => { content.servicios.splice(+b.dataset.i,1); renderServiciosList(); });
+  document.querySelectorAll('#servicios-list [data-f]').forEach(el => el.oninput = () => { content.servicios[+el.dataset.i][el.dataset.f] = el.value; });
+}
+function wireServicios() {
+  renderServiciosList();
+  document.getElementById('btn-add-servicio').onclick = () => {
+    content.servicios.push({ nombre: 'Nuevo servicio', descripcion: '', ideal: '', precio: '' });
+    renderServiciosList();
+  };
+}
+
+// ── Testimonios ──────────────────────────────────────────────────
+function panelTestimonios() {
+  return `
+    <div class="panel-title">Testimonios</div>
+    <div class="panel-desc">Opiniones que se muestran en la web.</div>
+    <div id="testi-list"></div>
+    <button class="btn-add-item" id="btn-add-testi">+ AÑADIR TESTIMONIO</button>
+  `;
+}
+function renderTestiList() {
+  document.getElementById('testi-list').innerHTML = content.testimonios.map((t,i) => `
+    <div class="card item-card">
+      <button class="item-remove" data-i="${i}" data-del="testi">✕</button>
+      <p class="field-label">TEXTO</p><textarea class="fi" data-i="${i}" data-f="txt">${esc(t.txt)}</textarea>
+      <p class="field-label">FIRMA</p><input class="fi" data-i="${i}" data-f="by" value="${esc(t.by)}">
+    </div>
+  `).join('');
+  document.querySelectorAll('[data-del="testi"]').forEach(b => b.onclick = () => { content.testimonios.splice(+b.dataset.i,1); renderTestiList(); });
+  document.querySelectorAll('#testi-list [data-f]').forEach(el => el.oninput = () => { content.testimonios[+el.dataset.i][el.dataset.f] = el.value; });
+}
+function wireTestimonios() {
+  renderTestiList();
+  document.getElementById('btn-add-testi').onclick = () => {
+    content.testimonios.push({ txt: '', by: '' });
+    renderTestiList();
+  };
+}
+
+// ── Textos de secciones ─────────────────────────────────────────────
+function panelTextos() {
+  const t = content.textos || {};
+  return `
+    <div class="panel-title">Textos</div>
+    <div class="panel-desc">El titular y el párrafo de estas secciones. Cambia lo que quieras, se ve tal cual en la web.</div>
+    <div class="card">
+      <p class="field-label">VALE REGALO — TITULAR (deja una línea en blanco donde quieras el salto de línea)</p><textarea class="fi" id="tx-vr-t" style="height:56px">${esc(t.valeRegaloTitulo)}</textarea>
+      <p class="field-label">VALE REGALO — TEXTO</p><textarea class="fi" id="tx-vr-x">${esc(t.valeRegaloTexto)}</textarea>
+    </div>
+    <div class="card">
+      <p class="field-label">INVERSIÓN — TITULAR</p><input class="fi" id="tx-inv-t" value="${esc(t.inversionTitulo)}">
+      <p class="field-label">INVERSIÓN — TEXTO</p><textarea class="fi" id="tx-inv-x">${esc(t.inversionTexto)}</textarea>
+    </div>
+    <div class="card">
+      <p class="field-label">ACADEMY — TITULAR</p><input class="fi" id="tx-ac-t" value="${esc(t.academyTitulo)}">
+      <p class="field-label">ACADEMY — TEXTO</p><textarea class="fi" id="tx-ac-x">${esc(t.academyTexto)}</textarea>
+    </div>
+  `;
+}
+function wireTextos() {
+  content.textos = content.textos || {};
+  const map = { 'tx-vr-t':'valeRegaloTitulo', 'tx-vr-x':'valeRegaloTexto', 'tx-inv-t':'inversionTitulo', 'tx-inv-x':'inversionTexto', 'tx-ac-t':'academyTitulo', 'tx-ac-x':'academyTexto' };
+  Object.keys(map).forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.oninput = () => content.textos[map[id]] = el.value;
+  });
+}
+
+// ── Cuadros (galería de arte) ────────────────────────────────────────
+function panelCuadros() {
+  return `
+    <div class="panel-title">Cuadros</div>
+    <div class="panel-desc">Las piezas de arte original que se muestran en la web. Sube la foto y rellena nombre y detalle (técnica, tamaño…).</div>
+    <div id="cuadros-list"></div>
+    <button class="btn-add-item" id="btn-add-cuadro">+ AÑADIR CUADRO</button>
+  `;
+}
+function renderCuadrosList() {
+  document.getElementById('cuadros-list').innerHTML = content.cuadros.map((c,i) => {
+    const preview = c.url ? `<img src="${c.url}">` : `<span>Sin foto</span>`;
+    return `
+    <div class="card item-card">
+      <button class="item-remove" data-i="${i}" data-del="cuadro">✕</button>
+      <div class="foto-preview" style="max-width:220px">${preview}</div>
+      <label class="btn-upload" style="max-width:220px;margin-top:8px;display:inline-block">SUBIR FOTO<input type="file" accept="image/*" data-i="${i}" class="cuadro-input"></label>
+      <p class="field-label" style="margin-top:12px">NOMBRE</p><input class="fi" data-i="${i}" data-f="nombre" value="${esc(c.nombre)}">
+      <p class="field-label">DETALLE (técnica, tamaño…)</p><input class="fi" data-i="${i}" data-f="meta" value="${esc(c.meta)}">
+    </div>
+  `;
+  }).join('') || '<p class="empty-note">Todavía no has añadido ningún cuadro.</p>';
+  document.querySelectorAll('[data-del="cuadro"]').forEach(b => b.onclick = () => { content.cuadros.splice(+b.dataset.i,1); renderCuadrosList(); });
+  document.querySelectorAll('#cuadros-list [data-f]').forEach(el => el.oninput = () => { content.cuadros[+el.dataset.i][el.dataset.f] = el.value; });
+  document.querySelectorAll('.cuadro-input').forEach(inp => inp.onchange = () => uploadListPhoto(inp, 'cuadros', renderCuadrosList));
+}
+function wireCuadros() {
+  content.cuadros = content.cuadros || [];
+  renderCuadrosList();
+  document.getElementById('btn-add-cuadro').onclick = () => {
+    content.cuadros.push({ url: '', nombre: 'Pieza nueva', meta: '' });
+    renderCuadrosList();
+  };
+}
+
+// ── Galería completa ─────────────────────────────────────────────────
+function panelGaleria() {
+  return `
+    <div class="panel-title">Galería</div>
+    <div class="panel-desc">El mosaico de fotos de la sección Portfolio. Sube la foto y describe el estilo.</div>
+    <div id="galeria-list"></div>
+    <button class="btn-add-item" id="btn-add-galeria">+ AÑADIR FOTO</button>
+  `;
+}
+function renderGaleriaList() {
+  document.getElementById('galeria-list').innerHTML = content.galeria.map((g,i) => {
+    const preview = g.url ? `<img src="${g.url}">` : `<span>Sin foto</span>`;
+    return `
+    <div class="card item-card">
+      <button class="item-remove" data-i="${i}" data-del="galeria">✕</button>
+      <div class="foto-preview" style="max-width:220px">${preview}</div>
+      <label class="btn-upload" style="max-width:220px;margin-top:8px;display:inline-block">SUBIR FOTO<input type="file" accept="image/*" data-i="${i}" class="galeria-input"></label>
+      <p class="field-label" style="margin-top:12px">ESTILO</p><input class="fi" data-i="${i}" data-f="estilo" value="${esc(g.estilo)}">
+      <p class="field-label">DESCRIPCIÓN</p><input class="fi" data-i="${i}" data-f="desc" value="${esc(g.desc)}">
+    </div>
+  `;
+  }).join('') || '<p class="empty-note">Todavía no has añadido ninguna foto.</p>';
+  document.querySelectorAll('[data-del="galeria"]').forEach(b => b.onclick = () => { content.galeria.splice(+b.dataset.i,1); renderGaleriaList(); });
+  document.querySelectorAll('#galeria-list [data-f]').forEach(el => el.oninput = () => { content.galeria[+el.dataset.i][el.dataset.f] = el.value; });
+  document.querySelectorAll('.galeria-input').forEach(inp => inp.onchange = () => uploadListPhoto(inp, 'galeria', renderGaleriaList));
+}
+function wireGaleria() {
+  content.galeria = content.galeria || [];
+  renderGaleriaList();
+  document.getElementById('btn-add-galeria').onclick = () => {
+    content.galeria.push({ url: '', estilo: '', desc: '' });
+    renderGaleriaList();
+  };
+}
+async function uploadListPhoto(inp, listKey, rerender) {
+  const file = inp.files[0];
+  if (!file) return;
+  const index = +inp.dataset.i;
+  const reader = new FileReader();
+  reader.onload = async () => {
+    const res = await fetch('/api/upload-photo', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ listKey, index, filename: file.name, dataBase64: reader.result })
+    });
+    const data = await res.json();
+    if (data.ok) {
+      content[listKey][index] = content[listKey][index] || {};
+      content[listKey][index].url = data.path;
+      rerender();
+      flashSaved('✓ Foto subida');
+    } else {
+      alert(data.error || 'No se pudo subir la foto.');
+    }
+  };
+  reader.readAsDataURL(file);
+}
+
+// ── Fotos ────────────────────────────────────────────────────────
+const FOTO_SLOTS = [
+  { key: 'hero', label: 'Foto principal (hero)', simple: true },
+  { key: 'perfil', label: 'Tu foto de perfil', simple: true },
+  { key: 'tt1', label: 'Portfolio 1' }, { key: 'tt2', label: 'Portfolio 2' }, { key: 'tt3', label: 'Portfolio 3' },
+  { key: 'tt4', label: 'Portfolio 4' }, { key: 'tt5', label: 'Portfolio 5' }, { key: 'tt6', label: 'Portfolio 6' },
+];
+function panelFotos() {
+  return `
+    <div class="panel-title">Fotos</div>
+    <div class="panel-desc">Sube tus fotos directamente desde el ordenador o el móvil — se guardan solas, sin necesidad de imgur ni enlaces.</div>
+    <div class="foto-grid" id="foto-grid"></div>
+  `;
+}
+function renderFotoGrid() {
+  document.getElementById('foto-grid').innerHTML = FOTO_SLOTS.map(slot => {
+    const val = content.fotos[slot.key];
+    const url = slot.simple ? val : (val && val.url);
+    const preview = url ? `<img src="${url}">` : `<span>Sin foto</span>`;
+    const extra = slot.simple ? '' : `
+      <div class="foto-mini-fields">
+        <input class="fi" placeholder="Estilo" data-slot="${slot.key}" data-f="estilo" value="${esc((val&&val.estilo)||'')}">
+        <input class="fi" placeholder="Descripción" data-slot="${slot.key}" data-f="desc" value="${esc((val&&val.desc)||'')}">
+      </div>`;
+    return `
+      <div class="foto-slot">
+        <div class="foto-name">${slot.label}</div>
+        <div class="foto-preview" id="prev-${slot.key}">${preview}</div>
+        <label class="btn-upload">SUBIR FOTO<input type="file" accept="image/*" data-slot="${slot.key}" class="foto-input"></label>
+        ${extra}
+      </div>
+    `;
+  }).join('');
+  document.querySelectorAll('.foto-input').forEach(inp => inp.onchange = () => uploadFoto(inp));
+  document.querySelectorAll('#foto-grid [data-f]').forEach(el => el.oninput = () => {
+    const slot = el.dataset.slot, f = el.dataset.f;
+    content.fotos[slot] = content.fotos[slot] || {};
+    content.fotos[slot][f] = el.value;
+  });
+}
+function wireFotos() { renderFotoGrid(); }
+
+async function uploadFoto(inp) {
+  const file = inp.files[0];
+  if (!file) return;
+  const slot = inp.dataset.slot;
+  const reader = new FileReader();
+  reader.onload = async () => {
+    const res = await fetch('/api/upload-photo', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ slot, filename: file.name, dataBase64: reader.result })
+    });
+    const data = await res.json();
+    if (data.ok) {
+      if (FOTO_SLOTS.find(s => s.key === slot).simple) content.fotos[slot] = data.path;
+      else { content.fotos[slot] = content.fotos[slot] || {}; content.fotos[slot].url = data.path; }
+      renderFotoGrid();
+      flashSaved('✓ Foto subida');
+    } else {
+      alert(data.error || 'No se pudo subir la foto.');
+    }
+  };
+  reader.readAsDataURL(file);
+}
+
+// ── Leads ────────────────────────────────────────────────────────
+async function loadLeads() {
+  const area = document.getElementById('content-area');
+  area.innerHTML = `
+    <div class="panel-hd" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+      <div class="panel-title" id="leads-title" style="margin-bottom:0">Leads</div>
+      <button class="btn-o" id="btn-toggle-ficha">+ AÑADIR CLIENTE</button>
+    </div>
+    <div class="panel-desc">Se guardan también en el archivo leads/leads.csv, por si prefieres abrirlo en Excel.</div>
+    <div class="card" id="ficha-panel" style="display:none">
+      <p class="field-label">NOMBRE</p><input class="fi" id="fc-nombre" placeholder="Nombre del cliente">
+      <div class="row2">
+        <div><p class="field-label">EMAIL</p><input class="fi" id="fc-email" placeholder="email@..."></div>
+        <div><p class="field-label">TELÉFONO / WHATSAPP</p><input class="fi" id="fc-tel" placeholder="+34 600 000 000"></div>
+      </div>
+      <p class="field-label">IDEA DEL TATTOO</p><textarea class="fi" id="fc-idea" placeholder="Qué quiere tatuarse, referencias, zona..."></textarea>
+      <p class="field-label">NOTAS (opcional)</p><input class="fi" id="fc-notas" placeholder="Cómo os conocisteis, cuándo habló contigo, lo que quieras recordar">
+      <div class="auth-msg" id="ficha-msg"></div>
+      <button class="btn-p" id="btn-save-ficha" style="width:auto;padding:12px 28px">GUARDAR FICHA</button>
+    </div>
+    <div id="leads-table-wrap"><div class="empty-note">Cargando…</div></div>
+  `;
+  document.getElementById('btn-toggle-ficha').onclick = () => {
+    const p = document.getElementById('ficha-panel');
+    p.style.display = p.style.display === 'none' ? 'block' : 'none';
+  };
+  document.getElementById('btn-save-ficha').onclick = saveFicha;
+  await renderLeadsTable();
+}
+
+async function saveFicha() {
+  const nombre = document.getElementById('fc-nombre').value.trim();
+  const email = document.getElementById('fc-email').value.trim();
+  const tel = document.getElementById('fc-tel').value.trim();
+  const idea = document.getElementById('fc-idea').value.trim();
+  const notas = document.getElementById('fc-notas').value.trim();
+  const msg = document.getElementById('ficha-msg');
+  if (!nombre && !email && !tel) { msg.textContent = 'Rellena al menos el nombre, el email o el teléfono.'; return; }
+  const payload = {
+    tipo: 'manual', nombre, email, whatsapp: tel,
+    mensaje: idea + (notas ? ' — Notas: ' + notas : ''),
+    fuente: 'Ficha manual (admin)',
+  };
+  const res = await fetch('/api/lead', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+  const data = await res.json();
+  if (!data.ok) { msg.textContent = 'No se pudo guardar. Inténtalo de nuevo.'; return; }
+  ['fc-nombre','fc-email','fc-tel','fc-idea','fc-notas'].forEach(id => document.getElementById(id).value = '');
+  msg.textContent = '';
+  document.getElementById('ficha-panel').style.display = 'none';
+  flashSaved('✓ Ficha guardada');
+  await renderLeadsTable();
+}
+
+async function renderLeadsTable() {
+  const res = await fetch('/api/leads');
+  const data = await res.json();
+  const leads = (data.leads || []);
+  document.getElementById('leads-title').textContent = 'Leads (' + leads.length + ')';
+  const wrap = document.getElementById('leads-table-wrap');
+  if (!leads.length) {
+    wrap.innerHTML = '<div class="empty-note">Todavía no hay ninguno. En cuanto alguien reserve, se apunte a una lista, o añadas una ficha manual, aparecerá aquí.</div>';
+    return;
+  }
+  wrap.innerHTML = `
+    <div class="card" style="overflow-x:auto">
+      <table class="leads-table">
+        <thead><tr><th>Fecha</th><th>Tipo</th><th>Nombre</th><th>Email</th><th>WhatsApp</th><th>Servicio</th><th>Cita</th><th>Mensaje</th></tr></thead>
+        <tbody>
+          ${leads.map(l => `
+            <tr>
+              <td>${esc(l.fecha_registro)}</td>
+              <td><span class="tag ${l.tipo}">${esc(l.tipo)}</span></td>
+              <td>${esc(l.nombre)}</td>
+              <td>${esc(l.email)}</td>
+              <td>${esc(l.whatsapp)}</td>
+              <td>${esc(l.servicio)}</td>
+              <td>${esc(l.fecha_cita)} ${esc(l.hora_cita)}</td>
+              <td>${esc(l.mensaje || l.instagram)}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    </div>
+  `;
+}
+
+// ── Contraseña ───────────────────────────────────────────────────
+function panelPassword() {
+  return `
+    <div class="panel-title">Cambiar contraseña</div>
+    <div class="panel-desc">Usa tu contraseña actual para confirmar el cambio.</div>
+    <div class="card" style="max-width:380px">
+      <div class="auth-msg" id="pw-msg"></div>
+      <p class="field-label">CONTRASEÑA ACTUAL</p><input class="fi" type="password" id="pw-current">
+      <p class="field-label">NUEVA CONTRASEÑA</p><input class="fi" type="password" id="pw-new">
+      <p class="field-label">REPITE LA NUEVA</p><input class="fi" type="password" id="pw-new2">
+      <button class="btn-o" id="btn-change-pw" style="width:100%">CAMBIAR CONTRASEÑA</button>
+    </div>
+  `;
+}
+function wirePassword() {
+  document.getElementById('btn-change-pw').onclick = async () => {
+    const currentPassword = document.getElementById('pw-current').value;
+    const newPassword = document.getElementById('pw-new').value;
+    const newPassword2 = document.getElementById('pw-new2').value;
+    const msg = document.getElementById('pw-msg');
+    if (newPassword !== newPassword2) { msg.textContent = 'Las contraseñas nuevas no coinciden.'; return; }
+    const res = await fetch('/api/change-password', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ currentPassword, newPassword }) });
+    const data = await res.json();
+    msg.style.color = data.ok ? 'var(--ok)' : 'var(--err)';
+    msg.textContent = data.ok ? '✓ Contraseña actualizada.' : (data.error || 'No se pudo cambiar.');
+  };
+}
+
+function wireCurrentPanel() {
+  if (activeTab === 'datos') wireDatos();
+  if (activeTab === 'horarios') wireHorarios();
+  if (activeTab === 'servicios') wireServicios();
+  if (activeTab === 'fotos') wireFotos();
+  if (activeTab === 'testimonios') wireTestimonios();
+  if (activeTab === 'textos') wireTextos();
+  if (activeTab === 'cuadros') wireCuadros();
+  if (activeTab === 'galeria') wireGaleria();
+  if (activeTab === 'password') wirePassword();
+}
+
+async function saveContent() {
+  const btn = document.getElementById('btn-save');
+  btn.textContent = 'GUARDANDO…'; btn.disabled = true;
+  const res = await fetch('/api/content', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(content) });
+  const data = await res.json();
+  btn.textContent = 'GUARDAR CAMBIOS'; btn.disabled = false;
+  if (data.ok) flashSaved('✓ Cambios guardados'); else flashSaved(data.error || 'Error al guardar');
+}
+function flashSaved(text) {
+  const el = document.getElementById('save-msg');
+  if (!el) return;
+  el.textContent = text;
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 2200);
+}
+
+function esc(s) {
+  return (s === undefined || s === null ? '' : String(s)).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+boot();
+</script>
+</body>
+</html>

@@ -1,0 +1,1845 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="SACRAVM — Tattoo Atelier privado en León. JJ Rodríguez. Micro-realismo, realismo conceptual y fine line.">
+<title>SACRAVM · Tattoo Atelier León</title>
+<link rel="icon" href="/images/misc/logo.png">
+<meta name="theme-color" content="#1C1714">
+<!-- ★ Dominio placeholder — actualizar canonical/og:url/sitemap cuando se conozca el dominio real de despliegue -->
+<link rel="canonical" href="https://sacravm.com/">
+<meta property="og:title" content="SACRAVM · Tattoo Atelier León">
+<meta property="og:description" content="Atelier privado de tatuaje en León. Micro-realismo, realismo conceptual y fine line. JJ Rodríguez.">
+<meta property="og:type" content="business.business">
+<meta property="og:image" content="https://sacravm.com/images/hero/hero.jpg">
+<meta property="og:locale" content="es_ES">
+<meta property="og:url" content="https://sacravm.com/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="SACRAVM · Tattoo Atelier León">
+<meta name="twitter:description" content="Atelier privado de tatuaje en León. Micro-realismo, realismo conceptual y fine line. JJ Rodríguez.">
+<meta name="twitter:image" content="https://sacravm.com/images/hero/hero.jpg">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TattooParlor",
+  "name": "SACRAVM",
+  "image": "https://sacravm.com/images/hero/hero.jpg",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "León",
+    "addressCountry": "ES"
+  },
+  "priceRange": "€€€",
+  "sameAs": ["https://instagram.com/sacravm"]
+}
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+
+<!-- ═══════════════════════════════════════════════════════════
+     ▼ EDITA AQUÍ: Todo lo que necesitas cambiar está en el
+       bloque <script> al final del archivo, sección CONFIG
+     ═══════════════════════════════════════════════════════════ -->
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#FBF8F3;--s1:#F5EFE4;--s2:#EEE7D9;--w:#FDFCF9;
+  --bdr:rgba(60,40,10,.08);--bdr2:rgba(60,40,10,.16);
+  --tx:#1C1714;--t2:#6B6460;--t3:#A8A29C;
+  --a:#8B5E2A;--aLt:rgba(139,94,42,.08);--aBdr:rgba(139,94,42,.22);
+  --dk:#1C1714;--dtx:#EDE7DC;--dt2:#7A736C;--dBdr:rgba(255,255,255,.08);
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+  --sh:0 1px 20px rgba(60,40,10,.07);--r:5px
+}
+html{scroll-behavior:smooth;scroll-snap-type:y proximity}
+body{background:var(--bg);color:var(--tx);font-family:var(--sans);line-height:1.6;overflow-x:hidden}
+img{display:block;width:100%;height:100%;object-fit:cover}
+::placeholder{color:var(--t3)}
+input,select,textarea,button{font-family:var(--sans)}
+select option{background:var(--w);color:var(--tx)}
+
+/* ── SCROLL REVEAL ─── */
+.rv{opacity:0;transform:translateY(20px);transition:opacity .65s ease,transform .65s ease}
+.rv.in{opacity:1;transform:none}
+.rv.d1{transition-delay:.1s}.rv.d2{transition-delay:.2s}.rv.d3{transition-delay:.3s}
+
+/* ── NAV ─── */
+nav{position:sticky;top:0;z-index:100;min-height:58px;display:flex;align-items:center;justify-content:space-between;padding:8px 28px;gap:10px;background:rgba(251,248,243,.95);border-bottom:1px solid var(--bdr);backdrop-filter:blur(12px);flex-wrap:wrap}
+.nav-l{display:flex;align-items:baseline;gap:10px;cursor:pointer;text-decoration:none;white-space:nowrap}
+.logo{font-family:var(--serif);font-size:20px;font-weight:400;letter-spacing:.2em;color:var(--tx)}
+.nav-l small{font-size:10px;letter-spacing:.22em;color:var(--t2);white-space:nowrap}
+.nav-links{display:flex;gap:2px;flex-wrap:wrap}
+.nl{background:none;border:none;color:var(--t2);font-size:13px;padding:6px 8px;cursor:pointer;letter-spacing:.02em;transition:color .15s;border-radius:3px;white-space:nowrap}
+.nl:hover{color:var(--tx)}
+.btn-book{background:var(--dk);border:none;color:var(--dtx);font-size:13px;font-weight:600;padding:0 22px;height:36px;border-radius:var(--r);cursor:pointer;letter-spacing:.1em;transition:opacity .15s;white-space:nowrap;flex-shrink:0}
+.btn-book:hover{opacity:.82}
+
+/* ── HERO ─── */
+#hero{display:grid;grid-template-columns:1fr 1fr;min-height:92vh;position:relative;overflow:hidden}
+.hero-l{display:flex;flex-direction:column;justify-content:center;padding:80px 52px 80px 52px;background:var(--bg)}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;padding:5px 14px;border:1px solid var(--aBdr);border-radius:2px;width:fit-content;margin-bottom:30px}
+.hero-tag-dot{width:5px;height:5px;border-radius:50%;background:var(--a);flex-shrink:0}
+.hero-tag span{font-size:10px;letter-spacing:.3em;color:var(--a)}
+h1{font-family:var(--serif);font-size:clamp(58px,6.5vw,100px);font-weight:300;line-height:.96;margin-bottom:10px;letter-spacing:.02em;color:var(--tx)}
+h1 em{color:var(--a);font-style:italic}
+.h-rule{width:48px;height:1.5px;background:var(--a);margin:28px 0;opacity:.6}
+.h-sub{font-size:16px;color:var(--t2);line-height:1.9;max-width:380px;margin-bottom:8px}
+.h-styles{font-size:10px;letter-spacing:.26em;color:var(--t3);margin-bottom:44px}
+.h-btns{display:flex;gap:12px;flex-wrap:wrap}
+.btn-p{background:var(--dk);border:none;color:var(--dtx);padding:14px 40px;font-size:14px;font-weight:600;letter-spacing:.1em;border-radius:var(--r);cursor:pointer;transition:opacity .15s}
+.btn-p:hover{opacity:.82}
+.btn-o{background:none;border:1px solid var(--bdr2);color:var(--t2);padding:14px 40px;font-size:14px;letter-spacing:.08em;border-radius:var(--r);cursor:pointer;transition:all .15s}
+.btn-o:hover{border-color:var(--aBdr);color:var(--a)}
+/* ★ HERO FOTO — Cambia la URL en el CONFIG */
+.hero-r{position:relative;overflow:hidden}
+.hero-r-ph{width:100%;height:100%;background:linear-gradient(160deg,#DDD5C2 0%,#C4B8A0 50%,#D3C4AD 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px}
+.hero-r-ph span{font-size:12px;letter-spacing:.2em;color:rgba(60,40,10,.3)}
+.hero-badge{position:absolute;bottom:28px;left:24px;background:rgba(250,250,248,.92);backdrop-filter:blur(8px);padding:12px 18px;border-radius:var(--r);border:1px solid var(--bdr)}
+.hero-badge p{font-size:12px;letter-spacing:.1em;color:var(--t2);margin-bottom:3px}
+.hero-badge strong{font-family:var(--serif);font-size:18px;font-weight:400;color:var(--tx)}
+
+/* ── SHARED ─── */
+section{padding:88px 52px;scroll-snap-align:start}
+nav,footer{scroll-snap-align:none}
+.sec-inner{max-width:1000px;margin:0 auto}
+.sec-label{font-size:10px;letter-spacing:.32em;color:var(--a);margin-bottom:12px;font-weight:600}
+.sec-title{font-family:var(--serif);font-size:clamp(32px,3.5vw,52px);font-weight:300;color:var(--tx)}
+.divider{width:1px;background:var(--bdr2);align-self:stretch;margin:0 auto}
+
+/* ── ABOUT ─── */
+#nosotros{background:var(--w);border-top:1px solid var(--bdr)}
+.nos-grid{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center}
+.nos-body{font-size:16px;color:var(--t2);line-height:1.9;margin:18px 0 28px}
+.pillar{display:flex;gap:16px;padding:14px 0;border-top:1px solid var(--bdr)}
+.pl-n{font-family:var(--serif);font-size:22px;color:var(--a);font-weight:300;flex-shrink:0;line-height:1.1;opacity:.6}
+.pl-t h4{font-size:14px;font-weight:600;letter-spacing:.04em;margin-bottom:4px}
+.pl-t p{font-size:14px;color:var(--t2);line-height:1.7}
+/* ★ FOTO PERFIL — Cambia en CONFIG */
+.nos-photo{aspect-ratio:4/5;border-radius:4px;overflow:hidden;box-shadow:var(--sh);position:relative;background:linear-gradient(160deg,#E0D8C8 0%,#D0C5B0 60%,#D5C9B5 100%)}
+.nos-ph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px}
+.nos-ph span{font-size:10px;letter-spacing:.16em;color:rgba(60,40,10,.25)}
+
+/* ── SERVICES ─── */
+#servicios{background:var(--bg);border-top:1px solid var(--bdr)}
+.svcs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:48px}
+.svc-card{background:var(--w);border:1px solid var(--bdr);border-radius:6px;padding:30px 26px;transition:all .2s;box-shadow:var(--sh)}
+.svc-card:hover{transform:translateY(-3px);box-shadow:0 8px 32px rgba(60,40,10,.1);border-color:var(--bdr2)}
+.svc-bar{width:22px;height:2px;background:var(--a);margin-bottom:22px;border-radius:1px;opacity:.6}
+.svc-name{font-family:var(--serif);font-size:28px;font-weight:400;margin-bottom:12px;color:var(--tx)}
+.svc-desc{font-size:15px;color:var(--t2);line-height:1.8;margin-bottom:14px}
+.svc-ideal{font-size:12px;letter-spacing:.06em;color:var(--t3);margin-bottom:26px;line-height:1.7}
+.svc-pr{font-family:var(--serif);font-size:22px;color:var(--a);margin-bottom:18px;font-weight:400}
+.btn-svc{background:none;border:1px solid var(--bdr2);color:var(--a);font-size:13px;padding:8px 18px;border-radius:3px;cursor:pointer;letter-spacing:.07em;font-weight:500;transition:all .15s}
+.btn-svc:hover{background:var(--aLt);border-color:var(--aBdr)}
+
+/* ── PORTFOLIO ─── */
+#portfolio{background:var(--s1);border-top:1px solid var(--bdr)}
+.port-top{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:44px;flex-wrap:wrap;gap:16px}
+.port-body{font-size:16px;color:var(--t2);max-width:340px;line-height:1.85;margin-top:10px}
+/* ★ FOTOS PORTFOLIO — Cambia en CONFIG */
+.port-grid{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:auto auto;gap:14px}
+.pimg{border-radius:5px;overflow:hidden;background:linear-gradient(160deg,#E0D8C8 0%,#D0C5B0 60%,#D5C9B5 100%);position:relative;cursor:default;box-shadow:var(--sh)}
+.pimg img{transition:transform .5s ease;width:100%;height:100%;object-fit:cover}
+.pimg:hover img{transform:scale(1.04)}
+.pimg.tall{grid-row:span 2}.pimg.wide{grid-column:span 2;aspect-ratio:16/8}
+.pimg.sq{aspect-ratio:1}
+.pimg-ph{width:100%;height:100%;min-height:200px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px}
+.pimg-ph span{font-size:10px;letter-spacing:.18em;color:rgba(60,40,10,.28)}
+.pimg-info{position:absolute;bottom:0;left:0;right:0;padding:16px;background:linear-gradient(to top,rgba(28,23,20,.65),transparent);opacity:0;transition:opacity .25s}
+.pimg:hover .pimg-info{opacity:1}
+.pimg-info em{font-family:var(--serif);font-size:17px;color:#EDE7DC;font-style:italic;display:block;margin-bottom:2px}
+.pimg-info small{font-size:10px;letter-spacing:.12em;color:rgba(237,231,220,.65)}
+
+/* ── MANIFESTO ─── */
+#manifesto{background:var(--dk);padding:100px 52px;text-align:center;position:relative;overflow:hidden}
+#manifesto::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(196,160,80,.04) 0%,transparent 70%)}
+.mf-inner{max-width:720px;margin:0 auto;position:relative;z-index:1}
+.mf-pre{font-size:10px;letter-spacing:.36em;color:rgba(196,160,80,.5);margin-bottom:32px}
+.mf-title{font-family:var(--serif);font-size:clamp(44px,7vw,88px);font-weight:300;line-height:1.02;color:var(--dtx);margin-bottom:24px}
+.mf-title em{color:rgba(196,160,80,.85);font-style:italic}
+.mf-rule{width:44px;height:1px;background:rgba(196,160,80,.4);margin:28px auto}
+.mf-sub{font-size:15px;color:var(--dt2);letter-spacing:.14em;line-height:1.9;max-width:420px;margin:0 auto}
+
+/* ── PROCESO (franja fotográfica) ─── */
+#proceso{background:var(--dk);padding:0;overflow:hidden}
+.proc-row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px}
+.proc-row3 div{aspect-ratio:3/4;overflow:hidden;position:relative}
+.proc-row2{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-top:2px}
+.proc-row2 div{aspect-ratio:16/9;overflow:hidden;position:relative}
+
+/* ── ORIGEN ─── */
+#origen{background:var(--dk);padding:88px 52px;border-top:1px solid rgba(255,255,255,.04)}
+.origen-inner{max-width:1000px;margin:0 auto}
+.origen-label{font-size:10px;letter-spacing:.32em;color:rgba(139,94,42,.7);margin-bottom:14px;font-weight:600}
+.origen-title{font-family:var(--serif);font-size:clamp(36px,4.5vw,64px);font-weight:300;color:var(--dtx);line-height:1.08;margin-bottom:28px}
+.origen-title em{color:rgba(196,160,80,.85);font-style:italic}
+.origen-grid{display:grid;grid-template-columns:1fr 1fr;gap:72px;margin-top:52px}
+.origen-body{font-size:16px;color:var(--dt2);line-height:1.95}
+.origen-body p{margin-bottom:16px}
+.origen-values{display:flex;flex-direction:column;gap:0}
+.origen-val{display:flex;gap:20px;padding:20px 0;border-top:1px solid rgba(255,255,255,.07)}
+.origen-val:first-child{border-top:none}
+.origen-val-n{font-family:var(--serif);font-size:22px;color:rgba(196,160,80,.5);font-weight:300;flex-shrink:0;line-height:1.1}
+.origen-val-t h4{font-size:14px;font-weight:600;letter-spacing:.06em;margin-bottom:5px;color:var(--dtx)}
+.origen-val-t p{font-size:15px;color:var(--dt2);line-height:1.7}
+
+/* ── QUÉ HACEMOS ─── */
+#queHacemos{background:var(--w);border-top:1px solid var(--bdr);padding:88px 52px}
+.qh-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-top:48px}
+.qh-card{background:var(--bg);border:1px solid var(--bdr);border-radius:6px;padding:24px 20px;transition:all .2s;text-align:center;cursor:pointer;position:relative;overflow:hidden}
+.qh-card:hover{border-color:var(--aBdr);transform:translateY(-3px);box-shadow:var(--sh)}
+.qh-card.pronto{opacity:.55;cursor:default}
+.qh-card.pronto:hover{transform:none;box-shadow:none;border-color:var(--bdr)}
+.qh-soon{position:absolute;top:10px;right:10px;background:var(--s2);color:var(--t3);font-size:9px;letter-spacing:.14em;padding:2px 8px;border-radius:10px}
+.qh-ico{font-size:28px;margin-bottom:14px;display:block}
+.qh-name{font-family:var(--serif);font-size:20px;font-weight:400;color:var(--tx);margin-bottom:6px}
+.qh-desc{font-size:13px;color:var(--t2);line-height:1.65}
+
+/* ── COLECCIONES ─── */
+#colecciones{background:var(--bg);border-top:1px solid var(--bdr);padding:88px 52px}
+.col-intro{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:44px;flex-wrap:wrap;gap:16px}
+.col-body{font-size:16px;color:var(--t2);max-width:380px;line-height:1.85;margin-top:10px}
+.col-tag-row{display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap}
+.col-tag{font-size:12px;padding:5px 13px;border-radius:20px;border:1px solid var(--bdr2);color:var(--t2)}
+.art-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:36px}
+.art-card{background:var(--w);border:1px solid var(--bdr);border-radius:8px;overflow:hidden;box-shadow:var(--sh);transition:all .2s}
+.art-card:hover{transform:translateY(-3px);box-shadow:0 10px 32px rgba(60,40,10,.1)}
+.art-img{aspect-ratio:4/5;background:linear-gradient(155deg,#E4DCC9 0%,#CBB99B 55%,#DACBAE 100%);display:flex;align-items:center;justify-content:center;position:relative}
+.art-img span{font-size:10px;letter-spacing:.16em;color:rgba(60,40,10,.32);text-align:center;line-height:2}
+.art-badge{position:absolute;top:12px;right:12px;background:rgba(139,94,42,.14);color:var(--a);font-size:9px;letter-spacing:.1em;font-weight:700;padding:4px 10px;border-radius:20px}
+.art-body{padding:16px 18px}
+.art-name{font-family:var(--serif);font-size:19px;font-weight:400;color:var(--tx);margin-bottom:4px}
+.art-meta{font-size:12px;color:var(--t2)}
+@media(max-width:720px){.art-grid{grid-template-columns:1fr}}
+.col-soon{background:var(--w);border:1px solid var(--bdr);border-radius:6px;padding:44px 28px;text-align:center;box-shadow:var(--sh)}
+.col-soon strong{font-family:var(--serif);font-size:26px;font-weight:400;color:var(--tx);display:block;margin-bottom:10px}
+.col-soon p{font-size:15px;color:var(--t2);line-height:1.8;max-width:440px;margin:0 auto}
+
+/* ── EXPERIENCES ─── */
+#experiences{background:var(--s1);border-top:1px solid var(--bdr);padding:88px 52px}
+.exp-tag{display:inline-flex;align-items:center;gap:8px;padding:5px 14px;border:1px solid var(--aBdr);border-radius:2px;width:fit-content;margin-bottom:20px}
+.exp-tag-dot{width:4px;height:4px;border-radius:50%;background:var(--a);flex-shrink:0}
+.exp-tag span{font-size:10px;letter-spacing:.28em;color:var(--a)}
+.exp-title{font-family:var(--serif);font-size:clamp(34px,3.5vw,52px);font-weight:300;color:var(--tx);margin-bottom:18px;line-height:1.1}
+.exp-card{background:var(--w);border-radius:6px;padding:32px;box-shadow:var(--sh);border:1px solid var(--bdr)}
+.exp-card h3{font-family:var(--serif);font-size:26px;font-weight:300;color:var(--tx);margin-bottom:8px}
+.exp-card p{font-size:15px;color:var(--t2);line-height:1.8;margin-bottom:20px}
+.fi-light{width:100%;background:var(--bg);border:1px solid var(--bdr);border-radius:4px;padding:0 11px;height:38px;color:var(--tx);outline:none;transition:border-color .15s;font-size:15px;margin-bottom:10px}
+.fi-light:focus{border-color:var(--a)}
+.lbl2{display:block;font-size:12px;letter-spacing:.13em;color:var(--t2);margin-bottom:4px;font-weight:500}
+
+/* ── SACRAVM ETERNO ─── */
+#eterno{background:var(--s1);border-top:1px solid var(--bdr);padding:88px 52px}
+.eterno-soon{background:var(--w);border:1px solid var(--bdr);border-radius:6px;padding:44px 28px;text-align:center;box-shadow:var(--sh);max-width:620px;margin:40px auto 0}
+.eterno-soon strong{font-family:var(--serif);font-size:26px;font-weight:400;color:var(--tx);display:block;margin-bottom:10px}
+.eterno-soon p{font-size:15px;color:var(--t2);line-height:1.8}
+.eterno-note{margin-top:28px;padding:16px 20px;background:var(--w);border:1px solid var(--bdr);border-radius:6px;text-align:center;font-size:15px;color:var(--t2);line-height:1.75;box-shadow:var(--sh)}
+
+/* ── TARIFAS ─── */
+#tarifas{background:var(--bg);border-top:1px solid var(--bdr)}
+.tar-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:44px 0 52px}
+.tar-card{background:var(--w);border:1px solid var(--bdr);border-radius:6px;padding:26px 22px;box-shadow:var(--sh);transition:all .2s;position:relative}
+.tar-card:hover{transform:translateY(-3px);box-shadow:0 8px 28px rgba(60,40,10,.1)}
+.tar-card.featured{border-color:var(--aBdr);border-width:1.5px}
+.tar-card.featured::before{content:'MÁS ELEGIDO';position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:var(--a);color:#fff;font-size:10px;font-weight:700;letter-spacing:.14em;padding:3px 12px;border-radius:20px;white-space:nowrap}
+.tar-dur{font-size:10px;letter-spacing:.2em;color:var(--a);font-weight:600;margin-bottom:14px}
+.tar-name{font-family:var(--serif);font-size:24px;font-weight:400;margin-bottom:8px;color:var(--tx)}
+.tar-desc{font-size:14px;color:var(--t2);line-height:1.75;margin-bottom:18px}
+.tar-price{font-family:var(--serif);font-size:30px;font-weight:300;color:var(--a);margin-bottom:4px}
+.tar-senal{font-size:13px;color:var(--t3);margin-bottom:18px}
+.tar-includes{list-style:none;padding:0;margin:0 0 22px}
+.tar-includes li{font-size:14px;color:var(--t2);padding:5px 0;border-top:1px solid var(--bdr);display:flex;gap:8px;align-items:flex-start;line-height:1.55}
+.tar-includes li::before{content:'✓';color:var(--a);font-size:13px;flex-shrink:0;margin-top:1px}
+.btn-tar{width:100%;background:none;border:1px solid var(--bdr2);color:var(--a);font-size:13px;padding:10px 14px;border-radius:3px;cursor:pointer;letter-spacing:.05em;font-weight:500;transition:all .15s}
+.btn-tar:hover{background:var(--aLt);border-color:var(--aBdr)}
+.tar-card.featured .btn-tar{background:var(--dk);border-color:var(--dk);color:var(--dtx)}
+.tar-card.featured .btn-tar:hover{opacity:.82}
+.tar-note{background:var(--aLt);border:1px solid var(--aBdr);border-radius:6px;padding:16px 20px;font-size:15px;color:var(--t2);line-height:1.75;margin-bottom:52px}
+.tar-note strong{color:var(--a)}
+.zona-title{font-family:var(--serif);font-size:32px;font-weight:300;color:var(--tx);margin-bottom:8px}
+.zona-sub{font-size:15px;color:var(--t2);line-height:1.8;margin-bottom:28px;max-width:480px}
+.zona-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:52px}
+.zona-card{background:var(--w);border:1px solid var(--bdr);border-radius:6px;padding:14px 16px;display:flex;align-items:flex-start;gap:14px;transition:all .15s}
+.zona-card:hover{border-color:var(--bdr2);box-shadow:0 2px 12px rgba(60,40,10,.07)}
+.zona-ico{width:38px;height:38px;background:var(--aLt);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.zona-name{font-size:15px;font-weight:600;color:var(--tx);margin-bottom:3px}
+.zona-ses{font-family:var(--serif);font-size:20px;color:var(--a);font-weight:300;margin-bottom:2px}
+.zona-fmt{font-size:12px;color:var(--t3);letter-spacing:.04em}
+
+/* ── TÉRMINOS ─── */
+#terminos{background:var(--s1);border-top:1px solid var(--bdr)}
+.terms-grid{display:grid;grid-template-columns:1fr 1fr;gap:52px;margin-top:44px}
+.term-block{margin-bottom:28px}
+.term-block h4{font-size:13px;font-weight:700;letter-spacing:.12em;color:var(--a);margin-bottom:10px;text-transform:uppercase}
+.term-block p,.term-block li{font-size:15px;color:var(--t2);line-height:1.85}
+.term-block ul{padding-left:16px;display:flex;flex-direction:column;gap:4px}
+.term-block ul li::marker{color:var(--a)}
+.term-highlight{background:var(--w);border:1px solid var(--bdr);border-radius:6px;padding:18px 20px;margin-top:12px;box-shadow:var(--sh)}
+.term-highlight p{font-size:15px;color:var(--t2);line-height:1.8}
+.term-highlight strong{color:var(--tx)}
+.terms-footer{margin-top:32px;padding:20px 24px;background:var(--w);border:1px solid var(--aBdr);border-radius:6px;font-size:15px;color:var(--t2);line-height:1.85;text-align:center}
+.terms-footer strong{color:var(--a)}
+
+/* ── ETERNA WRAP (quote banner) ─── */
+.eterna-wrap{background:var(--dk);padding:56px 52px;text-align:center;border-top:1px solid rgba(255,255,255,.05)}
+.eterna-q{font-family:var(--serif);font-size:clamp(32px,4.5vw,58px);font-weight:300;color:var(--dtx);line-height:1.1}
+.eterna-q em{color:rgba(196,160,80,.85);font-style:italic}
+.eterna-sub{font-size:14px;letter-spacing:.16em;color:rgba(255,255,255,.2);margin-top:16px}
+
+/* ── FORMACIÓN roadmap pills ─── */
+.form-road{display:flex;flex-wrap:wrap;gap:10px;margin:26px 0 8px}
+.form-road-step{display:flex;align-items:center;gap:8px;background:var(--w);border:1px solid var(--bdr);border-radius:20px;padding:7px 16px 7px 8px;box-shadow:var(--sh)}
+.form-road-n{width:20px;height:20px;border-radius:50%;background:var(--aLt);color:var(--a);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.form-road-step span{font-size:13px;color:var(--t2);letter-spacing:.02em}
+
+/* ── GALERÍA ─── */
+#galeria{padding:88px 52px}
+.gal-grid{columns:3;column-gap:16px}
+.gal-card{break-inside:avoid;margin-bottom:16px;background:var(--s1);border:1px solid var(--bdr);border-radius:6px;overflow:hidden;box-shadow:var(--sh);transition:all .25s}
+.gal-card:hover{transform:translateY(-4px);box-shadow:0 12px 36px rgba(60,40,10,.12);border-color:var(--bdr2)}
+.gal-img{width:100%;overflow:hidden}
+.gal-img img{width:100%;height:auto;display:block;transition:transform .4s ease}
+.gal-card:hover .gal-img img{transform:scale(1.03)}
+.gal-body{padding:12px 16px 14px}
+.gal-est{font-size:10px;letter-spacing:.2em;color:var(--a);font-weight:700;margin-bottom:3px}
+.gal-desc{font-size:14px;color:var(--t2);line-height:1.5}
+
+/* ── TESTIMONIOS ─── */
+#testimonios{background:var(--w);border-top:1px solid var(--bdr)}
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:48px}
+.testi-card{background:var(--bg);border:1px solid var(--bdr);border-radius:6px;padding:28px}
+.testi-mark{font-family:var(--serif);font-size:48px;color:var(--a);opacity:.25;line-height:1;margin-bottom:14px}
+.testi-q{font-family:var(--serif);font-size:17px;font-style:italic;font-weight:300;line-height:1.85;margin-bottom:18px;color:var(--tx)}
+.testi-by{font-size:12px;letter-spacing:.18em;color:var(--t3)}
+
+/* ── FORMACIÓN ─── */
+#formacion{background:var(--s1);border-top:1px solid var(--bdr)}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center}
+.form-pills{display:flex;flex-wrap:wrap;gap:8px;margin:22px 0 28px}
+.pill{font-size:13px;padding:6px 14px;border-radius:20px;border:1px solid var(--bdr2);color:var(--t2);letter-spacing:.04em}
+.form-r{background:var(--w);border-radius:6px;padding:32px;box-shadow:var(--sh);border:1px solid var(--bdr)}
+.form-r h3{font-family:var(--serif);font-size:26px;font-weight:300;margin-bottom:8px;color:var(--tx)}
+.form-r p{font-size:15px;color:var(--t2);line-height:1.8;margin-bottom:20px}
+.fi2{width:100%;background:var(--bg);border:1px solid var(--bdr);border-radius:4px;padding:0 11px;height:38px;color:var(--tx);outline:none;transition:border-color .15s;font-size:15px;margin-bottom:10px}
+.fi2:focus{border-color:var(--a)}
+.btn-form{width:100%;height:40px;background:var(--dk);border:none;color:var(--dtx);border-radius:4px;cursor:pointer;font-size:14px;font-weight:600;letter-spacing:.1em;transition:opacity .15s}
+.btn-form:hover{opacity:.82}
+.form-note{font-size:13px;color:var(--t3);text-align:center;margin-top:10px;line-height:1.6}
+
+/* ── BOOKING CTA ─── */
+#booking{background:var(--dk);padding:80px 52px}
+.bk-inner{max-width:720px;margin:0 auto;text-align:center}
+.bk-sup{font-size:10px;letter-spacing:.32em;color:rgba(139,94,42,.7);margin-bottom:16px}
+.bk-title{font-family:var(--serif);font-size:clamp(40px,5vw,72px);font-weight:300;color:var(--dtx);line-height:1.05;margin-bottom:18px}
+.bk-title em{color:rgba(196,160,80,.8);font-style:italic}
+.bk-rule{width:40px;height:1px;background:rgba(139,94,42,.5);margin:22px auto}
+.bk-sub{font-size:16px;color:var(--dt2);line-height:1.9;max-width:480px;margin:0 auto 36px}
+.bk-flow{display:flex;gap:0;justify-content:center;margin-bottom:40px;flex-wrap:wrap}
+.bk-step{display:flex;align-items:flex-start;gap:12px;padding:16px 20px;max-width:200px}
+.bk-step-n{font-family:var(--serif);font-size:28px;color:rgba(196,160,80,.4);font-weight:300;line-height:1;flex-shrink:0}
+.bk-step-t{font-size:13px;color:var(--dt2);line-height:1.65}
+.bk-step-t strong{color:var(--dtx);display:block;font-weight:500;margin-bottom:3px}
+.bk-step-sep{font-size:20px;color:rgba(255,255,255,.06);align-self:center;margin:0 4px}
+.btn-bk-main{display:inline-flex;align-items:center;gap:12px;background:rgba(196,160,80,.9);border:none;color:#1a1614;padding:16px 44px;border-radius:var(--r);cursor:pointer;font-size:15px;font-weight:700;letter-spacing:.12em;transition:all .2s;text-decoration:none}
+.btn-bk-main:hover{background:rgba(196,160,80,1);transform:translateY(-1px)}
+.bk-note{font-size:13px;color:var(--dt2);margin-top:14px;line-height:1.7}
+
+/* ── FOOTER ─── */
+footer{background:var(--dk);border-top:1px solid rgba(255,255,255,.05);padding:28px 52px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+.foot-logo{font-family:var(--serif);font-size:17px;letter-spacing:.18em;color:var(--dtx)}
+.foot-sub{font-size:10px;color:var(--dt2);letter-spacing:.16em;margin-top:3px}
+.foot-links{display:flex;gap:20px;flex-wrap:wrap}
+.fl{background:none;border:none;color:var(--dt2);font-size:13px;cursor:pointer;letter-spacing:.04em;transition:color .15s}
+.fl:hover{color:var(--dtx)}
+.foot-right{display:flex;gap:12px;align-items:center}
+.btn-wa{display:inline-flex;align-items:center;gap:7px;background:rgba(37,211,102,.15);border:1px solid rgba(37,211,102,.25);color:#4CD97A;padding:0 16px;height:32px;border-radius:var(--r);cursor:pointer;font-size:13px;font-weight:500;text-decoration:none;letter-spacing:.04em;transition:all .15s}
+.btn-wa:hover{background:rgba(37,211,102,.22)}
+
+/* ── FORM SUCCESS ─── */
+.form-ok{display:none;text-align:center;padding:20px 0}
+.form-ok.show{display:block}
+.form-ok span{font-family:var(--serif);font-size:22px;font-weight:300;color:var(--tx)}
+
+/* ── WIZARD MODAL ─── */
+.wz-overlay{position:fixed;inset:0;background:rgba(20,15,10,.55);backdrop-filter:blur(4px);z-index:1000;display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;pointer-events:none;transition:opacity .25s ease}
+.wz-overlay.show{opacity:1;pointer-events:auto}
+.wz-box{background:var(--w);border-radius:10px;max-width:580px;width:100%;max-height:88vh;overflow-y:auto;padding:40px 40px 32px;position:relative;box-shadow:0 30px 80px rgba(20,15,10,.35);transform:translateY(16px) scale(.98);transition:transform .3s ease;border:1px solid var(--bdr)}
+.wz-overlay.show .wz-box{transform:translateY(0) scale(1)}
+.wz-close{position:absolute;top:18px;right:18px;background:none;border:none;font-size:17px;color:var(--t3);cursor:pointer;width:28px;height:28px;border-radius:50%;transition:all .15s}
+.wz-close:hover{background:var(--s1);color:var(--tx)}
+.wz-progress{display:flex;gap:6px;margin-bottom:26px}
+.wp-dot{height:2px;flex:1;background:var(--bdr2);border-radius:2px;transition:background .2s}
+.wp-dot.active,.wp-dot.done{background:var(--a)}
+.wz-title{font-family:var(--serif);font-size:30px;font-weight:300;color:var(--tx);margin-bottom:22px;line-height:1.15}
+.wz-services{display:flex;flex-direction:column;gap:10px;margin-bottom:8px}
+.wz-svc-card{border:1px solid var(--bdr);border-radius:6px;padding:16px 18px;cursor:pointer;transition:all .15s;text-align:left;background:var(--bg)}
+.wz-svc-card:hover{border-color:var(--aBdr)}
+.wz-svc-card.sel{border-color:var(--a);background:var(--aLt)}
+.wz-svc-card strong{font-family:var(--serif);font-size:18px;font-weight:400;display:block;margin-bottom:3px;color:var(--tx)}
+.wz-svc-card span{font-size:13px;color:var(--t2);letter-spacing:.02em}
+.wz-svc-card em{display:block;font-size:14px;color:var(--a);font-style:normal;margin-top:6px;font-weight:500}
+.wz-horarios{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 8px}
+.wz-hora{border:1px solid var(--bdr2);background:var(--bg);color:var(--t2);font-size:14px;padding:9px 16px;border-radius:20px;cursor:pointer;transition:all .15s;letter-spacing:.03em}
+.wz-hora:hover{border-color:var(--aBdr);color:var(--a)}
+.wz-hora.sel{background:var(--dk);border-color:var(--dk);color:var(--dtx)}
+.wz-label{font-size:12px;letter-spacing:.16em;color:var(--t3);margin:18px 0 6px;font-weight:600}
+.wz-opt-toggle{background:none;border:none;color:var(--a);font-size:13px;font-weight:600;cursor:pointer;padding:14px 0 4px;text-align:left;font-family:var(--sans);letter-spacing:.02em}
+.wz-opt-toggle:hover{text-decoration:underline}
+.wz-label:first-child{margin-top:0}
+.wz-2col{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.wz-2col .fi2{margin-bottom:0}
+.wz-sub{font-size:13px;color:var(--t2);line-height:1.6;margin-bottom:10px}
+.wz-ref-input{width:100%;background:var(--bg);border:1px dashed var(--bdr2);border-radius:4px;padding:10px 11px;color:var(--t2);font-size:14px;margin-bottom:10px;cursor:pointer}
+.wz-ref-preview{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:6px}
+.wz-ref-thumb{position:relative;width:56px;height:56px;border-radius:4px;overflow:hidden;border:1px solid var(--bdr)}
+.wz-ref-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.wz-ref-thumb button{position:absolute;top:0;right:0;width:16px;height:16px;background:rgba(20,15,10,.75);color:#fff;border:none;font-size:12px;line-height:16px;cursor:pointer;border-radius:0 0 0 4px}
+.wz-ref-count{font-size:12px;color:var(--t3);margin-bottom:14px}
+.wz-nav{display:flex;gap:10px;margin-top:26px;justify-content:space-between}
+.wz-nav button{flex:1}
+.wz-summary{background:var(--s1);border-radius:6px;padding:18px 20px;margin-bottom:24px;font-size:15px;color:var(--t2);line-height:2}
+.wz-summary strong{color:var(--tx);font-weight:600}
+.wz-err{color:#B5473A;font-size:13px;margin-top:8px;min-height:14px}
+.wz-success{text-align:center;padding:20px 0}
+.wz-success-icon{font-family:var(--serif);font-size:48px;color:var(--a);margin-bottom:16px}
+.wz-success h3{font-family:var(--serif);font-size:26px;font-weight:300;margin-bottom:12px;color:var(--tx)}
+.wz-success p{font-size:15px;color:var(--t2);line-height:1.8;max-width:360px;margin:0 auto}
+.wz-success .btn-p{margin-top:22px}
+body.wz-lock{overflow:hidden}
+
+/* ── RESPONSIVE ─── */
+@media(max-width:720px){
+  nav,#hero,section,#booking,footer{padding-left:20px;padding-right:20px}
+  nav{padding-top:0;padding-bottom:0}
+  #hero{grid-template-columns:1fr;min-height:auto}
+  .hero-l{padding:60px 20px}
+  .hero-r{display:none}
+  .nos-grid,.form-grid{grid-template-columns:1fr}
+  .nos-photo{display:none}
+  .svcs-grid,.testi-grid,.port-grid{grid-template-columns:1fr}
+  .pimg.tall,.pimg.wide{grid-row:unset;grid-column:unset;aspect-ratio:4/3}
+  .bk-flow{gap:0}
+  .bk-step{max-width:160px}
+  .bk-step-sep{display:none}
+  .nl{display:none}
+  .origen-grid,.g2{grid-template-columns:1fr;gap:36px}
+  .qh-grid{grid-template-columns:repeat(2,1fr)}
+  .col-grid,.g3{grid-template-columns:1fr}
+  #experiences>div>div[style*="grid-template-columns:repeat(3,1fr)"]{grid-template-columns:1fr!important}
+  #experiences>div>div[style*="grid-template-columns:1fr 1fr"]{grid-template-columns:1fr!important}
+  .tar-grid{grid-template-columns:1fr 1fr}
+  .zona-grid{grid-template-columns:1fr 1fr}
+  .terms-grid{grid-template-columns:1fr}
+  .proc-row3,.proc-row2{grid-template-columns:1fr}
+  .gal-grid{columns:1}
+  .eterno-product{grid-template-columns:1fr!important}
+  .foot-links{display:none}
+  .wz-box{padding:30px 22px 24px}
+  .wz-title{font-size:24px}
+  .gift-grid{grid-template-columns:1fr!important}
+}
+
+/* ── VALE REGALO ── */
+#vale-regalo{background:var(--dk);border-top:1px solid rgba(255,255,255,.05)}
+#vale-regalo .sec-label{color:rgba(196,160,80,.75)}
+#vale-regalo .sec-title{color:var(--dtx)}
+.gift-lead{font-size:16px;color:var(--dt2);line-height:1.85;max-width:520px;margin-top:14px}
+.gift-grid{display:grid;grid-template-columns:1fr 1fr;gap:52px;align-items:start;margin-top:44px}
+.gift-amts{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0 6px}
+.gift-amt{background:rgba(255,255,255,.04);border:1px solid var(--dBdr);color:var(--dtx);padding:12px 22px;border-radius:var(--r);cursor:pointer;font-size:15px;font-weight:600;letter-spacing:.02em;transition:all .15s;font-family:var(--sans)}
+.gift-amt:hover{border-color:rgba(196,160,80,.4)}
+.gift-amt.sel{background:rgba(196,160,80,.85);border-color:rgba(196,160,80,.85);color:#1a1614}
+.gift-custom{margin-top:8px}
+.gift-note{font-size:12px;color:var(--dt2);line-height:1.7;margin-top:18px}
+.gift-card{background:rgba(255,255,255,.03);border:1px solid var(--dBdr);border-radius:8px;padding:32px}
+.gift-card h3{font-family:var(--serif);font-size:26px;font-weight:300;color:var(--dtx);margin-bottom:8px}
+.gift-card p{font-size:13px;color:var(--dt2);line-height:1.8;margin-bottom:20px}
+.gift-ok{display:none;text-align:center;padding:10px 0}
+.gift-ok.show{display:block}
+.gift-ok-icon{font-family:var(--serif);font-size:40px;color:rgba(196,160,80,.9);margin-bottom:14px}
+.gift-ok h4{font-family:var(--serif);font-size:24px;font-weight:300;color:var(--dtx);margin-bottom:12px}
+.gift-bizum{background:rgba(196,160,80,.1);border:1px solid rgba(196,160,80,.25);border-radius:6px;padding:16px 20px;margin:0 auto 18px;text-align:left}
+.gift-bizum strong{font-size:11px;color:rgba(196,160,80,.85);letter-spacing:.08em;display:block;margin-bottom:8px}
+.gift-bizum p{font-size:13px;color:var(--dt2);line-height:1.8;margin:0}
+.gift-bizum span{color:var(--dtx);font-weight:600}
+
+/* ── POP-UP DE CAPTACIÓN ── */
+.lp-overlay{position:fixed;inset:0;background:rgba(60,50,40,.35);backdrop-filter:blur(4px);z-index:1100;display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;pointer-events:none;transition:opacity .3s ease}
+.lp-overlay.show{opacity:1;pointer-events:auto}
+.lp-box{background:var(--w);border-radius:10px;max-width:440px;width:100%;max-height:88vh;overflow-y:auto;padding:36px 36px 30px;position:relative;box-shadow:0 30px 80px rgba(20,15,10,.25);border:1px solid var(--bdr);transform:translateY(14px) scale(.98);transition:transform .3s ease}
+.lp-overlay.show .lp-box{transform:translateY(0) scale(1)}
+.lp-close{position:absolute;top:16px;right:16px;background:none;border:none;font-size:15px;color:var(--t3);cursor:pointer;width:26px;height:26px;border-radius:50%;transition:all .15s}
+.lp-close:hover{background:var(--s1);color:var(--tx)}
+.lp-progress{display:flex;gap:6px;margin-bottom:22px}
+.lp-dot{height:2px;flex:1;background:var(--bdr2);border-radius:2px;transition:background .2s}
+.lp-dot.active,.lp-dot.done{background:var(--a)}
+.lp-title{font-family:var(--serif);font-size:26px;font-weight:300;color:var(--tx);margin:8px 0 18px;line-height:1.25}
+.lp-opts{display:flex;flex-direction:column;gap:9px}
+.lp-opt{border:1px solid var(--bdr);border-radius:6px;padding:14px 16px;cursor:pointer;transition:all .15s;text-align:left;background:var(--bg);font-family:var(--sans);font-size:14px;color:var(--tx)}
+.lp-opt:hover{border-color:var(--aBdr)}
+.lp-opt.sel{border-color:var(--a);background:var(--aLt)}
+.lp-offer-msg{font-size:14px;color:var(--t2);line-height:1.8;margin-bottom:18px}
+@media(max-width:480px){.lp-box{padding:28px 22px 24px}.lp-title{font-size:22px}}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-l" href="#" onclick="event.preventDefault();goHome();">
+    <span class="logo" id="nav-logo">SACRAVM</span>
+    <small id="nav-sub">TATTOO ATELIER</small>
+  </a>
+  <div class="nav-links">
+    <button class="nl" onclick="scroll2('nosotros')">Quiénes somos</button>
+    <button class="nl" onclick="scroll2('portfolio')">Trabajo</button>
+    <button class="nl" onclick="scroll2('servicios')">Servicios</button>
+    <button class="nl" onclick="scroll2('experiences')">Experiences</button>
+    <button class="nl" onclick="scroll2('tarifas')">Inversión</button>
+    <button class="nl" onclick="scroll2('vale-regalo')">Vale regalo</button>
+    <button class="nl" onclick="scroll2('formacion')">Academy</button>
+    <button class="nl" onclick="scroll2('obras')">Cuadros</button>
+    <button class="nl" onclick="scroll2('galeria')">Galería</button>
+  </div>
+  <button class="btn-book" onclick="goBook()">RESERVAR CITA</button>
+</nav>
+
+<!-- HERO -->
+<section id="hero" style="padding:0">
+  <div class="hero-l rv">
+    <div class="hero-tag"><div class="hero-tag-dot"></div><span id="hero-tag-txt">ATELIER PRIVADO · RESERVA CON FIANZA ONLINE</span></div>
+    <h1>SACR<em>AVM</em></h1>
+    <div class="h-rule"></div>
+    <p class="h-sub" id="hero-sub-txt">JJ Rodríguez · León<br>Un tatuaje no se borra. Por eso aquí no se hace con prisa.</p>
+    <p class="h-styles">MICRO-REALISMO · REALISMO CONCEPTUAL · FINE LINE</p>
+    <div class="h-btns">
+      <button class="btn-p" onclick="goBook()">RESERVAR CITA →</button>
+      <button class="btn-o" onclick="scroll2('portfolio')">VER TRABAJO</button>
+    </div>
+  </div>
+  <div class="hero-r" id="hero-photo-wrap">
+    <!-- Foto cargada por JavaScript desde CONFIG -->
+    <div class="hero-badge"><p>CITAS DISPONIBLES</p><strong id="hero-badge-name">JJ Rodríguez</strong></div>
+  </div>
+</section>
+
+<!-- MANIFESTO -->
+<section id="manifesto">
+  <div class="mf-inner rv">
+    <div class="mf-pre">SACRAVM · NACIÓ PARA ESTO</div>
+    <h2 class="mf-title">Tu historia<br><em>merece ser</em><br>eterna.</h2>
+    <div class="mf-rule"></div>
+    <p class="mf-sub">Un tatuaje de SACRAVM no es un dibujo. Es lo que decides llevar contigo el resto de tu vida. Eso no se improvisa en media hora.</p>
+  </div>
+</section>
+
+<!-- PROCESO — franja fotográfica -->
+<section id="proceso">
+  <div class="proc-row3">
+    <div><img src="/images/proceso/proceso1.jpg" alt="Sesión de tatuaje en el atelier SACRAVM" loading="lazy"></div>
+    <div><img src="/images/proceso/proceso2.jpg" alt="Detalle de trabajo en piel, micro-realismo" loading="lazy"></div>
+    <div><img src="/images/proceso/proceso3.jpg" alt="Preparación del diseño antes de tatuar" loading="lazy"></div>
+  </div>
+  <div class="proc-row2">
+    <div><img src="/images/proceso/proceso4.jpg" alt="Proceso de tatuaje, trazo fino" loading="lazy"></div>
+    <div><img src="/images/proceso/proceso5.jpg" alt="Resultado de sesión de tatuaje realista" loading="lazy"></div>
+  </div>
+</section>
+
+<!-- ORIGEN -->
+<section id="origen">
+  <div class="origen-inner">
+    <div class="rv">
+      <div class="origen-label">EL ORIGEN</div>
+      <h2 class="origen-title">SACRAVM nació para hacer<br><em>lo que el tattoo debería ser:</em><br>un acto consciente.</h2>
+    </div>
+    <div class="origen-grid rv">
+      <div class="origen-body">
+        <p>SACRAVM toma su nombre del latín <em style="color:rgba(196,160,80,.7)">"sacrum"</em> — sagrado — y del eco de Asturica Augusta, la ciudad romana que fundó esta tierra. Un nombre que no es casual: elige lo permanente sobre lo efímero, lo significativo sobre lo decorativo.</p>
+        <p>Nací tatuando en estudios compartidos, acumulando técnica y clientes, llegando a los 15.000 seguidores y a una lista de espera de 25 personas. Y me di cuenta de que el formato no me representaba.</p>
+        <p>Lo que yo quería ofrecer no cabe en un estudio con tres artistas, turnos y walk-ins. Cabe en un espacio privado, con tiempo de sobra, donde el cliente entra sabiendo que esa sesión es suya.</p>
+        <p>SACRAVM es eso. Un atelier donde cada tatuaje empieza con una conversación real, continúa con un diseño pensado solo para esa persona, y termina en una pieza que tiene sentido treinta años después.</p>
+      </div>
+      <div class="origen-values">
+        <div class="origen-val">
+          <span class="origen-val-n">I</span>
+          <div class="origen-val-t"><h4>Reverencia por el proceso</h4><p>No empiezo a tatuar el día que llegamos a un acuerdo. Empiezo semanas antes, pensando en cómo traducir tu idea a algo que funcione en piel para siempre.</p></div>
+        </div>
+        <div class="origen-val">
+          <span class="origen-val-n">II</span>
+          <div class="origen-val-t"><h4>Excelencia sin excusas</h4><p>El micro-realismo es de los estilos más técnicamente exigentes. Lo elijo a propósito — porque no me interesa hacer algo que cualquiera pueda hacer.</p></div>
+        </div>
+        <div class="origen-val">
+          <span class="origen-val-n">III</span>
+          <div class="origen-val-t"><h4>Arte que cuida la piel</h4><p>Cada decisión — aguja, técnica, velocidad — se toma pensando en cómo va a curar y cómo va a quedar en veinte años. No en cómo queda en la foto del día.</p></div>
+        </div>
+        <div class="origen-val">
+          <span class="origen-val-n">IV</span>
+          <div class="origen-val-t"><h4>Trato que dignifica</h4><p>Entras a un espacio pensado para ti. Privado, tranquilo, sin prisas. Con algo de beber y la certeza de que la sesión es enteramente tuya.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUÉ HACEMOS -->
+<section id="queHacemos">
+  <div class="sec-inner">
+    <div class="rv">
+      <div class="sec-label">SACRAVM</div>
+      <h2 class="sec-title">Todo lo que hacemos</h2>
+      <p style="font-size:16px;color:var(--t2);line-height:1.85;margin-top:12px;max-width:480px">Un atelier que va más allá del tatuaje. Arte en piel, experiencias únicas y formación para quienes quieren crecer de verdad.</p>
+    </div>
+    <div class="qh-grid rv">
+      <div class="qh-card" onclick="scroll2('servicios')">
+        <span class="qh-ico">🎨</span>
+        <div class="qh-name">Tattoo custom</div>
+        <p class="qh-desc">Un ritual. Un templo. Una experiencia eterna en tu piel.</p>
+      </div>
+      <div class="qh-card" onclick="scroll2('experiences')">
+        <span class="qh-ico">💍</span>
+        <div class="qh-name">Experiences</div>
+        <p class="qh-desc">Bodas, aniversarios y eventos privados. Llevamos el atelier a tu celebración.</p>
+      </div>
+      <div class="qh-card" onclick="scroll2('colecciones')">
+        <span class="qh-ico">✦</span>
+        <div class="qh-name">Colecciones</div>
+        <p class="qh-desc">Flash collections y diseños exclusivos disponibles por tiempo limitado.</p>
+      </div>
+      <div class="qh-card" onclick="scroll2('formacion')">
+        <span class="qh-ico">📚</span>
+        <div class="qh-name">SACRAVM Academy</div>
+        <p class="qh-desc">Programa online para tatuadores que quieren el siguiente nivel.</p>
+      </div>
+      <div class="qh-card" onclick="scroll2('obras')">
+        <span class="qh-ico">🖼️</span>
+        <div class="qh-name">Cuadros</div>
+        <p class="qh-desc">Óleo, acrílico y técnica mixta sobre lienzo. Piezas únicas, firmadas y numeradas.</p>
+      </div>
+      <div class="qh-card pronto">
+        <span class="qh-soon">PRÓXIMAMENTE</span>
+        <span class="qh-ico">✦</span>
+        <div class="qh-name">Láser</div>
+        <p class="qh-desc">Eliminación y preparación de piel para cubrir o retirar tatuajes.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NOSOTROS -->
+<section id="nosotros">
+  <div class="sec-inner nos-grid">
+    <div class="rv">
+      <div class="sec-label">QUIÉNES SOMOS</div>
+      <h2 class="sec-title">Un atelier diseñado para escuchar bien la idea antes de convertirla en piel.</h2>
+      <p class="nos-body">SACRAVM no compite por ruido. Compite por criterio, cuidado y la certeza de que lo que llevas en la piel para siempre merece el espacio y la atención correctos. Cada sesión empieza mucho antes del primer trazo.</p>
+      <div>
+        <div class="pillar"><div class="pl-n">01</div><div class="pl-t"><h4>Reserva directa con fianza</h4><p>Eliges fecha, pagas la señal y la cita queda confirmada automáticamente. Sin esperas.</p></div></div>
+        <div class="pillar"><div class="pl-n">02</div><div class="pl-t"><h4>Diseño personalizado</h4><p>Hablamos del diseño y referencias después de confirmar. Me adapto a tu idea.</p></div></div>
+        <div class="pillar"><div class="pl-n">03</div><div class="pl-t"><h4>Estudio privado · León</h4><p>Un cliente a la vez. Privacidad total. El espacio está preparado para ti.</p></div></div>
+      </div>
+    </div>
+    <div class="nos-photo rv d2" id="perfil-wrap">
+      <div class="nos-ph"><span>★ TU FOTO → edita CONFIG</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICIOS -->
+<section id="servicios">
+  <div class="sec-inner">
+    <div class="rv">
+      <div class="sec-label">SERVICIOS</div>
+      <h2 class="sec-title">Qué puedes reservar</h2>
+    </div>
+    <div class="svcs-grid" id="svcs-grid">
+      <!-- Generado por JavaScript desde CONFIG -->
+    </div>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section id="portfolio">
+  <div class="sec-inner">
+    <div class="port-top rv">
+      <div>
+        <div class="sec-label">TRABAJO</div>
+        <h2 class="sec-title">Cada pieza, pensada para durar.</h2>
+        <p class="port-body">Micro-realismo, realismo conceptual y fine line. Proyectos diseñados para la piel como lienzo permanente.</p>
+      </div>
+      <button class="btn-p" onclick="goBook()">Reservar cita →</button>
+    </div>
+    <div class="port-grid" id="port-grid">
+      <!-- Generado por JavaScript desde CONFIG -->
+    </div>
+  </div>
+</section>
+
+<!-- COLECCIONES -->
+<section id="colecciones">
+  <div class="sec-inner">
+    <div class="col-intro rv">
+      <div>
+        <div class="sec-label">COLECCIONES</div>
+        <h2 class="sec-title">Diseños disponibles ahora</h2>
+        <p class="col-body">Flash collections de diseños exclusivos disponibles por tiempo limitado. Cada colección tiene plazas contadas — cuando se agotan, no se repiten.</p>
+        <div class="col-tag-row">
+          <span class="col-tag">Edición limitada</span>
+          <span class="col-tag">Precio cerrado</span>
+          <span class="col-tag">Reserva con señal</span>
+          <span class="col-tag">Sin modificaciones</span>
+        </div>
+      </div>
+    </div>
+    <div class="col-soon rv">
+      <strong>Próximamente</strong>
+      <p>Estamos preparando la primera flash collection de SACRAVM. ¿Quieres ser el primero en verla? Apúntate a la lista de formación o sígueme en Instagram — las colecciones se anuncian ahí primero.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SACRAVM EXPERIENCES — bodas -->
+<section id="experiences">
+  <div class="sec-inner" style="max-width:1000px">
+
+    <div class="rv" style="text-align:center;max-width:640px;margin:0 auto 64px">
+      <div class="exp-tag" style="margin:0 auto 20px"><div class="exp-tag-dot"></div><span>SACRAVM EXPERIENCES · BODAS</span></div>
+      <h2 class="exp-title">Tu historia merece ser eterna.<br><span style="font-style:normal;color:var(--tx);font-size:.75em">También la de tu boda.</span></h2>
+      <p style="font-size:16px;color:var(--t2);line-height:1.9;margin-top:18px">SACRAVM Experience no es un photocall de tatuajes. Es el mismo ritual del Atelier trasladado al día más importante de tu vida. Mismo cuidado en el diseño, misma pulcritud en la ejecución, mismo Certificado de Autenticidad al cierre.</p>
+    </div>
+
+    <div class="rv" style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:48px">
+
+      <!-- UNIÓN -->
+      <div style="background:var(--w);border:1px solid var(--bdr);border-radius:8px;padding:28px 24px;box-shadow:var(--sh);display:flex;flex-direction:column">
+        <div style="font-size:10px;letter-spacing:.3em;color:var(--a);font-weight:700;margin-bottom:14px">UNIÓN</div>
+        <div style="font-family:var(--serif);font-size:26px;font-weight:400;color:var(--tx);margin-bottom:8px">El gesto íntimo</div>
+        <p style="font-size:14px;color:var(--t2);line-height:1.75;margin-bottom:18px">Solo los novios. Un tatuaje en pareja con diseño personalizado a juego, creado en consulta previa a la boda.</p>
+        <div style="flex:1;display:flex;flex-direction:column;margin-bottom:20px">
+          <div style="display:flex;gap:8px;padding:7px 0;border-top:1px solid var(--bdr);font-size:14px;color:var(--t2)"><span style="color:var(--a);flex-shrink:0">✓</span>Diseño personalizado para los novios</div>
+          <div style="display:flex;gap:8px;padding:7px 0;border-top:1px solid var(--bdr);font-size:14px;color:var(--t2)"><span style="color:var(--a);flex-shrink:0">✓</span>Presencia de JJ · 2 horas el día del evento</div>
+          <div style="display:flex;gap:8px;padding:7px 0;border-top:1px solid var(--bdr);font-size:14px;color:var(--t2)"><span style="color:var(--a);flex-shrink:0">✓</span>Certificado de Autenticidad numerado para cada uno</div>
+          <div style="display:flex;gap:8px;padding:7px 0;border-top:1px solid var(--bdr);font-size:14px;color:var(--t2)"><span style="color:var(--a);flex-shrink:0">✓</span>Kit de preservación con estética SACRAVM</div>
+        </div>
+        <div style="font-size:13px;color:var(--t3);font-style:italic;margin-bottom:16px">Ideal para parejas que quieren un gesto exclusivo y privado.</div>
+        <button class="btn-svc" style="width:100%;text-align:center" onclick="scroll2('exp-form-wrap')">Consultar →</button>
+      </div>
+
+      <!-- RITUAL COMPARTIDO -->
+      <div style="background:var(--w);border:1.5px solid var(--aBdr);border-radius:8px;padding:28px 24px;box-shadow:0 4px 24px rgba(139,94,42,.1);display:flex;flex-direction:column;position:relative">
+        <div style="position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:var(--a);color:#fff;font-size:10px;font-weight:700;letter-spacing:.14em;padding:3px 14px;border-radius:20px;white-space:nowrap">MÁS ELEGIDO</div>
+        <div style="font-size:10px;letter-spacing:.3em;color:var(--a);font-weight:700;margin-bottom:14px">RITUAL COMPARTIDO</div>
+        <div style="font-family:var(--serif);font-size:26px;font-weight:400;color:var(--tx);margin-bottom:8px">El gesto compartido</div>
+        <p style="font-size:14px;color:var(--t2);line-height:1.75;margin-bottom:18px">Los novios + hasta 5 diseños personalizados disponibles para los invitados. Presencia extendida a 3 horas.</p>
+        <div style="flex:1;display:flex;flex-direction:column;margin-bottom:20px">
+          <div style="display:flex;gap:8px;padding:7px 0;border-top:1px solid var(--bdr);font-size:14px;color:var(--t2)"><span style="color:var(--a);flex-shrink:0">✓</span>Todo lo incluido en "Unión"</div>
+          <div style="display:flex;gap:8px;padding:7px 0;border-top:1px solid var(--bdr);font-size:14px;color:var(--t2)"><span style="color:var(--a);flex-shrink:0">✓</span>Hasta 5 diseños distintos para invitados</div>
+          <div style="display:flex;gap:8px;padding:7px 0;border-top:1px solid var(--bdr);font-size:14px;color:var(--t2)"><span style="color:var(--a);flex-shrink:0">✓</span>Presencia extendida · 3 horas</div>
+          <div style="display:flex;gap:8px;padding:7px 0;border-top:1px solid var(--bdr);font-size:14px;color:var(--t2)"><span style="color:var(--a);flex-shrink:0">✓</span>Mise en Place con estética SACRAVM</div>
+          <div style="display:flex;gap:8px;padding:7px 0;border-top:1px solid var(--bdr);font-size:14px;color:var(--t2)"><span style="color:var(--a);flex-shrink:0">✓</span>Vídeo reel de la experiencia (entregado a los novios)</div>
+        </div>
+        <div style="font-size:13px;color:var(--t3);font-style:italic;margin-bottom:16px">Ideal para parejas que quieren convertir el tattoo en un momento compartido.</div>
+        <button class="btn-p" style="width:100%;text-align:center;border:none;cursor:pointer;padding:10px" onclick="scroll2('exp-form-wrap')">Consultar →</button>
+      </div>
+
+      <!-- LEGADO -->
+      <div style="background:var(--w);border:1px solid var(--bdr);border-radius:8px;padding:28px 24px;box-shadow:var(--sh);display:flex;flex-direction:column">
+        <div style="font-size:10px;letter-spacing:.3em;color:var(--a);font-weight:700;margin-bottom:14px">LEGADO</div>
+        <div style="font-family:var(--serif);font-size:26px;font-weight:400;color:var(--tx);margin-bottom:8px">La experiencia completa</div>
+        <p style="font-size:14px;color:var(--t2);line-height:1.75;margin-bottom:18px">La documentación de la experiencia como una pieza más de la boda. Hasta 10 diseños, vídeo documental completo.</p>
+        <div style="flex:1;display:flex;flex-direction:column;margin-bottom:20px">
+          <div style="display:flex;gap:8px;padding:7px 0;border-top:1px solid var(--bdr);font-size:14px;color:var(--t2)"><span style="color:var(--a);flex-shrink:0">✓</span>Todo lo incluido en "Ritual Compartido"</div>
+          <div style="display:flex;gap:8px;padding:7px 0;border-top:1px solid var(--bdr);font-size:14px;color:var(--t2)"><span style="color:var(--a);flex-shrink:0">✓</span>Hasta 10 diseños distintos para invitados</div>
+          <div style="display:flex;gap:8px;padding:7px 0;border-top:1px solid var(--bdr);font-size:14px;color:var(--t2)"><span style="color:var(--a);flex-shrink:0">✓</span>JJ + asistente para gestión de turnos</div>
+          <div style="display:flex;gap:8px;padding:7px 0;border-top:1px solid var(--bdr);font-size:14px;color:var(--t2)"><span style="color:var(--a);flex-shrink:0">✓</span>Vídeo documental completo con identidad SACRAVM</div>
+          <div style="display:flex;gap:8px;padding:7px 0;border-top:1px solid var(--bdr);font-size:14px;color:var(--t2)"><span style="color:var(--a);flex-shrink:0">✓</span>Certificado individual para cada persona tatuada</div>
+        </div>
+        <div style="font-size:13px;color:var(--t3);font-style:italic;margin-bottom:16px">Ideal para bodas donde la experiencia es parte del regalo y el recuerdo se documenta.</div>
+        <button class="btn-svc" style="width:100%;text-align:center" onclick="scroll2('exp-form-wrap')">Consultar →</button>
+      </div>
+
+    </div>
+
+    <div class="rv" style="background:var(--w);border:1px solid var(--bdr);border-radius:6px;padding:18px 24px;margin-bottom:44px;box-shadow:var(--sh);display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;text-align:center">
+      <div><div style="font-family:var(--serif);font-size:26px;color:var(--a);margin-bottom:4px">1/mes</div><div style="font-size:12px;letter-spacing:.12em;color:var(--t2)">CUPO LIMITADO</div></div>
+      <div style="border-left:1px solid var(--bdr);border-right:1px solid var(--bdr)"><div style="font-family:var(--serif);font-size:26px;color:var(--a);margin-bottom:4px">100%</div><div style="font-size:12px;letter-spacing:.12em;color:var(--t2)">DISEÑOS PERSONALIZADOS</div></div>
+      <div><div style="font-family:var(--serif);font-size:26px;color:var(--a);margin-bottom:4px">∞</div><div style="font-size:12px;letter-spacing:.12em;color:var(--t2)">CERTIFICADO DE AUTENTICIDAD</div></div>
+    </div>
+
+    <div id="exp-form-wrap" class="rv" style="display:grid;grid-template-columns:1fr 1fr;gap:52px;align-items:start">
+      <div>
+        <div class="sec-label">CÓMO FUNCIONA</div>
+        <h3 style="font-family:var(--serif);font-size:30px;font-weight:300;color:var(--tx);margin:10px 0 16px">Ninguna boda se confirma sin una consulta previa</h3>
+        <p style="font-size:15px;color:var(--t2);line-height:1.85;margin-bottom:16px">Valoramos si la boda encaja con la estética y los valores de SACRAVM, definimos el paquete, aprobamos los diseños con antelación y coordinamos la logística con el venue.</p>
+        <div style="display:flex;flex-direction:column">
+          <div style="padding:12px 0;border-top:1px solid var(--bdr)"><div style="font-size:14px;font-weight:600;color:var(--tx);margin-bottom:3px">No se improvisa ningún diseño el día del evento</div><div style="font-size:14px;color:var(--t2);line-height:1.6">Todos los diseños se aprueban con antelación</div></div>
+          <div style="padding:12px 0;border-top:1px solid var(--bdr)"><div style="font-size:14px;font-weight:600;color:var(--tx);margin-bottom:3px">Desplazamiento incluido en un radio de 60km de León</div><div style="font-size:14px;color:var(--t2);line-height:1.6">Fuera de ese radio, se añade coste de desplazamiento</div></div>
+          <div style="padding:12px 0;border-top:1px solid var(--bdr)"><div style="font-size:14px;font-weight:600;color:var(--tx);margin-bottom:3px">Los precios no son públicos</div><div style="font-size:14px;color:var(--t2);line-height:1.6">Cada propuesta se cierra de forma privada</div></div>
+        </div>
+      </div>
+      <div class="exp-card">
+        <h3>Consultar disponibilidad</h3>
+        <p>Cuéntame el tipo de evento, la fecha y el paquete que te interesa. Te respondo en menos de 48 horas.</p>
+        <div id="exp-form">
+          <span class="lbl2" style="display:block;margin-top:2px">NOMBRE</span>
+          <input class="fi-light" id="exp-nombre" placeholder="Tu nombre">
+          <span class="lbl2">EMAIL</span>
+          <input class="fi-light" type="email" id="exp-email" placeholder="tu@email.com">
+          <span class="lbl2">PAQUETE DE INTERÉS</span>
+          <select class="fi-light" id="exp-tipo" style="cursor:pointer">
+            <option value="">Selecciona...</option>
+            <option value="union">Unión — El gesto íntimo</option>
+            <option value="ritual">Ritual Compartido — Novios + invitados</option>
+            <option value="legado">Legado — La experiencia completa</option>
+            <option value="duda">Tengo dudas, quiero orientación</option>
+          </select>
+          <span class="lbl2">FECHA DE LA BODA</span>
+          <input class="fi-light" type="date" id="exp-fecha">
+          <span class="lbl2">CUÉNTAME MÁS</span>
+          <textarea class="fi-light" id="exp-notas" rows="3" placeholder="Lugar de la boda, número de invitados, ideas de diseño…" style="height:70px;padding:10px 11px;resize:none"></textarea>
+          <button class="btn-form" onclick="submitExperience()">CONSULTAR DISPONIBILIDAD →</button>
+          <p class="form-note">Sin compromiso. Te respondo en menos de 48h.</p>
+        </div>
+        <div class="form-ok" id="exp-ok"><span>✓ Consulta recibida. Te escribo en menos de 48h.</span></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SACRAVM ETERNO -->
+<section id="eterno">
+  <div class="sec-inner">
+    <div class="rv" style="margin-bottom:20px">
+      <div class="sec-label">SACRAVM ETERNO</div>
+      <h2 class="sec-title">Una pieza.</h2>
+      <p style="font-size:16px;color:var(--t2);line-height:1.85;margin-top:10px;max-width:460px">La misma filosofía del tattoo aplicada a la ropa. Sin colecciones masivas, sin reposición. Cuando se agota, no vuelve.</p>
+    </div>
+    <div class="eterno-soon rv">
+      <strong>Próximamente</strong>
+      <p>La primera pieza SACRAVM Eterno está en preparación. Se anuncia en Instagram <strong style="color:var(--a)">@sacravm</strong> — sin aviso previo, sin segunda oportunidad.</p>
+    </div>
+  </div>
+</section>
+
+<!-- OBRAS ORIGINALES -->
+<section id="obras" style="background:var(--s1);border-top:1px solid var(--bdr)">
+  <div class="sec-inner">
+    <div class="rv">
+      <div class="sec-label">GALERÍA DE ARTE</div>
+      <h2 class="sec-title">Cuadros que también puedes colgar en la pared.</h2>
+      <p style="font-size:16px;color:var(--t2);line-height:1.9;margin-top:14px;max-width:560px">Antes de ser tatuaje, cada diseño nace como obra original. Óleo, acrílico y técnica mixta sobre lienzo — piezas únicas, firmadas y numeradas, sin reproducciones.</p>
+      <div class="form-pills">
+        <span class="pill">Pieza única</span>
+        <span class="pill">Firmada y numerada</span>
+        <span class="pill">Sin reproducciones</span>
+      </div>
+    </div>
+    <div class="art-grid rv" id="cuadros-grid"><!-- Generado por JS desde CONFIG.cuadros --></div>
+    <div class="rv d2" style="margin-top:44px;max-width:480px">
+      <div class="form-r">
+        <h3>Consultar obra disponible</h3>
+        <p>Cuéntame qué buscas y te aviso de las piezas disponibles antes de que se anuncien en público.</p>
+        <div id="obras-form">
+          <input class="fi2" id="obras-nombre" placeholder="Tu nombre">
+          <input class="fi2" type="email" id="obras-email" placeholder="tu@email.com">
+          <textarea class="fi2" id="obras-msg" placeholder="¿Qué estilo, tamaño o temática buscas?" style="height:70px;padding:10px 11px;resize:none"></textarea>
+          <button class="btn-form" onclick="submitObras()">QUIERO SABER MÁS →</button>
+          <p class="form-note">Sin compromiso. Te escribo solo si hay algo que encaje.</p>
+        </div>
+        <div class="form-ok" id="obras-ok"><span>✓ Recibido. Te aviso en cuanto haya una pieza para ti.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIOS -->
+<section id="testimonios">
+  <div class="sec-inner">
+    <div class="rv"><div class="sec-label">TESTIMONIOS</div><h2 class="sec-title">Lo que dicen quienes pasaron por aquí</h2></div>
+    <div class="testi-grid" id="testi-grid"><!-- Generado por JS --></div>
+  </div>
+</section>
+
+<!-- TARIFAS -->
+<section id="tarifas">
+  <div class="sec-inner">
+    <div class="rv">
+      <div class="sec-label">INVERSIÓN</div>
+      <h2 class="sec-title" id="txt-inversion-titulo" style="margin-bottom:14px">Cada formato, pensado para que el resultado esté a la altura</h2>
+      <p id="txt-inversion-texto" style="font-size:16px;color:var(--t2);line-height:1.85;margin-bottom:40px;max-width:540px">El diseño se prepara en exclusiva el día de tu cita. La señal confirma tu plaza y se descuenta del total — el resto se abona al cerrar la sesión.</p>
+    </div>
+    <div class="tar-grid rv">
+      <div class="tar-card">
+        <div class="tar-dur">1–2 HORAS</div>
+        <div class="tar-name">Mini tattoo</div>
+        <div class="tar-desc">Para piezas pequeñas, limpias y con resultado garantizado. Ideal para primer contacto con el estudio.</div>
+        <div class="tar-price">90–220€</div>
+        <div class="tar-senal">Señal: 50€ · 1h desde 90€ · 2h desde 200€</div>
+        <ul class="tar-includes">
+          <li>Diseño el mismo día</li>
+          <li>Pieza pequeña hasta ≈8 cm</li>
+          <li>Kit de cuidados post-sesión</li>
+        </ul>
+        <button class="btn-tar" onclick="goBook()">Reservar mini →</button>
+      </div>
+      <div class="tar-card featured">
+        <div class="tar-dur">3–4 HORAS</div>
+        <div class="tar-name">Media sesión</div>
+        <div class="tar-desc">Para piezas de tamaño medio o avances importantes. El formato más equilibrado para la mayoría de proyectos.</div>
+        <div class="tar-price">360–420€</div>
+        <div class="tar-senal">Señal: 100€ (se descuenta del total)</div>
+        <ul class="tar-includes">
+          <li>Diseño el mismo día</li>
+          <li>Piezas medias o avances de proyecto</li>
+          <li>Kit de cuidados post-sesión</li>
+          <li>Seguimiento de curación</li>
+        </ul>
+        <button class="btn-tar" onclick="goBook()">Reservar media sesión →</button>
+      </div>
+      <div class="tar-card">
+        <div class="tar-dur">6–8 HORAS</div>
+        <div class="tar-name">Sesión completa</div>
+        <div class="tar-desc">Para proyectos exigentes que necesitan tiempo, capas y profundidad de detalle en una sola jornada.</div>
+        <div class="tar-price">600–680€</div>
+        <div class="tar-senal">Señal: 150€ (se descuenta del total)</div>
+        <ul class="tar-includes">
+          <li>Diseño el mismo día</li>
+          <li>Piezas grandes o avances de proyecto</li>
+          <li>Kit de cuidados completo</li>
+          <li>Seguimiento de curación</li>
+          <li>Descuento en bloques de proyecto</li>
+        </ul>
+        <button class="btn-tar" onclick="goBook()">Reservar sesión completa →</button>
+      </div>
+      <div class="tar-card">
+        <div class="tar-dur">2+ DÍAS · PROYECTO</div>
+        <div class="tar-name">Gran proyecto</div>
+        <div class="tar-desc">Mangas, espaldas y proyectos de envergadura. Planificación completa por bloques con curación entre fases.</div>
+        <div class="tar-price">650–700€/día</div>
+        <div class="tar-senal">Señal: 200€/sesión (se descuenta del total)</div>
+        <ul class="tar-includes">
+          <li>Planificación completa del proyecto</li>
+          <li>Máx. 3 sesiones consecutivas por bloque</li>
+          <li>3 semanas de curación entre bloques</li>
+          <li>Kit de cuidados completo</li>
+          <li>Seguimiento personalizado todo el proceso</li>
+        </ul>
+        <button class="btn-tar" onclick="goBook()">Consultar proyecto →</button>
+      </div>
+    </div>
+
+    <div class="tar-note rv">
+      <strong>Nota sobre proyectos grandes:</strong> Para piezas de gran formato (mangas, espaldas, pectorales) programo un máximo de 3 sesiones consecutivas por bloque. Así la piel sana bien entre sesiones y puedo acumular profundidad y detalle de forma óptima. Entre bloques: mínimo 3 semanas de curación. Esto no es opcional — es lo que garantiza el mejor resultado posible.
+    </div>
+    <div class="rv" style="background:var(--w);border:1px solid var(--bdr);border-radius:6px;padding:24px 28px;margin-bottom:52px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px">
+      <div style="text-align:center">
+        <div style="font-family:var(--serif);font-size:40px;font-weight:300;color:var(--a);line-height:1;margin-bottom:6px">~125€</div>
+        <div style="font-size:12px;letter-spacing:.12em;color:var(--t2)">POR HORA · FRANJA PREMIUM ESPAÑA</div>
+      </div>
+      <div style="text-align:center;border-left:1px solid var(--bdr);border-right:1px solid var(--bdr);padding:0 24px">
+        <div style="font-family:var(--serif);font-size:40px;font-weight:300;color:var(--a);line-height:1;margin-bottom:6px">1 a 1</div>
+        <div style="font-size:12px;letter-spacing:.12em;color:var(--t2)">UN CLIENTE A LA VEZ · ESPACIO PRIVADO</div>
+      </div>
+      <div style="text-align:center">
+        <div style="font-family:var(--serif);font-size:40px;font-weight:300;color:var(--a);line-height:1;margin-bottom:6px">100%</div>
+        <div style="font-size:12px;letter-spacing:.12em;color:var(--t2)">DISEÑO PERSONALIZADO INCLUIDO</div>
+      </div>
+    </div>
+
+    <div class="rv">
+      <div class="zona-title">Sesiones estimadas por zona</div>
+      <p class="zona-sub">Orientativo. Depende del tamaño, complejidad del diseño, tipo de piel y tolerancia. Te daré una estimación personalizada en el primer contacto.</p>
+    </div>
+    <div class="zona-grid rv">
+      <div class="zona-card"><div class="zona-ico">💪</div><div><div class="zona-name">Manga completa</div><div class="zona-ses">6–9 sesiones</div><div class="zona-fmt">Proyecto multisesión</div></div></div>
+      <div class="zona-card"><div class="zona-ico">🦾</div><div><div class="zona-name">Medio brazo</div><div class="zona-ses">3–4 sesiones</div><div class="zona-fmt">Sesiones completas</div></div></div>
+      <div class="zona-card"><div class="zona-ico">✊</div><div><div class="zona-name">Antebrazo</div><div class="zona-ses">2–3 sesiones</div><div class="zona-fmt">Media sesión × 2-3</div></div></div>
+      <div class="zona-card"><div class="zona-ico">🫀</div><div><div class="zona-name">Pecho</div><div class="zona-ses">3–5 sesiones</div><div class="zona-fmt">Sesiones completas</div></div></div>
+      <div class="zona-card"><div class="zona-ico">🔙</div><div><div class="zona-name">Espalda completa</div><div class="zona-ses">8–12 sesiones</div><div class="zona-fmt">Proyecto multisesión</div></div></div>
+      <div class="zona-card"><div class="zona-ico">🔻</div><div><div class="zona-name">Media espalda</div><div class="zona-ses">3–5 sesiones</div><div class="zona-fmt">Sesiones completas</div></div></div>
+      <div class="zona-card"><div class="zona-ico">🦵</div><div><div class="zona-name">Muslo</div><div class="zona-ses">3–5 sesiones</div><div class="zona-fmt">Sesiones completas</div></div></div>
+      <div class="zona-card"><div class="zona-ico">🦿</div><div><div class="zona-name">Pierna completa</div><div class="zona-ses">5–8 sesiones</div><div class="zona-fmt">Proyecto multisesión</div></div></div>
+      <div class="zona-card"><div class="zona-ico">🌊</div><div><div class="zona-name">Costado</div><div class="zona-ses">3–4 sesiones</div><div class="zona-fmt">Sesiones completas</div></div></div>
+      <div class="zona-card"><div class="zona-ico">🦶</div><div><div class="zona-name">Pie / tobillo</div><div class="zona-ses">1–2 sesiones</div><div class="zona-fmt">Mini o media sesión</div></div></div>
+      <div class="zona-card"><div class="zona-ico">🤚</div><div><div class="zona-name">Mano / muñeca</div><div class="zona-ses">1–2 sesiones</div><div class="zona-fmt">Mini o media sesión</div></div></div>
+      <div class="zona-card"><div class="zona-ico">✨</div><div><div class="zona-name">Pieza pequeña (−8cm)</div><div class="zona-ses">1 sesión</div><div class="zona-fmt">Mini tattoo 1-2h</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- VALE REGALO -->
+<section id="vale-regalo">
+  <div class="sec-inner">
+    <div class="rv">
+      <div class="sec-label">VALE REGALO</div>
+      <h2 class="sec-title" id="txt-valeregalo-titulo">Regala algo único.<br>Y para siempre.</h2>
+      <p class="gift-lead" id="txt-valeregalo-texto">Unas flores se marchitan. Una cena se olvida. Un tatuaje de SACRAVM se queda para siempre — y lleva tu gesto dentro. Elige un importe, yo me encargo del resto.</p>
+    </div>
+    <div class="gift-grid rv">
+      <div>
+        <div class="wz-label" style="margin-top:0">IMPORTE DEL VALE</div>
+        <div class="gift-amts" id="gift-amts">
+          <button type="button" class="gift-amt" onclick="giftSelectAmt(100)">100€</button>
+          <button type="button" class="gift-amt" onclick="giftSelectAmt(200)">200€</button>
+          <button type="button" class="gift-amt" onclick="giftSelectAmt(350)">350€</button>
+        </div>
+        <input class="fi2 gift-custom" type="number" min="20" id="gift-custom-amt" placeholder="Otro importe (€)" oninput="giftSelectAmt(null)">
+        <p class="gift-note">El vale no caduca y se puede usar en cualquier servicio del atelier. Si el tatuaje elegido cuesta más, solo se abona la diferencia.</p>
+      </div>
+      <div class="gift-card">
+        <h3>Pedir vale regalo</h3>
+        <p>Rellena tus datos, confírmalo por Bizum y te preparo el vale — con el diseño de SACRAVM, listo para entregar en persona o por email.</p>
+        <div id="gift-form">
+          <input class="fi2" id="gift-nombre" placeholder="Tu nombre">
+          <input class="fi2" type="email" id="gift-email" placeholder="tu@email.com">
+          <input class="fi2" id="gift-para" placeholder="¿Para quién es? (opcional)">
+          <textarea class="fi2" id="gift-msg" placeholder="Mensaje para incluir en el vale (opcional)" style="height:60px;padding:10px 11px;resize:none"></textarea>
+          <button class="btn-form" onclick="submitGiftCard()">QUIERO ESTE VALE →</button>
+        </div>
+        <div class="gift-ok" id="gift-ok">
+          <div class="gift-ok-icon">✦</div>
+          <h4>Casi listo</h4>
+          <div class="gift-bizum" id="gift-bizum"></div>
+          <p style="font-size:12px;color:var(--dt2);line-height:1.7">En cuanto reciba el Bizum, te mando el vale por email listo para regalar.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TÉRMINOS -->
+<section id="terminos">
+  <div class="sec-inner">
+    <div class="rv">
+      <div class="sec-label">ANTES DE RESERVAR</div>
+      <h2 class="sec-title">Información importante</h2>
+      <p style="font-size:16px;color:var(--t2);line-height:1.85;margin-top:12px;max-width:540px">Por favor, lee esto antes de rellenar el formulario. Tu información es necesaria para asegurar una reserva que funcione bien para los dos.</p>
+    </div>
+    <div class="terms-grid rv">
+      <div>
+        <div class="term-block">
+          <h4>Mi enfoque y cómo elijo proyectos</h4>
+          <p>Creo tatuajes con total libertad artística dentro del tema que acordamos. Tu idea inspirará el diseño, pero añado mi toque personal. No copio otros tatuajes ni estilos. El diseño final lo preparo el primer día de tu cita.</p>
+          <div class="term-highlight"><p>Priorizo a los clientes con grandes ideas y buen ambiente, especialmente quienes confían en mí para hacer lo que mejor sé hacer. <strong>Si creo que un diseño o ubicación no es adecuado, te lo haré saber y puedo rechazar el proyecto.</strong></p></div>
+        </div>
+        <div class="term-block">
+          <h4>Horario de estudio</h4>
+          <p>Lunes a viernes, de 09:00 a 17:00. Las sesiones son privadas — un cliente a la vez.</p>
+        </div>
+        <div class="term-block">
+          <h4>¿Cuánto tarda tu tatuaje?</h4>
+          <p>El tiempo depende de varios factores:</p>
+          <ul>
+            <li>Tolerancia al dolor (pueden ser necesarios descansos)</li>
+            <li>Tipo de piel — algunos sangran o se hinchan más que otros</li>
+            <li>Tamaño y ubicación de la pieza</li>
+            <li>Complejidad del diseño y nivel de detalle</li>
+          </ul>
+          <p style="margin-top:10px">Las estimaciones de sesiones de arriba son orientativas. En el primer contacto te daré una estimación personalizada.</p>
+        </div>
+      </div>
+      <div>
+        <div class="term-block">
+          <h4>Señal y pago</h4>
+          <p>La señal no es reembolsable bajo ninguna circunstancia. Se descuenta del total al finalizar la sesión. Sin señal, no hay cita confirmada.</p>
+          <div class="term-highlight">
+            <p><strong>Formas de pago de la señal:</strong> Bizum o transferencia bancaria. El resto del pago se realiza el día de la sesión en efectivo, Bizum o transferencia.</p>
+          </div>
+        </div>
+        <div class="term-block">
+          <h4>Reprogramación y cancelaciones</h4>
+          <ul>
+            <li>Reprograma con al menos <strong>7 días de antelación</strong></li>
+            <li>Primera reprogramación: la señal se transfiere a la nueva fecha</li>
+            <li>Segunda reprogramación: se requiere una nueva señal</li>
+            <li>Cancelación con menos de 7 días: la señal no se devuelve</li>
+          </ul>
+          <div class="term-highlight"><p><strong>Si yo cancelo por cualquier motivo</strong>, se te devuelve la señal completa sin excepción.</p></div>
+        </div>
+        <div class="term-block">
+          <h4>Diseño y referencias</h4>
+          <p>Envíame las referencias antes de la cita. Cuanto más claro esté el concepto, mejor puedo prepararlo. El diseño final puede diferir de las referencias — eso es parte del proceso creativo.</p>
+        </div>
+      </div>
+    </div>
+    <div class="terms-footer rv">
+      Al reservar, confirmas haber leído y aceptado esta información. Si tienes cualquier duda antes de reservar, <strong>escríbeme</strong> — prefiero hablar antes que tener malentendidos después.
+    </div>
+  </div>
+</section>
+
+<!-- FORMACIÓN -->
+<section id="formacion">
+  <div class="sec-inner form-grid">
+    <div class="rv">
+      <div class="sec-label">SACRAVM ACADEMY</div>
+      <h2 class="sec-title" id="txt-academy-titulo">Domina el oficio con quien ya se lo juega en piel real.</h2>
+      <p id="txt-academy-texto" style="font-size:16px;color:var(--t2);line-height:1.9;margin-top:14px">Un programa online de 3-6 meses para tatuadores que no quieren aprender por prueba y error. Técnica, criterio, marca personal y captación de clientes.</p>
+      <div class="form-pills">
+        <span class="pill">3–6 meses</span>
+        <span class="pill">Online + mentorías</span>
+        <span class="pill">Técnica real</span>
+        <span class="pill">Marca personal</span>
+        <span class="pill">Gestión de clientes</span>
+        <span class="pill">Comunidad privada</span>
+      </div>
+      <p style="font-size:15px;color:var(--t3);font-style:italic;margin-bottom:8px">Próximamente · Plazas muy limitadas · Precio aún sin anunciar</p>
+      <div class="form-road">
+        <div class="form-road-step"><span class="form-road-n">1</span><span>Bienvenida</span></div>
+        <div class="form-road-step"><span class="form-road-n">2</span><span>Golpe de Dopamina</span></div>
+        <div class="form-road-step"><span class="form-road-n">3</span><span>Materiales</span></div>
+        <div class="form-road-step"><span class="form-road-n">4</span><span>Fundamentos de mano</span></div>
+        <div class="form-road-step"><span class="form-road-n">5</span><span>Dibujo aplicado</span></div>
+        <div class="form-road-step"><span class="form-road-n">6</span><span>Primer tatuaje realista</span></div>
+        <div class="form-road-step"><span class="form-road-n">7</span><span>Micro-realismo</span></div>
+        <div class="form-road-step"><span class="form-road-n">8</span><span>Marca Personal y Captación</span></div>
+      </div>
+    </div>
+    <div class="rv d2">
+      <div class="form-r">
+        <h3>Apúntate a la lista de espera</h3>
+        <p>Te aviso cuando abran las inscripciones. Sin compromiso.</p>
+        <div id="form-formacion">
+          <input class="fi2" id="form-nombre" placeholder="Tu nombre">
+          <input class="fi2" type="email" id="form-email" placeholder="tu@email.com">
+          <input class="fi2" id="form-insta" placeholder="@instagram (opcional)">
+          <button class="btn-form" onclick="submitFormacion()">APUNTARME A LA LISTA →</button>
+          <p class="form-note">Solo te escribiré cuando haya novedades.<br>Sin spam, sin presión.</p>
+        </div>
+        <div class="form-ok" id="form-ok"><span>✓ Apuntado. Te aviso cuando haya novedades.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TU HISTORIA MERECE SER ETERNA -->
+<div class="eterna-wrap rv">
+  <div class="eterna-q">Tu historia<br><em>merece ser eterna.</em></div>
+  <div style="width:40px;height:1px;background:rgba(196,160,80,.4);margin:22px auto 18px"></div>
+  <div class="eterna-sub">SACRAVM · TATTOO ATELIER · LEÓN</div>
+</div>
+
+<!-- BOOKING CTA -->
+<section id="booking" style="padding:80px 52px">
+  <div class="bk-inner">
+    <div class="bk-sup rv">RESERVA TU CITA</div>
+    <h2 class="bk-title rv">Elige tu servicio,<br><em>elige tu momento,<br>empieza el ritual.</em></h2>
+    <div class="bk-rule rv"></div>
+    <p class="bk-sub rv">Eliges servicio, fecha y hora preferida. Te confirmo por WhatsApp en menos de 24h y hablamos del diseño y la fianza.</p>
+    <div class="bk-flow rv">
+      <div class="bk-step"><span class="bk-step-n">1</span><div class="bk-step-t"><strong>Elige tu sesión</strong>Día entero, media sesión o mini tattoo</div></div>
+      <span class="bk-step-sep">→</span>
+      <div class="bk-step"><span class="bk-step-n">2</span><div class="bk-step-t"><strong>Elige fecha y hora</strong>Marca tu preferencia en el calendario</div></div>
+      <span class="bk-step-sep">→</span>
+      <div class="bk-step"><span class="bk-step-n">3</span><div class="bk-step-t"><strong>Cuéntame tu idea</strong>Un par de líneas para preparar la sesión</div></div>
+      <span class="bk-step-sep">→</span>
+      <div class="bk-step"><span class="bk-step-n">4</span><div class="bk-step-t"><strong>Confirmación</strong>Te escribo por WhatsApp para cerrar fecha y fianza</div></div>
+    </div>
+    <div class="rv">
+      <button class="btn-bk-main" onclick="goBook()">RESERVAR MI CITA →</button>
+      <p class="bk-note">Solicitud gratuita · La fianza se acuerda al confirmar la fecha</p>
+    </div>
+  </div>
+</section>
+
+<!-- GALERÍA — portfolio completo -->
+<section id="galeria">
+  <div class="sec-inner">
+    <div class="rv" style="margin-bottom:48px">
+      <div class="sec-label">PORTFOLIO</div>
+      <h2 class="sec-title">Cada pieza, una historia.</h2>
+      <p style="font-size:16px;color:var(--t2);line-height:1.9;margin-top:10px;max-width:520px">Una selección de trabajos recientes. Micro-realismo, fine line, realismo conceptual y composiciones de proyecto. Cada tatuaje, un diseño único y exclusivo.</p>
+    </div>
+    <div class="gal-grid rv" id="galeria-grid"><!-- Generado por JS desde CONFIG.galeria --></div>
+    <div class="rv" style="text-align:center;margin-top:52px">
+      <p style="font-size:15px;color:var(--t2);margin-bottom:20px">¿Tienes una idea? Cuéntamela.</p>
+      <button class="btn-p" onclick="goBook()" style="font-size:15px">Solicitar cita →</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="foot-logo" id="foot-logo">SACRAVM</div>
+    <div class="foot-sub" id="foot-sub">TATTOO ATELIER · LEÓN</div>
+  </div>
+  <div class="foot-links">
+    <button class="fl" onclick="scroll2('nosotros')">Quiénes somos</button>
+    <button class="fl" onclick="scroll2('portfolio')">Trabajo</button>
+    <button class="fl" onclick="scroll2('servicios')">Servicios</button>
+    <button class="fl" onclick="scroll2('experiences')">Experiences</button>
+    <button class="fl" onclick="scroll2('tarifas')">Inversión</button>
+    <button class="fl" onclick="scroll2('vale-regalo')">Vale regalo</button>
+    <button class="fl" onclick="scroll2('obras')">Cuadros</button>
+    <button class="fl" onclick="scroll2('formacion')">Academy</button>
+    <button class="fl" onclick="scroll2('galeria')">Galería</button>
+    <button class="fl" onclick="scroll2('booking')">Reservar</button>
+  </div>
+  <div class="foot-right">
+    <a class="btn-wa" id="btn-wa" href="#" target="_blank">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      WhatsApp
+    </a>
+    <button class="btn-book" onclick="goBook()">RESERVAR CITA</button>
+  </div>
+</footer>
+
+<!-- ═══ WIZARD DE RESERVA (experiencia interactiva) ═══ -->
+<div class="wz-overlay" id="wz-overlay" onclick="if(event.target===this)closeWizard()">
+  <div class="wz-box">
+    <button class="wz-close" onclick="closeWizard()">✕</button>
+    <div class="wz-progress">
+      <span class="wp-dot" data-s="1"></span>
+      <span class="wp-dot" data-s="2"></span>
+      <span class="wp-dot" data-s="3"></span>
+      <span class="wp-dot" data-s="4"></span>
+      <span class="wp-dot" data-s="5"></span>
+    </div>
+
+    <div class="wz-step" id="wz-s1">
+      <div class="sec-label">PASO 1 DE 5</div>
+      <h3 class="wz-title">¿Qué te gustaría reservar?</h3>
+      <div class="wz-services" id="wz-services"></div>
+      <div class="wz-nav"><button class="btn-p" style="width:100%" onclick="wzNext()">SIGUIENTE →</button></div>
+    </div>
+
+    <div class="wz-step" id="wz-s2" style="display:none">
+      <div class="sec-label">PASO 2 DE 5</div>
+      <h3 class="wz-title">Elige fecha y hora preferida</h3>
+      <div class="wz-label">FECHA</div>
+      <input type="date" class="fi2" id="wz-fecha">
+      <div class="wz-label">HORA</div>
+      <div class="wz-horarios" id="wz-horarios"></div>
+      <div class="wz-err" id="wz-err-2"></div>
+      <div class="wz-nav"><button class="btn-o" onclick="wzBack()">← ATRÁS</button><button class="btn-p" onclick="wzNext()">SIGUIENTE →</button></div>
+    </div>
+
+    <div class="wz-step" id="wz-s3" style="display:none">
+      <div class="sec-label">PASO 3 DE 5</div>
+      <h3 class="wz-title">Tus datos de contacto</h3>
+      <div class="wz-label">CÓMO TE LLAMAS</div>
+      <input class="fi2" id="wz-nombre" placeholder="Tu nombre">
+      <div class="wz-label">CORREO ELECTRÓNICO</div>
+      <input class="fi2" type="email" id="wz-email" placeholder="tu@email.com">
+      <div class="wz-label">TU NÚMERO</div>
+      <input class="fi2" id="wz-whatsapp" placeholder="WhatsApp (para confirmarte)">
+
+      <div class="wz-label">IDEA DEL TATTOO</div>
+      <textarea class="fi2" id="wz-mensaje" placeholder="Cuéntame qué quieres, qué quieres transmitir y cualquier detalle que deba saber." style="height:90px;padding:10px 11px;resize:none"></textarea>
+
+      <div class="wz-err" id="wz-err-3"></div>
+      <div class="wz-nav"><button class="btn-o" onclick="wzBack()">← ATRÁS</button><button class="btn-p" onclick="wzNext()">SIGUIENTE →</button></div>
+    </div>
+
+    <div class="wz-step" id="wz-s4" style="display:none">
+      <div class="sec-label">PASO 4 DE 5</div>
+      <h3 class="wz-title">Cuéntame más sobre tu proyecto</h3>
+      <p class="wz-sub" style="margin-bottom:16px">Con esto preparo mejor tu sesión — cuanto más sepa antes, menos tiempo perdemos el día de la cita.</p>
+
+      <div class="wz-label">ZONA *</div>
+      <div class="wz-2col">
+        <input class="fi2" id="wz-zona" placeholder="Brazo, costillas, pierna…">
+        <input class="fi2" id="wz-tamano" placeholder="Tamaño aprox. (opcional)">
+      </div>
+
+      <div class="wz-label">¿QUÉ TE GUSTARÍA TOMAR AL LLEGAR?</div>
+      <input class="fi2" id="wz-bebida" placeholder="Agua, café, refresco…">
+
+      <div class="wz-2col">
+        <div>
+          <div class="wz-label">¿YA TE HAS TATUADO CONMIGO?</div>
+          <select class="fi2" id="wz-repeticion">
+            <option value="No">No</option>
+            <option value="Sí">Sí</option>
+          </select>
+        </div>
+        <div>
+          <div class="wz-label">¿POR DÓNDE ME HAS CONOCIDO?</div>
+          <select class="fi2" id="wz-fuente">
+            <option value="Instagram">Instagram</option>
+            <option value="Recomendación">Recomendación</option>
+            <option value="Google">Google</option>
+            <option value="Ya soy cliente">Ya soy cliente</option>
+            <option value="Otro">Otro</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="wz-label">IMÁGENES DE REFERENCIA</div>
+      <p class="wz-sub">Sube hasta 6 referencias — me ayudan a entender mejor el estilo, el encaje y el nivel de detalle.</p>
+      <input type="file" accept="image/*" multiple id="wz-referencias" class="wz-ref-input" onchange="wzHandleReferencias(event)">
+      <div class="wz-ref-preview" id="wz-ref-preview"></div>
+      <div class="wz-ref-count" id="wz-ref-count"></div>
+
+      <div class="wz-err" id="wz-err-4"></div>
+      <div class="wz-nav"><button class="btn-o" onclick="wzBack()">← ATRÁS</button><button class="btn-p" onclick="wzNext()">SIGUIENTE →</button></div>
+    </div>
+
+    <div class="wz-step" id="wz-s5" style="display:none">
+      <div class="sec-label">PASO 5 DE 5</div>
+      <h3 class="wz-title">Revisa y confirma</h3>
+      <div class="wz-summary" id="wz-summary"></div>
+      <div class="wz-err" id="wz-err-5"></div>
+      <div class="wz-nav"><button class="btn-o" onclick="wzBack()">← ATRÁS</button><button class="btn-p" id="wz-submit-btn" onclick="wzSubmit()">ENVIAR SOLICITUD →</button></div>
+    </div>
+
+    <div class="wz-step" id="wz-success" style="display:none">
+      <div class="wz-success">
+        <div class="wz-success-icon">✦</div>
+        <h3 id="wz-success-title">Solicitud enviada</h3>
+        <p id="wz-success-msg">Te contactaré por WhatsApp en menos de 24h para confirmar fecha y fianza.</p>
+        <div class="gift-bizum" id="wz-bizum-box" style="display:none;max-width:360px;margin:18px auto"></div>
+        <button class="btn-p" onclick="closeWizard()">CERRAR</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ POP-UP DE CAPTACIÓN (aparece a los 60s) ═══ -->
+<div class="lp-overlay" id="lp-overlay" onclick="if(event.target===this)closeLeadPopup()">
+  <div class="lp-box">
+    <button class="lp-close" onclick="closeLeadPopup()">✕</button>
+    <div class="lp-progress">
+      <span class="lp-dot" data-s="1"></span>
+      <span class="lp-dot" data-s="2"></span>
+      <span class="lp-dot" data-s="3"></span>
+    </div>
+
+    <div class="lp-step" id="lp-s1">
+      <div class="sec-label">ANTES DE QUE TE VAYAS</div>
+      <h3 class="lp-title">¿Qué te trae por SACRAVM?</h3>
+      <div class="lp-opts" id="lp-opts-1"></div>
+    </div>
+
+    <div class="lp-step" id="lp-s2" style="display:none">
+      <div class="sec-label">UNA PREGUNTA MÁS</div>
+      <h3 class="lp-title">¿Qué buscas en tu próximo tatuaje?</h3>
+      <div class="lp-opts" id="lp-opts-2"></div>
+    </div>
+
+    <div class="lp-step" id="lp-s3" style="display:none">
+      <div class="sec-label">TU RECOMPENSA</div>
+      <h3 class="lp-title" id="lp-offer-title">Prioridad, solo para ti</h3>
+      <p class="lp-offer-msg" id="lp-offer-msg"></p>
+      <input class="fi2" id="lp-nombre" placeholder="Tu nombre">
+      <input class="fi2" type="email" id="lp-email" placeholder="tu@email.com">
+      <button class="btn-p" style="width:100%" onclick="submitLeadPopup()">QUIERO MI PRIORIDAD →</button>
+    </div>
+
+    <div class="lp-step" id="lp-success" style="display:none;text-align:center">
+      <div class="wz-success-icon">✦</div>
+      <h3 style="font-family:var(--serif);font-size:26px;font-weight:300;color:var(--tx);margin-bottom:12px">¡Listo!</h3>
+      <p id="lp-success-msg" style="font-size:14px;color:var(--t2);line-height:1.8;margin-bottom:20px">Ya tienes prioridad. Te escribo pronto.</p>
+      <button class="btn-p" onclick="closeLeadPopup()">CERRAR</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ╔══════════════════════════════════════════════════════════════════╗
+// ║   SACRAVM — el contenido de esta web ya NO se edita aquí.        ║
+// ║   Ahora se edita desde el panel de administración:               ║
+// ║                                                                  ║
+// ║        http://localhost:3000/admin                              ║
+// ║                                                                  ║
+// ║   Entras con tu usuario y contraseña y cambias textos, precios,  ║
+// ║   fotos, horarios y testimonios sin tocar código.                ║
+// ║   Este archivo solo pide esos datos al servidor y los pinta.     ║
+// ╚══════════════════════════════════════════════════════════════════╝
+
+let CONFIG = null;
+
+const contentReady = (async () => {
+  const res = await fetch('/api/content');
+  CONFIG = await res.json();
+  renderSite(CONFIG);
+  return CONFIG;
+})();
+
+function renderSite(CONFIG) {
+  // ── Datos básicos ──────────────────────────────────────────────
+  document.getElementById('nav-sub').textContent = 'TATTOO ATELIER · ' + CONFIG.ciudad.toUpperCase();
+  document.getElementById('hero-sub-txt').innerHTML = CONFIG.nombre + ' · ' + CONFIG.ciudad + '<br>Un tatuaje no se borra. Por eso aquí no se hace con prisa.';
+  document.getElementById('hero-badge-name').textContent = CONFIG.nombre;
+  document.getElementById('foot-logo').textContent = 'SACRAVM';
+  document.getElementById('foot-sub').textContent = 'TATTOO ATELIER · ' + CONFIG.ciudad.toUpperCase();
+  document.getElementById('btn-wa').href = 'https://wa.me/' + CONFIG.whatsapp.replace(/[^0-9]/g,'');
+
+  // ── Fotos ──────────────────────────────────────────────────────
+  const heroWrap = document.getElementById('hero-photo-wrap');
+  if (CONFIG.fotos.hero) {
+    heroWrap.innerHTML = `<img src="${CONFIG.fotos.hero}" alt="SACRAVM Tattoo Atelier — ${CONFIG.nombre} en el estudio"><div class="hero-badge"><p>CITAS DISPONIBLES</p><strong>${CONFIG.nombre}</strong></div>`;
+  } else {
+    heroWrap.innerHTML = `<div class="hero-r-ph"><span>★ Sube tu foto desde /admin</span></div><div class="hero-badge"><p>CITAS DISPONIBLES</p><strong>${CONFIG.nombre}</strong></div>`;
+  }
+  const perfilWrap = document.getElementById('perfil-wrap');
+  if (CONFIG.fotos.perfil) {
+    perfilWrap.innerHTML = `<img src="${CONFIG.fotos.perfil}" alt="${CONFIG.nombre}, tatuador en SACRAVM" style="width:100%;height:100%;object-fit:cover" loading="lazy">`;
+  } else {
+    perfilWrap.innerHTML = `<div class="nos-ph"><span>★ Sube tu foto desde /admin</span></div>`;
+  }
+
+  // ── Servicios ──────────────────────────────────────────────────
+  document.getElementById('svcs-grid').innerHTML = CONFIG.servicios.map((s,i) => `
+    <div class="svc-card rv d${i+1}">
+      <div class="svc-bar"></div>
+      <h3 class="svc-name">${s.nombre}</h3>
+      <p class="svc-desc">${s.descripcion}</p>
+      <p class="svc-ideal">IDEAL PARA · ${s.ideal}</p>
+      <div class="svc-pr">${s.precio}</div>
+      <button class="btn-svc" onclick="goBook('${s.nombre}')">Reservar →</button>
+    </div>
+  `).join('');
+
+  // ── Portfolio ────────────────────────────────────────────────────
+  const portItems = [
+    { key:'tt1', cls:'tall' }, { key:'tt2', cls:'sq' }, { key:'tt3', cls:'sq' },
+    { key:'tt4', cls:'wide' }, { key:'tt5', cls:'sq' }, { key:'tt6', cls:'sq' },
+  ];
+  document.getElementById('port-grid').innerHTML = portItems.map(({key,cls}) => {
+    const p = CONFIG.fotos[key] || {};
+    const img = p.url
+      ? `<img src="${p.url}" alt="Tatuaje SACRAVM — ${p.estilo||''}${p.desc?', '+p.desc:''}" loading="lazy">`
+      : `<div class="pimg-ph" style="min-height:${cls==='tall'?'460px':cls==='wide'?'190px':'210px'}"><span>★ Sube esta foto desde /admin</span></div>`;
+    return `<div class="pimg ${cls}">${img}<div class="pimg-info"><em>${p.desc||''}</em><small>${p.estilo||''}</small></div></div>`;
+  }).join('');
+
+  // ── Testimonios ──────────────────────────────────────────────────
+  document.getElementById('testi-grid').innerHTML = CONFIG.testimonios.map((t,i) => `
+    <div class="testi-card rv d${i+1}">
+      <div class="testi-mark">"</div>
+      <p class="testi-q">${t.txt}</p>
+      <div class="testi-by">${t.by}</div>
+    </div>
+  `).join('');
+
+  // ── Textos editables (vale regalo / inversión / academy) ─────────
+  const T = CONFIG.textos || {};
+  if (T.valeRegaloTitulo) document.getElementById('txt-valeregalo-titulo').innerHTML = T.valeRegaloTitulo.replace(/\n/g, '<br>');
+  if (T.valeRegaloTexto) document.getElementById('txt-valeregalo-texto').textContent = T.valeRegaloTexto;
+  if (T.inversionTitulo) document.getElementById('txt-inversion-titulo').textContent = T.inversionTitulo;
+  if (T.inversionTexto) document.getElementById('txt-inversion-texto').textContent = T.inversionTexto;
+  if (T.academyTitulo) document.getElementById('txt-academy-titulo').textContent = T.academyTitulo;
+  if (T.academyTexto) document.getElementById('txt-academy-texto').textContent = T.academyTexto;
+
+  // ── Cuadros (galería de arte) ─────────────────────────────────────
+  document.getElementById('cuadros-grid').innerHTML = (CONFIG.cuadros || []).map(c => `
+    <div class="art-card">
+      <div class="art-img">${c.url ? `<img src="${c.url}" alt="${c.nombre||'Cuadro'}" style="width:100%;height:100%;object-fit:cover" loading="lazy">` : `<span class="art-badge">PRÓXIMAMENTE</span><span>★ ${c.meta||''}</span>`}</div>
+      <div class="art-body"><div class="art-name">${c.nombre||''}</div><div class="art-meta">${c.meta||''}</div></div>
+    </div>
+  `).join('');
+
+  // ── Galería completa ───────────────────────────────────────────────
+  document.getElementById('galeria-grid').innerHTML = (CONFIG.galeria || []).map(g => `
+    <div class="gal-card"><div class="gal-img"><img src="${g.url}" alt="Tatuaje SACRAVM — ${g.estilo||''}${g.desc?', '+g.desc:''}" loading="lazy"></div><div class="gal-body"><div class="gal-est">${g.estilo||''}</div><div class="gal-desc">${g.desc||''}</div></div></div>
+  `).join('');
+
+  // ── Reveal on scroll (incluye elementos recién creados) ──────────
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.rv').forEach(el => obs.observe(el));
+}
+
+// ── Enviar leads al servidor local (leads/leads.csv) ────────────────
+async function sendLead(payload) {
+  try {
+    const res = await fetch('/api/lead', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    if (!res.ok) throw new Error('status ' + res.status);
+    return { ok: true };
+  } catch (e) {
+    return { ok: false };
+  }
+}
+
+function waFallbackLink(payload) {
+  const txt = `Hola! Quiero reservar cita en SACRAVM.\nServicio: ${payload.servicio||'-'}\nFecha preferida: ${payload.fecha||'-'} ${payload.hora||''}\nNombre: ${payload.nombre||'-'}\nZona: ${payload.zona||'-'}\nTamaño: ${payload.tamano||'-'}\nIdea: ${payload.mensaje||'-'}`;
+  return 'https://wa.me/' + CONFIG.whatsapp.replace(/[^0-9]/g,'') + '?text=' + encodeURIComponent(txt);
+}
+
+// ── Formación (lista de espera) ──────────────────────────────────
+async function submitFormacion() {
+  const nombre = document.getElementById('form-nombre').value.trim();
+  const email = document.getElementById('form-email').value.trim();
+  if (!email) { document.getElementById('form-email').focus(); return; }
+  const insta = document.getElementById('form-insta').value.trim();
+  const payload = { tipo: 'formacion', nombre, email, instagram: insta, fecha_envio: new Date().toISOString() };
+  await sendLead(payload);
+  document.getElementById('form-formacion').style.display = 'none';
+  document.getElementById('form-ok').classList.add('show');
+}
+
+// ── Obras originales ────────────────────────────────────────────────
+async function submitObras() {
+  const nombre = document.getElementById('obras-nombre').value.trim();
+  const email = document.getElementById('obras-email').value.trim();
+  if (!email) { document.getElementById('obras-email').focus(); return; }
+  const mensaje = document.getElementById('obras-msg').value.trim();
+  const payload = { tipo: 'obras', nombre, email, mensaje, fecha_envio: new Date().toISOString() };
+  await sendLead(payload);
+  document.getElementById('obras-form').style.display = 'none';
+  document.getElementById('obras-ok').classList.add('show');
+}
+
+// ── Vale regalo ────────────────────────────────────────────────────
+let giftAmt = null;
+function giftSelectAmt(n) {
+  const customInput = document.getElementById('gift-custom-amt');
+  if (n === null) {
+    giftAmt = parseInt(customInput.value, 10) || null;
+    document.querySelectorAll('.gift-amt').forEach(b => b.classList.remove('sel'));
+    return;
+  }
+  giftAmt = n;
+  customInput.value = '';
+  document.querySelectorAll('.gift-amt').forEach(b => b.classList.toggle('sel', parseInt(b.textContent, 10) === n));
+}
+async function submitGiftCard() {
+  const nombre = document.getElementById('gift-nombre').value.trim();
+  const email = document.getElementById('gift-email').value.trim();
+  if (!giftAmt || giftAmt < 20) { document.getElementById('gift-custom-amt').focus(); return; }
+  if (!email) { document.getElementById('gift-email').focus(); return; }
+  const payload = {
+    tipo: 'vale-regalo', nombre, email,
+    servicio: 'Vale regalo ' + giftAmt + '€',
+    mensaje: (document.getElementById('gift-para').value.trim() ? 'Para: ' + document.getElementById('gift-para').value.trim() + '. ' : '') + document.getElementById('gift-msg').value.trim(),
+    fecha_envio: new Date().toISOString()
+  };
+  await sendLead(payload);
+  document.getElementById('gift-form').style.display = 'none';
+  const box = document.getElementById('gift-bizum');
+  if (CONFIG.bizum) {
+    box.innerHTML = `<strong>PARA CONFIRMAR TU VALE</strong><p>Envía ${giftAmt}€ por Bizum a <span>${CONFIG.bizum}</span><br>Concepto: <span>Vale regalo - ${nombre || 'tu nombre'}</span></p>`;
+  }
+  document.getElementById('gift-ok').classList.add('show');
+}
+
+// ── Experiences (consulta de bodas) ───────────────────────────────
+async function submitExperience() {
+  const nombre = document.getElementById('exp-nombre').value.trim();
+  const email = document.getElementById('exp-email').value.trim();
+  if (!email) { document.getElementById('exp-email').focus(); return; }
+  const tipo = document.getElementById('exp-tipo').value;
+  const fecha = document.getElementById('exp-fecha').value;
+  const notas = document.getElementById('exp-notas').value.trim();
+  const payload = { tipo: 'experience', nombre, email, servicio: tipo, fecha, mensaje: notas, fecha_envio: new Date().toISOString() };
+  await sendLead(payload);
+  document.getElementById('exp-form').style.display = 'none';
+  document.getElementById('exp-ok').classList.add('show');
+}
+
+// ── Scroll ─────────────────────────────────────────────────────────
+function scroll2(id) { document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+function goHome() { closeWizard(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+
+// ╔══════════════════════════════════════════════════════════════════╗
+// ║   ASISTENTE DE RESERVA (WIZARD) — experiencia interactiva        ║
+// ╚══════════════════════════════════════════════════════════════════╝
+let wz = { step: 1, servicio: null, fecha: null, hora: null, nombre: '', email: '', whatsapp: '', zona: '', tamano: '', bebida: '', mensaje: '', repeticion: 'No', fuente: 'Instagram', referencias: [] };
+
+// ── Referencias (imágenes redimensionadas antes de enviar) ─────────
+const WZ_MAX_REFS = 6;
+function wzResizeImage(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onerror = reject;
+    reader.onload = () => {
+      const img = new Image();
+      img.onerror = reject;
+      img.onload = () => {
+        const maxSide = 1000;
+        let { width, height } = img;
+        if (width > height && width > maxSide) { height = Math.round(height * (maxSide / width)); width = maxSide; }
+        else if (height >= width && height > maxSide) { width = Math.round(width * (maxSide / height)); height = maxSide; }
+        const canvas = document.createElement('canvas');
+        canvas.width = width; canvas.height = height;
+        canvas.getContext('2d').drawImage(img, 0, 0, width, height);
+        resolve({ name: file.name, dataUrl: canvas.toDataURL('image/jpeg', 0.72) });
+      };
+      img.src = reader.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+async function wzHandleReferencias(event) {
+  const files = Array.from(event.target.files || []);
+  const disponibles = WZ_MAX_REFS - wz.referencias.length;
+  if (disponibles <= 0) {
+    alert('Ya has subido el máximo de 6 imágenes de referencia.');
+    event.target.value = '';
+    return;
+  }
+  const aProcesar = files.slice(0, disponibles);
+  if (files.length > disponibles) alert('Solo se admiten hasta 6 imágenes de referencia — se han añadido las primeras ' + disponibles + '.');
+  for (const file of aProcesar) {
+    try {
+      const item = await wzResizeImage(file);
+      wz.referencias.push(item);
+    } catch (e) { /* imagen no válida, se ignora */ }
+  }
+  event.target.value = '';
+  renderWzRefPreview();
+}
+function wzRemoveReferencia(idx) {
+  wz.referencias.splice(idx, 1);
+  renderWzRefPreview();
+}
+function renderWzRefPreview() {
+  document.getElementById('wz-ref-preview').innerHTML = wz.referencias.map((r, i) => `
+    <div class="wz-ref-thumb"><img src="${r.dataUrl}" alt="Referencia ${i + 1}"><button type="button" onclick="wzRemoveReferencia(${i})">✕</button></div>
+  `).join('');
+  document.getElementById('wz-ref-count').textContent = wz.referencias.length + ' / ' + WZ_MAX_REFS + ' imágenes';
+}
+
+function renderWzServices() {
+  const opciones = [...CONFIG.servicios, { nombre: 'Consulta general', ideal: 'No sabes qué servicio elegir todavía', precio: '' }];
+  document.getElementById('wz-services').innerHTML = opciones.map(s => `
+    <button type="button" class="wz-svc-card ${wz.servicio===s.nombre?'sel':''}" onclick="wzSelectServicio('${s.nombre.replace(/'/g,"\\'")}')">
+      <strong>${s.nombre}</strong>
+      <span>${s.ideal||''}</span>
+      ${s.precio ? `<em>${s.precio}</em>` : ''}
+    </button>
+  `).join('');
+}
+function wzSelectServicio(nombre) { wz.servicio = nombre; renderWzServices(); }
+
+function renderWzHorarios() {
+  document.getElementById('wz-horarios').innerHTML = CONFIG.horarios.map(h => `
+    <button type="button" class="wz-hora ${wz.hora===h?'sel':''}" onclick="wzSelectHora('${h}')">${h}</button>
+  `).join('');
+}
+function wzSelectHora(h) { wz.hora = h; renderWzHorarios(); }
+
+function renderWzSummary() {
+  document.getElementById('wz-summary').innerHTML = `
+    <div><strong>Servicio:</strong> ${wz.servicio}</div>
+    <div><strong>Fecha:</strong> ${wz.fecha || '-'} ${wz.hora ? 'a las ' + wz.hora : ''}</div>
+    <div><strong>Nombre:</strong> ${wz.nombre}</div>
+    <div><strong>Email:</strong> ${wz.email}</div>
+    <div><strong>WhatsApp:</strong> ${wz.whatsapp || '-'}</div>
+    ${wz.zona ? `<div><strong>Zona:</strong> ${wz.zona}</div>` : ''}
+    ${wz.tamano ? `<div><strong>Tamaño:</strong> ${wz.tamano}</div>` : ''}
+    ${wz.bebida ? `<div><strong>Bebida:</strong> ${wz.bebida}</div>` : ''}
+    ${wz.mensaje ? `<div><strong>Idea:</strong> ${wz.mensaje}</div>` : ''}
+    <div><strong>¿Ya te has tatuado conmigo?:</strong> ${wz.repeticion}</div>
+    <div><strong>¿Por dónde me has conocido?:</strong> ${wz.fuente}</div>
+    ${wz.referencias.length ? `<div><strong>Referencias:</strong> ${wz.referencias.length} imágenes de referencia adjuntas</div>` : ''}
+  `;
+}
+
+function showWzStep(n) {
+  ['wz-s1','wz-s2','wz-s3','wz-s4','wz-s5','wz-success'].forEach(id => document.getElementById(id).style.display = 'none');
+  if (n === 'success') {
+    document.getElementById('wz-success').style.display = 'block';
+    document.querySelectorAll('.wp-dot').forEach(d => d.classList.add('done'));
+    return;
+  }
+  document.getElementById('wz-s' + n).style.display = 'block';
+  document.querySelectorAll('.wp-dot').forEach(d => {
+    const s = +d.dataset.s;
+    d.classList.toggle('active', s === n);
+    d.classList.toggle('done', s < n);
+  });
+  if (n === 2) renderWzHorarios();
+  if (n === 5) renderWzSummary();
+}
+
+async function goBook(preselectServicio) {
+  await contentReady;
+  wz = { step: 1, servicio: preselectServicio || null, fecha: null, hora: null, nombre: '', email: '', whatsapp: '', zona: '', tamano: '', bebida: '', mensaje: '', repeticion: 'No', fuente: 'Instagram', referencias: [] };
+  renderWzServices();
+  const fechaInput = document.getElementById('wz-fecha');
+  const diasMax = CONFIG.diasMaxReserva || 45;
+  const maxD = new Date();
+  maxD.setDate(maxD.getDate() + diasMax);
+  fechaInput.min = new Date().toISOString().split('T')[0];
+  fechaInput.max = maxD.toISOString().split('T')[0];
+  fechaInput.value = '';
+  document.getElementById('wz-nombre').value = '';
+  document.getElementById('wz-email').value = '';
+  document.getElementById('wz-whatsapp').value = '';
+  document.getElementById('wz-zona').value = '';
+  document.getElementById('wz-tamano').value = '';
+  document.getElementById('wz-bebida').value = '';
+  document.getElementById('wz-mensaje').value = '';
+  document.getElementById('wz-repeticion').value = 'No';
+  document.getElementById('wz-fuente').value = 'Instagram';
+  document.getElementById('wz-referencias').value = '';
+  renderWzRefPreview();
+  document.getElementById('wz-overlay').classList.add('show');
+  document.body.classList.add('wz-lock');
+  showWzStep(preselectServicio ? 2 : 1);
+}
+
+function closeWizard() {
+  document.getElementById('wz-overlay').classList.remove('show');
+  document.body.classList.remove('wz-lock');
+}
+
+function wzNext() {
+  if (wz.step === 1) {
+    if (!wz.servicio) { renderWzServices(); return; }
+    wz.step = 2; showWzStep(2); return;
+  }
+  if (wz.step === 2) {
+    wz.fecha = document.getElementById('wz-fecha').value;
+    const err = document.getElementById('wz-err-2');
+    if (!wz.fecha || !wz.hora) { err.textContent = 'Elige una fecha y una hora para continuar.'; return; }
+    err.textContent = '';
+    wz.step = 3; showWzStep(3); return;
+  }
+  if (wz.step === 3) {
+    wz.nombre = document.getElementById('wz-nombre').value.trim();
+    wz.email = document.getElementById('wz-email').value.trim();
+    wz.whatsapp = document.getElementById('wz-whatsapp').value.trim();
+    wz.mensaje = document.getElementById('wz-mensaje').value.trim();
+    const err = document.getElementById('wz-err-3');
+    if (!wz.nombre || !wz.email || !wz.mensaje) { err.textContent = 'Nombre, email e idea del tattoo son necesarios para confirmarte la cita.'; return; }
+    err.textContent = '';
+    wz.step = 4; showWzStep(4); return;
+  }
+  if (wz.step === 4) {
+    wz.zona = document.getElementById('wz-zona').value.trim();
+    wz.tamano = document.getElementById('wz-tamano').value.trim();
+    wz.bebida = document.getElementById('wz-bebida').value.trim();
+    wz.repeticion = document.getElementById('wz-repeticion').value;
+    wz.fuente = document.getElementById('wz-fuente').value;
+    const err = document.getElementById('wz-err-4');
+    if (!wz.zona) { err.textContent = 'Cuéntame al menos la zona — me ayuda a preparar tu sesión.'; return; }
+    err.textContent = '';
+    wz.step = 5; showWzStep(5); return;
+  }
+}
+function wzBack() {
+  if (wz.step > 1) { wz.step -= 1; showWzStep(wz.step); }
+}
+
+async function wzSubmit() {
+  const btn = document.getElementById('wz-submit-btn');
+  const err = document.getElementById('wz-err-5');
+  btn.textContent = 'ENVIANDO...'; btn.disabled = true;
+  const payload = {
+    tipo: 'reserva',
+    servicio: wz.servicio, fecha: wz.fecha, hora: wz.hora,
+    nombre: wz.nombre, email: wz.email, whatsapp: wz.whatsapp, mensaje: wz.mensaje,
+    zona: wz.zona, tamano: wz.tamano, bebida: wz.bebida,
+    ya_tatuado: wz.repeticion, fuente: wz.fuente,
+    referencias: wz.referencias.map(r => r.dataUrl),
+    fecha_envio: new Date().toISOString()
+  };
+  const result = await sendLead(payload);
+  btn.textContent = 'ENVIAR SOLICITUD →'; btn.disabled = false;
+  if (result.ok) {
+    document.getElementById('wz-success-title').textContent = 'Solicitud enviada';
+    document.getElementById('wz-success-msg').textContent = 'Te contactaré por WhatsApp en menos de 24h para confirmar fecha y fianza.';
+    const bizumBox = document.getElementById('wz-bizum-box');
+    if (CONFIG.bizum) {
+      bizumBox.style.display = 'block';
+      bizumBox.innerHTML = `<strong>PARA CONFIRMAR TU CITA</strong><p>Envía la fianza por Bizum a <span>${CONFIG.bizum}</span><br>Concepto: <span>${wz.nombre || 'tu nombre'} - cita</span><br><br>¿Prefieres abonar la sesión completa por adelantado? También puedes hacerlo por Bizum — dímelo por WhatsApp y te paso el importe exacto.</p>`;
+    } else {
+      bizumBox.style.display = 'none';
+    }
+    showWzStep('success');
+  } else {
+    // Fallback: si la web no tiene el servidor de leads corriendo, abrimos WhatsApp con todo ya escrito
+    document.getElementById('wz-success-title').textContent = 'Casi listo';
+    document.getElementById('wz-success-msg').textContent = 'Te abrimos WhatsApp con tu solicitud ya escrita — solo tienes que enviarla.';
+    showWzStep('success');
+    window.open(waFallbackLink(payload), '_blank');
+  }
+}
+
+// Cerrar con tecla ESC
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeWizard(); closeLeadPopup(); } });
+
+// ╔══════════════════════════════════════════════════════════════════╗
+// ║   POP-UP DE CAPTACIÓN — aparece a los 60s, mini-quiz de 3 pasos   ║
+// ╚══════════════════════════════════════════════════════════════════╝
+const LP_MOTIVOS = [
+  { id: 'cita', label: 'Tatuarme' },
+  { id: 'formarme', label: 'Formarme en la Academy' },
+  { id: 'regalo', label: 'Vengo a por un vale regalo' }
+];
+const LP_PREFS = [
+  { id: 'historia', label: 'Que cuente una historia, con significado especial' },
+  { id: 'estetica', label: 'Busco más la estética, el resultado visual' }
+];
+const LP_OFFERS = {
+  cita:      { title: 'Prioridad en la agenda, solo para ti',   msg: 'Te aviso antes que a nadie cuando se libere un hueco — antes de que se publique en Instagram.' },
+  formarme:  { title: 'Acceso anticipado a la Academy',         msg: 'Serás de los primeros en enterarte cuando abramos inscripciones, con condiciones especiales de lanzamiento.' },
+  regalo:    { title: 'Prioridad en vales regalo',              msg: 'Te aviso en cuanto tu vale esté listo y te doy prioridad si hay lista de espera.' }
+};
+let lp = { motivo: null, pref: null };
+
+function maybeShowLeadPopup() {
+  if (sessionStorage.getItem('sacravm_lp_shown')) return;
+  setTimeout(() => {
+    if (sessionStorage.getItem('sacravm_lp_shown')) return;
+    if (document.getElementById('wz-overlay').classList.contains('show')) return;
+    openLeadPopup();
+  }, 60000);
+}
+function openLeadPopup() {
+  sessionStorage.setItem('sacravm_lp_shown', '1');
+  renderLpOpts('lp-opts-1', LP_MOTIVOS, 'motivo');
+  renderLpOpts('lp-opts-2', LP_PREFS, 'pref');
+  document.getElementById('lp-overlay').classList.add('show');
+  showLpStep(1);
+}
+function closeLeadPopup() {
+  const el = document.getElementById('lp-overlay');
+  if (el) el.classList.remove('show');
+}
+function renderLpOpts(containerId, items, key) {
+  document.getElementById(containerId).innerHTML = items.map(it => `
+    <button type="button" class="lp-opt ${lp[key] === it.id ? 'sel' : ''}" onclick="lpSelect('${key}','${it.id}')">${it.label}</button>
+  `).join('');
+}
+function lpSelect(key, id) {
+  lp[key] = id;
+  if (key === 'motivo') {
+    renderLpOpts('lp-opts-1', LP_MOTIVOS, 'motivo');
+    setTimeout(() => showLpStep(2), 200);
+  } else {
+    renderLpOpts('lp-opts-2', LP_PREFS, 'pref');
+    setTimeout(() => showLpStep(3), 200);
+  }
+}
+function showLpStep(n) {
+  ['lp-s1', 'lp-s2', 'lp-s3', 'lp-success'].forEach(id => document.getElementById(id).style.display = 'none');
+  if (n === 'success') { document.getElementById('lp-success').style.display = 'block'; return; }
+  document.getElementById('lp-s' + n).style.display = 'block';
+  document.querySelectorAll('.lp-dot').forEach(d => {
+    const s = +d.dataset.s;
+    d.classList.toggle('active', s === n);
+    d.classList.toggle('done', s < n);
+  });
+  if (n === 3) {
+    const offer = LP_OFFERS[lp.motivo] || LP_OFFERS.cita;
+    document.getElementById('lp-offer-title').textContent = offer.title;
+    document.getElementById('lp-offer-msg').textContent = offer.msg;
+  }
+}
+async function submitLeadPopup() {
+  const nombre = document.getElementById('lp-nombre').value.trim();
+  const email = document.getElementById('lp-email').value.trim();
+  if (!email) { document.getElementById('lp-email').focus(); return; }
+  const offer = LP_OFFERS[lp.motivo] || LP_OFFERS.cita;
+  const payload = { tipo: 'popup', nombre, email, servicio: lp.motivo, mensaje: 'Preferencia: ' + (lp.pref || ''), fecha_envio: new Date().toISOString() };
+  await sendLead(payload);
+  document.getElementById('lp-success-msg').textContent = offer.msg;
+  showLpStep('success');
+}
+maybeShowLeadPopup();
+</script>
+</body>
+</html>
