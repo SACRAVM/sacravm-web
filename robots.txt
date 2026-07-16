@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://sacravm.com/sitemap.xml
+Sitemap: https://sacravm-web.onrender.com/sitemap.xml

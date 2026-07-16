@@ -126,7 +126,7 @@ const DEFAULT_CONTENT = {
   experiencesFotos: [],
   textos: {
     valeRegaloTitulo: 'Regala algo único.\nY para siempre.',
-    valeRegaloTexto: 'Unas flores se marchitan. Una cena se olvida. Un tatuaje de SACRAVM se queda para siempre — y lleva tu gesto dentro. Elige un importe, yo me encargo del resto.',
+    valeRegaloTexto: 'Unas flores se marchitan. Una cena se olvida. Un tatuaje de SACRAVM se queda para siempre — y lleva tu gesto dentro. Elige un importe, desde SACRAVM nos encargamos del resto.',
     inversionTitulo: 'Cada formato, pensado para que el resultado esté a la altura',
     inversionTexto: 'El diseño se prepara en exclusiva el día de tu cita. La señal confirma tu plaza y se descuenta del total — el resto se abona al cerrar la sesión.',
     academyTitulo: 'Domina el oficio con quien ya se lo juega en piel real.',
@@ -576,6 +576,7 @@ const server = http.createServer(async (req, res) => {
     let filePath = pathname;
     if (filePath === '/') filePath = '/index.html';
     if (filePath === '/admin') filePath = '/admin.html';
+    if (filePath === '/academy') filePath = '/academy.html';
     filePath = path.join(ROOT, decodeURIComponent(filePath));
     if (!filePath.startsWith(ROOT)) { res.writeHead(403); res.end('Prohibido'); return; }
 
