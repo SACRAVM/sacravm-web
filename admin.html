@@ -59,7 +59,28 @@ input,select,textarea,button{font-family:var(--sans)}
 .field-label{font-size:10px;letter-spacing:.14em;color:var(--t3);font-weight:600;margin:0 0 6px}
 .card{background:var(--w);border:1px solid var(--bdr);border-radius:8px;padding:22px;margin-bottom:16px;box-shadow:var(--sh)}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
 textarea.fi{height:80px;padding:10px 13px;resize:vertical}
+
+/* ── Asistente de ficha (pasos) ─── */
+.fsteps{display:flex;border-radius:8px;overflow:hidden;border:1px solid var(--bdr);margin-bottom:20px}
+.fstep-item{flex:1;padding:10px 8px;text-align:center;background:var(--s1);cursor:pointer;transition:all .15s;border-right:1px solid var(--bdr)}
+.fstep-item:last-child{border-right:none}
+.fstep-item.cur{background:var(--aLt);border-bottom:2px solid var(--a)}
+.fstep-item.done{background:rgba(63,122,78,.06)}
+.fstep-n{font-size:11px;font-weight:600;color:var(--a);margin-bottom:2px}
+.fstep-l{font-size:10px;color:var(--t2);letter-spacing:.04em}
+.fstep-item.done .fstep-n,.fstep-item.done .fstep-l{color:var(--ok)}
+.fstep-body{display:none}
+.fstep-body.active{display:block}
+.ftog-row{display:flex;gap:8px}
+.ftog{flex:1;height:38px;border:1px solid var(--bdr);border-radius:6px;background:transparent;color:var(--t2);font-size:12px;cursor:pointer;transition:all .15s;font-family:var(--sans)}
+.ftog:hover{border-color:var(--bdr2);color:var(--tx)}
+.ftog.on-gold{border-color:var(--a);background:var(--aLt);color:var(--a)}
+.ftog.on-gr{border-color:var(--ok);background:rgba(63,122,78,.08);color:var(--ok)}
+.ftog.on-re{border-color:var(--err);background:rgba(181,71,58,.08);color:var(--err)}
+.fresumen{margin-top:16px;padding:14px 16px;background:var(--aLt);border:1px solid var(--aBdr);border-radius:8px;font-size:12px;color:var(--t2);line-height:1.9}
+.fform-nav{display:flex;gap:8px;margin-top:18px;justify-content:space-between}
 
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
 .chip{display:inline-flex;align-items:center;gap:8px;background:var(--s1);border:1px solid var(--bdr2);border-radius:20px;padding:7px 8px 7px 16px;font-size:12px}
@@ -619,51 +640,186 @@ async function loadLeads() {
     </div>
     <div class="panel-desc">Se guardan también en el archivo leads/leads.csv, por si prefieres abrirlo en Excel.</div>
     <div class="card" id="ficha-panel" style="display:none">
-      <p class="field-label">NOMBRE</p><input class="fi" id="fc-nombre" placeholder="Nombre del cliente">
-      <div class="row2">
-        <div><p class="field-label">EMAIL</p><input class="fi" id="fc-email" placeholder="email@..."></div>
-        <div><p class="field-label">TELÉFONO / WHATSAPP</p><input class="fi" id="fc-tel" placeholder="+34 600 000 000"></div>
+      <div class="fsteps">
+        <div class="fstep-item cur" id="fstep-tab-0" onclick="goFichaStep(0)"><div class="fstep-n" id="fstep-n-0">1</div><div class="fstep-l">Datos</div></div>
+        <div class="fstep-item" id="fstep-tab-1" onclick="goFichaStep(1)"><div class="fstep-n" id="fstep-n-1">2</div><div class="fstep-l">Tattoo</div></div>
+        <div class="fstep-item" id="fstep-tab-2" onclick="goFichaStep(2)"><div class="fstep-n" id="fstep-n-2">3</div><div class="fstep-l">Cita</div></div>
+        <div class="fstep-item" id="fstep-tab-3" onclick="goFichaStep(3)"><div class="fstep-n" id="fstep-n-3">4</div><div class="fstep-l">Notas</div></div>
       </div>
-      <p class="field-label">IDEA DEL TATTOO</p><textarea class="fi" id="fc-idea" placeholder="Qué quiere tatuarse, referencias, zona..."></textarea>
-      <div class="row2">
-        <div><p class="field-label">FECHA DE LA CITA (opcional — bloquea el hueco en el calendario público)</p><input class="fi" type="date" id="fc-fecha"></div>
-        <div><p class="field-label">HORA</p><input class="fi" id="fc-hora" placeholder="ej. 12:00"></div>
+
+      <div class="fstep-body active" id="fstep-0">
+        <div class="row2">
+          <div><p class="field-label">NOMBRE</p><input class="fi" id="fc-nombre" placeholder="Nombre del cliente"></div>
+          <div><p class="field-label">EMAIL</p><input class="fi" id="fc-email" placeholder="email@..."></div>
+        </div>
+        <p class="field-label">TELÉFONO / WHATSAPP</p><input class="fi" id="fc-tel" placeholder="+34 600 000 000">
+        <div class="row2">
+          <div><p class="field-label">¿CÓMO NOS CONOCIÓ?</p>
+            <select class="fi" id="fc-fuente">
+              <option value="">Selecciona...</option>
+              <option value="Instagram">Instagram</option>
+              <option value="Recomendación">Recomendación de alguien</option>
+              <option value="Google">Google / búsqueda</option>
+              <option value="Vio un tatuaje">Vio un tatuaje en persona</option>
+              <option value="Cuadros">Por los cuadros</option>
+              <option value="Academy">Por la Academy</option>
+              <option value="Otro">Otro</option>
+            </select>
+          </div>
+          <div><p class="field-label">¿ES SU PRIMERA VISITA?</p>
+            <div class="ftog-row">
+              <button class="ftog on-gold" id="fc-tog-nuevo" onclick="setFichaNuevo(true)">Primera visita</button>
+              <button class="ftog" id="fc-tog-rec" onclick="setFichaNuevo(false)">Recurrente</button>
+            </div>
+          </div>
+        </div>
+        <div class="fform-nav"><span></span><button class="btn-p" style="width:auto;padding:10px 24px" onclick="goFichaStep(1)">Siguiente →</button></div>
       </div>
-      <p class="field-label">NOTAS (opcional)</p><input class="fi" id="fc-notas" placeholder="Cómo os conocisteis, cuándo habló contigo, lo que quieras recordar">
-      <div class="auth-msg" id="ficha-msg"></div>
-      <button class="btn-p" id="btn-save-ficha" style="width:auto;padding:12px 28px">GUARDAR FICHA</button>
+
+      <div class="fstep-body" id="fstep-1">
+        <p class="field-label">IDEA DEL TATTOO</p><textarea class="fi" id="fc-idea" placeholder="Qué quiere tatuarse, referencias, zona, significado…"></textarea>
+        <div class="row3" style="margin-top:14px">
+          <div><p class="field-label">ZONA</p><input class="fi" id="fc-zona" placeholder="Brazo, costado…"></div>
+          <div><p class="field-label">TAMAÑO</p><input class="fi" id="fc-tamano" placeholder="Ej. 15x10cm"></div>
+          <div><p class="field-label">FIANZA</p>
+            <div class="ftog-row">
+              <button class="ftog" id="fc-tog-fok" onclick="setFichaFianza(true)">✓ Cobrada</button>
+              <button class="ftog on-re" id="fc-tog-fno" onclick="setFichaFianza(false)">○ Pendiente</button>
+            </div>
+          </div>
+        </div>
+        <div class="fform-nav"><button class="btn-o" onclick="goFichaStep(0)">← Atrás</button><button class="btn-p" style="width:auto;padding:10px 24px" onclick="goFichaStep(2)">Siguiente →</button></div>
+      </div>
+
+      <div class="fstep-body" id="fstep-2">
+        <div class="row2">
+          <div><p class="field-label">FECHA DE LA CITA (bloquea el hueco en el calendario público)</p><input class="fi" type="date" id="fc-fecha"></div>
+          <div><p class="field-label">HORA</p><input class="fi" id="fc-hora" placeholder="ej. 12:00"></div>
+        </div>
+        <p class="field-label">SERVICIO</p><input class="fi" id="fc-servicio" placeholder="Micro-realismo, Fine line…">
+        <div class="fform-nav"><button class="btn-o" onclick="goFichaStep(1)">← Atrás</button><button class="btn-p" style="width:auto;padding:10px 24px" onclick="goFichaStep(3)">Siguiente →</button></div>
+      </div>
+
+      <div class="fstep-body" id="fstep-3">
+        <p class="field-label">NOTAS GENERALES</p><textarea class="fi" id="fc-notas" placeholder="Cómo os conocisteis, cuándo habló contigo, alergias, lo que quieras recordar"></textarea>
+        <div class="fresumen" id="fc-resumen"></div>
+        <div class="auth-msg" id="ficha-msg"></div>
+        <div class="fform-nav"><button class="btn-o" onclick="goFichaStep(2)">← Atrás</button><button class="btn-p" id="btn-save-ficha" style="width:auto;padding:12px 28px">GUARDAR FICHA</button></div>
+      </div>
+    </div>
+    <div class="card" id="lead-edit-panel" style="display:none">
+      <div class="intake-hd" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+        <span class="intake-t" style="font-size:11px;letter-spacing:.1em;color:var(--a);font-weight:600">EDITANDO LEAD</span>
+        <button class="intake-x" onclick="closeEditLead()" style="background:none;border:none;color:var(--t3);cursor:pointer;font-size:16px">✕</button>
+      </div>
+      <div class="row2">
+        <div><p class="field-label">NOMBRE</p><input class="fi" id="le-nombre"></div>
+        <div><p class="field-label">EMAIL</p><input class="fi" id="le-email"></div>
+      </div>
+      <div class="row2">
+        <div><p class="field-label">WHATSAPP</p><input class="fi" id="le-whatsapp"></div>
+        <div><p class="field-label">SERVICIO</p><input class="fi" id="le-servicio"></div>
+      </div>
+      <div class="row2">
+        <div><p class="field-label">FECHA CITA</p><input class="fi" type="date" id="le-fecha"></div>
+        <div><p class="field-label">HORA</p><input class="fi" id="le-hora" placeholder="ej. 12:00"></div>
+      </div>
+      <div class="row2">
+        <div><p class="field-label">ZONA</p><input class="fi" id="le-zona"></div>
+        <div><p class="field-label">TAMAÑO</p><input class="fi" id="le-tamano"></div>
+      </div>
+      <div class="row2">
+        <div><p class="field-label">¿YA TATUADO CONMIGO?</p><input class="fi" id="le-yatatuado"></div>
+        <div><p class="field-label">CÓMO TE CONOCIÓ</p><input class="fi" id="le-fuente"></div>
+      </div>
+      <p class="field-label">MENSAJE / IDEA</p><textarea class="fi" id="le-mensaje"></textarea>
+      <div class="auth-msg" id="lead-edit-msg"></div>
+      <button class="btn-p" id="btn-save-lead-edit" style="width:auto;padding:12px 28px">GUARDAR CAMBIOS</button>
     </div>
     <div id="leads-table-wrap"><div class="empty-note">Cargando…</div></div>
   `;
+  document.getElementById('btn-save-lead-edit').onclick = saveLeadEdit;
   document.getElementById('btn-toggle-ficha').onclick = () => {
     const p = document.getElementById('ficha-panel');
-    p.style.display = p.style.display === 'none' ? 'block' : 'none';
+    const opening = p.style.display === 'none';
+    p.style.display = opening ? 'block' : 'none';
+    if (opening) resetFichaForm();
   };
   document.getElementById('btn-save-ficha').onclick = saveFicha;
   await renderLeadsTable();
 }
 
+let fichaNuevo = true, fichaFianza = false;
+function resetFichaForm() {
+  fichaNuevo = true; fichaFianza = false;
+  ['fc-nombre','fc-email','fc-tel','fc-idea','fc-zona','fc-tamano','fc-fecha','fc-hora','fc-servicio','fc-notas'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+  document.getElementById('fc-fuente').value = '';
+  document.getElementById('fc-tog-nuevo').className = 'ftog on-gold';
+  document.getElementById('fc-tog-rec').className = 'ftog';
+  document.getElementById('fc-tog-fok').className = 'ftog';
+  document.getElementById('fc-tog-fno').className = 'ftog on-re';
+  document.getElementById('ficha-msg').textContent = '';
+  goFichaStep(0);
+}
+function setFichaNuevo(v) {
+  fichaNuevo = v;
+  document.getElementById('fc-tog-nuevo').className = 'ftog ' + (v ? 'on-gold' : '');
+  document.getElementById('fc-tog-rec').className = 'ftog ' + (!v ? 'on-gold' : '');
+}
+function setFichaFianza(v) {
+  fichaFianza = v;
+  document.getElementById('fc-tog-fok').className = 'ftog ' + (v ? 'on-gr' : '');
+  document.getElementById('fc-tog-fno').className = 'ftog ' + (!v ? 'on-re' : '');
+}
+function goFichaStep(n) {
+  document.querySelectorAll('.fstep-body').forEach((s, i) => s.classList.toggle('active', i === n));
+  document.querySelectorAll('.fstep-item').forEach((s, i) => {
+    s.classList.remove('cur', 'done');
+    if (i === n) s.classList.add('cur');
+    else if (i < n) s.classList.add('done');
+    document.getElementById('fstep-n-' + i).textContent = i < n ? '✓' : (i + 1);
+  });
+  if (n === 3) buildFichaResumen();
+}
+function buildFichaResumen() {
+  const nombre = document.getElementById('fc-nombre').value.trim() || '(sin nombre)';
+  const email = document.getElementById('fc-email').value.trim() || '—';
+  const fecha = document.getElementById('fc-fecha').value;
+  const hora = document.getElementById('fc-hora').value.trim();
+  const zona = document.getElementById('fc-zona').value.trim();
+  const fuente = document.getElementById('fc-fuente').value;
+  document.getElementById('fc-resumen').innerHTML = `
+    <strong style="color:var(--tx)">${esc(nombre)}</strong> · ${esc(email)}<br>
+    ${fichaNuevo ? 'Primera visita' : 'Recurrente'} · ${fuente ? esc(fuente) : 'Fuente sin indicar'}<br>
+    Cita: <strong style="color:var(--a)">${fecha || 'sin fecha'}${hora ? ' a las ' + esc(hora) : ''}</strong> · Fianza: ${fichaFianza ? '✓ cobrada' : 'pendiente'}
+    ${zona ? '<br>Zona: ' + esc(zona) : ''}
+  `;
+}
 async function saveFicha() {
   const nombre = document.getElementById('fc-nombre').value.trim();
   const email = document.getElementById('fc-email').value.trim();
   const tel = document.getElementById('fc-tel').value.trim();
   const idea = document.getElementById('fc-idea').value.trim();
+  const zona = document.getElementById('fc-zona').value.trim();
+  const tamano = document.getElementById('fc-tamano').value.trim();
   const fecha = document.getElementById('fc-fecha').value;
   const hora = document.getElementById('fc-hora').value.trim();
+  const servicio = document.getElementById('fc-servicio').value.trim();
+  const fuente = document.getElementById('fc-fuente').value;
   const notas = document.getElementById('fc-notas').value.trim();
   const msg = document.getElementById('ficha-msg');
-  if (!nombre && !email && !tel) { msg.textContent = 'Rellena al menos el nombre, el email o el teléfono.'; return; }
+  if (!nombre && !email && !tel) { msg.textContent = 'Rellena al menos el nombre, el email o el teléfono.'; goFichaStep(0); return; }
   const payload = {
     tipo: fecha ? 'reserva' : 'manual', nombre, email, whatsapp: tel,
-    fecha, hora,
+    fecha, hora, servicio, zona, tamano,
+    ya_tatuado: fichaNuevo ? 'No' : 'Sí',
+    estado_fianza: fichaFianza ? 'pagada' : '',
     mensaje: idea + (notas ? ' — Notas: ' + notas : ''),
-    fuente: 'Ficha manual (admin)',
+    fuente: fuente || 'Ficha manual (admin)',
   };
   const res = await fetch('/api/lead', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
   const data = await res.json();
   if (!data.ok) { msg.textContent = 'No se pudo guardar. Inténtalo de nuevo.'; return; }
-  ['fc-nombre','fc-email','fc-tel','fc-idea','fc-fecha','fc-hora','fc-notas'].forEach(id => document.getElementById(id).value = '');
-  msg.textContent = '';
   document.getElementById('ficha-panel').style.display = 'none';
   flashSaved('✓ Ficha guardada');
   await renderLeadsTable();
@@ -677,10 +833,64 @@ async function toggleFianza(btn) {
   await renderLeadsTable();
 }
 
+let editingLeadRow = null;
+function openEditLead(rowIndex) {
+  const lead = currentLeads.find(l => l._row === rowIndex);
+  if (!lead) return;
+  editingLeadRow = rowIndex;
+  document.getElementById('le-nombre').value = lead.nombre || '';
+  document.getElementById('le-email').value = lead.email || '';
+  document.getElementById('le-whatsapp').value = lead.whatsapp || '';
+  document.getElementById('le-servicio').value = lead.servicio || '';
+  document.getElementById('le-fecha').value = lead.fecha_cita || '';
+  document.getElementById('le-hora').value = lead.hora_cita || '';
+  document.getElementById('le-zona').value = lead.zona || '';
+  document.getElementById('le-tamano').value = lead.tamano || '';
+  document.getElementById('le-yatatuado').value = lead.ya_tatuado || '';
+  document.getElementById('le-fuente').value = lead.fuente || '';
+  document.getElementById('le-mensaje').value = lead.mensaje || '';
+  document.getElementById('lead-edit-msg').textContent = '';
+  const panel = document.getElementById('lead-edit-panel');
+  panel.style.display = 'block';
+  panel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+function closeEditLead() {
+  editingLeadRow = null;
+  document.getElementById('lead-edit-panel').style.display = 'none';
+}
+async function saveLeadEdit() {
+  if (editingLeadRow === null) return;
+  const fields = {
+    nombre: document.getElementById('le-nombre').value.trim(),
+    email: document.getElementById('le-email').value.trim(),
+    whatsapp: document.getElementById('le-whatsapp').value.trim(),
+    servicio: document.getElementById('le-servicio').value.trim(),
+    fecha_cita: document.getElementById('le-fecha').value,
+    hora_cita: document.getElementById('le-hora').value.trim(),
+    zona: document.getElementById('le-zona').value.trim(),
+    tamano: document.getElementById('le-tamano').value.trim(),
+    ya_tatuado: document.getElementById('le-yatatuado').value.trim(),
+    fuente: document.getElementById('le-fuente').value.trim(),
+    mensaje: document.getElementById('le-mensaje').value.trim(),
+  };
+  const msg = document.getElementById('lead-edit-msg');
+  const btn = document.getElementById('btn-save-lead-edit');
+  btn.disabled = true; btn.textContent = 'GUARDANDO…';
+  const res = await fetch('/api/lead-edit', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ rowIndex: editingLeadRow, fields }) });
+  const data = await res.json();
+  btn.disabled = false; btn.textContent = 'GUARDAR CAMBIOS';
+  if (!data.ok) { msg.textContent = 'No se pudo guardar. Inténtalo de nuevo.'; return; }
+  closeEditLead();
+  flashSaved('✓ Lead actualizado');
+  await renderLeadsTable();
+}
+
+let currentLeads = [];
 async function renderLeadsTable() {
   const res = await fetch('/api/leads');
   const data = await res.json();
   const leads = (data.leads || []);
+  currentLeads = leads;
   document.getElementById('leads-title').textContent = 'Leads (' + leads.length + ')';
   const wrap = document.getElementById('leads-table-wrap');
   if (!leads.length) {
@@ -690,7 +900,7 @@ async function renderLeadsTable() {
   wrap.innerHTML = `
     <div class="card" style="overflow-x:auto">
       <table class="leads-table">
-        <thead><tr><th>Fecha</th><th>Tipo</th><th>Nombre</th><th>Email</th><th>WhatsApp</th><th>Servicio</th><th>Cita</th><th>Mensaje</th><th>Fianza</th></tr></thead>
+        <thead><tr><th>Fecha</th><th>Tipo</th><th>Nombre</th><th>Email</th><th>WhatsApp</th><th>Servicio</th><th>Cita</th><th>Mensaje</th><th>Fianza</th><th></th></tr></thead>
         <tbody>
           ${leads.map(l => `
             <tr>
@@ -703,6 +913,7 @@ async function renderLeadsTable() {
               <td>${esc(l.fecha_cita)} ${esc(l.hora_cita)}</td>
               <td>${esc(l.mensaje || l.instagram)}</td>
               <td>${l.tipo === 'reserva' ? `<button class="btn-o" style="padding:5px 10px;font-size:10px" data-row="${l._row}" data-estado="${esc(l.estado_fianza)}" onclick="toggleFianza(this)">${l.estado_fianza === 'pagada' ? '✓ Pagada' : '○ Pendiente'}</button>` : ''}</td>
+              <td><button class="btn-o" style="padding:5px 10px;font-size:10px" onclick="openEditLead(${l._row})">✎ Editar</button></td>
             </tr>
           `).join('')}
         </tbody>

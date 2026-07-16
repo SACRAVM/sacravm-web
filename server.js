@@ -148,7 +148,7 @@ function appendLead(data, referenciasPaths) {
     data.zona || '', data.tamano || '', data.bebida || '', data.ya_tatuado || '', data.fuente || '',
     data.tier || '', data.fianza || '',
     (referenciasPaths || []).join(';'),
-    '', // estado_fianza — vacío hasta que se marque como pagada desde el admin
+    data.estado_fianza === 'pagada' ? 'pagada' : '', // se puede marcar ya cobrada al crear la ficha manual
     '', '' // recordatorio_enviado, seguimiento_enviado — los rellena el planificador de emails
   ].map(csvEscape).join(',');
   fs.appendFileSync(LEADS_FILE, row + '\n', 'utf8');
@@ -173,10 +173,18 @@ function writeLeadsRaw(headers, rows) {
   fs.writeFileSync(LEADS_FILE, lines.join('\n') + '\n', 'utf8');
 }
 function setLeadEstadoFianza(rowIndex, estado) {
+  return updateLeadFields(rowIndex, { estado_fianza: estado });
+}
+// Actualiza uno o varios campos de un lead concreto (identificado por su
+// número de fila). Solo toca los campos que existan como columna real —
+// ignora cualquier otra clave por seguridad.
+function updateLeadFields(rowIndex, fields) {
   const { headers, rows } = readLeadsRaw();
   const row = rows.find(r => r._row === rowIndex);
   if (!row) return false;
-  row.estado_fianza = estado;
+  Object.keys(fields).forEach(k => {
+    if (headers.includes(k)) row[k] = fields[k] == null ? '' : String(fields[k]);
+  });
   writeLeadsRaw(headers, rows);
   return true;
 }
@@ -469,11 +477,12 @@ const server = http.createServer(async (req, res) => {
     }
 
     // ═══ A partir de aquí, todo requiere sesión iniciada ═══
-    const protectedRoutes = ['/api/content', '/api/upload-photo', '/api/change-password', '/api/leads', '/api/lead-status'];
+    const protectedRoutes = ['/api/content', '/api/upload-photo', '/api/change-password', '/api/leads', '/api/lead-status', '/api/lead-edit'];
     const isProtectedWrite = (pathname === '/api/content' && req.method === 'POST') ||
       pathname === '/api/upload-photo' || pathname === '/api/change-password' ||
       (pathname === '/api/leads' && req.method === 'GET') ||
-      (pathname === '/api/lead-status' && req.method === 'POST');
+      (pathname === '/api/lead-status' && req.method === 'POST') ||
+      (pathname === '/api/lead-edit' && req.method === 'POST');
 
     if (isProtectedWrite && !getSession(req)) {
       return sendJSON(res, 401, { ok: false, error: 'Sesión no iniciada.' });
@@ -489,6 +498,17 @@ const server = http.createServer(async (req, res) => {
       const estado = body.estado === 'pagada' ? 'pagada' : '';
       if (Number.isNaN(rowIndex)) return sendJSON(res, 400, { ok: false, error: 'Falta rowIndex.' });
       const ok = setLeadEstadoFianza(rowIndex, estado);
+      return sendJSON(res, ok ? 200 : 404, { ok });
+    }
+
+    if (pathname === '/api/lead-edit' && req.method === 'POST') {
+      const EDITABLE_LEAD_FIELDS = ['nombre', 'email', 'whatsapp', 'servicio', 'fecha_cita', 'hora_cita', 'mensaje', 'zona', 'tamano', 'bebida', 'ya_tatuado', 'fuente'];
+      const body = JSON.parse(await readBody(req, 2e5) || '{}');
+      const rowIndex = Number(body.rowIndex);
+      if (Number.isNaN(rowIndex)) return sendJSON(res, 400, { ok: false, error: 'Falta rowIndex.' });
+      const fields = {};
+      EDITABLE_LEAD_FIELDS.forEach(k => { if (Object.prototype.hasOwnProperty.call(body.fields || {}, k)) fields[k] = body.fields[k]; });
+      const ok = updateLeadFields(rowIndex, fields);
       return sendJSON(res, ok ? 200 : 404, { ok });
     }
 

@@ -74,6 +74,8 @@ nav{position:sticky;top:0;z-index:100;min-height:58px;display:flex;align-items:c
 .nl{background:none;border:none;color:var(--t2);font-size:13px;padding:6px 8px;cursor:pointer;letter-spacing:.02em;transition:color .15s;border-radius:3px;white-space:nowrap}
 .nl:hover{color:var(--tx)}
 .btn-book{background:var(--dk);border:none;color:var(--dtx);font-size:13px;font-weight:600;padding:0 22px;height:36px;border-radius:var(--r);cursor:pointer;letter-spacing:.1em;transition:opacity .15s;white-space:nowrap;flex-shrink:0}
+.nav-burger{display:none;background:none;border:1px solid var(--bdr2);color:var(--tx);width:38px;height:38px;border-radius:6px;cursor:pointer;font-size:17px;align-items:center;justify-content:center;flex-shrink:0}
+.nav-burger:hover{border-color:var(--aBdr);color:var(--a)}
 .btn-book:hover{opacity:.82}
 
 /* ── HERO ─── */
@@ -466,7 +468,10 @@ body.wz-lock{overflow:hidden}
   .bk-flow{gap:0}
   .bk-step{max-width:160px}
   .bk-step-sep{display:none}
-  .nl{display:none}
+  .nav-burger{display:flex}
+  .nav-links{display:none;position:fixed;top:58px;left:0;right:0;background:var(--bg);border-bottom:1px solid var(--bdr);flex-direction:column;flex-wrap:nowrap;gap:0;padding:6px 20px 16px;max-height:calc(100vh - 58px);overflow-y:auto;box-shadow:0 12px 30px rgba(20,15,10,.12);z-index:99}
+  .nav-links.open{display:flex}
+  .nl{width:100%;text-align:left;padding:15px 4px;border-bottom:1px solid var(--bdr);font-size:16px;border-radius:0}
   .origen-grid,.g2{grid-template-columns:1fr;gap:36px}
   .qh-grid{grid-template-columns:repeat(2,1fr)}
   .col-grid,.g3{grid-template-columns:1fr}
@@ -542,10 +547,10 @@ body.wz-lock{overflow:hidden}
     <span class="logo" id="nav-logo">SACRAVM</span>
     <small id="nav-sub">TATTOO ATELIER</small>
   </a>
-  <div class="nav-links">
+  <div class="nav-links" id="nav-links">
     <button class="nl" onclick="scroll2('nosotros')">Quiénes somos</button>
     <button class="nl" onclick="scroll2('portfolio')">Trabajo</button>
-    <button class="nl" onclick="scroll2('servicios')">Servicios</button>
+    <button class="nl" onclick="scroll2('servicios')">Spécialités</button>
     <button class="nl" onclick="scroll2('experiences')">Experiences</button>
     <button class="nl" onclick="scroll2('tarifas')">Inversión</button>
     <button class="nl" onclick="scroll2('vale-regalo')">Vale regalo</button>
@@ -554,12 +559,13 @@ body.wz-lock{overflow:hidden}
     <button class="nl" onclick="scroll2('galeria')">Galería</button>
   </div>
   <button class="btn-book" onclick="goBook()">RESERVAR CITA</button>
+  <button class="nav-burger" id="nav-burger" onclick="toggleMobileNav()" aria-label="Abrir menú">☰</button>
 </nav>
 
 <!-- HERO -->
 <section id="hero" style="padding:0">
   <div class="hero-l rv">
-    <div class="hero-tag"><div class="hero-tag-dot"></div><span id="hero-tag-txt">ATELIER PRIVADO · RESERVA CON FIANZA ONLINE</span></div>
+    <div class="hero-tag"><div class="hero-tag-dot"></div><span id="hero-tag-txt">ATELIER PRIVADO · RESERVA ONLINE</span></div>
     <h1>SACR<em>AVM</em></h1>
     <div class="h-rule"></div>
     <p class="h-sub" id="hero-sub-txt">JJ Rodríguez · León<br>Un tatuaje no se borra. Por eso aquí no se hace con prisa.</p>
@@ -608,7 +614,6 @@ body.wz-lock{overflow:hidden}
     <div class="origen-grid rv">
       <div class="origen-body">
         <p>SACRAVM toma su nombre del latín <em style="color:rgba(196,160,80,.7)">"sacrum"</em> — sagrado — y del eco de Asturica Augusta, la ciudad romana que fundó esta tierra. Un nombre que no es casual: elige lo permanente sobre lo efímero, lo significativo sobre lo decorativo.</p>
-        <p>Nací tatuando en estudios compartidos, acumulando técnica y clientes, llegando a los 15.000 seguidores y a una lista de espera de 25 personas. Y me di cuenta de que el formato no me representaba.</p>
         <p>Lo que yo quería ofrecer no cabe en un estudio con tres artistas, turnos y walk-ins. Cabe en un espacio privado, con tiempo de sobra, donde el cliente entra sabiendo que esa sesión es suya.</p>
         <p>SACRAVM nació de la idea de crear una experiencia única e inolvidable — no un simple tatuaje. Es un atelier donde cada pieza empieza con una idea, pensando en construir la mejor historia posible: tu idea y la nuestra, juntas, hasta crear algo que no existía antes.</p>
       </div>
@@ -710,7 +715,7 @@ body.wz-lock{overflow:hidden}
       <div class="artista-info">
         <div class="artista-nombre" id="artista-nombre-txt">JJ Rodríguez</div>
         <div class="artista-rol">FUNDADOR · SACRAVM</div>
-        <p class="artista-bio">Empecé tatuando en estudios compartidos, absorbiendo técnica y construyendo una comunidad que hoy supera los 15.000 seguidores — hasta que entendí que lo que quería ofrecer no cabía en ese formato. Creo que un buen tatuaje no es copiar una referencia: es escuchar tu idea, entender lo que significa para ti, y traducirla con mi propio lenguaje visual hasta convertirla en algo que solo existe en tu piel. Tu historia, mi técnica — juntas, un diseño que no se ha hecho antes ni se repetirá después.</p>
+        <p class="artista-bio">Creo que un buen tatuaje no es copiar una referencia: es escuchar tu idea, entender lo que significa para ti, y traducirla con mi propio lenguaje visual hasta convertirla en algo que solo existe en tu piel. Tu historia, mi técnica — juntas, un diseño que no se ha hecho antes ni se repetirá después.</p>
         <div class="form-pills">
           <span class="pill">Micro-realismo</span>
           <span class="pill">Realismo conceptual</span>
@@ -725,8 +730,8 @@ body.wz-lock{overflow:hidden}
 <section id="servicios">
   <div class="sec-inner">
     <div class="rv">
-      <div class="sec-label">SERVICIOS</div>
-      <h2 class="sec-title">Qué puedes reservar</h2>
+      <div class="sec-label">SPÉCIALITÉS</div>
+      <h2 class="sec-title">El arte que puedes reservar</h2>
     </div>
     <div class="svcs-grid" id="svcs-grid">
       <!-- Generado por JavaScript desde CONFIG -->
@@ -1254,7 +1259,7 @@ body.wz-lock{overflow:hidden}
     <button class="fl" onclick="scroll2('nosotros')">Quiénes somos</button>
     <button class="fl" onclick="scroll2('artistas')">Artistas</button>
     <button class="fl" onclick="scroll2('portfolio')">Trabajo</button>
-    <button class="fl" onclick="scroll2('servicios')">Servicios</button>
+    <button class="fl" onclick="scroll2('servicios')">Spécialités</button>
     <button class="fl" onclick="scroll2('experiences')">Experiences</button>
     <button class="fl" onclick="scroll2('tarifas')">Inversión</button>
     <button class="fl" onclick="scroll2('vale-regalo')">Vale regalo</button>
@@ -1359,6 +1364,9 @@ body.wz-lock{overflow:hidden}
             <option value="Instagram">Instagram</option>
             <option value="Recomendación">Recomendación</option>
             <option value="Google">Google</option>
+            <option value="Vio un tatuaje">Vio un tatuaje en persona</option>
+            <option value="Cuadros">Por los cuadros</option>
+            <option value="Academy">Por la Academy</option>
             <option value="Ya soy cliente">Ya soy cliente</option>
             <option value="Otro">Otro</option>
           </select>
@@ -1679,7 +1687,17 @@ async function submitExperience() {
 }
 
 // ── Scroll ─────────────────────────────────────────────────────────
-function scroll2(id) { document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+function scroll2(id) { closeMobileNav(); document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+function toggleMobileNav() {
+  const nav = document.getElementById('nav-links');
+  const burger = document.getElementById('nav-burger');
+  const isOpen = nav.classList.toggle('open');
+  burger.textContent = isOpen ? '✕' : '☰';
+}
+function closeMobileNav() {
+  document.getElementById('nav-links').classList.remove('open');
+  document.getElementById('nav-burger').textContent = '☰';
+}
 function goHome() { closeWizard(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
 
 // ╔══════════════════════════════════════════════════════════════════╗
