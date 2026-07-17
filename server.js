@@ -124,6 +124,9 @@ const DEFAULT_CONTENT = {
   ],
   experiencesVideoUrl: '',
   experiencesFotos: [],
+  academyAlumnos: 0,
+  academyResultados: [],
+  academyTestimonios: [],
   textos: {
     valeRegaloTitulo: 'Regala algo único.\nY para siempre.',
     valeRegaloTexto: 'Unas flores se marchitan. Una cena se olvida. Un tatuaje de SACRAVM se queda para siempre — y lleva tu gesto dentro. Elige un importe, desde SACRAVM nos encargamos del resto.',
@@ -520,7 +523,7 @@ const server = http.createServer(async (req, res) => {
 
     if (pathname === '/api/upload-photo' && req.method === 'POST') {
       const body = JSON.parse(await readBody(req, 12e6) || '{}');
-      const { slot, listKey, index, filename, dataBase64 } = body;
+      const { slot, listKey, index, filename, dataBase64, field } = body;
       if ((!slot && !listKey) || !dataBase64) return sendJSON(res, 400, { ok: false, error: 'Faltan datos.' });
       const ext = (path.extname(filename || '') || '.jpg').toLowerCase();
       const safeExt = ['.jpg', '.jpeg', '.png', '.webp', '.gif'].includes(ext) ? ext : '.jpg';
@@ -540,7 +543,7 @@ const server = http.createServer(async (req, res) => {
       } else if (listKey) {
         content[listKey] = content[listKey] || [];
         content[listKey][index] = content[listKey][index] || {};
-        content[listKey][index].url = publicPath;
+        content[listKey][index][field || 'url'] = publicPath;
       }
       writeJSON(CONTENT_FILE, content);
       return sendJSON(res, 200, { ok: true, path: publicPath });
@@ -577,6 +580,7 @@ const server = http.createServer(async (req, res) => {
     if (filePath === '/') filePath = '/index.html';
     if (filePath === '/admin') filePath = '/admin.html';
     if (filePath === '/academy') filePath = '/academy.html';
+    if (filePath === '/legal') filePath = '/legal.html';
     filePath = path.join(ROOT, decodeURIComponent(filePath));
     if (!filePath.startsWith(ROOT)) { res.writeHead(403); res.end('Prohibido'); return; }
 

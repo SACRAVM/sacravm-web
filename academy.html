@@ -75,6 +75,22 @@ section{padding:80px 24px}
 #u-hero .sec-inner{max-width:720px}
 #u-hero p.sub{font-size:17px;color:var(--t2);line-height:1.9;margin-top:16px}
 
+/* ── RESULTADOS ─── */
+.u-res-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:36px}
+.u-res-card{background:var(--w);border:1px solid var(--bdr);border-radius:6px;overflow:hidden;box-shadow:var(--sh);text-align:left}
+.u-res-imgs{display:grid;grid-template-columns:1fr 1fr}
+.u-res-imgs div{position:relative;aspect-ratio:1}
+.u-res-imgs img{width:100%;height:100%;object-fit:cover}
+.u-res-imgs span{position:absolute;bottom:6px;left:6px;background:rgba(28,23,20,.72);color:var(--dtx);font-size:10px;letter-spacing:.08em;padding:3px 8px;border-radius:3px}
+.u-res-body{padding:14px 16px}
+.u-res-alumno{font-family:var(--serif);font-size:16px;color:var(--tx);margin-bottom:2px}
+.u-res-caption{font-size:12.5px;color:var(--t3);line-height:1.5}
+.u-testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:20px}
+.u-testi-card{background:var(--w);border:1px solid var(--bdr);border-radius:6px;padding:20px;text-align:left}
+.u-testi-card p{font-size:14px;color:var(--t2);line-height:1.7;font-style:italic;margin-bottom:10px}
+.u-testi-by{font-size:12px;letter-spacing:.06em;color:var(--a);font-weight:600}
+@media(max-width:760px){.u-res-grid,.u-testi-grid{grid-template-columns:1fr}}
+
 /* ── GATE ─── */
 #u-gate{background:var(--w);border-top:1px solid var(--bdr);border-bottom:1px solid var(--bdr)}
 #u-gate .sec-inner{max-width:780px;text-align:center}
@@ -93,6 +109,11 @@ section{padding:80px 24px}
 /* ── CATÁLOGO ─── */
 #u-catalogo{border-top:1px solid var(--bdr)}
 .u-tier-label{font-size:12px;letter-spacing:.16em;color:var(--t3);margin:44px 0 18px;text-transform:uppercase}
+.u-future{border:1px dashed var(--bdr2);border-radius:6px;padding:22px 26px;display:flex;gap:24px;flex-wrap:wrap;justify-content:space-between;align-items:center}
+.u-future-item{flex:1;min-width:220px}
+.u-future-item h4{font-family:var(--serif);font-size:19px;font-weight:400;color:var(--t2);margin-bottom:4px}
+.u-future-item p{font-size:13px;color:var(--t3);line-height:1.6}
+@media(max-width:600px){.u-future{flex-direction:column;align-items:stretch}}
 .u-tier-label:first-child{margin-top:0}
 .svcs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
 .svc-card{background:var(--w);border:1px solid var(--bdr);border-radius:6px;padding:28px 24px;transition:all .2s;box-shadow:var(--sh);display:flex;flex-direction:column}
@@ -137,6 +158,9 @@ section{padding:80px 24px}
 .btn-form{width:100%;height:40px;background:var(--dk);border:none;color:var(--dtx);border-radius:4px;cursor:pointer;font-size:14px;font-weight:600;letter-spacing:.1em;transition:opacity .15s}
 .btn-form:hover{opacity:.85}
 .form-note{font-size:13px;color:var(--t3);text-align:center;margin-top:10px;line-height:1.6}
+.consent-row{display:flex;align-items:flex-start;gap:7px;margin:4px 0 12px;font-size:12.5px;color:var(--t3);line-height:1.55;text-align:left;cursor:pointer}
+.consent-row input{margin-top:2px;flex-shrink:0;cursor:pointer}
+.consent-row a{color:var(--a)}
 .form-ok{display:none;text-align:center;padding:20px 0}
 .form-ok.show{display:block}
 .form-ok span{font-family:var(--serif);font-size:22px;font-weight:300;color:var(--tx)}
@@ -204,6 +228,16 @@ footer a:hover{opacity:1}
         </ul>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- RESULTADOS -->
+<section id="u-resultados" style="display:none">
+  <div class="sec-inner" style="text-align:center">
+    <div class="sec-label">RESULTADOS REALES</div>
+    <h2 class="sec-title" id="u-res-title" style="font-size:clamp(26px,3vw,36px)">Ya hemos formado a la primera promoción.</h2>
+    <div class="u-res-grid" id="u-res-grid"></div>
+    <div class="u-testi-grid" id="u-testi-grid"></div>
   </div>
 </section>
 
@@ -319,26 +353,17 @@ footer a:hover{opacity:1}
       <button class="btn-svc" style="width:auto;padding:10px 26px" onclick="selectCourse('Programa completo')">APUNTARME →</button>
     </div>
 
-    <div class="u-tier-label">Mentoría 1:1</div>
-    <div class="u-feature">
-      <div class="u-feature-top">
-        <h3>Mentoría 1:1 con JJ</h3>
-        <div class="u-feature-pr">A consultar</div>
+    <div class="u-tier-label">Más adelante</div>
+    <div class="u-future">
+      <div class="u-future-item">
+        <h4>Mentoría 1:1 con JJ</h4>
+        <p>Aún no está activa. Feedback directo y acceso cercano, para más adelante.</p>
       </div>
-      <div class="u-feature-note">Próximamente · plazas muy limitadas · precio a medida tras hablar contigo</div>
-      <p class="desc">Todo el Programa Completo, más feedback directo de JJ sesión a sesión, revisión de tu portfolio y acceso cercano mientras avanzas. Para quien quiere ir de la mano, no solo con vídeos.</p>
-      <button class="btn-svc" style="width:auto;padding:10px 26px" onclick="selectCourse('Mentoría 1:1')">APUNTARME →</button>
-    </div>
-
-    <div class="u-tier-label">Presencial</div>
-    <div class="u-feature">
-      <div class="u-feature-top">
-        <h3>Formación presencial</h3>
-        <div class="u-feature-pr">Próximamente</div>
+      <div class="u-future-item">
+        <h4>Formación presencial</h4>
+        <p>Sin fecha ni precio todavía. En el atelier de León, cuando toque.</p>
       </div>
-      <div class="u-feature-note">Aún sin fecha ni precio anunciado</div>
-      <p class="desc">La experiencia más cercana: contigo en el atelier de León. Para cuando quieras dar el último paso, en persona.</p>
-      <button class="btn-svc" style="width:auto;padding:10px 26px" onclick="selectCourse('Presencial')">ME INTERESA →</button>
+      <button class="btn-svc" style="width:auto;padding:9px 22px;flex-shrink:0" onclick="selectCourse('Aún no lo sé')">ME INTERESA →</button>
     </div>
   </div>
 </section>
@@ -394,6 +419,7 @@ footer a:hover{opacity:1}
           <option value="Más de 5 años">Más de 5 años</option>
         </select>
         <input class="fi2" id="form-insta" placeholder="@instagram (opcional)">
+        <label class="consent-row"><input type="checkbox" id="form-consent"> He leído y acepto la <a href="/legal" target="_blank">Política de Privacidad</a>.</label>
         <button class="btn-form" onclick="submitAcademyForm()">APUNTARME A LA LISTA →</button>
         <p class="form-note">Solo te escribimos cuando haya novedades.<br>Sin spam, sin presión.</p>
       </div>
@@ -406,6 +432,7 @@ footer a:hover{opacity:1}
   <span class="foot-logo">SACRAVM UNIVERSITY</span>
   <a href="/">Volver al atelier</a>
   <a href="/#formacion">Ver Academy en la web principal</a>
+  <a href="/legal">Aviso legal · Privacidad · Cookies</a>
 </footer>
 
 <script>
@@ -426,6 +453,7 @@ async function submitAcademyForm() {
   if (!curso) { document.getElementById('form-curso').focus(); return; }
   const experiencia = document.getElementById('form-experiencia').value;
   if (!experiencia) { document.getElementById('form-experiencia').focus(); return; }
+  if (!document.getElementById('form-consent').checked) { alert('Debes aceptar la Política de Privacidad para continuar.'); return; }
   const insta = document.getElementById('form-insta').value.trim();
   const payload = {
     tipo: 'formacion', nombre, email, whatsapp: telefono, servicio: curso,
@@ -446,6 +474,34 @@ fetch('/api/content').then(r => r.json()).then(CONFIG => {
     photo.style.display = '';
   }
   if (CONFIG.nombre) document.getElementById('acad-mentor-name').textContent = CONFIG.nombre;
+
+  const resultados = (CONFIG.academyResultados || []).filter(r => r.before || r.after);
+  const testimonios = (CONFIG.academyTestimonios || []).filter(t => t.txt && t.txt.trim());
+  const alumnos = CONFIG.academyAlumnos || 0;
+  if (alumnos > 0 || resultados.length || testimonios.length) {
+    document.getElementById('u-resultados').style.display = '';
+    if (alumnos > 0) {
+      document.getElementById('u-res-title').textContent = `Ya hemos formado a ${alumnos} ${alumnos === 1 ? 'alumno' : 'alumnos'} con este método.`;
+    }
+    document.getElementById('u-res-grid').innerHTML = resultados.map(r => `
+      <div class="u-res-card">
+        <div class="u-res-imgs">
+          <div>${r.before ? `<img src="${r.before}" alt="Antes — ${r.alumno || 'alumno SACRAVM'}">` : ''}<span>ANTES</span></div>
+          <div>${r.after ? `<img src="${r.after}" alt="Después — ${r.alumno || 'alumno SACRAVM'}">` : ''}<span>DESPUÉS</span></div>
+        </div>
+        <div class="u-res-body">
+          ${r.alumno ? `<div class="u-res-alumno">${r.alumno}</div>` : ''}
+          ${r.caption ? `<div class="u-res-caption">${r.caption}</div>` : ''}
+        </div>
+      </div>
+    `).join('');
+    document.getElementById('u-testi-grid').innerHTML = testimonios.map(t => `
+      <div class="u-testi-card">
+        <p>"${t.txt}"</p>
+        ${t.by ? `<div class="u-testi-by">${t.by}</div>` : ''}
+      </div>
+    `).join('');
+  }
 }).catch(() => {});
 </script>
 

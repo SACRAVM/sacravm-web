@@ -262,23 +262,25 @@ nav,footer{scroll-snap-align:none}
 
 /* ── TARIFAS ─── */
 #tarifas{background:var(--bg);border-top:1px solid var(--bdr)}
-.tar-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:44px 0 52px}
-.tar-card{background:var(--w);border:1px solid var(--bdr);border-radius:6px;padding:26px 22px;box-shadow:var(--sh);transition:all .2s;position:relative}
-.tar-card:hover{transform:translateY(-3px);box-shadow:0 8px 28px rgba(60,40,10,.1)}
-.tar-card.featured{border-color:var(--aBdr);border-width:1.5px}
-.tar-card.featured::before{content:'MÁS ELEGIDO';position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:var(--a);color:#fff;font-size:10px;font-weight:700;letter-spacing:.14em;padding:3px 12px;border-radius:20px;white-space:nowrap}
+.tar-list{margin:44px 0 12px}
+.tar-row{display:flex;justify-content:space-between;align-items:flex-start;gap:48px;padding:36px 4px;border-top:1px solid var(--bdr);transition:background .2s}
+.tar-row:last-child{border-bottom:1px solid var(--bdr)}
+.tar-row:hover{background:var(--aLt)}
+.tar-row-l{flex:1;max-width:580px}
+.tar-tag{font-size:11px;letter-spacing:.04em;color:var(--t3);font-style:italic;font-weight:400;margin-left:2px}
+.tar-includes-line{font-size:12.5px;color:var(--t3);letter-spacing:.01em;margin-top:2px}
+.tar-row-r{text-align:right;flex-shrink:0;display:flex;flex-direction:column;align-items:flex-end;gap:12px;min-width:190px}
 .tar-dur{font-size:10px;letter-spacing:.2em;color:var(--a);font-weight:600;margin-bottom:14px}
-.tar-name{font-family:var(--serif);font-size:24px;font-weight:400;margin-bottom:8px;color:var(--tx)}
-.tar-desc{font-size:14px;color:var(--t2);line-height:1.75;margin-bottom:18px}
-.tar-price{font-family:var(--serif);font-size:30px;font-weight:300;color:var(--a);margin-bottom:4px}
-.tar-senal{font-size:13px;color:var(--t3);margin-bottom:18px}
-.tar-includes{list-style:none;padding:0;margin:0 0 22px}
-.tar-includes li{font-size:14px;color:var(--t2);padding:5px 0;border-top:1px solid var(--bdr);display:flex;gap:8px;align-items:flex-start;line-height:1.55}
-.tar-includes li::before{content:'✓';color:var(--a);font-size:13px;flex-shrink:0;margin-top:1px}
-.btn-tar{width:100%;background:none;border:1px solid var(--bdr2);color:var(--a);font-size:13px;padding:10px 14px;border-radius:3px;cursor:pointer;letter-spacing:.05em;font-weight:500;transition:all .15s}
-.btn-tar:hover{background:var(--aLt);border-color:var(--aBdr)}
-.tar-card.featured .btn-tar{background:var(--dk);border-color:var(--dk);color:var(--dtx)}
-.tar-card.featured .btn-tar:hover{opacity:.82}
+.tar-name{font-family:var(--serif);font-size:30px;font-weight:400;margin-bottom:10px;color:var(--tx)}
+.tar-desc{font-size:15px;color:var(--t2);line-height:1.8;margin-bottom:18px}
+.tar-price{font-family:var(--serif);font-size:34px;font-weight:300;color:var(--tx)}
+.tar-senal{font-size:12.5px;color:var(--t3)}
+.btn-tar{background:none;border:none;border-bottom:1px solid var(--aBdr);color:var(--a);font-size:13px;padding:0 0 2px;cursor:pointer;letter-spacing:.05em;font-weight:500;transition:all .15s}
+.btn-tar:hover{border-color:var(--a)}
+@media(max-width:720px){
+  .tar-row{flex-direction:column;gap:14px;padding:28px 4px}
+  .tar-row-r{align-items:flex-start;text-align:left}
+}
 .tar-note{background:var(--aLt);border:1px solid var(--aBdr);border-radius:6px;padding:16px 20px;font-size:15px;color:var(--t2);line-height:1.75;margin-bottom:52px}
 .tar-note strong{color:var(--a)}
 .zona-title{font-family:var(--serif);font-size:32px;font-weight:300;color:var(--tx);margin-bottom:8px}
@@ -350,6 +352,9 @@ nav,footer{scroll-snap-align:none}
 .btn-form{width:100%;height:40px;background:var(--dk);border:none;color:var(--dtx);border-radius:4px;cursor:pointer;font-size:14px;font-weight:600;letter-spacing:.1em;transition:opacity .15s}
 .btn-form:hover{opacity:.82}
 .form-note{font-size:13px;color:var(--t3);text-align:center;margin-top:10px;line-height:1.6}
+.consent-row{display:flex;align-items:flex-start;gap:7px;margin:4px 0 12px;font-size:12.5px;color:var(--t3);line-height:1.55;text-align:left;cursor:pointer}
+.consent-row input{margin-top:2px;flex-shrink:0;cursor:pointer}
+.consent-row a{color:var(--a)}
 
 /* ── BOOKING CTA ─── */
 #booking{background:var(--dk);padding:80px 52px}
@@ -481,7 +486,6 @@ body.wz-lock{overflow:hidden}
   .col-grid,.g3{grid-template-columns:1fr}
   #experiences>div>div[style*="grid-template-columns:repeat(3,1fr)"]{grid-template-columns:1fr!important}
   #experiences>div>div[style*="grid-template-columns:1fr 1fr"]{grid-template-columns:1fr!important}
-  .tar-grid{grid-template-columns:1fr 1fr}
   .zona-grid{grid-template-columns:1fr 1fr}
   .terms-grid{grid-template-columns:1fr}
   .proc-row3,.proc-row2{grid-template-columns:1fr}
@@ -866,7 +870,7 @@ body.wz-lock{overflow:hidden}
       </div>
       <div class="exp-card">
         <h3>Consultar disponibilidad</h3>
-        <p>Cuéntame el tipo de evento, la fecha y el paquete que te interesa. Te respondo en menos de 48 horas.</p>
+        <p>Cuéntanos el tipo de evento, la fecha y el paquete que te interesa. Te respondemos en menos de 48 horas.</p>
         <div id="exp-form">
           <span class="lbl2" style="display:block;margin-top:2px">NOMBRE</span>
           <input class="fi-light" id="exp-nombre" placeholder="Tu nombre">
@@ -888,12 +892,13 @@ body.wz-lock{overflow:hidden}
           </select>
           <span class="lbl2">FECHA DEL EVENTO</span>
           <input class="fi-light" type="date" id="exp-fecha">
-          <span class="lbl2">CUÉNTAME MÁS</span>
+          <span class="lbl2">CUÉNTANOS MÁS</span>
           <textarea class="fi-light" id="exp-notas" rows="3" placeholder="Lugar del evento, número de invitados, ideas de diseño…" style="height:70px;padding:10px 11px;resize:none"></textarea>
+          <label class="consent-row"><input type="checkbox" id="exp-consent"> He leído y acepto la <a href="/legal" target="_blank">Política de Privacidad</a>.</label>
           <button class="btn-form" onclick="submitExperience()">CONSULTAR DISPONIBILIDAD →</button>
-          <p class="form-note">Sin compromiso. Te respondo en menos de 48h.</p>
+          <p class="form-note">Sin compromiso. Te respondemos en menos de 48h.</p>
         </div>
-        <div class="form-ok" id="exp-ok"><span>✓ Consulta recibida. Te escribo en menos de 48h.</span></div>
+        <div class="form-ok" id="exp-ok"><span>✓ Consulta recibida. Te escribimos en menos de 48h.</span></div>
       </div>
     </div>
 
@@ -937,6 +942,7 @@ body.wz-lock{overflow:hidden}
           <input class="fi2" id="obras-nombre" placeholder="Tu nombre">
           <input class="fi2" type="email" id="obras-email" placeholder="tu@email.com">
           <textarea class="fi2" id="obras-msg" placeholder="¿Qué estilo, tamaño o temática buscas?" style="height:70px;padding:10px 11px;resize:none"></textarea>
+          <label class="consent-row"><input type="checkbox" id="obras-consent"> He leído y acepto la <a href="/legal" target="_blank">Política de Privacidad</a>.</label>
           <button class="btn-form" onclick="submitObras()">QUIERO SABER MÁS →</button>
           <p class="form-note">Sin compromiso. Te escribimos solo si hay algo que encaje.</p>
         </div>
@@ -962,63 +968,58 @@ body.wz-lock{overflow:hidden}
       <h2 class="sec-title" id="txt-inversion-titulo" style="margin-bottom:14px">Cada formato, pensado para que el resultado esté a la altura</h2>
       <p id="txt-inversion-texto" style="font-size:16px;color:var(--t2);line-height:1.85;margin-bottom:40px;max-width:540px">El diseño se prepara en exclusiva el día de tu cita. La señal confirma tu plaza y se descuenta del total — el resto se abona al cerrar la sesión.</p>
     </div>
-    <div class="tar-grid rv">
-      <div class="tar-card">
-        <div class="tar-dur">1–2 HORAS</div>
-        <div class="tar-name">Mini tattoo</div>
-        <div class="tar-desc">Para piezas pequeñas, limpias y con resultado garantizado. Ideal para primer contacto con el estudio.</div>
-        <div class="tar-price">90–220€</div>
-        <div class="tar-senal">Señal: 50€ · 1h desde 90€ · 2h desde 200€</div>
-        <ul class="tar-includes">
-          <li>Diseño el mismo día</li>
-          <li>Pieza pequeña hasta ≈8 cm</li>
-          <li>Kit de cuidados post-sesión</li>
-        </ul>
-        <button class="btn-tar" onclick="goBook()">Reservar mini →</button>
+    <div class="tar-list rv">
+      <div class="tar-row">
+        <div class="tar-row-l">
+          <div class="tar-dur">1–2 HORAS</div>
+          <div class="tar-name">Mini tattoo</div>
+          <div class="tar-desc">Para piezas pequeñas, limpias y con resultado garantizado — el primer contacto natural con el atelier.</div>
+          <div class="tar-includes-line">Diseño el mismo día · Kit de cuidados incluido</div>
+        </div>
+        <div class="tar-row-r">
+          <div class="tar-price">90–220€</div>
+          <div class="tar-senal">Señal 50€</div>
+          <button class="btn-tar" onclick="goBook()">Reservar mini →</button>
+        </div>
       </div>
-      <div class="tar-card featured">
-        <div class="tar-dur">3–4 HORAS</div>
-        <div class="tar-name">Media sesión</div>
-        <div class="tar-desc">Para piezas de tamaño medio o avances importantes. El formato más equilibrado para la mayoría de proyectos.</div>
-        <div class="tar-price">360–420€</div>
-        <div class="tar-senal">Señal: 100€ (se descuenta del total)</div>
-        <ul class="tar-includes">
-          <li>Diseño el mismo día</li>
-          <li>Piezas medias o avances de proyecto</li>
-          <li>Kit de cuidados post-sesión</li>
-          <li>Seguimiento de curación</li>
-        </ul>
-        <button class="btn-tar" onclick="goBook()">Reservar media sesión →</button>
+      <div class="tar-row">
+        <div class="tar-row-l">
+          <div class="tar-dur">3–4 HORAS <span class="tar-tag">· el formato más solicitado</span></div>
+          <div class="tar-name">Media sesión</div>
+          <div class="tar-desc">Para piezas de tamaño medio o avances de un proyecto en curso — el equilibrio justo entre tiempo y profundidad.</div>
+          <div class="tar-includes-line">Diseño el mismo día · Kit de cuidados · Seguimiento de curación</div>
+        </div>
+        <div class="tar-row-r">
+          <div class="tar-price">400–500€</div>
+          <div class="tar-senal">Señal 100€ · se descuenta del total</div>
+          <button class="btn-tar" onclick="goBook()">Reservar media sesión →</button>
+        </div>
       </div>
-      <div class="tar-card">
-        <div class="tar-dur">6–8 HORAS</div>
-        <div class="tar-name">Sesión completa</div>
-        <div class="tar-desc">Para proyectos exigentes que necesitan tiempo, capas y profundidad de detalle en una sola jornada.</div>
-        <div class="tar-price">600–680€</div>
-        <div class="tar-senal">Señal: 150€ (se descuenta del total)</div>
-        <ul class="tar-includes">
-          <li>Diseño el mismo día</li>
-          <li>Piezas grandes o avances de proyecto</li>
-          <li>Kit de cuidados completo</li>
-          <li>Seguimiento de curación</li>
-          <li>Descuento en bloques de proyecto</li>
-        </ul>
-        <button class="btn-tar" onclick="goBook()">Reservar sesión completa →</button>
+      <div class="tar-row">
+        <div class="tar-row-l">
+          <div class="tar-dur">6–8 HORAS</div>
+          <div class="tar-name">Sesión completa</div>
+          <div class="tar-desc">Para proyectos exigentes que necesitan tiempo, capas y profundidad de detalle en una sola jornada.</div>
+          <div class="tar-includes-line">Kit de cuidados completo · Seguimiento de curación · Descuento en bloques de proyecto</div>
+        </div>
+        <div class="tar-row-r">
+          <div class="tar-price">750–850€</div>
+          <div class="tar-senal">Señal 150€ · se descuenta del total</div>
+          <button class="btn-tar" onclick="goBook()">Reservar sesión completa →</button>
+        </div>
       </div>
-      <div class="tar-card">
-        <div class="tar-dur">2+ DÍAS · PROYECTO</div>
-        <div class="tar-name">Gran proyecto</div>
-        <div class="tar-desc">Mangas, espaldas y proyectos de envergadura. Planificación completa por bloques con curación entre fases.</div>
-        <div class="tar-price">650–700€/día</div>
-        <div class="tar-senal">Señal: 200€/sesión (se descuenta del total)</div>
-        <ul class="tar-includes">
-          <li>Planificación completa del proyecto</li>
-          <li>Máx. 3 sesiones consecutivas por bloque</li>
-          <li>3 semanas de curación entre bloques</li>
-          <li>Kit de cuidados completo</li>
-          <li>Seguimiento personalizado todo el proceso</li>
-        </ul>
-        <button class="btn-tar" onclick="goBook()">Consultar proyecto →</button>
+      <div class="tar-row">
+        <div class="tar-row-l">
+          <div class="tar-dur">2+ DÍAS · PROYECTO</div>
+          <div class="tar-name">Gran proyecto</div>
+          <div class="tar-desc">Mangas, espaldas y proyectos de envergadura, planificados por bloques con curación entre fases.</div>
+          <div class="tar-includes-line">Planificación completa · Máx. 3 sesiones por bloque · Seguimiento personalizado</div>
+        </div>
+        <div class="tar-row-r">
+          <div class="tar-price">750–850€/día</div>
+          <div class="tar-senal">Señal 200€/sesión · se descuenta del total</div>
+          <button class="btn-tar" onclick="goBook()">Consultar proyecto →</button>
+        </div>
       </div>
     </div>
 
@@ -1042,17 +1043,17 @@ body.wz-lock{overflow:hidden}
 
     <div class="rv">
       <div class="zona-title">Sesiones estimadas por zona</div>
-      <p class="zona-sub">Orientativo. Depende del tamaño, complejidad del diseño, tipo de piel y tolerancia. Te daré una estimación personalizada en el primer contacto.</p>
+      <p class="zona-sub">Orientativo — y solo eso. Cada tatuaje y cada persona son únicos: el diseño, tu piel y tu aguante influyen tanto que no tiene sentido darte un número cerrado. Te damos una estimación personalizada en el primer contacto.</p>
     </div>
     <div class="zona-grid rv">
       <div class="zona-card"><div class="zona-ico">💪</div><div><div class="zona-name">Manga completa</div><div class="zona-ses">6–9 sesiones</div><div class="zona-fmt">Proyecto multisesión</div></div></div>
       <div class="zona-card"><div class="zona-ico">🦾</div><div><div class="zona-name">Medio brazo</div><div class="zona-ses">3–4 sesiones</div><div class="zona-fmt">Sesiones completas</div></div></div>
       <div class="zona-card"><div class="zona-ico">✊</div><div><div class="zona-name">Antebrazo</div><div class="zona-ses">2–3 sesiones</div><div class="zona-fmt">Media sesión × 2-3</div></div></div>
       <div class="zona-card"><div class="zona-ico">🫀</div><div><div class="zona-name">Pecho</div><div class="zona-ses">3–5 sesiones</div><div class="zona-fmt">Sesiones completas</div></div></div>
-      <div class="zona-card"><div class="zona-ico">🔙</div><div><div class="zona-name">Espalda completa</div><div class="zona-ses">8–12 sesiones</div><div class="zona-fmt">Proyecto multisesión</div></div></div>
+      <div class="zona-card"><div class="zona-ico">🔙</div><div><div class="zona-name">Espalda completa</div><div class="zona-ses">6–9 sesiones</div><div class="zona-fmt">Proyecto multisesión</div></div></div>
       <div class="zona-card"><div class="zona-ico">🔻</div><div><div class="zona-name">Media espalda</div><div class="zona-ses">3–5 sesiones</div><div class="zona-fmt">Sesiones completas</div></div></div>
       <div class="zona-card"><div class="zona-ico">🦵</div><div><div class="zona-name">Muslo</div><div class="zona-ses">3–5 sesiones</div><div class="zona-fmt">Sesiones completas</div></div></div>
-      <div class="zona-card"><div class="zona-ico">🦿</div><div><div class="zona-name">Pierna completa</div><div class="zona-ses">5–8 sesiones</div><div class="zona-fmt">Proyecto multisesión</div></div></div>
+      <div class="zona-card"><div class="zona-ico">🦿</div><div><div class="zona-name">Pierna completa</div><div class="zona-ses">14–20 sesiones</div><div class="zona-fmt">Proyecto multisesión</div></div></div>
       <div class="zona-card"><div class="zona-ico">🌊</div><div><div class="zona-name">Costado</div><div class="zona-ses">3–4 sesiones</div><div class="zona-fmt">Sesiones completas</div></div></div>
       <div class="zona-card"><div class="zona-ico">🦶</div><div><div class="zona-name">Pie / tobillo</div><div class="zona-ses">1–2 sesiones</div><div class="zona-fmt">Mini o media sesión</div></div></div>
       <div class="zona-card"><div class="zona-ico">🤚</div><div><div class="zona-name">Mano / muñeca</div><div class="zona-ses">1–2 sesiones</div><div class="zona-fmt">Mini o media sesión</div></div></div>
@@ -1082,12 +1083,13 @@ body.wz-lock{overflow:hidden}
       </div>
       <div class="gift-card">
         <h3>Pedir vale regalo</h3>
-        <p>Rellena tus datos, confírmalo por Bizum y te preparo el vale — con el diseño de SACRAVM, listo para entregar en persona o por email.</p>
+        <p>Rellena tus datos, confírmalo por Bizum y te preparamos el vale — con el diseño de SACRAVM, listo para entregar en persona o por email.</p>
         <div id="gift-form">
           <input class="fi2" id="gift-nombre" placeholder="Tu nombre">
           <input class="fi2" type="email" id="gift-email" placeholder="tu@email.com">
           <input class="fi2" id="gift-para" placeholder="¿Para quién es? (opcional)">
           <textarea class="fi2" id="gift-msg" placeholder="Mensaje para incluir en el vale (opcional)" style="height:60px;padding:10px 11px;resize:none"></textarea>
+          <label class="consent-row"><input type="checkbox" id="gift-consent"> He leído y acepto la <a href="/legal" target="_blank">Política de Privacidad</a>.</label>
           <button class="btn-form" onclick="submitGiftCard()">QUIERO ESTE VALE →</button>
         </div>
         <div class="gift-ok" id="gift-ok">
@@ -1129,7 +1131,7 @@ body.wz-lock{overflow:hidden}
             <li>Tamaño y ubicación de la pieza</li>
             <li>Complejidad del diseño y nivel de detalle</li>
           </ul>
-          <p style="margin-top:10px">Las estimaciones de sesiones de arriba son orientativas. En el primer contacto te daré una estimación personalizada.</p>
+          <p style="margin-top:10px">Las estimaciones de sesiones de arriba son orientativas. En el primer contacto te damos una estimación personalizada.</p>
         </div>
       </div>
       <div>
@@ -1200,9 +1202,9 @@ body.wz-lock{overflow:hidden}
       <span class="bk-step-sep">→</span>
       <div class="bk-step"><span class="bk-step-n">2</span><div class="bk-step-t"><strong>Elige fecha y hora</strong>Marca tu preferencia en el calendario</div></div>
       <span class="bk-step-sep">→</span>
-      <div class="bk-step"><span class="bk-step-n">3</span><div class="bk-step-t"><strong>Cuéntame tu idea</strong>Un par de líneas para preparar la sesión</div></div>
+      <div class="bk-step"><span class="bk-step-n">3</span><div class="bk-step-t"><strong>Cuéntanos tu idea</strong>Un par de líneas para preparar la sesión</div></div>
       <span class="bk-step-sep">→</span>
-      <div class="bk-step"><span class="bk-step-n">4</span><div class="bk-step-t"><strong>Confirmación</strong>Te escribo por WhatsApp para cerrar fecha y fianza</div></div>
+      <div class="bk-step"><span class="bk-step-n">4</span><div class="bk-step-t"><strong>Confirmación</strong>Te escribimos por WhatsApp para cerrar fecha y fianza</div></div>
     </div>
     <div class="rv">
       <button class="btn-bk-main" onclick="goBook()">RESERVAR MI CITA →</button>
@@ -1221,7 +1223,7 @@ body.wz-lock{overflow:hidden}
     </div>
     <div class="gal-grid rv" id="galeria-grid"><!-- Generado por JS desde CONFIG.galeria --></div>
     <div class="rv" style="text-align:center;margin-top:52px">
-      <p style="font-size:15px;color:var(--t2);margin-bottom:20px">¿Tienes una idea? Cuéntamela.</p>
+      <p style="font-size:15px;color:var(--t2);margin-bottom:20px">¿Tienes una idea? Cuéntanosla.</p>
       <button class="btn-p" onclick="goBook()" style="font-size:15px">Solicitar cita →</button>
     </div>
   </div>
@@ -1254,6 +1256,9 @@ body.wz-lock{overflow:hidden}
     <button class="btn-book" onclick="goBook()">RESERVAR CITA</button>
   </div>
 </footer>
+<div style="background:var(--dk);border-top:1px solid rgba(255,255,255,.05);padding:14px 24px;text-align:center">
+  <a href="/legal" style="font-size:12px;color:var(--dt2);text-decoration:none">Aviso legal · Política de privacidad · Cookies</a>
+</div>
 
 <!-- ═══ WIZARD DE RESERVA (experiencia interactiva) ═══ -->
 <div class="wz-overlay" id="wz-overlay" onclick="if(event.target===this)closeWizard()">
@@ -1308,7 +1313,7 @@ body.wz-lock{overflow:hidden}
       <input class="fi2" id="wz-whatsapp" placeholder="WhatsApp (para confirmarte)">
 
       <div class="wz-label">IDEA DEL TATTOO</div>
-      <textarea class="fi2" id="wz-mensaje" placeholder="Cuéntame qué quieres, qué quieres transmitir y cualquier detalle que deba saber." style="height:90px;padding:10px 11px;resize:none"></textarea>
+      <textarea class="fi2" id="wz-mensaje" placeholder="Cuéntanos qué quieres, qué quieres transmitir y cualquier detalle que debamos saber." style="height:90px;padding:10px 11px;resize:none"></textarea>
 
       <div class="wz-err" id="wz-err-3"></div>
       <div class="wz-nav"><button class="btn-o" onclick="wzBack()">← ATRÁS</button><button class="btn-p" onclick="wzNext()">SIGUIENTE →</button></div>
@@ -1316,8 +1321,8 @@ body.wz-lock{overflow:hidden}
 
     <div class="wz-step" id="wz-s4" style="display:none">
       <div class="sec-label">PASO 4 DE 5</div>
-      <h3 class="wz-title">Cuéntame más sobre tu proyecto</h3>
-      <p class="wz-sub" style="margin-bottom:16px">Con esto preparo mejor tu sesión — cuanto más sepa antes, menos tiempo perdemos el día de la cita.</p>
+      <h3 class="wz-title">Cuéntanos más sobre tu proyecto</h3>
+      <p class="wz-sub" style="margin-bottom:16px">Con esto preparamos mejor tu sesión — cuanto más sepamos antes, menos tiempo perdemos el día de la cita.</p>
 
       <div class="wz-label">ZONA *</div>
       <div class="wz-2col">
@@ -1352,7 +1357,7 @@ body.wz-lock{overflow:hidden}
       </div>
 
       <div class="wz-label">IMÁGENES DE REFERENCIA</div>
-      <p class="wz-sub">Sube hasta 6 referencias — me ayudan a entender mejor el estilo, el encaje y el nivel de detalle.</p>
+      <p class="wz-sub">Sube hasta 6 referencias — nos ayudan a entender mejor el estilo, el encaje y el nivel de detalle.</p>
       <input type="file" accept="image/*" multiple id="wz-referencias" class="wz-ref-input" onchange="wzHandleReferencias(event)">
       <div class="wz-ref-preview" id="wz-ref-preview"></div>
       <div class="wz-ref-count" id="wz-ref-count"></div>
@@ -1365,6 +1370,7 @@ body.wz-lock{overflow:hidden}
       <div class="sec-label">PASO 5 DE 5</div>
       <h3 class="wz-title">Revisa y confirma</h3>
       <div class="wz-summary" id="wz-summary"></div>
+      <label class="consent-row"><input type="checkbox" id="wz-consent"> He leído y acepto la <a href="/legal" target="_blank">Política de Privacidad</a>.</label>
       <div class="wz-err" id="wz-err-5"></div>
       <div class="wz-nav"><button class="btn-o" onclick="wzBack()">← ATRÁS</button><button class="btn-p" id="wz-submit-btn" onclick="wzSubmit()">ENVIAR SOLICITUD →</button></div>
     </div>
@@ -1373,7 +1379,7 @@ body.wz-lock{overflow:hidden}
       <div class="wz-success">
         <div class="wz-success-icon">✦</div>
         <h3 id="wz-success-title">Tu cita está reservada</h3>
-        <p id="wz-success-msg">Ese hueco ya es tuyo. Completa el pago de la fianza abajo y te contactaré por email para confirmar la cita.</p>
+        <p id="wz-success-msg">Ese hueco ya es tuyo. Completa el pago de la fianza abajo y te contactamos por email para confirmar la cita.</p>
         <div class="gift-bizum" id="wz-bizum-box" style="display:none;max-width:360px;margin:18px auto"></div>
         <button class="btn-p" onclick="closeWizard()">CERRAR</button>
       </div>
@@ -1409,13 +1415,14 @@ body.wz-lock{overflow:hidden}
       <p class="lp-offer-msg" id="lp-offer-msg"></p>
       <input class="fi2" id="lp-nombre" placeholder="Tu nombre">
       <input class="fi2" type="email" id="lp-email" placeholder="tu@email.com">
+      <label class="consent-row"><input type="checkbox" id="lp-consent"> He leído y acepto la <a href="/legal" target="_blank">Política de Privacidad</a>.</label>
       <button class="btn-p" style="width:100%" onclick="submitLeadPopup()">QUIERO MI PRIORIDAD →</button>
     </div>
 
     <div class="lp-step" id="lp-success" style="display:none;text-align:center">
       <div class="wz-success-icon">✦</div>
       <h3 style="font-family:var(--serif);font-size:26px;font-weight:300;color:var(--tx);margin-bottom:12px">¡Listo!</h3>
-      <p id="lp-success-msg" style="font-size:14px;color:var(--t2);line-height:1.8;margin-bottom:20px">Ya tienes prioridad. Te escribo pronto.</p>
+      <p id="lp-success-msg" style="font-size:14px;color:var(--t2);line-height:1.8;margin-bottom:20px">Ya tienes prioridad. Te escribimos pronto.</p>
       <button class="btn-p" onclick="closeLeadPopup()">CERRAR</button>
     </div>
   </div>
@@ -1593,6 +1600,7 @@ async function submitObras() {
   const nombre = document.getElementById('obras-nombre').value.trim();
   const email = document.getElementById('obras-email').value.trim();
   if (!email) { document.getElementById('obras-email').focus(); return; }
+  if (!document.getElementById('obras-consent').checked) { alert('Debes aceptar la Política de Privacidad para continuar.'); return; }
   const mensaje = document.getElementById('obras-msg').value.trim();
   const payload = { tipo: 'obras', nombre, email, mensaje, fecha_envio: new Date().toISOString() };
   await sendLead(payload);
@@ -1618,6 +1626,7 @@ async function submitGiftCard() {
   const email = document.getElementById('gift-email').value.trim();
   if (!giftAmt || giftAmt < 20) { document.getElementById('gift-custom-amt').focus(); return; }
   if (!email) { document.getElementById('gift-email').focus(); return; }
+  if (!document.getElementById('gift-consent').checked) { alert('Debes aceptar la Política de Privacidad para continuar.'); return; }
   const payload = {
     tipo: 'vale-regalo', nombre, email,
     servicio: 'Vale regalo ' + giftAmt + '€',
@@ -1640,6 +1649,7 @@ async function submitExperience() {
   const nombre = document.getElementById('exp-nombre').value.trim();
   const email = document.getElementById('exp-email').value.trim();
   if (!email) { document.getElementById('exp-email').focus(); return; }
+  if (!document.getElementById('exp-consent').checked) { alert('Debes aceptar la Política de Privacidad para continuar.'); return; }
   const evento = document.getElementById('exp-evento').value;
   const eventoLabel = evento === 'boda' ? 'Boda' : evento === 'evento-privado' ? 'Evento privado' : '';
   const tipo = document.getElementById('exp-tipo').value;
@@ -1926,7 +1936,7 @@ function wzNext() {
     wz.repeticion = document.getElementById('wz-repeticion').value;
     wz.fuente = document.getElementById('wz-fuente').value;
     const err = document.getElementById('wz-err-4');
-    if (!wz.zona) { err.textContent = 'Cuéntame al menos la zona — me ayuda a preparar tu sesión.'; return; }
+    if (!wz.zona) { err.textContent = 'Cuéntanos al menos la zona — nos ayuda a preparar tu sesión.'; return; }
     err.textContent = '';
     wz.step = 5; showWzStep(5); return;
   }
@@ -1938,6 +1948,8 @@ function wzBack() {
 async function wzSubmit() {
   const btn = document.getElementById('wz-submit-btn');
   const err = document.getElementById('wz-err-5');
+  if (!document.getElementById('wz-consent').checked) { err.textContent = 'Debes aceptar la Política de Privacidad para continuar.'; return; }
+  err.textContent = '';
   btn.textContent = 'ENVIANDO...'; btn.disabled = true;
   const payload = {
     tipo: 'reserva',
@@ -1953,7 +1965,7 @@ async function wzSubmit() {
   btn.textContent = 'ENVIAR SOLICITUD →'; btn.disabled = false;
   if (result.ok) {
     document.getElementById('wz-success-title').textContent = 'Tu cita está reservada';
-    document.getElementById('wz-success-msg').textContent = 'Ese hueco ya es tuyo. Completa el pago de la fianza abajo y te contactaré por email para confirmar la cita.';
+    document.getElementById('wz-success-msg').textContent = 'Ese hueco ya es tuyo. Completa el pago de la fianza abajo y te contactamos por email para confirmar la cita.';
     const bizumBox = document.getElementById('wz-bizum-box');
     if (CONFIG.bizum) {
       const concepto = (wz.nombre || 'tu nombre') + ' - cita';
@@ -2048,6 +2060,7 @@ async function submitLeadPopup() {
   const nombre = document.getElementById('lp-nombre').value.trim();
   const email = document.getElementById('lp-email').value.trim();
   if (!email) { document.getElementById('lp-email').focus(); return; }
+  if (!document.getElementById('lp-consent').checked) { alert('Debes aceptar la Política de Privacidad para continuar.'); return; }
   const offer = LP_OFFERS[lp.motivo] || LP_OFFERS.cita;
   const payload = { tipo: 'popup', nombre, email, servicio: lp.motivo, mensaje: 'Preferencia: ' + (lp.pref || ''), fecha_envio: new Date().toISOString() };
   await sendLead(payload);

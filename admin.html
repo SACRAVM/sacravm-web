@@ -224,6 +224,7 @@ const TABS = [
   { id: 'cuadros', label: 'Cuadros' },
   { id: 'galeria', label: 'Galería' },
   { id: 'experiences', label: 'Experiences' },
+  { id: 'university', label: 'University' },
   { id: 'leads', label: 'Leads' },
   { id: 'password', label: 'Contraseña' },
 ];
@@ -267,6 +268,7 @@ function renderPanel() {
   if (activeTab === 'cuadros') area.innerHTML = panelCuadros();
   if (activeTab === 'galeria') area.innerHTML = panelGaleria();
   if (activeTab === 'experiences') area.innerHTML = panelExperiences();
+  if (activeTab === 'university') area.innerHTML = panelUniversity();
   if (activeTab === 'leads') { area.innerHTML = '<div class="panel-title">Leads</div><div class="panel-desc">Cargando…</div>'; loadLeads(); }
   if (activeTab === 'password') area.innerHTML = panelPassword();
   wireCurrentPanel();
@@ -542,7 +544,77 @@ function wireExperiences() {
     renderExpFotosList();
   };
 }
-async function uploadListPhoto(inp, listKey, rerender) {
+function panelUniversity() {
+  return `
+    <div class="panel-title">University</div>
+    <div class="panel-desc">Prueba real de que el método funciona: resultados de antes/después de tus alumnos y sus valoraciones. Se muestra en /academy.</div>
+    <div class="card">
+      <p class="field-label">Nº DE ALUMNOS YA FORMADOS</p>
+      <input class="fi" id="f-academyAlumnos" type="number" min="0" value="${esc(content.academyAlumnos ?? 0)}" style="max-width:160px">
+    </div>
+    <p class="panel-title" style="font-size:16px;margin-top:28px">Resultados antes / después</p>
+    <div id="academy-resultados-list"></div>
+    <button class="btn-add-item" id="btn-add-resultado">+ AÑADIR RESULTADO</button>
+    <p class="panel-title" style="font-size:16px;margin-top:28px">Valoraciones de alumnos</p>
+    <div id="academy-testi-list"></div>
+    <button class="btn-add-item" id="btn-add-academy-testi">+ AÑADIR VALORACIÓN</button>
+  `;
+}
+function renderResultadosList() {
+  document.getElementById('academy-resultados-list').innerHTML = content.academyResultados.map((r,i) => {
+    const beforePrev = r.before ? `<img src="${r.before}">` : `<span>Antes</span>`;
+    const afterPrev = r.after ? `<img src="${r.after}">` : `<span>Después</span>`;
+    return `
+    <div class="card item-card">
+      <button class="item-remove" data-i="${i}" data-del="resultado">✕</button>
+      <div style="display:flex;gap:12px;flex-wrap:wrap">
+        <div>
+          <div class="foto-preview" style="max-width:160px">${beforePrev}</div>
+          <label class="btn-upload" style="max-width:160px;margin-top:8px;display:inline-block">ANTES<input type="file" accept="image/*" data-i="${i}" class="resultado-before-input"></label>
+        </div>
+        <div>
+          <div class="foto-preview" style="max-width:160px">${afterPrev}</div>
+          <label class="btn-upload" style="max-width:160px;margin-top:8px;display:inline-block">DESPUÉS<input type="file" accept="image/*" data-i="${i}" class="resultado-after-input"></label>
+        </div>
+      </div>
+      <p class="field-label" style="margin-top:12px">ALUMNO (nombre o iniciales)</p><input class="fi" data-i="${i}" data-f="alumno" value="${esc(r.alumno)}">
+      <p class="field-label">DESCRIPCIÓN (opcional)</p><input class="fi" data-i="${i}" data-f="caption" value="${esc(r.caption)}">
+    </div>
+  `;
+  }).join('') || '<p class="empty-note">Todavía no has añadido ningún resultado.</p>';
+  document.querySelectorAll('[data-del="resultado"]').forEach(b => b.onclick = () => { content.academyResultados.splice(+b.dataset.i,1); renderResultadosList(); });
+  document.querySelectorAll('#academy-resultados-list [data-f]').forEach(el => el.oninput = () => { content.academyResultados[+el.dataset.i][el.dataset.f] = el.value; });
+  document.querySelectorAll('.resultado-before-input').forEach(inp => inp.onchange = () => uploadListPhoto(inp, 'academyResultados', renderResultadosList, 'before'));
+  document.querySelectorAll('.resultado-after-input').forEach(inp => inp.onchange = () => uploadListPhoto(inp, 'academyResultados', renderResultadosList, 'after'));
+}
+function renderAcademyTestiList() {
+  document.getElementById('academy-testi-list').innerHTML = content.academyTestimonios.map((t,i) => `
+    <div class="card item-card">
+      <button class="item-remove" data-i="${i}" data-del="academytesti">✕</button>
+      <p class="field-label">VALORACIÓN</p><textarea class="fi" data-i="${i}" data-f="txt" style="height:70px">${esc(t.txt)}</textarea>
+      <p class="field-label">ALUMNO</p><input class="fi" data-i="${i}" data-f="by" value="${esc(t.by)}">
+    </div>
+  `).join('') || '<p class="empty-note">Todavía no has añadido ninguna valoración.</p>';
+  document.querySelectorAll('[data-del="academytesti"]').forEach(b => b.onclick = () => { content.academyTestimonios.splice(+b.dataset.i,1); renderAcademyTestiList(); });
+  document.querySelectorAll('#academy-testi-list [data-f]').forEach(el => el.oninput = () => { content.academyTestimonios[+el.dataset.i][el.dataset.f] = el.value; });
+}
+function wireUniversity() {
+  content.academyResultados = content.academyResultados || [];
+  content.academyTestimonios = content.academyTestimonios || [];
+  renderResultadosList();
+  renderAcademyTestiList();
+  document.getElementById('f-academyAlumnos').oninput = (e) => { content.academyAlumnos = +e.target.value || 0; };
+  document.getElementById('btn-add-resultado').onclick = () => {
+    content.academyResultados.push({ before: '', after: '', alumno: '', caption: '' });
+    renderResultadosList();
+  };
+  document.getElementById('btn-add-academy-testi').onclick = () => {
+    content.academyTestimonios.push({ txt: '', by: '' });
+    renderAcademyTestiList();
+  };
+}
+async function uploadListPhoto(inp, listKey, rerender, field) {
+  field = field || 'url';
   const file = inp.files[0];
   if (!file) return;
   const index = +inp.dataset.i;
@@ -550,12 +622,12 @@ async function uploadListPhoto(inp, listKey, rerender) {
   reader.onload = async () => {
     const res = await fetch('/api/upload-photo', {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ listKey, index, filename: file.name, dataBase64: reader.result })
+      body: JSON.stringify({ listKey, index, field, filename: file.name, dataBase64: reader.result })
     });
     const data = await res.json();
     if (data.ok) {
       content[listKey][index] = content[listKey][index] || {};
-      content[listKey][index].url = data.path;
+      content[listKey][index][field] = data.path;
       rerender();
       flashSaved('✓ Foto subida');
     } else {
@@ -960,6 +1032,7 @@ function wireCurrentPanel() {
   if (activeTab === 'cuadros') wireCuadros();
   if (activeTab === 'galeria') wireGaleria();
   if (activeTab === 'experiences') wireExperiences();
+  if (activeTab === 'university') wireUniversity();
   if (activeTab === 'password') wirePassword();
 }
 
