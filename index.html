@@ -138,14 +138,23 @@ nav,footer{scroll-snap-align:none}
 
 /* ── SERVICES ─── */
 #servicios{background:var(--bg);border-top:1px solid var(--bdr)}
-.svcs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:48px}
-.svc-card{background:var(--w);border:1px solid var(--bdr);border-radius:6px;padding:30px 26px;transition:all .2s;box-shadow:var(--sh)}
-.svc-card:hover{transform:translateY(-3px);box-shadow:0 8px 32px rgba(60,40,10,.1);border-color:var(--bdr2)}
-.svc-bar{width:22px;height:2px;background:var(--a);margin-bottom:22px;border-radius:1px;opacity:.6}
-.svc-name{font-family:var(--serif);font-size:28px;font-weight:400;margin-bottom:12px;color:var(--tx)}
+.svc-list{margin-top:48px}
+.svc-row{display:flex;align-items:flex-start;gap:32px;padding:44px 4px;border-top:1px solid var(--bdr);transition:background .2s}
+.svc-row:last-child{border-bottom:1px solid var(--bdr)}
+.svc-row:hover{background:var(--aLt)}
+.svc-n{font-family:var(--serif);font-size:24px;font-weight:300;color:var(--a);opacity:.45;flex-shrink:0;line-height:1.3;width:36px}
+.svc-row-l{flex:1;max-width:560px}
+.svc-name{font-family:var(--serif);font-size:clamp(30px,3.2vw,40px);font-weight:300;margin-bottom:14px;color:var(--tx);letter-spacing:.01em}
 .svc-desc{font-size:15px;color:var(--t2);line-height:1.8;margin-bottom:14px}
-.svc-ideal{font-size:12px;letter-spacing:.06em;color:var(--t3);margin-bottom:26px;line-height:1.7}
-.svc-pr{font-family:var(--serif);font-size:22px;color:var(--a);margin-bottom:18px;font-weight:400}
+.svc-ideal{font-size:11.5px;letter-spacing:.08em;color:var(--t3)}
+.svc-row-r{text-align:right;flex-shrink:0;display:flex;flex-direction:column;align-items:flex-end;gap:16px;min-width:170px}
+.svc-pr{font-family:var(--serif);font-size:clamp(26px,2.6vw,34px);color:var(--tx);font-weight:300}
+.svc-pr .u{font-size:14px;color:var(--t3);font-weight:400;margin-left:1px}
+@media(max-width:720px){
+  .svc-row{flex-direction:column;gap:14px;padding:32px 4px}
+  .svc-n{width:auto}
+  .svc-row-r{align-items:flex-start;text-align:left}
+}
 .btn-svc{background:none;border:1px solid var(--bdr2);color:var(--a);font-size:13px;padding:8px 18px;border-radius:3px;cursor:pointer;letter-spacing:.07em;font-weight:500;transition:all .15s}
 .btn-svc:hover{background:var(--aLt);border-color:var(--aBdr)}
 
@@ -472,7 +481,7 @@ body.wz-lock{overflow:hidden}
   .hero-r{display:none}
   .nos-grid,.form-grid{grid-template-columns:1fr}
   .nos-photo{display:none}
-  .svcs-grid,.testi-grid,.port-grid{grid-template-columns:1fr}
+  .testi-grid,.port-grid{grid-template-columns:1fr}
   .pimg.tall,.pimg.wide{grid-row:unset;grid-column:unset;aspect-ratio:4/3}
   .bk-flow{gap:0}
   .bk-step{max-width:160px}
@@ -741,7 +750,7 @@ body.wz-lock{overflow:hidden}
       <div class="sec-label">SPÉCIALITÉS</div>
       <h2 class="sec-title">El arte que puedes reservar</h2>
     </div>
-    <div class="svcs-grid" id="svcs-grid">
+    <div class="svc-list" id="svcs-grid">
       <!-- Generado por JavaScript desde CONFIG -->
     </div>
   </div>
@@ -1478,13 +1487,17 @@ function renderSite(CONFIG) {
 
   // ── Servicios ──────────────────────────────────────────────────
   document.getElementById('svcs-grid').innerHTML = CONFIG.servicios.map((s,i) => `
-    <div class="svc-card rv d${i+1}">
-      <div class="svc-bar"></div>
-      <h3 class="svc-name">${s.nombre}</h3>
-      <p class="svc-desc">${s.descripcion}</p>
-      <p class="svc-ideal">IDEAL PARA · ${s.ideal}</p>
-      <div class="svc-pr">${s.precio}</div>
-      <button class="btn-svc" onclick="goBook('${s.nombre}')">Reservar →</button>
+    <div class="svc-row rv d${i+1}">
+      <div class="svc-n">${String(i+1).padStart(2,'0')}</div>
+      <div class="svc-row-l">
+        <h3 class="svc-name">${s.nombre}</h3>
+        <p class="svc-desc">${s.descripcion}</p>
+        <p class="svc-ideal">IDEAL PARA · ${s.ideal}</p>
+      </div>
+      <div class="svc-row-r">
+        <div class="svc-pr">${s.precio.replace('€','<span class="u">€</span>')}</div>
+        <button class="btn-tar" onclick="goBook('${s.nombre}')">Reservar →</button>
+      </div>
     </div>
   `).join('');
 
@@ -1765,13 +1778,26 @@ function wzSelectTier(id) {
   renderWzTiers();
 }
 
+// Día entero (tier 'grande') no necesita elegir hora: la sesión ocupa toda la jornada.
+// Medio día (tier 'pequeno') solo ofrece dos franjas fijas: mañana (10:00) o tarde (14:00-15:00).
+function wzHorariosDeTier() {
+  if (wz.tier === 'grande') return [];
+  return ['10:00', '14:00'];
+}
 function renderWzHorarios() {
   if (!wz.fecha) { document.getElementById('wz-horarios').innerHTML = ''; document.getElementById('wz-hora-label').style.display = 'none'; return; }
+  if (wz.tier === 'grande') {
+    wz.hora = 'Día completo';
+    document.getElementById('wz-hora-label').style.display = 'none';
+    document.getElementById('wz-horarios').innerHTML = '';
+    return;
+  }
   document.getElementById('wz-hora-label').style.display = 'block';
   const ocupadas = wzHorasOcupadas(wz.fecha);
-  document.getElementById('wz-horarios').innerHTML = CONFIG.horarios.map(h => {
+  document.getElementById('wz-horarios').innerHTML = wzHorariosDeTier().map(h => {
     const taken = ocupadas.includes(h);
-    return `<button type="button" class="wz-hora ${wz.hora===h?'sel':''} ${taken?'taken':''}" ${taken?'disabled':''} onclick="wzSelectHora('${h}')">${h}</button>`;
+    const label = h === '14:00' ? '14:00–15:00' : h;
+    return `<button type="button" class="wz-hora ${wz.hora===h?'sel':''} ${taken?'taken':''}" ${taken?'disabled':''} onclick="wzSelectHora('${h}')">${label}</button>`;
   }).join('');
 }
 function wzSelectHora(h) { wz.hora = h; renderWzHorarios(); }
@@ -1827,7 +1853,7 @@ function wzCalRender() {
       continue;
     }
     const ocupadas = wzHorasOcupadas(dateStr);
-    const isFull = ocupadas.length >= (CONFIG.horarios || []).length;
+    const isFull = wz.tier === 'grande' ? ocupadas.length > 0 : ocupadas.length >= wzHorariosDeTier().length;
     const isSel = wz.fecha === dateStr;
     html += `<button type="button" class="wz-cal-day ${isFull ? 'full' : 'free'} ${isSel ? 'sel' : ''}" ${isFull ? 'disabled' : ''} onclick="wzCalSelectDay('${dateStr}')">${d}</button>`;
   }
@@ -1845,7 +1871,7 @@ function renderWzSummary() {
   document.getElementById('wz-summary').innerHTML = `
     <div><strong>Servicio:</strong> ${wz.servicio}</div>
     <div><strong>Tamaño de la pieza:</strong> ${WZ_TIERS.find(t=>t.id===wz.tier)?.label || '-'} (fianza ${wz.fianza}€)</div>
-    <div><strong>Fecha:</strong> ${wz.fecha || '-'} ${wz.hora ? 'a las ' + wz.hora : ''}</div>
+    <div><strong>Fecha:</strong> ${wz.fecha || '-'} ${wz.hora === 'Día completo' ? '(jornada completa)' : (wz.hora ? 'a las ' + wz.hora : '')}</div>
     <div><strong>Nombre:</strong> ${wz.nombre}</div>
     <div><strong>Email:</strong> ${wz.email}</div>
     <div><strong>WhatsApp:</strong> ${wz.whatsapp || '-'}</div>
