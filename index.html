@@ -1993,11 +1993,20 @@ async function wzSubmit() {
     document.getElementById('wz-success-title').textContent = 'Tu cita está reservada';
     document.getElementById('wz-success-msg').textContent = 'Ese hueco ya es tuyo. Completa el pago de la fianza abajo y te contactamos por email para confirmar la cita.';
     const bizumBox = document.getElementById('wz-bizum-box');
-    if (CONFIG.bizum) {
+    const stripeLink = CONFIG['stripeLink' + wz.fianza];
+    if (CONFIG.bizum || stripeLink) {
       const concepto = (wz.nombre || 'tu nombre') + ' - cita';
       bizumBox.style.display = 'block';
-      bizumBox.innerHTML = `<strong>PARA CONFIRMAR TU CITA — FIANZA ${wz.fianza}€</strong><p>Envía ${wz.fianza}€ por Bizum a <span>${CONFIG.bizum}</span><br>Concepto: <span>${concepto}</span></p><button type="button" class="btn-copy" id="wz-copy-btn">📋 COPIAR DATOS DEL PAGO</button><p style="font-size:11px;color:var(--dt2);margin-top:10px">¿Prefieres pagar la sesión completa por adelantado? También puedes hacerlo por Bizum — dínoslo por WhatsApp y te paso el importe exacto.</p>`;
-      document.getElementById('wz-copy-btn').onclick = (e) => copyBizumData(CONFIG.bizum, wz.fianza, concepto, e.target);
+      let html = `<strong>PARA CONFIRMAR TU CITA — FIANZA ${wz.fianza}€</strong>`;
+      if (stripeLink) {
+        html += `<p>Paga la fianza ahora mismo con tarjeta — confirmación al instante.</p><a href="${stripeLink}" target="_blank" class="btn-p" style="display:inline-block;text-decoration:none;margin-top:4px">PAGAR FIANZA CON TARJETA →</a>`;
+        if (CONFIG.bizum) html += `<p style="font-size:11px;color:var(--dt2);margin-top:14px">¿Prefieres Bizum? Envía ${wz.fianza}€ a <span>${CONFIG.bizum}</span>, concepto: <span>${concepto}</span></p><button type="button" class="btn-copy" id="wz-copy-btn">📋 COPIAR DATOS BIZUM</button>`;
+      } else {
+        html += `<p>Envía ${wz.fianza}€ por Bizum a <span>${CONFIG.bizum}</span><br>Concepto: <span>${concepto}</span></p><button type="button" class="btn-copy" id="wz-copy-btn">📋 COPIAR DATOS DEL PAGO</button>`;
+      }
+      html += `<p style="font-size:11px;color:var(--dt2);margin-top:10px">¿Prefieres pagar la sesión completa por adelantado? Dínoslo por WhatsApp y te paso el importe exacto.</p>`;
+      bizumBox.innerHTML = html;
+      if (CONFIG.bizum) document.getElementById('wz-copy-btn').onclick = (e) => copyBizumData(CONFIG.bizum, wz.fianza, concepto, e.target);
     } else {
       bizumBox.style.display = 'none';
     }

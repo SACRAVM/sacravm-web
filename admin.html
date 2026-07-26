@@ -226,6 +226,8 @@ const TABS = [
   { id: 'experiences', label: 'Experiences' },
   { id: 'university', label: 'University' },
   { id: 'leads', label: 'Leads' },
+  { id: 'proveedores', label: 'Proveedores' },
+  { id: 'colaboraciones', label: 'Colaboraciones' },
   { id: 'password', label: 'Contraseña' },
 ];
 
@@ -270,6 +272,8 @@ function renderPanel() {
   if (activeTab === 'experiences') area.innerHTML = panelExperiences();
   if (activeTab === 'university') area.innerHTML = panelUniversity();
   if (activeTab === 'leads') { area.innerHTML = '<div class="panel-title">Leads</div><div class="panel-desc">Cargando…</div>'; loadLeads(); }
+  if (activeTab === 'proveedores') { area.innerHTML = '<div class="panel-title">Proveedores</div><div class="panel-desc">Cargando…</div>'; loadProveedores(); }
+  if (activeTab === 'colaboraciones') { area.innerHTML = '<div class="panel-title">Colaboraciones</div><div class="panel-desc">Cargando…</div>'; loadColaboraciones(); }
   if (activeTab === 'password') area.innerHTML = panelPassword();
   wireCurrentPanel();
 }
@@ -292,11 +296,15 @@ function panelDatos() {
         <div><p class="field-label">BIZUM (número para cobrar fianzas y vales regalo)</p><input class="fi" id="f-bizum" placeholder="+34612345678" value="${esc(content.bizum||'')}"></div>
         <div><p class="field-label">INSTAGRAM (sin @)</p><input class="fi" id="f-instagram" value="${esc(content.instagram)}"></div>
       </div>
+      <div class="row2">
+        <div><p class="field-label">STRIPE — Link de pago fianza 50€ (sesión pequeña)</p><input class="fi" id="f-stripeLink50" placeholder="https://buy.stripe.com/..." value="${esc(content.stripeLink50||'')}"></div>
+        <div><p class="field-label">STRIPE — Link de pago fianza 100€ (grande/proyecto)</p><input class="fi" id="f-stripeLink100" placeholder="https://buy.stripe.com/..." value="${esc(content.stripeLink100||'')}"></div>
+      </div>
     </div>
   `;
 }
 function wireDatos() {
-  ['nombre','ciudad','email','whatsapp','bizum','instagram'].forEach(k => {
+  ['nombre','ciudad','email','whatsapp','bizum','instagram','stripeLink50','stripeLink100'].forEach(k => {
     const el = document.getElementById('f-'+k);
     if (el) el.oninput = () => content[k] = el.value;
   });
@@ -706,11 +714,21 @@ async function uploadFoto(inp) {
 async function loadLeads() {
   const area = document.getElementById('content-area');
   area.innerHTML = `
-    <div class="panel-hd" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+    <div class="panel-hd" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;gap:10px;flex-wrap:wrap">
       <div class="panel-title" id="leads-title" style="margin-bottom:0">Leads</div>
-      <button class="btn-o" id="btn-toggle-ficha">+ AÑADIR CLIENTE</button>
+      <div style="display:flex;gap:10px">
+        <button class="btn-o" id="btn-toggle-import">+ IMPORTAR DE EXCEL</button>
+        <button class="btn-o" id="btn-toggle-ficha">+ AÑADIR CLIENTE</button>
+      </div>
     </div>
     <div class="panel-desc">Se guardan también en el archivo leads/leads.csv, por si prefieres abrirlo en Excel.</div>
+    <div class="card" id="import-panel" style="display:none">
+      <p class="field-label">PEGA TUS CONTACTOS (uno por línea — copia y pega directamente desde Excel/Sheets: Nombre, Email, WhatsApp, Notas)</p>
+      <textarea class="fi" id="import-textarea" style="min-height:160px" placeholder="Juan Pérez	juan@email.com	+34600111222
+María López		+34600333444	Cliente recurrente, alergia al látex"></textarea>
+      <div class="auth-msg" id="import-msg"></div>
+      <button class="btn-p" id="btn-do-import" style="width:auto;padding:12px 28px">IMPORTAR</button>
+    </div>
     <div class="card" id="ficha-panel" style="display:none">
       <div class="fsteps">
         <div class="fstep-item cur" id="fstep-tab-0" onclick="goFichaStep(0)"><div class="fstep-n" id="fstep-n-0">1</div><div class="fstep-l">Datos</div></div>
@@ -818,6 +836,39 @@ async function loadLeads() {
     if (opening) resetFichaForm();
   };
   document.getElementById('btn-save-ficha').onclick = saveFicha;
+  document.getElementById('btn-toggle-import').onclick = () => {
+    const p = document.getElementById('import-panel');
+    p.style.display = p.style.display === 'none' ? 'block' : 'none';
+  };
+  document.getElementById('btn-do-import').onclick = importLeadsFromText;
+  await renderLeadsTable();
+}
+
+function parseImportLine(line) {
+  let parts = line.split('\t');
+  if (parts.length < 2) parts = line.split(',');
+  return {
+    nombre: (parts[0] || '').trim(),
+    email: (parts[1] || '').trim(),
+    whatsapp: (parts[2] || '').trim(),
+    notas: (parts[3] || '').trim(),
+  };
+}
+async function importLeadsFromText() {
+  const ta = document.getElementById('import-textarea');
+  const msg = document.getElementById('import-msg');
+  const lines = ta.value.split('\n').map(l => l.trim()).filter(Boolean);
+  const rows = lines.map(parseImportLine).filter(r => r.nombre || r.email || r.whatsapp);
+  if (!rows.length) { msg.textContent = 'Pega al menos una fila con nombre, email o whatsapp.'; return; }
+  const btn = document.getElementById('btn-do-import');
+  btn.disabled = true; btn.textContent = 'IMPORTANDO…';
+  const res = await fetch('/api/leads-import', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ rows }) });
+  const data = await res.json();
+  btn.disabled = false; btn.textContent = 'IMPORTAR';
+  if (!data.ok) { msg.textContent = 'No se pudo importar. Inténtalo de nuevo.'; return; }
+  ta.value = ''; msg.textContent = '';
+  document.getElementById('import-panel').style.display = 'none';
+  flashSaved('✓ ' + data.count + ' contacto(s) importado(s)');
   await renderLeadsTable();
 }
 
@@ -986,6 +1037,175 @@ async function renderLeadsTable() {
               <td>${esc(l.mensaje || l.instagram)}</td>
               <td>${l.tipo === 'reserva' ? `<button class="btn-o" style="padding:5px 10px;font-size:10px" data-row="${l._row}" data-estado="${esc(l.estado_fianza)}" onclick="toggleFianza(this)">${l.estado_fianza === 'pagada' ? '✓ Pagada' : '○ Pendiente'}</button>` : ''}</td>
               <td><button class="btn-o" style="padding:5px 10px;font-size:10px" onclick="openEditLead(${l._row})">✎ Editar</button></td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    </div>
+  `;
+}
+
+// ── Proveedores ──────────────────────────────────────────────────
+async function loadProveedores() {
+  const area = document.getElementById('content-area');
+  area.innerHTML = `
+    <div class="panel-hd" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+      <div class="panel-title" id="prov-title" style="margin-bottom:0">Proveedores</div>
+      <button class="btn-o" id="btn-toggle-prov">+ AÑADIR PROVEEDOR</button>
+    </div>
+    <div class="panel-desc">Materiales, tintas, agujas, mobiliario… todo lo que compras para el Atelier. Se guarda en proveedores.csv.</div>
+    <div class="card" id="prov-form" style="display:none">
+      <div class="row2">
+        <div><p class="field-label">NOMBRE / EMPRESA</p><input class="fi" id="pv-nombre" placeholder="Ej. Kwadron, Cheyenne, ferretería local…"></div>
+        <div><p class="field-label">QUÉ SUMINISTRA</p><input class="fi" id="pv-que" placeholder="Tintas, agujas, camillas…"></div>
+      </div>
+      <div class="row2">
+        <div><p class="field-label">PERSONA DE CONTACTO</p><input class="fi" id="pv-contacto" placeholder="Nombre del comercial/contacto"></div>
+        <div><p class="field-label">TELÉFONO</p><input class="fi" id="pv-telefono" placeholder="+34…"></div>
+      </div>
+      <p class="field-label">EMAIL</p><input class="fi" id="pv-email">
+      <p class="field-label">CONDICIONES (precios, plazos, mínimos de pedido…)</p><textarea class="fi" id="pv-condiciones"></textarea>
+      <p class="field-label">NOTAS</p><textarea class="fi" id="pv-notas"></textarea>
+      <div class="auth-msg" id="pv-msg"></div>
+      <button class="btn-p" id="btn-save-prov" style="width:auto;padding:12px 28px">GUARDAR PROVEEDOR</button>
+    </div>
+    <div id="prov-table-wrap"><div class="empty-note">Cargando…</div></div>
+  `;
+  document.getElementById('btn-toggle-prov').onclick = () => {
+    const p = document.getElementById('prov-form');
+    p.style.display = p.style.display === 'none' ? 'block' : 'none';
+  };
+  document.getElementById('btn-save-prov').onclick = saveProveedor;
+  await renderProveedoresTable();
+}
+async function saveProveedor() {
+  const nombre = document.getElementById('pv-nombre').value.trim();
+  const que_suministra = document.getElementById('pv-que').value.trim();
+  const contacto = document.getElementById('pv-contacto').value.trim();
+  const telefono = document.getElementById('pv-telefono').value.trim();
+  const email = document.getElementById('pv-email').value.trim();
+  const condiciones = document.getElementById('pv-condiciones').value.trim();
+  const notas = document.getElementById('pv-notas').value.trim();
+  const msg = document.getElementById('pv-msg');
+  if (!nombre) { msg.textContent = 'Al menos pon el nombre.'; return; }
+  const res = await fetch('/api/proveedores', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ nombre, que_suministra, contacto, telefono, email, condiciones, notas }) });
+  const data = await res.json();
+  if (!data.ok) { msg.textContent = 'No se pudo guardar. Inténtalo de nuevo.'; return; }
+  ['pv-nombre', 'pv-que', 'pv-contacto', 'pv-telefono', 'pv-email', 'pv-condiciones', 'pv-notas'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('prov-form').style.display = 'none';
+  flashSaved('✓ Proveedor guardado');
+  await renderProveedoresTable();
+}
+let currentProveedores = [];
+async function renderProveedoresTable() {
+  const res = await fetch('/api/proveedores');
+  const data = await res.json();
+  const items = data.items || [];
+  currentProveedores = items;
+  document.getElementById('prov-title').textContent = 'Proveedores (' + items.length + ')';
+  const wrap = document.getElementById('prov-table-wrap');
+  if (!items.length) { wrap.innerHTML = '<div class="empty-note">Todavía no hay ninguno. Añade tu primer proveedor.</div>'; return; }
+  wrap.innerHTML = `
+    <div class="card" style="overflow-x:auto">
+      <table class="leads-table">
+        <thead><tr><th>Nombre</th><th>Qué suministra</th><th>Contacto</th><th>Teléfono</th><th>Email</th><th>Condiciones</th><th>Notas</th></tr></thead>
+        <tbody>
+          ${items.map(p => `
+            <tr>
+              <td>${esc(p.nombre)}</td>
+              <td>${esc(p.que_suministra)}</td>
+              <td>${esc(p.contacto)}</td>
+              <td>${esc(p.telefono)}</td>
+              <td>${esc(p.email)}</td>
+              <td>${esc(p.condiciones)}</td>
+              <td>${esc(p.notas)}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    </div>
+  `;
+}
+
+// ── Colaboraciones ───────────────────────────────────────────────
+async function loadColaboraciones() {
+  const area = document.getElementById('content-area');
+  area.innerHTML = `
+    <div class="panel-hd" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+      <div class="panel-title" id="colab-title" style="margin-bottom:0">Colaboraciones</div>
+      <button class="btn-o" id="btn-toggle-colab">+ AÑADIR COLABORACIÓN</button>
+    </div>
+    <div class="panel-desc">Marcas, artistas invitados, medios… con quién estás hablando y en qué punto está cada una. Se guarda en colaboraciones.csv.</div>
+    <div class="card" id="colab-form" style="display:none">
+      <div class="row2">
+        <div><p class="field-label">MARCA / PERSONA</p><input class="fi" id="cl-nombre" placeholder="Nombre de la marca o persona"></div>
+        <div><p class="field-label">TIPO</p><input class="fi" id="cl-tipo" placeholder="Marca de tinta, medio, artista invitado…"></div>
+      </div>
+      <div class="row2">
+        <div><p class="field-label">PERSONA DE CONTACTO</p><input class="fi" id="cl-contacto-persona"></div>
+        <div><p class="field-label">EMAIL / WHATSAPP / INSTAGRAM</p><input class="fi" id="cl-contacto-medio"></div>
+      </div>
+      <p class="field-label">ESTADO</p>
+      <select class="fi" id="cl-estado">
+        <option value="Por contactar">Por contactar</option>
+        <option value="En conversación">En conversación</option>
+        <option value="Acordado">Acordado</option>
+        <option value="Activo">Activo</option>
+        <option value="Cerrado">Cerrado</option>
+      </select>
+      <p class="field-label">NOTAS</p><textarea class="fi" id="cl-notas"></textarea>
+      <div class="auth-msg" id="cl-msg"></div>
+      <button class="btn-p" id="btn-save-colab" style="width:auto;padding:12px 28px">GUARDAR</button>
+    </div>
+    <div id="colab-table-wrap"><div class="empty-note">Cargando…</div></div>
+  `;
+  document.getElementById('btn-toggle-colab').onclick = () => {
+    const p = document.getElementById('colab-form');
+    p.style.display = p.style.display === 'none' ? 'block' : 'none';
+  };
+  document.getElementById('btn-save-colab').onclick = saveColaboracion;
+  await renderColaboracionesTable();
+}
+async function saveColaboracion() {
+  const nombre = document.getElementById('cl-nombre').value.trim();
+  const tipo = document.getElementById('cl-tipo').value.trim();
+  const contacto_persona = document.getElementById('cl-contacto-persona').value.trim();
+  const contacto_medio = document.getElementById('cl-contacto-medio').value.trim();
+  const estado = document.getElementById('cl-estado').value;
+  const notas = document.getElementById('cl-notas').value.trim();
+  const msg = document.getElementById('cl-msg');
+  if (!nombre) { msg.textContent = 'Al menos pon el nombre.'; return; }
+  const res = await fetch('/api/colaboraciones', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ nombre, tipo, contacto_persona, contacto_medio, estado, notas }) });
+  const data = await res.json();
+  if (!data.ok) { msg.textContent = 'No se pudo guardar. Inténtalo de nuevo.'; return; }
+  ['cl-nombre', 'cl-tipo', 'cl-contacto-persona', 'cl-contacto-medio', 'cl-notas'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('cl-estado').value = 'Por contactar';
+  document.getElementById('colab-form').style.display = 'none';
+  flashSaved('✓ Colaboración guardada');
+  await renderColaboracionesTable();
+}
+let currentColaboraciones = [];
+async function renderColaboracionesTable() {
+  const res = await fetch('/api/colaboraciones');
+  const data = await res.json();
+  const items = data.items || [];
+  currentColaboraciones = items;
+  document.getElementById('colab-title').textContent = 'Colaboraciones (' + items.length + ')';
+  const wrap = document.getElementById('colab-table-wrap');
+  if (!items.length) { wrap.innerHTML = '<div class="empty-note">Todavía no hay ninguna. Añade la primera.</div>'; return; }
+  wrap.innerHTML = `
+    <div class="card" style="overflow-x:auto">
+      <table class="leads-table">
+        <thead><tr><th>Marca/Persona</th><th>Tipo</th><th>Contacto</th><th>Medio</th><th>Estado</th><th>Notas</th></tr></thead>
+        <tbody>
+          ${items.map(c => `
+            <tr>
+              <td>${esc(c.nombre)}</td>
+              <td>${esc(c.tipo)}</td>
+              <td>${esc(c.contacto_persona)}</td>
+              <td>${esc(c.contacto_medio)}</td>
+              <td><span class="tag">${esc(c.estado)}</span></td>
+              <td>${esc(c.notas)}</td>
             </tr>
           `).join('')}
         </tbody>

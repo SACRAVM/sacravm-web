@@ -44,7 +44,17 @@ function readJSON(file, fallback) {
 function writeJSON(file, data) {
   fs.writeFileSync(file, JSON.stringify(data, null, 2), 'utf8');
 }
-const LEADS_HEADER = ['fecha_registro','tipo','nombre','email','whatsapp','servicio','fecha_cita','hora_cita','mensaje','instagram','zona','tamano','bebida','ya_tatuado','fuente','tier','fianza','referencias','estado_fianza','recordatorio_enviado','seguimiento_enviado'];
+const LEADS_HEADER = ['fecha_registro','tipo','nombre','email','whatsapp','servicio','fecha_cita','hora_cita','mensaje','instagram','zona','tamano','bebida','ya_tatuado','fuente','tier','fianza','referencias','estado_fianza','recordatorio_enviado','seguimiento_enviado','reactivacion_6m_enviado','reactivacion_1a_enviado','alerta_fianza_enviado'];
+const PROVEEDORES_FILE = path.join(DATA_DIR, 'proveedores.csv');
+const PROVEEDORES_HEADER = ['fecha_registro','nombre','que_suministra','contacto','telefono','email','condiciones','notas'];
+const COLABORACIONES_FILE = path.join(DATA_DIR, 'colaboraciones.csv');
+const COLABORACIONES_HEADER = ['fecha_registro','nombre','tipo','contacto_persona','contacto_medio','estado','notas'];
+const MATERIALES_FILE = path.join(DATA_DIR, 'materiales.csv');
+const MATERIALES_HEADER = ['fecha_registro','nombre','categoria','cantidad_actual','unidad','stock_minimo','proveedor','notas'];
+const PEDIDOS_FILE = path.join(DATA_DIR, 'pedidos.csv');
+const PEDIDOS_HEADER = ['fecha_registro','fecha_pedido','proveedor','material','cantidad','precio_total','estado','notas'];
+const CUENTAS_FILE = path.join(DATA_DIR, 'cuentas.csv');
+const CUENTAS_HEADER = ['fecha_registro','fecha','tipo','concepto','categoria','importe','notas'];
 
 function ensureDirs() {
   if (!fs.existsSync(LEADS_DIR)) fs.mkdirSync(LEADS_DIR, { recursive: true });
@@ -152,7 +162,7 @@ function appendLead(data, referenciasPaths) {
     data.tier || '', data.fianza || '',
     (referenciasPaths || []).join(';'),
     data.estado_fianza === 'pagada' ? 'pagada' : '', // se puede marcar ya cobrada al crear la ficha manual
-    '', '' // recordatorio_enviado, seguimiento_enviado — los rellena el planificador de emails
+    '', '', '', '', '' // recordatorio_enviado, seguimiento_enviado, reactivacion_6m_enviado, reactivacion_1a_enviado, alerta_fianza_enviado — los rellena el planificador de emails
   ].map(csvEscape).join(',');
   fs.appendFileSync(LEADS_FILE, row + '\n', 'utf8');
 }
@@ -299,8 +309,47 @@ function emailSeguimiento(lead) {
   };
 }
 
-// Comprueba citas para las que toca mandar recordatorio (2 días antes) o
-// seguimiento (7 días después), y las envía una sola vez por cita.
+function emailReactivacion6m(lead) {
+  const nombre = (lead.nombre || '').split(' ')[0] || 'Hola';
+  return {
+    subject: `Han pasado 6 meses — ¿qué tal sigue tu tatuaje?`,
+    html: EMAIL_WRAP(`
+      <p>Hola ${nombre},</p>
+      <p>Ya han pasado 6 meses desde tu sesión en SACRAVM — espero que la pieza haya asentado perfecta.</p>
+      <p>Si te apetece retocarla, seguirla con algo nuevo, o simplemente pasarte por el Atelier a saludar, aquí tienes las puertas abiertas.</p>
+      <p>Un abrazo,</p>
+    `),
+  };
+}
+
+function emailReactivacion1a(lead) {
+  const nombre = (lead.nombre || '').split(' ')[0] || 'Hola';
+  return {
+    subject: `Un año ya de tu tatuaje — te esperamos en el Atelier`,
+    html: EMAIL_WRAP(`
+      <p>Hola ${nombre},</p>
+      <p>Se cumple un año desde tu sesión en SACRAVM. Si tienes en mente una nueva pieza, un retoque, o simplemente te apetece pasarte por el Atelier, este es tu recordatorio para hacerlo.</p>
+      <p>Siempre es un placer verte de nuevo.</p>
+    `),
+  };
+}
+
+// Aviso para JJ (no para el cliente): la cita es en 2 días y la fianza sigue sin marcarse como pagada.
+function emailAvisoFianza(lead) {
+  const fecha = fmtFechaEs(lead.fecha_cita);
+  return {
+    subject: `⚠ Fianza pendiente — cita en 2 días: ${lead.nombre || 'sin nombre'}`,
+    html: EMAIL_WRAP(`
+      <p>La cita de <strong>${lead.nombre || 'sin nombre'}</strong> es en 2 días (${fecha}${lead.hora_cita ? ' a las ' + lead.hora_cita : ''}) y la fianza todavía no está marcada como pagada.</p>
+      <p>Teléfono: ${lead.whatsapp || 'no indicado'}<br>Servicio: ${lead.servicio || ''}<br>Fianza: ${lead.fianza || ''}€</p>
+      <p>Revisa y marca la fianza en tu <a href="https://sacravm-web.onrender.com/agenda">Agenda SACRAVM</a> si ya la has cobrado.</p>
+    `),
+  };
+}
+
+// Comprueba citas para las que toca mandar recordatorio (2 días antes),
+// seguimiento (7 días después) o reactivación (6 meses / 1 año después),
+// y las envía una sola vez por cita.
 async function runEmailScheduler() {
   try {
     const { headers, rows } = readLeadsRaw();
@@ -308,10 +357,20 @@ async function runEmailScheduler() {
     const fmt = (d) => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
     const in2days = new Date(today); in2days.setDate(in2days.getDate() + 2);
     const ago7days = new Date(today); ago7days.setDate(ago7days.getDate() - 7);
-    const in2Str = fmt(in2days), ago7Str = fmt(ago7days);
+    const ago180days = new Date(today); ago180days.setDate(ago180days.getDate() - 180);
+    const ago365days = new Date(today); ago365days.setDate(ago365days.getDate() - 365);
+    const in2Str = fmt(in2days), ago7Str = fmt(ago7days), ago180Str = fmt(ago180days), ago365Str = fmt(ago365days);
+    const jjEmail = readJSON(CONTENT_FILE, DEFAULT_CONTENT).email;
     let changed = false;
     for (const row of rows) {
-      if (row.tipo !== 'reserva' || !row.fecha_cita || !row.email) continue;
+      if (row.tipo !== 'reserva' || !row.fecha_cita) continue;
+      // Aviso a JJ (independiente de si el cliente puso email): fianza sin cobrar a 2 días de la cita.
+      if (row.fecha_cita === in2Str && row.estado_fianza !== 'pagada' && row.alerta_fianza_enviado !== 'si' && jjEmail) {
+        const { subject, html } = emailAvisoFianza(row);
+        const r = await sendEmail(jjEmail, subject, html);
+        if (r.ok) { row.alerta_fianza_enviado = 'si'; changed = true; }
+      }
+      if (!row.email) continue;
       if (row.fecha_cita === in2Str && row.recordatorio_enviado !== 'si') {
         const { subject, html } = emailRecordatorio(row);
         const r = await sendEmail(row.email, subject, html);
@@ -321,6 +380,16 @@ async function runEmailScheduler() {
         const { subject, html } = emailSeguimiento(row);
         const r = await sendEmail(row.email, subject, html);
         if (r.ok) { row.seguimiento_enviado = 'si'; changed = true; }
+      }
+      if (row.fecha_cita === ago180Str && row.reactivacion_6m_enviado !== 'si') {
+        const { subject, html } = emailReactivacion6m(row);
+        const r = await sendEmail(row.email, subject, html);
+        if (r.ok) { row.reactivacion_6m_enviado = 'si'; changed = true; }
+      }
+      if (row.fecha_cita === ago365Str && row.reactivacion_1a_enviado !== 'si') {
+        const { subject, html } = emailReactivacion1a(row);
+        const r = await sendEmail(row.email, subject, html);
+        if (r.ok) { row.reactivacion_1a_enviado = 'si'; changed = true; }
       }
     }
     if (changed) writeLeadsRaw(headers, rows);
@@ -347,6 +416,49 @@ function readLeads() {
   const { rows } = readLeadsRaw();
   return rows.slice().reverse();
 }
+
+// ── Almacenes simples (proveedores, colaboraciones) ─────────────────
+// Mismo patrón que leads.csv pero sin campos específicos de reserva.
+function ensureSimpleCsv(file, header) {
+  if (!fs.existsSync(file)) fs.writeFileSync(file, header.join(',') + '\n', 'utf8');
+}
+function readSimpleCsv(file, header) {
+  ensureSimpleCsv(file, header);
+  const lines = fs.readFileSync(file, 'utf8').split('\n').filter(l => l.trim().length);
+  if (!lines.length) return [];
+  const fileHeader = parseCsvLine(lines[0]);
+  return lines.slice(1).map((line, i) => {
+    const vals = parseCsvLine(line);
+    const obj = { _row: i };
+    fileHeader.forEach((h, j) => obj[h] = vals[j] || '');
+    return obj;
+  });
+}
+function writeSimpleCsv(file, header, rows) {
+  const lines = [header.join(',')];
+  rows.forEach(r => lines.push(header.map(h => csvEscape(r[h])).join(',')));
+  fs.writeFileSync(file, lines.join('\n') + '\n', 'utf8');
+}
+function appendSimpleCsv(file, header, data) {
+  ensureSimpleCsv(file, header);
+  const row = header.map(h => h === 'fecha_registro' ? new Date().toLocaleString('es-ES') : (data[h] || '')).map(csvEscape).join(',');
+  fs.appendFileSync(file, row + '\n', 'utf8');
+}
+function updateSimpleCsvRow(file, header, rowIndex, fields) {
+  const rows = readSimpleCsv(file, header);
+  const row = rows.find(r => r._row === rowIndex);
+  if (!row) return false;
+  Object.keys(fields).forEach(k => { if (header.includes(k)) row[k] = fields[k] == null ? '' : String(fields[k]); });
+  writeSimpleCsv(file, header, rows);
+  return true;
+}
+const SIMPLE_STORES = {
+  proveedores: { file: PROVEEDORES_FILE, header: PROVEEDORES_HEADER },
+  colaboraciones: { file: COLABORACIONES_FILE, header: COLABORACIONES_HEADER },
+  materiales: { file: MATERIALES_FILE, header: MATERIALES_HEADER },
+  pedidos: { file: PEDIDOS_FILE, header: PEDIDOS_HEADER },
+  cuentas: { file: CUENTAS_FILE, header: CUENTAS_HEADER },
+};
 
 // ── Contraseñas (hash con scrypt + sal, sin librerías externas) ────
 function hashPassword(password, salt) {
@@ -515,6 +627,43 @@ const server = http.createServer(async (req, res) => {
       return sendJSON(res, ok ? 200 : 404, { ok });
     }
 
+    // Importación masiva de contactos (pegados desde Excel/a mano) como leads tipo 'manual'
+    if (pathname === '/api/leads-import' && req.method === 'POST') {
+      if (!getSession(req)) return sendJSON(res, 401, { ok: false, error: 'Sesión no iniciada.' });
+      const body = JSON.parse(await readBody(req, 3e6) || '{}');
+      const rows = Array.isArray(body.rows) ? body.rows : [];
+      let count = 0;
+      rows.forEach(r => {
+        const nombre = (r.nombre || '').trim();
+        const email = (r.email || '').trim();
+        const whatsapp = (r.whatsapp || '').trim();
+        if (!nombre && !email && !whatsapp) return;
+        appendLead({ tipo: 'manual', nombre, email, whatsapp, mensaje: r.notas || '', fuente: 'Importado (Excel/a mano)' }, []);
+        count++;
+      });
+      return sendJSON(res, 200, { ok: true, count });
+    }
+
+    // Proveedores y colaboraciones — mismo patrón simple (listar / crear / editar)
+    const simpleMatch = pathname.match(/^\/api\/(proveedores|colaboraciones|materiales|pedidos|cuentas)(-edit)?$/);
+    if (simpleMatch) {
+      if (!getSession(req)) return sendJSON(res, 401, { ok: false, error: 'Sesión no iniciada.' });
+      const store = SIMPLE_STORES[simpleMatch[1]];
+      if (simpleMatch[2] === '-edit' && req.method === 'POST') {
+        const body = JSON.parse(await readBody(req, 5e5) || '{}');
+        const ok = updateSimpleCsvRow(store.file, store.header, Number(body.rowIndex), body.fields || {});
+        return sendJSON(res, ok ? 200 : 404, { ok });
+      }
+      if (!simpleMatch[2] && req.method === 'GET') {
+        return sendJSON(res, 200, { ok: true, items: readSimpleCsv(store.file, store.header).slice().reverse() });
+      }
+      if (!simpleMatch[2] && req.method === 'POST') {
+        const body = JSON.parse(await readBody(req, 5e5) || '{}');
+        appendSimpleCsv(store.file, store.header, body);
+        return sendJSON(res, 200, { ok: true });
+      }
+    }
+
     if (pathname === '/api/content' && req.method === 'POST') {
       const body = JSON.parse(await readBody(req, 2e6) || '{}');
       writeJSON(CONTENT_FILE, body);
@@ -579,6 +728,7 @@ const server = http.createServer(async (req, res) => {
     let filePath = pathname;
     if (filePath === '/') filePath = '/index.html';
     if (filePath === '/admin') filePath = '/admin.html';
+    if (filePath === '/agenda') filePath = '/agenda.html';
     if (filePath === '/academy') filePath = '/academy.html';
     if (filePath === '/legal') filePath = '/legal.html';
     filePath = path.join(ROOT, decodeURIComponent(filePath));
@@ -604,6 +754,11 @@ server.listen(PORT, () => {
   console.log('  → Tu web:            http://localhost:' + PORT);
   console.log('  → Panel de edición:  http://localhost:' + PORT + '/admin');
   console.log('  → Tus leads:         leads/leads.csv');
+  console.log('  → Proveedores:       proveedores.csv');
+  console.log('  → Colaboraciones:    colaboraciones.csv');
+  console.log('  → Materiales:        materiales.csv');
+  console.log('  → Pedidos:           pedidos.csv');
+  console.log('  → Cuentas:           cuentas.csv');
   console.log('  → Para parar: cierra esta ventana o pulsa Ctrl+C');
   if (!process.env.RESEND_API_KEY) {
     console.log('  ⚠ RESEND_API_KEY no configurada — los emails automáticos están desactivados.');
