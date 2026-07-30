@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Certificado de Autenticidad | SACRAVM</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#FBF8F3;--tx:#1C1714;--t2:#6B6460;--a:#8B5E2A;--bdr:rgba(60,40,10,.18);--serif:'Cormorant Garamond',Georgia,serif;--sans:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif}
+body{background:#E8E2D5;font-family:var(--sans);display:flex;flex-direction:column;align-items:center;padding:40px 20px 80px}
+.toolbar{position:fixed;top:16px;right:16px;display:flex;gap:8px;align-items:center;background:#fff;padding:8px;border-radius:8px;box-shadow:0 4px 20px rgba(0,0,0,.12)}
+.toolbar select{font-size:13px;padding:8px 10px;border-radius:5px;border:1px solid var(--bdr);background:#fff;font-family:var(--sans)}
+.toolbar button{background:#1C1714;color:#EDE7DC;border:none;padding:10px 18px;border-radius:5px;font-size:13px;letter-spacing:.05em;cursor:pointer}
+.certificate{background:var(--bg);width:210mm;min-height:297mm;padding:60px 60px;border:1px solid var(--bdr);position:relative;box-shadow:0 10px 40px rgba(0,0,0,.15)}
+.cert-border{position:absolute;inset:22px;border:1px solid var(--bdr)}
+.cert-inner{position:relative;height:100%;display:flex;flex-direction:column;align-items:center;text-align:center;padding:30px 30px}
+.logo{font-family:var(--serif);font-size:30px;letter-spacing:.24em;color:var(--tx)}
+.logo-sub{font-size:11px;letter-spacing:.32em;color:var(--a);margin-top:8px}
+.divider{width:56px;height:1px;background:var(--a);margin:26px 0}
+.cert-title{font-family:var(--serif);font-size:24px;font-style:italic;color:var(--tx);letter-spacing:.02em}
+.cert-serie{font-size:11px;letter-spacing:.28em;color:var(--t2);margin-top:10px}
+.cert-photo{width:220px;height:220px;object-fit:cover;border:1px solid var(--bdr);margin-top:26px;background:var(--bdr)}
+.field-block{margin-top:30px;width:100%;max-width:420px}
+.field{margin-bottom:20px;text-align:left}
+.field-label{font-size:10px;letter-spacing:.2em;color:var(--t2);margin-bottom:4px}
+.field-value{font-family:var(--serif);font-size:21px;color:var(--tx);border-bottom:1px solid var(--bdr);padding-bottom:5px;min-height:30px}
+.field-value[contenteditable]:focus{outline:none;border-color:var(--a)}
+.significado{font-size:13px;color:var(--t2);line-height:1.75;margin-top:8px;font-style:italic}
+.cert-footer{margin-top:auto;padding-top:36px;width:100%;display:flex;justify-content:space-between;align-items:flex-end;max-width:460px}
+.sig-block{text-align:left}
+.sig-line{width:150px;border-bottom:1px solid var(--bdr);height:36px}
+.sig-label{font-size:10px;letter-spacing:.14em;color:var(--t2);margin-top:6px}
+.seal{font-family:var(--serif);font-size:38px;color:var(--a);opacity:.8}
+@media print{
+  body{background:#fff;padding:0}
+  .toolbar{display:none}
+  .certificate{box-shadow:none;border:none;width:auto;min-height:auto}
+  @page{size:A4;margin:0}
+}
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <select id="obra-select"><option value="">Cargando obras…</option></select>
+  <button onclick="window.print()">IMPRIMIR / GUARDAR PDF →</button>
+</div>
+
+<div class="certificate">
+  <div class="cert-border"></div>
+  <div class="cert-inner">
+    <div class="logo">SACRAVM</div>
+    <div class="logo-sub">TATTOO ATELIER · LEÓN</div>
+    <div class="divider"></div>
+    <div class="cert-title">Certificado de Autenticidad</div>
+    <div class="cert-serie">SERIE ORIGEN</div>
+
+    <img class="cert-photo" id="cert-photo" src="" alt="">
+
+    <div class="field-block">
+      <div class="field">
+        <div class="field-label">OBRA</div>
+        <div class="field-value" id="cert-obra">—</div>
+      </div>
+      <div class="field">
+        <div class="field-label">TÉCNICA</div>
+        <div class="field-value" id="cert-tecnica">—</div>
+      </div>
+      <div class="field">
+        <div class="field-label">EDICIÓN</div>
+        <div class="field-value" contenteditable="true">1/1 — pieza única, sin reproducciones</div>
+      </div>
+      <div class="field">
+        <div class="field-label">PROPIETARIO</div>
+        <div class="field-value" contenteditable="true">&nbsp;</div>
+      </div>
+      <div class="field">
+        <div class="field-label">FECHA</div>
+        <div class="field-value" contenteditable="true">&nbsp;</div>
+      </div>
+      <div class="field">
+        <div class="field-label">SIGNIFICADO</div>
+        <div class="significado" id="cert-significado">—</div>
+      </div>
+    </div>
+
+    <div class="cert-footer">
+      <div class="sig-block">
+        <div class="sig-line"></div>
+        <div class="sig-label">JJ RODRÍGUEZ · FUNDADOR SACRAVM</div>
+      </div>
+      <div class="seal">✦</div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.querySelectorAll('.field-value[contenteditable]').forEach(el => {
+  el.addEventListener('focus', () => { if (el.textContent.trim() === '') el.textContent = ''; });
+});
+
+let cuadros = [];
+
+function fillCert(c) {
+  document.getElementById('cert-photo').src = c.url || '';
+  document.getElementById('cert-photo').alt = c.nombre || '';
+  document.getElementById('cert-obra').textContent = c.nombre || '';
+  document.getElementById('cert-tecnica').textContent = c.meta || '';
+  document.getElementById('cert-significado').textContent = c.significado || '';
+}
+
+fetch('/api/content').then(r => r.json()).then(CONFIG => {
+  cuadros = CONFIG.cuadros || [];
+  const sel = document.getElementById('obra-select');
+  sel.innerHTML = cuadros.map((c, i) => `<option value="${i}">${c.nombre || 'Pieza ' + (i+1)}</option>`).join('');
+  if (cuadros.length) fillCert(cuadros[0]);
+  sel.onchange = () => fillCert(cuadros[+sel.value]);
+}).catch(() => {});
+</script>
+
+</body>
+</html>

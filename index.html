@@ -3,21 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="Tatuajes en León con cita previa: SACRAVM es el atelier privado del tatuador JJ Rodríguez. Especialistas en micro-realismo, realismo conceptual y fine line. Reserva tu cita online.">
+<meta name="description" content="Tatuajes en León con cita previa: SACRAVM, atelier privado especializado en micro-realismo, realismo conceptual y fine line. Reserva tu cita online.">
 <title>Tatuajes en León | SACRAVM · Tattoo Atelier Privado</title>
 <link rel="icon" href="/images/misc/logo.png">
 <meta name="theme-color" content="#1C1714">
 <!-- ★ Actualizar a dominio propio (canonical/og:url/sitemap/robots.txt) en cuanto se compre uno -->
 <link rel="canonical" href="https://sacravm-web.onrender.com/">
 <meta property="og:title" content="Tatuajes en León | SACRAVM Tattoo Atelier">
-<meta property="og:description" content="Atelier privado de tatuaje en León con cita previa online. Micro-realismo, realismo conceptual y fine line. JJ Rodríguez.">
+<meta property="og:description" content="Atelier privado de tatuaje en León con cita previa online. Micro-realismo, realismo conceptual y fine line.">
 <meta property="og:type" content="business.business">
 <meta property="og:image" content="https://sacravm-web.onrender.com/images/hero/hero.jpg">
 <meta property="og:locale" content="es_ES">
 <meta property="og:url" content="https://sacravm-web.onrender.com/">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Tatuajes en León | SACRAVM Tattoo Atelier">
-<meta name="twitter:description" content="Atelier privado de tatuaje en León con cita previa online. Micro-realismo, realismo conceptual y fine line. JJ Rodríguez.">
+<meta name="twitter:description" content="Atelier privado de tatuaje en León con cita previa online. Micro-realismo, realismo conceptual y fine line.">
 <meta name="twitter:image" content="https://sacravm-web.onrender.com/images/hero/hero.jpg">
 <script type="application/ld+json">
 {
@@ -26,6 +26,7 @@
   "name": "SACRAVM",
   "url": "https://sacravm-web.onrender.com/",
   "image": "https://sacravm-web.onrender.com/images/hero/hero.jpg",
+  "email": "hola@sacravm.com",
   "address": {
     "@type": "PostalAddress",
     "addressLocality": "León",
@@ -34,7 +35,8 @@
   },
   "areaServed": "León, España",
   "priceRange": "€€€",
-  "knowsAbout": ["Micro-realismo", "Realismo conceptual", "Fine line"],
+  "knowsAbout": ["Micro-realismo", "Realismo conceptual", "Fine line", "Tatuajes en León"],
+  "founder": { "@type": "Person", "name": "JJ Rodríguez", "jobTitle": "Fundador y Director de Marca" },
   "sameAs": ["https://instagram.com/sacravm"]
 }
 </script>
@@ -175,6 +177,7 @@ nav,footer{scroll-snap-align:none}
 .pimg:hover .pimg-info{opacity:1}
 .pimg-info em{font-family:var(--serif);font-size:17px;color:#EDE7DC;font-style:italic;display:block;margin-bottom:2px}
 .pimg-info small{font-size:10px;letter-spacing:.12em;color:rgba(237,231,220,.65)}
+.pimg-tag{display:inline-block;margin-top:6px;font-size:11px;letter-spacing:.04em;color:#1C1B19;background:var(--a);padding:3px 9px;border-radius:20px;font-weight:600}
 
 /* ── MANIFESTO ─── */
 #manifesto{background:var(--dk);padding:100px 52px;text-align:center;position:relative;overflow:hidden}
@@ -236,6 +239,8 @@ nav,footer{scroll-snap-align:none}
 .art-body{padding:16px 18px}
 .art-name{font-family:var(--serif);font-size:19px;font-weight:400;color:var(--tx);margin-bottom:4px}
 .art-meta{font-size:12px;color:var(--t2)}
+.art-price{font-size:13px;color:var(--tx);letter-spacing:.03em;margin-top:6px}
+.art-significado{font-size:13px;color:var(--t2);line-height:1.6;margin-top:8px;padding-top:8px;border-top:1px solid var(--bdr)}
 @media(max-width:720px){.art-grid{grid-template-columns:1fr}}
 
 /* ── EXPERIENCES — vídeo y fotos de eventos reales ── */
@@ -339,6 +344,7 @@ nav,footer{scroll-snap-align:none}
 .gal-body{padding:12px 16px 14px}
 .gal-est{font-size:10px;letter-spacing:.2em;color:var(--a);font-weight:700;margin-bottom:3px}
 .gal-desc{font-size:14px;color:var(--t2);line-height:1.5}
+.gal-precio{font-size:12px;color:var(--t3);margin-top:6px;padding-top:6px;border-top:1px solid var(--bdr)}
 
 /* ── TESTIMONIOS ─── */
 #testimonios{background:var(--w);border-top:1px solid var(--bdr)}
@@ -585,7 +591,7 @@ body.wz-lock{overflow:hidden}
     <div class="hero-tag"><div class="hero-tag-dot"></div><span id="hero-tag-txt">ATELIER PRIVADO · RESERVA ONLINE</span></div>
     <h1>SACR<em>AVM</em></h1>
     <div class="h-rule"></div>
-    <p class="h-sub" id="hero-sub-txt">JJ Rodríguez · León<br>Un tatuaje no se borra. Por eso aquí no se hace con prisa.</p>
+    <p class="h-sub" id="hero-sub-txt">No tatúo a cualquiera, ni con prisa — esto es para toda la vida.</p>
     <p class="h-styles">MICRO-REALISMO · REALISMO CONCEPTUAL · FINE LINE</p>
     <div class="h-btns">
       <button class="btn-p" onclick="goBook()">RESERVAR CITA →</button>
@@ -594,7 +600,7 @@ body.wz-lock{overflow:hidden}
   </div>
   <div class="hero-r" id="hero-photo-wrap">
     <!-- Foto cargada por JavaScript desde CONFIG -->
-    <div class="hero-badge"><p>CITAS DISPONIBLES</p><strong id="hero-badge-name">JJ Rodríguez</strong></div>
+    <div class="hero-badge"><p>CITAS DISPONIBLES</p><strong id="hero-badge-name">SACRAVM</strong></div>
   </div>
 </section>
 
@@ -706,7 +712,7 @@ body.wz-lock{overflow:hidden}
     <div class="rv">
       <div class="sec-label">QUIÉNES SOMOS</div>
       <h2 class="sec-title">Un atelier diseñado para escuchar bien la idea antes de convertirla en piel.</h2>
-      <p class="nos-body">SACRAVM no compite por ruido. Compite por criterio, cuidado y la certeza de que lo que llevas en la piel para siempre merece el espacio y la atención correctos. Cada sesión empieza mucho antes del primer trazo.</p>
+      <p class="nos-body">SACRAVM es una forma de vida, no solo de tatuaje. Buscamos la perfección. Mejoramos cada día. Damos el cien por cien en cada momento. Atelier especializado en micro-realismo, realismo conceptual y fine line — con un objetivo: ser referencia en España y en el mundo. ¿Tú quieres pertenecer a este legado?</p>
       <div>
         <div class="pillar"><div class="pl-n">01</div><div class="pl-t"><h4>Reserva directa con fianza</h4><p>Eliges fecha, pagas la señal y la cita queda confirmada automáticamente. Sin esperas.</p></div></div>
         <div class="pillar"><div class="pl-n">02</div><div class="pl-t"><h4>Diseño personalizado</h4><p>Hablamos del diseño y referencias después de confirmar. Me adapto a tu idea.</p></div></div>
@@ -732,7 +738,7 @@ body.wz-lock{overflow:hidden}
       <div class="artista-info">
         <div class="artista-nombre" id="artista-nombre-txt">JJ Rodríguez</div>
         <div class="artista-rol">TATUADOR EN LEÓN · FUNDADOR DE SACRAVM</div>
-        <p class="artista-bio">Para JJ, un buen tatuaje no es copiar una referencia: es escuchar tu idea, entender lo que significa para ti, y traducirla con su propio lenguaje visual hasta convertirla en algo que solo existe en tu piel. Tu historia, su técnica — juntas, un diseño que no se ha hecho antes ni se repetirá después.</p>
+        <p class="artista-bio">Para JJ, un tatuaje empieza por escuchar tu idea, entender lo que significa para ti, y darlo todo hasta encontrar el diseño exacto que solo existe en tu piel. Tu historia, su técnica — un diseño que no existía antes y no se repetirá después.</p>
         <div class="form-pills">
           <span class="pill">Micro-realismo</span>
           <span class="pill">Realismo conceptual</span>
@@ -803,7 +809,7 @@ body.wz-lock{overflow:hidden}
     <div class="rv" style="text-align:center;max-width:640px;margin:0 auto 64px">
       <div class="exp-tag" style="margin:0 auto 20px"><div class="exp-tag-dot"></div><span>SACRAVM EXPERIENCES · BODAS Y EVENTOS PRIVADOS</span></div>
       <h2 class="exp-title">Tu historia merece ser eterna.<br><span style="font-style:normal;color:var(--tx);font-size:.75em">No dudes en grabar en la piel para siempre el momento más importante de tu vida.</span></h2>
-      <p style="font-size:16px;color:var(--t2);line-height:1.9;margin-top:18px">SACRAVM Experience no es un photocall de tatuajes. Es el mismo ritual del Atelier trasladado a tu boda o a cualquier evento privado que merezca quedarse para siempre. Mismo cuidado en el diseño, misma pulcritud en la ejecución, mismo Certificado de Autenticidad al cierre.</p>
+      <p style="font-size:16px;color:var(--t2);line-height:1.9;margin-top:18px">SACRAVM Experience es el mismo ritual del Atelier, trasladado a tu boda o a cualquier evento privado que merezca quedarse para siempre. Mismo cuidado en el diseño, misma pulcritud en la ejecución, mismo Certificado de Autenticidad al cierre.</p>
     </div>
 
     <div class="rv" style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:48px">
@@ -933,9 +939,10 @@ body.wz-lock{overflow:hidden}
 <section id="obras" style="background:var(--s1);border-top:1px solid var(--bdr)">
   <div class="sec-inner">
     <div class="rv">
-      <div class="sec-label">GALERÍA DE ARTE</div>
+      <div class="sec-label">SERIE ORIGEN</div>
       <h2 class="sec-title">Cuadros que también puedes colgar en la pared.</h2>
-      <p style="font-size:16px;color:var(--t2);line-height:1.9;margin-top:14px;max-width:560px">Antes de ser tatuaje, cada diseño nace como obra original. Las primeras piezas están hechas a bolígrafo — bic. Me encanta trabajar así porque es la misma sensación que un tatuaje: no se puede borrar. Cada trazo tiene que ser el correcto a la primera, buscando expresar exactamente lo que siento en cada línea. Y para quien por lo que sea no puede — o todavía no quiere — hacerse un tatuaje, esta es otra forma de tener una pieza de arte para siempre.</p>
+      <p style="font-size:16px;color:var(--t2);line-height:1.9;margin-top:14px;max-width:560px">Antes de ser tatuaje, cada diseño nace como obra original — a bolígrafo. El bic no perdona: cada trazo tiene que ser el correcto a la primera, la misma sensación que un tatuaje. No se puede borrar. Y si todavía no quieres o no puedes tatuarte, esta es otra forma de llevar una pieza para siempre.</p>
+      <p style="font-family:var(--serif);font-size:19px;font-style:italic;color:var(--a);line-height:1.6;margin-top:18px;max-width:560px">Una serie dedicada al origen de la vida — y a las mujeres que la sostienen. A mi madre, mi abuela, mi hermana, mi pareja. A todas las mujeres del mundo.</p>
       <div class="form-pills">
         <span class="pill">Pieza única</span>
         <span class="pill">Firmada y numerada</span>
@@ -1032,6 +1039,14 @@ body.wz-lock{overflow:hidden}
       </div>
     </div>
 
+    <div class="rv" style="background:var(--w);border:1px solid var(--aBdr);border-radius:6px;padding:28px 32px;margin-bottom:32px;display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap">
+      <div>
+        <div class="sec-label" style="margin-bottom:6px">¿AÚN NO LO TIENES CLARO?</div>
+        <div style="font-family:var(--serif);font-size:22px;font-weight:400;color:var(--tx);margin-bottom:4px">Reserva una valoración y diseño gratuita de 30 min</div>
+        <p style="font-size:14px;color:var(--t2)">Hablamos de tu idea, resolvemos dudas y cerramos el proyecto — sin compromiso ni coste.</p>
+      </div>
+      <button class="btn-p" style="flex-shrink:0" onclick="goBook('Valoración y diseño (30 min, gratis)')">RESERVAR VALORACIÓN →</button>
+    </div>
     <div class="tar-note rv">
       <strong>Nota sobre proyectos grandes:</strong> Para piezas de gran formato (mangas, espaldas, pectorales) programo un máximo de 3 sesiones consecutivas por bloque. Así la piel sana bien entre sesiones y puedo acumular profundidad y detalle de forma óptima. Entre bloques: mínimo 3 semanas de curación. Esto no es opcional — es lo que garantiza el mejor resultado posible.
     </div>
@@ -1163,12 +1178,12 @@ body.wz-lock{overflow:hidden}
         </div>
         <div class="term-block">
           <h4>Diseño y referencias</h4>
-          <p>Envíame las referencias antes de la cita. Cuanto más claro esté el concepto, mejor puedo prepararlo. El diseño final puede diferir de las referencias — eso es parte del proceso creativo.</p>
+          <p>Envía las referencias antes de la cita. Cuanto más claro esté el concepto, mejor se prepara. El diseño final puede diferir de las referencias — eso es parte del proceso creativo.</p>
         </div>
       </div>
     </div>
     <div class="terms-footer rv">
-      Al reservar, confirmas haber leído y aceptado esta información. Si tienes cualquier duda antes de reservar, <strong>escríbeme</strong> — prefiero hablar antes que tener malentendidos después.
+      Al reservar, confirmas haber leído y aceptado esta información. Si tienes cualquier duda antes de reservar, <strong>escríbenos</strong> — mejor hablar antes que tener malentendidos después.
     </div>
   </div>
 </section>
@@ -1205,7 +1220,7 @@ body.wz-lock{overflow:hidden}
     <div class="bk-sup rv">RESERVA TU CITA</div>
     <h2 class="bk-title rv">Elige tu servicio,<br><em>elige tu momento,<br>empieza el ritual.</em></h2>
     <div class="bk-rule rv"></div>
-    <p class="bk-sub rv">Eliges servicio, fecha y hora preferida. Te confirmo por WhatsApp en menos de 24h y hablamos del diseño y la fianza.</p>
+    <p class="bk-sub rv">Eliges servicio, fecha y hora. Te confirmamos por WhatsApp en menos de 24h.</p>
     <div class="bk-flow rv">
       <div class="bk-step"><span class="bk-step-n">1</span><div class="bk-step-t"><strong>Elige tu sesión</strong>Día entero, media sesión o mini tattoo</div></div>
       <span class="bk-step-sep">→</span>
@@ -1285,7 +1300,7 @@ body.wz-lock{overflow:hidden}
       <div class="sec-label">PASO 1 DE 5</div>
       <h3 class="wz-title">¿Qué te gustaría reservar?</h3>
       <div class="wz-services" id="wz-services"></div>
-      <div class="wz-label">TAMAÑO DE LA PIEZA</div>
+      <div class="wz-label" data-tier-label>TAMAÑO DE LA PIEZA</div>
       <div class="wz-tier-grid" id="wz-tier-grid"></div>
       <div class="wz-err" id="wz-err-1"></div>
       <div class="wz-nav"><button class="btn-p" style="width:100%" onclick="wzNext()">SIGUIENTE →</button></div>
@@ -1461,8 +1476,8 @@ const contentReady = (async () => {
 function renderSite(CONFIG) {
   // ── Datos básicos ──────────────────────────────────────────────
   document.getElementById('nav-sub').textContent = 'TATTOO ATELIER · ' + CONFIG.ciudad.toUpperCase();
-  document.getElementById('hero-sub-txt').innerHTML = CONFIG.nombre + ' · ' + CONFIG.ciudad + '<br>Un tatuaje no se borra. Por eso aquí no se hace con prisa.';
-  document.getElementById('hero-badge-name').textContent = CONFIG.nombre;
+  document.getElementById('hero-sub-txt').innerHTML = 'No tatúo a cualquiera, ni con prisa — esto es para toda la vida.';
+  document.getElementById('hero-badge-name').textContent = 'SACRAVM';
   document.getElementById('foot-logo').textContent = 'SACRAVM';
   document.getElementById('foot-sub').textContent = 'TATTOO ATELIER · ' + CONFIG.ciudad.toUpperCase();
   document.getElementById('btn-wa').href = 'https://wa.me/' + CONFIG.whatsapp.replace(/[^0-9]/g,'');
@@ -1470,9 +1485,9 @@ function renderSite(CONFIG) {
   // ── Fotos ──────────────────────────────────────────────────────
   const heroWrap = document.getElementById('hero-photo-wrap');
   if (CONFIG.fotos.hero) {
-    heroWrap.innerHTML = `<img src="${CONFIG.fotos.hero}" alt="SACRAVM Tattoo Atelier — ${CONFIG.nombre} en el estudio"><div class="hero-badge"><p>CITAS DISPONIBLES</p><strong>${CONFIG.nombre}</strong></div>`;
+    heroWrap.innerHTML = `<img src="${CONFIG.fotos.hero}" alt="SACRAVM Tattoo Atelier — tatuajes en ${CONFIG.ciudad}"><div class="hero-badge"><p>CITAS DISPONIBLES</p><strong>SACRAVM</strong></div>`;
   } else {
-    heroWrap.innerHTML = `<div class="hero-r-ph"><span>★ Sube tu foto desde /admin</span></div><div class="hero-badge"><p>CITAS DISPONIBLES</p><strong>${CONFIG.nombre}</strong></div>`;
+    heroWrap.innerHTML = `<div class="hero-r-ph"><span>★ Sube tu foto desde /admin</span></div><div class="hero-badge"><p>CITAS DISPONIBLES</p><strong>SACRAVM</strong></div>`;
   }
   const perfilWrap = document.getElementById('perfil-wrap');
   const artistaPhotoWrap = document.getElementById('artista-photo-wrap');
@@ -1511,7 +1526,8 @@ function renderSite(CONFIG) {
     const img = p.url
       ? `<img src="${p.url}" alt="Tatuaje SACRAVM — ${p.estilo||''}${p.desc?', '+p.desc:''}" loading="lazy">`
       : `<div class="pimg-ph" style="min-height:${cls==='tall'?'460px':cls==='wide'?'190px':'210px'}"><span>★ Sube esta foto desde /admin</span></div>`;
-    return `<div class="pimg ${cls}">${img}<div class="pimg-info"><em>${p.desc||''}</em><small>${p.estilo||''}</small></div></div>`;
+    const tag = (p.duracion || p.precio) ? `<span class="pimg-tag">${[p.duracion,p.precio].filter(Boolean).join(' · ')}</span>` : '';
+    return `<div class="pimg ${cls}">${img}<div class="pimg-info"><em>${p.desc||''}</em><small>${p.estilo||''}</small><br>${tag}</div></div>`;
   }).join('');
 
   // ── Testimonios ──────────────────────────────────────────────────
@@ -1536,13 +1552,13 @@ function renderSite(CONFIG) {
   document.getElementById('cuadros-grid').innerHTML = (CONFIG.cuadros || []).map(c => `
     <div class="art-card">
       <div class="art-img">${c.url ? `<img src="${c.url}" alt="${c.nombre||'Cuadro'}" style="width:100%;height:100%;object-fit:cover" loading="lazy">` : `<span class="art-badge">PRÓXIMAMENTE</span><span>★ ${c.meta||''}</span>`}</div>
-      <div class="art-body"><div class="art-name">${c.nombre||''}</div><div class="art-meta">${c.meta||''}</div></div>
+      <div class="art-body"><div class="art-name">${c.nombre||''}</div><div class="art-meta">${c.meta||''}</div>${c.precio ? `<div class="art-price">${c.precio}</div>` : ''}${c.significado ? `<div class="art-significado">${c.significado}</div>` : ''}</div>
     </div>
   `).join('');
 
   // ── Galería completa ───────────────────────────────────────────────
   document.getElementById('galeria-grid').innerHTML = (CONFIG.galeria || []).map(g => `
-    <div class="gal-card"><div class="gal-img"><img src="${g.url}" alt="Tatuaje SACRAVM — ${g.estilo||''}${g.desc?', '+g.desc:''}" loading="lazy"></div><div class="gal-body"><div class="gal-est">${g.estilo||''}</div><div class="gal-desc">${g.desc||''}</div></div></div>
+    <div class="gal-card"><div class="gal-img"><img src="${g.url}" alt="Tatuaje SACRAVM — ${g.estilo||''}${g.desc?', '+g.desc:''}" loading="lazy"></div><div class="gal-body"><div class="gal-est">${g.estilo||''}</div><div class="gal-desc">${g.desc||''}</div>${(g.duracion||g.precio) ? `<div class="gal-precio">${[g.duracion,g.precio].filter(Boolean).join(' · ')}</div>` : ''}</div></div>
   `).join('');
 
   // ── Experiences — vídeo y fotos de eventos reales ─────────────────
@@ -1695,7 +1711,9 @@ function goHome() { closeWizard(); window.scrollTo({ top: 0, behavior: 'smooth' 
 const WZ_TIERS = [
   { id: 'pequeno', label: 'Pequeña', fianza: 50 },
   { id: 'grande', label: 'Grande / proyecto', fianza: 100 },
+  { id: 'consulta', label: 'Valoración y diseño', fianza: 0 },
 ];
+const VALORACION_SERVICIO = 'Valoración y diseño (30 min, gratis)';
 let wz = { step: 1, servicio: null, tier: null, fianza: null, fecha: null, hora: null, nombre: '', email: '', whatsapp: '', zona: '', tamano: '', bebida: '', mensaje: '', repeticion: 'No', fuente: 'Instagram', referencias: [] };
 
 // ── Referencias (imágenes redimensionadas antes de enviar) ─────────
@@ -1753,7 +1771,10 @@ function renderWzRefPreview() {
 }
 
 function renderWzServices() {
-  const opciones = [...CONFIG.servicios, { nombre: 'Consulta general', ideal: 'No sabes qué servicio elegir todavía', precio: '' }];
+  const opciones = [...CONFIG.servicios,
+    { nombre: 'Consulta general', ideal: 'No sabes qué servicio elegir todavía', precio: '' },
+    { nombre: VALORACION_SERVICIO, ideal: 'Habla con JJ antes de reservar tu sesión, sin compromiso', precio: 'Gratis' },
+  ];
   document.getElementById('wz-services').innerHTML = opciones.map(s => `
     <button type="button" class="wz-svc-card ${wz.servicio===s.nombre?'sel':''}" onclick="wzSelectServicio('${s.nombre.replace(/'/g,"\\'")}')">
       <strong>${s.nombre}</strong>
@@ -1761,11 +1782,23 @@ function renderWzServices() {
       ${s.precio ? `<em>${s.precio}</em>` : ''}
     </button>
   `).join('');
+  const esValoracion = wz.servicio === VALORACION_SERVICIO;
+  const tierLabel = document.querySelector('[data-tier-label]');
+  if (tierLabel) tierLabel.style.display = esValoracion ? 'none' : 'block';
+  const tierGrid = document.getElementById('wz-tier-grid');
+  if (tierGrid) tierGrid.style.display = esValoracion ? 'none' : '';
 }
-function wzSelectServicio(nombre) { wz.servicio = nombre; renderWzServices(); }
+function wzSelectServicio(nombre) {
+  wz.servicio = nombre;
+  if (nombre === VALORACION_SERVICIO) { wz.tier = 'consulta'; wz.fianza = 0; }
+  else if (wz.tier === 'consulta') { wz.tier = null; wz.fianza = null; }
+  renderWzServices();
+  renderWzTiers();
+}
 
 function renderWzTiers() {
-  document.getElementById('wz-tier-grid').innerHTML = WZ_TIERS.map(t => `
+  if (wz.servicio === VALORACION_SERVICIO) { document.getElementById('wz-tier-grid').innerHTML = ''; return; }
+  document.getElementById('wz-tier-grid').innerHTML = WZ_TIERS.filter(t => t.id !== 'consulta').map(t => `
     <button type="button" class="wz-svc-card ${wz.tier===t.id?'sel':''}" onclick="wzSelectTier('${t.id}')">
       <strong>${t.label}</strong>
       <span>Fianza ${t.fianza}€</span>
@@ -1782,6 +1815,7 @@ function wzSelectTier(id) {
 // Medio día (tier 'pequeno') solo ofrece dos franjas fijas: mañana (10:00) o tarde (14:00-15:00).
 function wzHorariosDeTier() {
   if (wz.tier === 'grande') return [];
+  if (wz.tier === 'consulta') return CONFIG.horarios && CONFIG.horarios.length ? CONFIG.horarios : ['10:00', '12:00', '16:00', '18:00'];
   return ['10:00', '14:00'];
 }
 function renderWzHorarios() {
@@ -1870,7 +1904,7 @@ function wzCalSelectDay(dateStr) {
 function renderWzSummary() {
   document.getElementById('wz-summary').innerHTML = `
     <div><strong>Servicio:</strong> ${wz.servicio}</div>
-    <div><strong>Tamaño de la pieza:</strong> ${WZ_TIERS.find(t=>t.id===wz.tier)?.label || '-'} (fianza ${wz.fianza}€)</div>
+    ${wz.tier === 'consulta' ? '' : `<div><strong>Tamaño de la pieza:</strong> ${WZ_TIERS.find(t=>t.id===wz.tier)?.label || '-'} (fianza ${wz.fianza}€)</div>`}
     <div><strong>Fecha:</strong> ${wz.fecha || '-'} ${wz.hora === 'Día completo' ? '(jornada completa)' : (wz.hora ? 'a las ' + wz.hora : '')}</div>
     <div><strong>Nombre:</strong> ${wz.nombre}</div>
     <div><strong>Email:</strong> ${wz.email}</div>
@@ -1904,7 +1938,8 @@ function showWzStep(n) {
 
 async function goBook(preselectServicio) {
   await contentReady;
-  wz = { step: 1, servicio: preselectServicio || null, tier: null, fianza: null, fecha: null, hora: null, nombre: '', email: '', whatsapp: '', zona: '', tamano: '', bebida: '', mensaje: '', repeticion: 'No', fuente: 'Instagram', referencias: [] };
+  const esValoracionPreselect = preselectServicio === VALORACION_SERVICIO;
+  wz = { step: 1, servicio: preselectServicio || null, tier: esValoracionPreselect ? 'consulta' : null, fianza: esValoracionPreselect ? 0 : null, fecha: null, hora: null, nombre: '', email: '', whatsapp: '', zona: '', tamano: '', bebida: '', mensaje: '', repeticion: 'No', fuente: 'Instagram', referencias: [] };
   renderWzServices();
   renderWzTiers();
   wzCalDate = new Date();
@@ -1962,7 +1997,7 @@ function wzNext() {
     wz.repeticion = document.getElementById('wz-repeticion').value;
     wz.fuente = document.getElementById('wz-fuente').value;
     const err = document.getElementById('wz-err-4');
-    if (!wz.zona) { err.textContent = 'Cuéntanos al menos la zona — nos ayuda a preparar tu sesión.'; return; }
+    if (!wz.zona && wz.tier !== 'consulta') { err.textContent = 'Cuéntanos al menos la zona — nos ayuda a preparar tu sesión.'; return; }
     err.textContent = '';
     wz.step = 5; showWzStep(5); return;
   }
@@ -1990,9 +2025,17 @@ async function wzSubmit() {
   const result = await sendLead(payload);
   btn.textContent = 'ENVIAR SOLICITUD →'; btn.disabled = false;
   if (result.ok) {
+    const bizumBox = document.getElementById('wz-bizum-box');
+    const esValoracion = wz.tier === 'consulta';
+    if (esValoracion) {
+      document.getElementById('wz-success-title').textContent = 'Tu valoración está reservada';
+      document.getElementById('wz-success-msg').textContent = 'Ese hueco ya es tuyo, sin coste. Te confirmamos por email y hablamos de tu proyecto en la llamada.';
+      bizumBox.style.display = 'none';
+      showWzStep('success');
+      return;
+    }
     document.getElementById('wz-success-title').textContent = 'Tu cita está reservada';
     document.getElementById('wz-success-msg').textContent = 'Ese hueco ya es tuyo. Completa el pago de la fianza abajo y te contactamos por email para confirmar la cita.';
-    const bizumBox = document.getElementById('wz-bizum-box');
     const stripeLink = CONFIG['stripeLink' + wz.fianza];
     if (CONFIG.bizum || stripeLink) {
       const concepto = (wz.nombre || 'tu nombre') + ' - cita';

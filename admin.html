@@ -122,6 +122,16 @@ table.leads-table tr:hover td{background:var(--s1)}
 .tag.formacion{background:#EAE7F5;color:#6B5CA5}
 .empty-note{font-size:13px;color:var(--t3);padding:30px 0;text-align:center}
 
+.leads-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.lead-card{background:var(--w);border:1px solid var(--bdr);border-radius:8px;padding:14px 16px;cursor:pointer;transition:border-color .15s,box-shadow .15s}
+.lead-card:hover{border-color:var(--aBdr);box-shadow:var(--sh)}
+.lead-card-top{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:6px}
+.lead-card-fecha{font-size:11px;color:var(--t3);white-space:nowrap}
+.lead-card-nombre{font-family:var(--serif);font-size:18px;font-weight:400;color:var(--tx);margin-bottom:2px}
+.lead-card-meta{font-size:12px;color:var(--t2);margin-bottom:8px}
+.lead-card-idea{font-size:12px;color:var(--t3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:10px}
+.lead-card-fianza{width:100%;text-align:center}
+
 @media(max-width:780px){
   .layout{flex-direction:column}
   .tabs{position:static;width:100%;height:auto;display:flex;overflow-x:auto;padding:14px 16px;gap:4px}
@@ -228,6 +238,9 @@ const TABS = [
   { id: 'leads', label: 'Leads' },
   { id: 'proveedores', label: 'Proveedores' },
   { id: 'colaboraciones', label: 'Colaboraciones' },
+  { id: 'materiales', label: 'Materiales' },
+  { id: 'pedidos', label: 'Pedidos' },
+  { id: 'cuentas', label: 'Cuentas' },
   { id: 'password', label: 'Contraseña' },
 ];
 
@@ -274,6 +287,9 @@ function renderPanel() {
   if (activeTab === 'leads') { area.innerHTML = '<div class="panel-title">Leads</div><div class="panel-desc">Cargando…</div>'; loadLeads(); }
   if (activeTab === 'proveedores') { area.innerHTML = '<div class="panel-title">Proveedores</div><div class="panel-desc">Cargando…</div>'; loadProveedores(); }
   if (activeTab === 'colaboraciones') { area.innerHTML = '<div class="panel-title">Colaboraciones</div><div class="panel-desc">Cargando…</div>'; loadColaboraciones(); }
+  if (activeTab === 'materiales') { area.innerHTML = '<div class="panel-title">Materiales</div><div class="panel-desc">Cargando…</div>'; loadMateriales(); }
+  if (activeTab === 'pedidos') { area.innerHTML = '<div class="panel-title">Pedidos</div><div class="panel-desc">Cargando…</div>'; loadPedidos(); }
+  if (activeTab === 'cuentas') { area.innerHTML = '<div class="panel-title">Cuentas</div><div class="panel-desc">Cargando…</div>'; loadCuentas(); }
   if (activeTab === 'password') area.innerHTML = panelPassword();
   wireCurrentPanel();
 }
@@ -464,6 +480,8 @@ function renderCuadrosList() {
       <label class="btn-upload" style="max-width:220px;margin-top:8px;display:inline-block">SUBIR FOTO<input type="file" accept="image/*" data-i="${i}" class="cuadro-input"></label>
       <p class="field-label" style="margin-top:12px">NOMBRE</p><input class="fi" data-i="${i}" data-f="nombre" value="${esc(c.nombre)}">
       <p class="field-label">DETALLE (técnica, tamaño…)</p><input class="fi" data-i="${i}" data-f="meta" value="${esc(c.meta)}">
+      <p class="field-label">PRECIO (opcional, ej. "1.200€")</p><input class="fi" data-i="${i}" data-f="precio" value="${esc(c.precio)}">
+      <p class="field-label">QUÉ SIGNIFICA (opcional)</p><textarea class="fi" data-i="${i}" data-f="significado" style="height:70px">${esc(c.significado)}</textarea>
     </div>
   `;
   }).join('') || '<p class="empty-note">Todavía no has añadido ningún cuadro.</p>';
@@ -475,7 +493,7 @@ function wireCuadros() {
   content.cuadros = content.cuadros || [];
   renderCuadrosList();
   document.getElementById('btn-add-cuadro').onclick = () => {
-    content.cuadros.push({ url: '', nombre: 'Pieza nueva', meta: '' });
+    content.cuadros.push({ url: '', nombre: 'Pieza nueva', meta: '', significado: '', precio: '' });
     renderCuadrosList();
   };
 }
@@ -499,6 +517,8 @@ function renderGaleriaList() {
       <label class="btn-upload" style="max-width:220px;margin-top:8px;display:inline-block">SUBIR FOTO<input type="file" accept="image/*" data-i="${i}" class="galeria-input"></label>
       <p class="field-label" style="margin-top:12px">ESTILO</p><input class="fi" data-i="${i}" data-f="estilo" value="${esc(g.estilo)}">
       <p class="field-label">DESCRIPCIÓN</p><input class="fi" data-i="${i}" data-f="desc" value="${esc(g.desc)}">
+      <p class="field-label">DURACIÓN APROX. (ej. "3–4h")</p><input class="fi" data-i="${i}" data-f="duracion" value="${esc(g.duracion)}">
+      <p class="field-label">PRECIO APROX. (ej. "desde 400€")</p><input class="fi" data-i="${i}" data-f="precio" value="${esc(g.precio)}">
     </div>
   `;
   }).join('') || '<p class="empty-note">Todavía no has añadido ninguna foto.</p>';
@@ -510,7 +530,7 @@ function wireGaleria() {
   content.galeria = content.galeria || [];
   renderGaleriaList();
   document.getElementById('btn-add-galeria').onclick = () => {
-    content.galeria.push({ url: '', estilo: '', desc: '' });
+    content.galeria.push({ url: '', estilo: '', desc: '', duracion: '', precio: '' });
     renderGaleriaList();
   };
 }
@@ -668,6 +688,8 @@ function renderFotoGrid() {
       <div class="foto-mini-fields">
         <input class="fi" placeholder="Estilo" data-slot="${slot.key}" data-f="estilo" value="${esc((val&&val.estilo)||'')}">
         <input class="fi" placeholder="Descripción" data-slot="${slot.key}" data-f="desc" value="${esc((val&&val.desc)||'')}">
+        <input class="fi" placeholder="Duración aprox. (ej. 3–4h)" data-slot="${slot.key}" data-f="duracion" value="${esc((val&&val.duracion)||'')}">
+        <input class="fi" placeholder="Precio aprox. (ej. desde 400€)" data-slot="${slot.key}" data-f="precio" value="${esc((val&&val.precio)||'')}">
       </div>`;
     return `
       <div class="foto-slot">
@@ -1021,26 +1043,25 @@ async function renderLeadsTable() {
     return;
   }
   wrap.innerHTML = `
-    <div class="card" style="overflow-x:auto">
-      <table class="leads-table">
-        <thead><tr><th>Fecha</th><th>Tipo</th><th>Nombre</th><th>Email</th><th>WhatsApp</th><th>Servicio</th><th>Cita</th><th>Mensaje</th><th>Fianza</th><th></th></tr></thead>
-        <tbody>
-          ${leads.map(l => `
-            <tr>
-              <td>${esc(l.fecha_registro)}</td>
-              <td><span class="tag ${l.tipo}">${esc(l.tipo)}</span></td>
-              <td>${esc(l.nombre)}</td>
-              <td>${esc(l.email)}</td>
-              <td>${esc(l.whatsapp)}</td>
-              <td>${esc(l.servicio)}</td>
-              <td>${esc(l.fecha_cita)} ${esc(l.hora_cita)}</td>
-              <td>${esc(l.mensaje || l.instagram)}</td>
-              <td>${l.tipo === 'reserva' ? `<button class="btn-o" style="padding:5px 10px;font-size:10px" data-row="${l._row}" data-estado="${esc(l.estado_fianza)}" onclick="toggleFianza(this)">${l.estado_fianza === 'pagada' ? '✓ Pagada' : '○ Pendiente'}</button>` : ''}</td>
-              <td><button class="btn-o" style="padding:5px 10px;font-size:10px" onclick="openEditLead(${l._row})">✎ Editar</button></td>
-            </tr>
-          `).join('')}
-        </tbody>
-      </table>
+    <div class="leads-cards">
+      ${leads.map(l => {
+        const fecha = (l.tipo === 'reserva' && l.fecha_cita) ? esc(l.fecha_cita) + (l.hora_cita ? ' · ' + esc(l.hora_cita) : '') : esc(l.fecha_registro);
+        const idea = esc(l.mensaje || l.instagram || '');
+        const fianzaBtn = l.tipo === 'reserva'
+          ? `<button class="btn-o lead-card-fianza" data-row="${l._row}" data-estado="${esc(l.estado_fianza)}" onclick="event.stopPropagation();toggleFianza(this)">${l.estado_fianza === 'pagada' ? '✓ Fianza pagada' : '○ Fianza pendiente'}</button>`
+          : '';
+        return `
+        <div class="lead-card" onclick="openEditLead(${l._row})">
+          <div class="lead-card-top">
+            <span class="lead-card-fecha">${fecha}</span>
+            <span class="tag ${l.tipo}">${esc(l.tipo)}</span>
+          </div>
+          <div class="lead-card-nombre">${esc(l.nombre) || '(sin nombre)'}</div>
+          <div class="lead-card-meta">${esc(l.whatsapp) || esc(l.email) || '—'}</div>
+          ${idea ? `<div class="lead-card-idea">${idea}</div>` : ''}
+          ${fianzaBtn}
+        </div>
+      `; }).join('')}
     </div>
   `;
 }
@@ -1205,6 +1226,282 @@ async function renderColaboracionesTable() {
               <td>${esc(c.contacto_persona)}</td>
               <td>${esc(c.contacto_medio)}</td>
               <td><span class="tag">${esc(c.estado)}</span></td>
+              <td>${esc(c.notas)}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    </div>
+  `;
+}
+
+// ── Materiales (inventario) ──────────────────────────────────────
+async function loadMateriales() {
+  const area = document.getElementById('content-area');
+  area.innerHTML = `
+    <div class="panel-hd" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+      <div class="panel-title" id="mat-title" style="margin-bottom:0">Materiales</div>
+      <button class="btn-o" id="btn-toggle-mat">+ AÑADIR MATERIAL</button>
+    </div>
+    <div class="panel-desc">Inventario de tintas, agujas, guantes, mobiliario… Se guarda en materiales.csv.</div>
+    <div class="card" id="mat-form" style="display:none">
+      <div class="row2">
+        <div><p class="field-label">NOMBRE</p><input class="fi" id="mt-nombre" placeholder="Ej. Tinta negra Eternal 30ml"></div>
+        <div><p class="field-label">CATEGORÍA</p>
+          <select class="fi" id="mt-categoria">
+            <option value="Tintas">Tintas</option>
+            <option value="Agujas">Agujas</option>
+            <option value="Higiene/Consumibles">Higiene/Consumibles</option>
+            <option value="Mobiliario">Mobiliario</option>
+            <option value="Otro">Otro</option>
+          </select>
+        </div>
+      </div>
+      <div class="row3">
+        <div><p class="field-label">CANTIDAD ACTUAL</p><input class="fi" type="number" id="mt-cantidad" placeholder="0"></div>
+        <div><p class="field-label">UNIDAD</p><input class="fi" id="mt-unidad" placeholder="Unidades, cajas, ml…"></div>
+        <div><p class="field-label">STOCK MÍNIMO (para avisar de reponer)</p><input class="fi" type="number" id="mt-stockmin" placeholder="0"></div>
+      </div>
+      <p class="field-label">PROVEEDOR</p><input class="fi" id="mt-proveedor" placeholder="A quién se le compra">
+      <p class="field-label">NOTAS</p><textarea class="fi" id="mt-notas"></textarea>
+      <div class="auth-msg" id="mt-msg"></div>
+      <button class="btn-p" id="btn-save-mat" style="width:auto;padding:12px 28px">GUARDAR MATERIAL</button>
+    </div>
+    <div id="mat-table-wrap"><div class="empty-note">Cargando…</div></div>
+  `;
+  document.getElementById('btn-toggle-mat').onclick = () => {
+    const p = document.getElementById('mat-form');
+    p.style.display = p.style.display === 'none' ? 'block' : 'none';
+  };
+  document.getElementById('btn-save-mat').onclick = saveMaterial;
+  await renderMaterialesTable();
+}
+async function saveMaterial() {
+  const nombre = document.getElementById('mt-nombre').value.trim();
+  const categoria = document.getElementById('mt-categoria').value;
+  const cantidad_actual = document.getElementById('mt-cantidad').value.trim();
+  const unidad = document.getElementById('mt-unidad').value.trim();
+  const stock_minimo = document.getElementById('mt-stockmin').value.trim();
+  const proveedor = document.getElementById('mt-proveedor').value.trim();
+  const notas = document.getElementById('mt-notas').value.trim();
+  const msg = document.getElementById('mt-msg');
+  if (!nombre) { msg.textContent = 'Al menos pon el nombre.'; return; }
+  const res = await fetch('/api/materiales', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ nombre, categoria, cantidad_actual, unidad, stock_minimo, proveedor, notas }) });
+  const data = await res.json();
+  if (!data.ok) { msg.textContent = 'No se pudo guardar. Inténtalo de nuevo.'; return; }
+  ['mt-nombre', 'mt-cantidad', 'mt-unidad', 'mt-stockmin', 'mt-proveedor', 'mt-notas'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('mat-form').style.display = 'none';
+  flashSaved('✓ Material guardado');
+  await renderMaterialesTable();
+}
+let currentMateriales = [];
+async function renderMaterialesTable() {
+  const res = await fetch('/api/materiales');
+  const data = await res.json();
+  const items = data.items || [];
+  currentMateriales = items;
+  document.getElementById('mat-title').textContent = 'Materiales (' + items.length + ')';
+  const wrap = document.getElementById('mat-table-wrap');
+  if (!items.length) { wrap.innerHTML = '<div class="empty-note">Todavía no hay ninguno. Añade tu primer material.</div>'; return; }
+  wrap.innerHTML = `
+    <div class="card" style="overflow-x:auto">
+      <table class="leads-table">
+        <thead><tr><th>Nombre</th><th>Categoría</th><th>Cantidad</th><th>Stock mín.</th><th>Proveedor</th><th>Notas</th></tr></thead>
+        <tbody>
+          ${items.map(m => {
+            const bajo = m.stock_minimo !== '' && Number(m.cantidad_actual) <= Number(m.stock_minimo);
+            return `
+            <tr>
+              <td>${esc(m.nombre)}</td>
+              <td>${esc(m.categoria)}</td>
+              <td>${bajo ? '<span class="tag" style="background:#F5DEDE;color:#A33">' + esc(m.cantidad_actual) + ' ' + esc(m.unidad) + ' — ¡reponer!</span>' : esc(m.cantidad_actual) + ' ' + esc(m.unidad)}</td>
+              <td>${esc(m.stock_minimo)}</td>
+              <td>${esc(m.proveedor)}</td>
+              <td>${esc(m.notas)}</td>
+            </tr>
+          `; }).join('')}
+        </tbody>
+      </table>
+    </div>
+  `;
+}
+
+// ── Pedidos ──────────────────────────────────────────────────────
+async function loadPedidos() {
+  const area = document.getElementById('content-area');
+  area.innerHTML = `
+    <div class="panel-hd" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+      <div class="panel-title" id="ped-title" style="margin-bottom:0">Pedidos</div>
+      <button class="btn-o" id="btn-toggle-ped">+ AÑADIR PEDIDO</button>
+    </div>
+    <div class="panel-desc">Qué has pedido a cada proveedor y en qué punto está. Se guarda en pedidos.csv.</div>
+    <div class="card" id="ped-form" style="display:none">
+      <div class="row2">
+        <div><p class="field-label">FECHA DEL PEDIDO</p><input class="fi" type="date" id="pd-fecha"></div>
+        <div><p class="field-label">PROVEEDOR</p><input class="fi" id="pd-proveedor" placeholder="A quién se le pide"></div>
+      </div>
+      <div class="row2">
+        <div><p class="field-label">MATERIAL</p><input class="fi" id="pd-material" placeholder="Qué se ha pedido"></div>
+        <div><p class="field-label">CANTIDAD</p><input class="fi" id="pd-cantidad" placeholder="Ej. 5 cajas"></div>
+      </div>
+      <div class="row2">
+        <div><p class="field-label">PRECIO TOTAL</p><input class="fi" id="pd-precio" placeholder="€"></div>
+        <div><p class="field-label">ESTADO</p>
+          <select class="fi" id="pd-estado">
+            <option value="Pedido">Pedido</option>
+            <option value="En camino">En camino</option>
+            <option value="Recibido">Recibido</option>
+          </select>
+        </div>
+      </div>
+      <p class="field-label">NOTAS</p><textarea class="fi" id="pd-notas"></textarea>
+      <div class="auth-msg" id="pd-msg"></div>
+      <button class="btn-p" id="btn-save-ped" style="width:auto;padding:12px 28px">GUARDAR PEDIDO</button>
+    </div>
+    <div id="ped-table-wrap"><div class="empty-note">Cargando…</div></div>
+  `;
+  document.getElementById('btn-toggle-ped').onclick = () => {
+    const p = document.getElementById('ped-form');
+    p.style.display = p.style.display === 'none' ? 'block' : 'none';
+  };
+  document.getElementById('btn-save-ped').onclick = savePedido;
+  await renderPedidosTable();
+}
+async function savePedido() {
+  const fecha_pedido = document.getElementById('pd-fecha').value;
+  const proveedor = document.getElementById('pd-proveedor').value.trim();
+  const material = document.getElementById('pd-material').value.trim();
+  const cantidad = document.getElementById('pd-cantidad').value.trim();
+  const precio_total = document.getElementById('pd-precio').value.trim();
+  const estado = document.getElementById('pd-estado').value;
+  const notas = document.getElementById('pd-notas').value.trim();
+  const msg = document.getElementById('pd-msg');
+  if (!proveedor && !material) { msg.textContent = 'Al menos pon el proveedor o el material.'; return; }
+  const res = await fetch('/api/pedidos', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ fecha_pedido, proveedor, material, cantidad, precio_total, estado, notas }) });
+  const data = await res.json();
+  if (!data.ok) { msg.textContent = 'No se pudo guardar. Inténtalo de nuevo.'; return; }
+  ['pd-fecha', 'pd-proveedor', 'pd-material', 'pd-cantidad', 'pd-precio', 'pd-notas'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('pd-estado').value = 'Pedido';
+  document.getElementById('ped-form').style.display = 'none';
+  flashSaved('✓ Pedido guardado');
+  await renderPedidosTable();
+}
+let currentPedidos = [];
+async function renderPedidosTable() {
+  const res = await fetch('/api/pedidos');
+  const data = await res.json();
+  const items = data.items || [];
+  currentPedidos = items;
+  document.getElementById('ped-title').textContent = 'Pedidos (' + items.length + ')';
+  const wrap = document.getElementById('ped-table-wrap');
+  if (!items.length) { wrap.innerHTML = '<div class="empty-note">Todavía no hay ninguno. Añade el primero.</div>'; return; }
+  wrap.innerHTML = `
+    <div class="card" style="overflow-x:auto">
+      <table class="leads-table">
+        <thead><tr><th>Fecha pedido</th><th>Proveedor</th><th>Material</th><th>Cantidad</th><th>Precio</th><th>Estado</th><th>Notas</th></tr></thead>
+        <tbody>
+          ${items.map(p => `
+            <tr>
+              <td>${esc(p.fecha_pedido)}</td>
+              <td>${esc(p.proveedor)}</td>
+              <td>${esc(p.material)}</td>
+              <td>${esc(p.cantidad)}</td>
+              <td>${esc(p.precio_total)}</td>
+              <td><span class="tag">${esc(p.estado)}</span></td>
+              <td>${esc(p.notas)}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    </div>
+  `;
+}
+
+// ── Cuentas ──────────────────────────────────────────────────────
+async function loadCuentas() {
+  const area = document.getElementById('content-area');
+  area.innerHTML = `
+    <div class="panel-hd" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+      <div class="panel-title" id="cta-title" style="margin-bottom:0">Cuentas</div>
+      <button class="btn-o" id="btn-toggle-cta">+ AÑADIR MOVIMIENTO</button>
+    </div>
+    <div class="panel-desc">Ingresos y gastos, para el resumen rápido. Para la contabilidad detallada sigue usando tu Excel de control económico. Se guarda en cuentas.csv.</div>
+    <div class="card" id="cta-resumen" style="display:flex;gap:32px;flex-wrap:wrap"></div>
+    <div class="card" id="cta-form" style="display:none">
+      <div class="row2">
+        <div><p class="field-label">FECHA</p><input class="fi" type="date" id="ct-fecha"></div>
+        <div><p class="field-label">TIPO</p>
+          <select class="fi" id="ct-tipo">
+            <option value="Ingreso">Ingreso</option>
+            <option value="Gasto">Gasto</option>
+          </select>
+        </div>
+      </div>
+      <div class="row2">
+        <div><p class="field-label">CONCEPTO</p><input class="fi" id="ct-concepto" placeholder="Ej. Pase completo — Ana Torres"></div>
+        <div><p class="field-label">CATEGORÍA</p><input class="fi" id="ct-categoria" placeholder="Sesión, alquiler, material, nómina…"></div>
+      </div>
+      <p class="field-label">IMPORTE (€)</p><input class="fi" type="number" id="ct-importe" placeholder="0">
+      <p class="field-label">NOTAS</p><textarea class="fi" id="ct-notas"></textarea>
+      <div class="auth-msg" id="ct-msg"></div>
+      <button class="btn-p" id="btn-save-cta" style="width:auto;padding:12px 28px">GUARDAR MOVIMIENTO</button>
+    </div>
+    <div id="cta-table-wrap"><div class="empty-note">Cargando…</div></div>
+  `;
+  document.getElementById('btn-toggle-cta').onclick = () => {
+    const p = document.getElementById('cta-form');
+    p.style.display = p.style.display === 'none' ? 'block' : 'none';
+  };
+  document.getElementById('btn-save-cta').onclick = saveCuenta;
+  await renderCuentasTable();
+}
+async function saveCuenta() {
+  const fecha = document.getElementById('ct-fecha').value;
+  const tipo = document.getElementById('ct-tipo').value;
+  const concepto = document.getElementById('ct-concepto').value.trim();
+  const categoria = document.getElementById('ct-categoria').value.trim();
+  const importe = document.getElementById('ct-importe').value.trim();
+  const notas = document.getElementById('ct-notas').value.trim();
+  const msg = document.getElementById('ct-msg');
+  if (!concepto || !importe) { msg.textContent = 'Al menos pon el concepto y el importe.'; return; }
+  const res = await fetch('/api/cuentas', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ fecha, tipo, concepto, categoria, importe, notas }) });
+  const data = await res.json();
+  if (!data.ok) { msg.textContent = 'No se pudo guardar. Inténtalo de nuevo.'; return; }
+  ['ct-fecha', 'ct-concepto', 'ct-categoria', 'ct-importe', 'ct-notas'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('ct-tipo').value = 'Ingreso';
+  document.getElementById('cta-form').style.display = 'none';
+  flashSaved('✓ Movimiento guardado');
+  await renderCuentasTable();
+}
+let currentCuentas = [];
+async function renderCuentasTable() {
+  const res = await fetch('/api/cuentas');
+  const data = await res.json();
+  const items = data.items || [];
+  currentCuentas = items;
+  document.getElementById('cta-title').textContent = 'Cuentas (' + items.length + ')';
+  const totalIngresos = items.filter(i => i.tipo === 'Ingreso').reduce((s, i) => s + (parseFloat(i.importe) || 0), 0);
+  const totalGastos = items.filter(i => i.tipo === 'Gasto').reduce((s, i) => s + (parseFloat(i.importe) || 0), 0);
+  const balance = totalIngresos - totalGastos;
+  document.getElementById('cta-resumen').innerHTML = `
+    <div><p class="field-label">TOTAL INGRESOS</p><p style="font-size:22px;color:var(--a)">${totalIngresos.toFixed(2)}€</p></div>
+    <div><p class="field-label">TOTAL GASTOS</p><p style="font-size:22px;color:#A33">${totalGastos.toFixed(2)}€</p></div>
+    <div><p class="field-label">BALANCE</p><p style="font-size:22px">${balance.toFixed(2)}€</p></div>
+  `;
+  const wrap = document.getElementById('cta-table-wrap');
+  if (!items.length) { wrap.innerHTML = '<div class="empty-note">Todavía no hay ningún movimiento. Añade el primero.</div>'; return; }
+  wrap.innerHTML = `
+    <div class="card" style="overflow-x:auto">
+      <table class="leads-table">
+        <thead><tr><th>Fecha</th><th>Tipo</th><th>Concepto</th><th>Categoría</th><th>Importe</th><th>Notas</th></tr></thead>
+        <tbody>
+          ${items.map(c => `
+            <tr>
+              <td>${esc(c.fecha)}</td>
+              <td><span class="tag" style="${c.tipo === 'Gasto' ? 'background:#F5DEDE;color:#A33' : 'background:var(--aLt);color:var(--a)'}">${esc(c.tipo)}</span></td>
+              <td>${esc(c.concepto)}</td>
+              <td>${esc(c.categoria)}</td>
+              <td>${esc(c.importe)}€</td>
               <td>${esc(c.notas)}</td>
             </tr>
           `).join('')}

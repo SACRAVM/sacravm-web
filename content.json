@@ -1,0 +1,204 @@
+{
+  "nombre": "JJ Rodríguez",
+  "ciudad": "León",
+  "email": "hola@sacravm.com",
+  "whatsapp": "+34 XXX XXX XXX",
+  "bizum": "+34 XXX XXX XXX",
+  "instagram": "sacravm",
+  "horarios": [
+    "10:00",
+    "12:00",
+    "16:00",
+    "18:00"
+  ],
+  "diasMaxReserva": 45,
+  "diasMinReserva": 3,
+  "fotos": {
+    "hero": "/images/hero/hero.jpg",
+    "perfil": "/images/hero/perfil.jpg",
+    "tt1": {
+      "url": "/images/portfolio/tt1.jpg",
+      "estilo": "Micro-realismo",
+      "desc": "Retrato",
+      "duracion": "3–4h",
+      "precio": "desde 400€"
+    },
+    "tt2": {
+      "url": "/images/portfolio/tt2.jpg",
+      "estilo": "Fine line",
+      "desc": "Botánico",
+      "duracion": "2–3h",
+      "precio": "desde 180€"
+    },
+    "tt3": {
+      "url": "/images/portfolio/tt3.jpg",
+      "estilo": "Realismo conceptual",
+      "desc": "Composición",
+      "duracion": "6–8h",
+      "precio": "desde 750€"
+    },
+    "tt4": {
+      "url": "/images/portfolio/tt4.jpg",
+      "estilo": "Fine line",
+      "desc": "Lettering",
+      "duracion": "1–2h",
+      "precio": "desde 90€"
+    },
+    "tt5": {
+      "url": "/images/portfolio/tt5.jpg",
+      "estilo": "Micro-realismo",
+      "desc": "Detalle",
+      "duracion": "3–4h",
+      "precio": "desde 450€"
+    },
+    "tt6": {
+      "url": "/images/portfolio/tt6.jpg",
+      "estilo": "Realismo conceptual",
+      "desc": "Narrativo",
+      "duracion": "6–8h",
+      "precio": "desde 800€"
+    }
+  },
+  "servicios": [
+    {
+      "nombre": "Micro-realismo",
+      "descripcion": "Piezas pequeñas y medias con lectura limpia, profundidad visual y detalle fino pensado para durar bien en piel.",
+      "ideal": "Retratos, símbolos delicados, composiciones precisas.",
+      "precio": "150–500€"
+    },
+    {
+      "nombre": "Realismo conceptual",
+      "descripcion": "Diseños con carga simbólica, composición estética y narrativa visual construida contigo desde la idea.",
+      "ideal": "Proyectos con significado personal, composiciones únicas.",
+      "precio": "250–500€"
+    },
+    {
+      "nombre": "Fine line",
+      "descripcion": "Línea fina, limpia y elegante para quienes buscan sutileza, gusto y una estética menos obvia.",
+      "ideal": "Lettering delicado, botánicos, ornamentos sutiles.",
+      "precio": "60–300€"
+    }
+  ],
+  "testimonios": [
+    {
+      "txt": "No sentí que estuviera entrando a un estudio más, sino a un sitio preparado para escuchar bien la idea y llevarla a un resultado fino y con criterio.",
+      "by": "Claudia M."
+    },
+    {
+      "txt": "La reserva fue clara, la sesión estuvo muy cuidada y todo el proceso se notó pensado para que el tatuaje saliera como tenía que salir.",
+      "by": "Javier R."
+    },
+    {
+      "txt": "Se agradece que no haya prisas ni ruido. JJ se toma el tiempo de entender la idea y eso cambia completamente el resultado.",
+      "by": "Lucía P."
+    }
+  ],
+  "cuadros": [
+    {
+      "url": "/images/cuadros/pieza1.jpg",
+      "nombre": "Nature",
+      "meta": "Bic sobre papel",
+      "significado": "La unión entre la mujer y la naturaleza. La madre naturaleza a la que debemos la vida — sin ella, no somos nada.",
+      "precio": ""
+    },
+    {
+      "url": "/images/cuadros/pieza2.jpg",
+      "nombre": "Inspiración",
+      "meta": "Bic sobre papel",
+      "significado": "No es solo un dibujo — es de donde nace todo, la vida y las ideas. Una rosa, la flor que siempre quiso mi madre: símbolo del amor que se entrega sin pedir nada a cambio.",
+      "precio": ""
+    },
+    {
+      "url": "/images/cuadros/pieza3.jpg",
+      "nombre": "Raíces",
+      "meta": "Bic sobre papel",
+      "significado": "De donde venimos todos. Lo más puro, la delicadeza — cada experiencia que vivimos, gracias al cuerpo de mujer.",
+      "precio": ""
+    }
+  ],
+  "galeria": [
+    {
+      "url": "/images/galeria/g1.jpg",
+      "estilo": "FINE LINE",
+      "desc": "Composición vertical",
+      "duracion": "3–4h",
+      "precio": "desde 400€"
+    },
+    {
+      "url": "/images/galeria/g2.jpg",
+      "estilo": "MICRO-REALISMO",
+      "desc": "Detalle",
+      "duracion": "1–2h",
+      "precio": "desde 180€"
+    },
+    {
+      "url": "/images/galeria/g3.jpg",
+      "estilo": "REALISMO CONCEPTUAL",
+      "desc": "Composición",
+      "duracion": "6–8h",
+      "precio": "desde 750€"
+    },
+    {
+      "url": "/images/galeria/g4.jpg",
+      "estilo": "REALISMO",
+      "desc": "Proyecto de brazo",
+      "duracion": "Multisesión (3+ sesiones)",
+      "precio": "desde 750€/sesión"
+    },
+    {
+      "url": "/images/galeria/g5.jpg",
+      "estilo": "MICRO-REALISMO",
+      "desc": "Retrato",
+      "duracion": "3–4h",
+      "precio": "desde 420€"
+    },
+    {
+      "url": "/images/galeria/g6.jpg",
+      "estilo": "REALISMO CONCEPTUAL",
+      "desc": "Composición · Manga",
+      "duracion": "Multisesión (6–9 sesiones)",
+      "precio": "desde 750€/sesión"
+    },
+    {
+      "url": "/images/galeria/g7.jpg",
+      "estilo": "FINE LINE",
+      "desc": "Botánico",
+      "duracion": "1–2h",
+      "precio": "desde 120€"
+    },
+    {
+      "url": "/images/galeria/g8.jpg",
+      "estilo": "SACRAVM",
+      "desc": "En sesión",
+      "duracion": "",
+      "precio": ""
+    }
+  ],
+  "experiencesVideoUrl": "",
+  "experiencesFotos": [],
+  "academyAlumnos": 6,
+  "academyResultados": [
+    {
+      "before": "",
+      "after": "",
+      "alumno": "",
+      "caption": ""
+    }
+  ],
+  "academyTestimonios": [
+    {
+      "txt": "",
+      "by": ""
+    }
+  ],
+  "textos": {
+    "valeRegaloTitulo": "Regala algo único.\nY para siempre.",
+    "valeRegaloTexto": "Unas flores se marchitan. Una cena se olvida. Un tatuaje de SACRAVM se queda para siempre — y lleva tu gesto dentro. Elige un importe, desde SACRAVM nos encargamos del resto.",
+    "inversionTitulo": "Cada formato, pensado para que el resultado esté a la altura",
+    "inversionTexto": "El diseño se prepara en exclusiva el día de tu cita. La señal confirma tu plaza y se descuenta del total — el resto se abona al cerrar la sesión.",
+    "academyTitulo": "Domina el oficio con quien ya se lo juega en piel real.",
+    "academyTexto": "Un programa online de 3-6 meses para tatuadores que no quieren aprender por prueba y error. Técnica, criterio, marca personal y captación de clientes."
+  },
+  "stripeLink50": "",
+  "stripeLink100": ""
+}

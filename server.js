@@ -118,9 +118,9 @@ const DEFAULT_CONTENT = {
     { txt: 'Se agradece que no haya prisas ni ruido. JJ se toma el tiempo de entender la idea y eso cambia completamente el resultado.', by: 'Lucía P.' },
   ],
   cuadros: [
-    { url: '', nombre: 'Pieza I', meta: 'Bic sobre papel' },
-    { url: '', nombre: 'Pieza II', meta: 'Bic sobre papel' },
-    { url: '', nombre: 'Pieza III', meta: 'Bic sobre papel' },
+    { url: '', nombre: 'Pieza I', meta: 'Bic sobre papel', significado: '', precio: '' },
+    { url: '', nombre: 'Pieza II', meta: 'Bic sobre papel', significado: '', precio: '' },
+    { url: '', nombre: 'Pieza III', meta: 'Bic sobre papel', significado: '', precio: '' },
   ],
   galeria: [
     { url: '/images/galeria/g1.jpg', estilo: 'FINE LINE', desc: 'Composición vertical' },
@@ -269,6 +269,35 @@ function emailConfirmacion(lead) {
   };
 }
 
+function emailConfirmacionValoracion(lead) {
+  const nombre = (lead.nombre || '').split(' ')[0] || 'Hola';
+  const fecha = fmtFechaEs(lead.fecha_cita);
+  return {
+    subject: `Tu valoración en SACRAVM — ${fecha}`,
+    html: EMAIL_WRAP(`
+      <p>Hola ${nombre},</p>
+      <p>Tu valoración y diseño ha quedado reservada, sin coste:</p>
+      <p><strong>Fecha:</strong> ${fecha}<br><strong>Hora:</strong> ${lead.hora_cita || ''}</p>
+      <p>Hablamos de tu idea, resolvemos dudas y vemos si encaja con lo que buscas — sin compromiso de reservar nada más.</p>
+      <p>Cualquier duda antes de la llamada, escríbeme sin problema.</p>
+    `),
+  };
+}
+
+function emailRecordatorioValoracion(lead) {
+  const nombre = (lead.nombre || '').split(' ')[0] || 'Hola';
+  const fecha = fmtFechaEs(lead.fecha_cita);
+  return {
+    subject: `Tu valoración es en 2 días — ${fecha}`,
+    html: EMAIL_WRAP(`
+      <p>Hola ${nombre},</p>
+      <p>Recordatorio de tu valoración y diseño, el <strong>${fecha}${lead.hora_cita ? ' a las ' + lead.hora_cita : ''}</strong>.</p>
+      <p>Si tienes referencias o ideas ya pensadas, tenlas a mano — nos ayuda a aprovechar mejor el tiempo.</p>
+      <p>Nos vemos pronto.</p>
+    `),
+  };
+}
+
 function emailRecordatorio(lead) {
   const nombre = (lead.nombre || '').split(' ')[0] || 'Hola';
   const fecha = fmtFechaEs(lead.fecha_cita);
@@ -365,18 +394,21 @@ async function runEmailScheduler() {
     for (const row of rows) {
       if (row.tipo !== 'reserva' || !row.fecha_cita) continue;
       // Aviso a JJ (independiente de si el cliente puso email): fianza sin cobrar a 2 días de la cita.
-      if (row.fecha_cita === in2Str && row.estado_fianza !== 'pagada' && row.alerta_fianza_enviado !== 'si' && jjEmail) {
+      // No aplica a valoraciones (tier 'consulta'), que son gratuitas y no llevan fianza.
+      if (row.tier !== 'consulta' && row.fecha_cita === in2Str && row.estado_fianza !== 'pagada' && row.alerta_fianza_enviado !== 'si' && jjEmail) {
         const { subject, html } = emailAvisoFianza(row);
         const r = await sendEmail(jjEmail, subject, html);
         if (r.ok) { row.alerta_fianza_enviado = 'si'; changed = true; }
       }
       if (!row.email) continue;
+      const esConsulta = row.tier === 'consulta';
       if (row.fecha_cita === in2Str && row.recordatorio_enviado !== 'si') {
-        const { subject, html } = emailRecordatorio(row);
+        const { subject, html } = esConsulta ? emailRecordatorioValoracion(row) : emailRecordatorio(row);
         const r = await sendEmail(row.email, subject, html);
         if (r.ok) { row.recordatorio_enviado = 'si'; changed = true; }
       }
-      if (row.fecha_cita === ago7Str && row.seguimiento_enviado !== 'si') {
+      // El seguimiento de curación solo aplica a sesiones de tatuaje reales, no a valoraciones
+      if (!esConsulta && row.fecha_cita === ago7Str && row.seguimiento_enviado !== 'si') {
         const { subject, html } = emailSeguimiento(row);
         const r = await sendEmail(row.email, subject, html);
         if (r.ok) { row.seguimiento_enviado = 'si'; changed = true; }
@@ -540,7 +572,8 @@ const server = http.createServer(async (req, res) => {
       sendJSON(res, 200, { ok: true }, { 'Access-Control-Allow-Origin': '*' });
       // Email de confirmación — no bloquea la respuesta al cliente
       if (data.tipo === 'reserva' && data.email) {
-        const { subject, html } = emailConfirmacion({ nombre: data.nombre, fecha_cita: data.fecha, hora_cita: data.hora, servicio: data.servicio });
+        const leadInfo = { nombre: data.nombre, fecha_cita: data.fecha, hora_cita: data.hora, servicio: data.servicio };
+        const { subject, html } = data.tier === 'consulta' ? emailConfirmacionValoracion(leadInfo) : emailConfirmacion(leadInfo);
         sendEmail(data.email, subject, html).catch(() => {});
       }
       return;
@@ -731,6 +764,7 @@ const server = http.createServer(async (req, res) => {
     if (filePath === '/agenda') filePath = '/agenda.html';
     if (filePath === '/academy') filePath = '/academy.html';
     if (filePath === '/legal') filePath = '/legal.html';
+    if (filePath === '/certificado') filePath = '/certificado.html';
     filePath = path.join(ROOT, decodeURIComponent(filePath));
     if (!filePath.startsWith(ROOT)) { res.writeHead(403); res.end('Prohibido'); return; }
 
