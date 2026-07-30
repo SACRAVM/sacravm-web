@@ -493,9 +493,10 @@ body.wz-lock{overflow:hidden}
   .bk-step{max-width:160px}
   .bk-step-sep{display:none}
   .nav-burger{display:flex}
-  .nav-links{display:none;position:fixed;top:58px;left:0;right:0;background:var(--bg);border-bottom:1px solid var(--bdr);flex-direction:column;flex-wrap:nowrap;gap:0;padding:6px 20px 16px;max-height:calc(100vh - 58px);overflow-y:auto;box-shadow:0 12px 30px rgba(20,15,10,.12);z-index:99}
+  .nav-links{display:none;position:fixed;top:58px;left:0;right:0;bottom:0;background:var(--bg);flex-direction:column;flex-wrap:nowrap;gap:0;padding:8px 24px 32px;overflow-y:auto;z-index:99}
   .nav-links.open{display:flex}
-  .nl{width:100%;text-align:left;padding:15px 4px;border-bottom:1px solid var(--bdr);font-size:16px;border-radius:0}
+  .nl{width:100%;text-align:left;padding:19px 0;border-bottom:1px solid var(--bdr);border-radius:0;display:flex;align-items:center;gap:14px;font-family:var(--serif);font-size:25px;font-weight:400;color:var(--tx);letter-spacing:.01em}
+  .nl::before{content:'+';color:var(--a);font-size:19px;font-weight:600;flex-shrink:0;width:16px}
   .origen-grid,.g2{grid-template-columns:1fr;gap:36px}
   .qh-grid{grid-template-columns:repeat(2,1fr)}
   .col-grid,.g3{grid-template-columns:1fr}
@@ -942,7 +943,8 @@ body.wz-lock{overflow:hidden}
       <div class="sec-label">SERIE ORIGEN</div>
       <h2 class="sec-title">Cuadros que también puedes colgar en la pared.</h2>
       <p style="font-size:16px;color:var(--t2);line-height:1.9;margin-top:14px;max-width:560px">Antes de ser tatuaje, cada diseño nace como obra original — a bolígrafo. El bic no perdona: cada trazo tiene que ser el correcto a la primera, la misma sensación que un tatuaje. No se puede borrar. Y si todavía no quieres o no puedes tatuarte, esta es otra forma de llevar una pieza para siempre.</p>
-      <p style="font-family:var(--serif);font-size:19px;font-style:italic;color:var(--a);line-height:1.6;margin-top:18px;max-width:560px">Una serie dedicada al origen de la vida — y a las mujeres que la sostienen. A mi madre, mi abuela, mi hermana, mi pareja. A todas las mujeres del mundo.</p>
+      <p style="font-family:var(--serif);font-size:19px;font-style:italic;color:var(--a);line-height:1.6;margin-top:18px;max-width:560px">Una serie dedicada al origen de la vida — y a las mujeres que la sostienen.</p>
+      <p style="font-size:14px;color:var(--t2);line-height:1.8;margin-top:14px;max-width:560px">"A mi madre, mi abuela, mi hermana, mi pareja. A todas las mujeres del mundo." <span style="color:var(--t3)">— JJ Rodríguez, fundador de SACRAVM</span></p>
       <div class="form-pills">
         <span class="pill">Pieza única</span>
         <span class="pill">Firmada y numerada</span>
@@ -1006,7 +1008,7 @@ body.wz-lock{overflow:hidden}
           <div class="tar-includes-line">Diseño el mismo día · Kit de cuidados · Seguimiento de curación</div>
         </div>
         <div class="tar-row-r">
-          <div class="tar-price">400–500€</div>
+          <div class="tar-price">500–600€</div>
           <div class="tar-senal">Señal 100€ · se descuenta del total</div>
           <button class="btn-tar" onclick="goBook()">Reservar media sesión →</button>
         </div>
@@ -1138,9 +1140,9 @@ body.wz-lock{overflow:hidden}
     <div class="terms-grid rv">
       <div>
         <div class="term-block">
-          <h4>Su enfoque y cómo elige proyectos</h4>
-          <p>JJ crea cada tatuaje con total libertad artística dentro del tema acordado. Tu idea inspira el diseño, pero él añade su toque personal. No copia otros tatuajes ni estilos. El diseño final lo prepara el primer día de tu cita.</p>
-          <div class="term-highlight"><p>Prioriza a los clientes con grandes ideas y buen ambiente, especialmente a quienes confían en él para hacer lo que mejor sabe hacer. <strong>Si considera que un diseño o ubicación no es adecuado, te lo hará saber y puede rechazar el proyecto.</strong></p></div>
+          <h4>Nuestro enfoque y cómo elegimos proyectos</h4>
+          <p>Creamos cada tatuaje con total libertad artística dentro del tema acordado. Tu idea inspira el diseño, pero añadimos nuestro toque personal. No copiamos otros tatuajes ni estilos. El diseño final lo preparamos el primer día de tu cita.</p>
+          <div class="term-highlight"><p>Priorizamos a los clientes con grandes ideas y buen ambiente, especialmente a quienes confían en nosotros para hacer lo que mejor sabemos hacer. <strong>Si consideramos que un diseño o ubicación no es adecuado, te lo haremos saber y podemos rechazar el proyecto.</strong></p></div>
         </div>
         <div class="term-block">
           <h4>Horario de estudio</h4>
