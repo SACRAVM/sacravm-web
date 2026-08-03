@@ -577,9 +577,6 @@ body.wz-lock{overflow:hidden}
     <button class="nl" onclick="scroll2('servicios')">Spécialités</button>
     <button class="nl" onclick="scroll2('experiences')">Experiences</button>
     <button class="nl" onclick="scroll2('tarifas')">Inversión</button>
-    <button class="nl" onclick="scroll2('vale-regalo')">Vale regalo</button>
-    <button class="nl" onclick="scroll2('formacion')">Academy</button>
-    <button class="nl" onclick="scroll2('obras')">Cuadros</button>
     <button class="nl" onclick="scroll2('galeria')">Galería</button>
   </div>
   <button class="btn-book" onclick="goBook()">RESERVAR CITA</button>
@@ -2148,7 +2145,10 @@ async function submitLeadPopup() {
   document.getElementById('lp-success-msg').textContent = offer.msg;
   showLpStep('success');
 }
-maybeShowLeadPopup();
+// Popup de captación desactivado a petición de JJ (2026-07-31): se sentía agresivo
+// para el posicionamiento de marca ("no tatúo a cualquiera, ni con prisa").
+// El código queda listo por si se quiere reactivar más adelante de forma menos intrusiva.
+// maybeShowLeadPopup();
 </script>
 </body>
 </html>
