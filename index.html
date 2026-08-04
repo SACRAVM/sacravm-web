@@ -72,7 +72,8 @@ select option{background:var(--w);color:var(--tx)}
 .rv.d1{transition-delay:.1s}.rv.d2{transition-delay:.2s}.rv.d3{transition-delay:.3s}
 
 /* ── NAV ─── */
-nav{position:sticky;top:0;z-index:100;min-height:58px;display:flex;align-items:center;justify-content:space-between;padding:8px 28px;gap:10px;background:rgba(251,248,243,.95);border-bottom:1px solid var(--bdr);backdrop-filter:blur(12px);flex-wrap:wrap}
+nav{position:sticky;top:0;z-index:100;min-height:58px;display:flex;align-items:center;justify-content:space-between;padding:8px 28px;gap:10px;background:rgba(251,248,243,.95);border-bottom:1px solid var(--bdr);backdrop-filter:blur(12px);flex-wrap:wrap;transition:transform .35s ease}
+nav.nav-hidden{transform:translateY(-100%)}
 .nav-l{display:flex;align-items:baseline;gap:10px;cursor:pointer;text-decoration:none;white-space:nowrap}
 .logo{font-family:var(--serif);font-size:20px;font-weight:400;letter-spacing:.2em;color:var(--tx)}
 .nav-l small{font-size:10px;letter-spacing:.22em;color:var(--t2);white-space:nowrap}
@@ -239,8 +240,10 @@ nav,footer{scroll-snap-align:none}
 .art-body{padding:16px 18px}
 .art-name{font-family:var(--serif);font-size:19px;font-weight:400;color:var(--tx);margin-bottom:4px}
 .art-meta{font-size:12px;color:var(--t2)}
-.art-price{font-size:13px;color:var(--tx);letter-spacing:.03em;margin-top:6px}
-.art-significado{font-size:13px;color:var(--t2);line-height:1.6;margin-top:8px;padding-top:8px;border-top:1px solid var(--bdr)}
+.art-significado{font-size:13px;color:var(--t2);line-height:1.7;margin-top:10px}
+.art-decision{margin-top:14px;padding-top:12px;border-top:1px solid var(--bdr)}
+.art-price{font-size:16px;color:var(--tx);letter-spacing:.03em;font-family:var(--serif)}
+.art-garantia{font-size:11.5px;color:var(--t3);margin-top:4px;letter-spacing:.01em}
 @media(max-width:720px){.art-grid{grid-template-columns:1fr}}
 
 /* ── EXPERIENCES — vídeo y fotos de eventos reales ── */
@@ -710,7 +713,7 @@ body.wz-lock{overflow:hidden}
     <div class="rv">
       <div class="sec-label">QUIÉNES SOMOS</div>
       <h2 class="sec-title">Un atelier diseñado para escuchar bien la idea antes de convertirla en piel.</h2>
-      <p class="nos-body">SACRAVM es una forma de vida, no solo de tatuaje. Buscamos la perfección. Mejoramos cada día. Damos el cien por cien en cada momento. Atelier especializado en micro-realismo, realismo conceptual y fine line — con un objetivo: ser referencia en España y en el mundo. ¿Tú quieres pertenecer a este legado?</p>
+      <p class="nos-body">SACRAVM va más allá del tatuaje: marcamos historias. Escuchamos tu idea desde el primer momento y trabajamos cada detalle hasta que quede en armonía con tu cuerpo y tu estilo. Sabemos que esto es para siempre — por eso nos comprometemos a dar el máximo en cada proyecto.</p>
       <div>
         <div class="pillar"><div class="pl-n">01</div><div class="pl-t"><h4>Reserva directa con fianza</h4><p>Eliges fecha, pagas la señal y la cita queda confirmada automáticamente. Sin esperas.</p></div></div>
         <div class="pillar"><div class="pl-n">02</div><div class="pl-t"><h4>Diseño personalizado</h4><p>Hablamos del diseño y referencias después de confirmar. Me adapto a tu idea.</p></div></div>
@@ -753,7 +756,7 @@ body.wz-lock{overflow:hidden}
     <div class="rv">
       <div class="sec-label">SPÉCIALITÉS</div>
       <h2 class="sec-title">El arte que puedes reservar</h2>
-      <p style="font-size:15px;color:var(--t2);line-height:1.8;margin-top:12px;max-width:520px">El micro-realismo es nuestra especialidad principal — el resto de estilos nacen del mismo criterio, aplicado a formatos distintos.</p>
+      <p style="font-size:15px;color:var(--t2);line-height:1.8;margin-top:12px;max-width:520px">Especialistas en micro-realismo, realismo y fine line — no por casualidad, sino tras muchas horas y mucha experiencia. En el micro-realismo está el detalle y la paciencia; en el realismo, nuestra forma de ver el mundo; en el fine line, la precisión de buscar la perfección, aunque sepamos que no existe. Trabajamos para eso: daros lo mejor.</p>
     </div>
     <div class="svc-list" id="svcs-grid">
       <!-- Generado por JavaScript desde CONFIG -->
@@ -1552,7 +1555,7 @@ function renderSite(CONFIG) {
   document.getElementById('cuadros-grid').innerHTML = (CONFIG.cuadros || []).map(c => `
     <div class="art-card">
       <div class="art-img">${c.url ? `<img src="${c.url}" alt="${c.nombre||'Cuadro'}" style="width:100%;height:100%;object-fit:cover" loading="lazy">` : `<span class="art-badge">PRÓXIMAMENTE</span><span>★ ${c.meta||''}</span>`}</div>
-      <div class="art-body"><div class="art-name">${c.nombre||''}</div><div class="art-meta">${c.meta||''}</div>${c.precio ? `<div class="art-price">${c.precio}</div>` : ''}${c.significado ? `<div class="art-significado">${c.significado}</div>` : ''}</div>
+      <div class="art-body"><div class="art-name">${c.nombre||''}</div><div class="art-meta">${c.meta||''}</div>${c.significado ? `<div class="art-significado">${c.significado}</div>` : ''}${c.precio ? `<div class="art-decision"><div class="art-price">${c.precio}</div><div class="art-garantia">Certificado de Autenticidad incluido · pieza única, sin reproducciones</div></div>` : ''}</div>
     </div>
   `).join('');
 
@@ -1704,6 +1707,18 @@ function closeMobileNav() {
   document.getElementById('nav-burger').textContent = '☰';
 }
 function goHome() { closeWizard(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+
+// ── Navegación silenciosa: se oculta al bajar, reaparece al subir ──
+let lastScrollY = window.scrollY;
+window.addEventListener('scroll', () => {
+  const nav = document.querySelector('nav');
+  const mobileNavOpen = document.getElementById('nav-links').classList.contains('open');
+  const currentY = window.scrollY;
+  if (mobileNavOpen) { nav.classList.remove('nav-hidden'); lastScrollY = currentY; return; }
+  if (currentY > lastScrollY && currentY > 80) nav.classList.add('nav-hidden');
+  else nav.classList.remove('nav-hidden');
+  lastScrollY = currentY;
+}, { passive: true });
 
 // ╔══════════════════════════════════════════════════════════════════╗
 // ║   ASISTENTE DE RESERVA (WIZARD) — experiencia interactiva        ║
