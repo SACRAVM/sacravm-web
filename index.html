@@ -1739,18 +1739,24 @@ function goHome() { closeWizard(); window.scrollTo({ top: 0, behavior: 'smooth' 
 
 // ── Navegación silenciosa: se oculta al bajar, reaparece al subir ──
 let lastScrollY = window.scrollY;
+let navReady = false;
 function syncNavVisibility() {
   const nav = document.querySelector('nav');
   const mobileNavOpen = document.getElementById('nav-links').classList.contains('open');
   const currentY = window.scrollY;
-  if (mobileNavOpen || currentY <= 80) { nav.classList.remove('nav-hidden'); lastScrollY = currentY; return; }
+  if (!navReady || mobileNavOpen || currentY <= 80) { nav.classList.remove('nav-hidden'); lastScrollY = currentY; return; }
   if (currentY > lastScrollY) nav.classList.add('nav-hidden');
   else nav.classList.remove('nav-hidden');
   lastScrollY = currentY;
 }
+function armNav() {
+  navReady = false;
+  syncNavVisibility();
+  setTimeout(() => { navReady = true; lastScrollY = window.scrollY; }, 600);
+}
 window.addEventListener('scroll', syncNavVisibility, { passive: true });
-window.addEventListener('pageshow', syncNavVisibility);
-syncNavVisibility();
+window.addEventListener('pageshow', armNav);
+armNav();
 
 // ╔══════════════════════════════════════════════════════════════════╗
 // ║   ASISTENTE DE RESERVA (WIZARD) — experiencia interactiva        ║
