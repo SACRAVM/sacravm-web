@@ -134,6 +134,7 @@ const DEFAULT_CONTENT = {
   ],
   experiencesVideoUrl: '',
   experiencesFotos: [],
+  estudioFotos: [],
   academyAlumnos: 0,
   academyResultados: [],
   academyTestimonios: [],

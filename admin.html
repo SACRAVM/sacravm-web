@@ -234,6 +234,7 @@ const TABS = [
   { id: 'cuadros', label: 'Cuadros' },
   { id: 'galeria', label: 'Galería' },
   { id: 'experiences', label: 'Experiences' },
+  { id: 'estudio', label: 'El Espacio' },
   { id: 'university', label: 'University' },
   { id: 'leads', label: 'Leads' },
   { id: 'proveedores', label: 'Proveedores' },
@@ -283,6 +284,7 @@ function renderPanel() {
   if (activeTab === 'cuadros') area.innerHTML = panelCuadros();
   if (activeTab === 'galeria') area.innerHTML = panelGaleria();
   if (activeTab === 'experiences') area.innerHTML = panelExperiences();
+  if (activeTab === 'estudio') area.innerHTML = panelEstudio();
   if (activeTab === 'university') area.innerHTML = panelUniversity();
   if (activeTab === 'leads') { area.innerHTML = '<div class="panel-title">Leads</div><div class="panel-desc">Cargando…</div>'; loadLeads(); }
   if (activeTab === 'proveedores') { area.innerHTML = '<div class="panel-title">Proveedores</div><div class="panel-desc">Cargando…</div>'; loadProveedores(); }
@@ -570,6 +572,38 @@ function wireExperiences() {
   document.getElementById('btn-add-exp-foto').onclick = () => {
     content.experiencesFotos.push({ url: '', desc: '' });
     renderExpFotosList();
+  };
+}
+function panelEstudio() {
+  return `
+    <div class="panel-title">El Espacio</div>
+    <div class="panel-desc">Fotos reales del estudio — el sitio, la mesa, la calma. Mientras no subas ninguna, en la web se muestra un mensaje de "muy pronto".</div>
+    <div id="estudio-fotos-list"></div>
+    <button class="btn-add-item" id="btn-add-estudio-foto">+ AÑADIR FOTO</button>
+  `;
+}
+function renderEstudioFotosList() {
+  document.getElementById('estudio-fotos-list').innerHTML = content.estudioFotos.map((f,i) => {
+    const preview = f.url ? `<img src="${f.url}">` : `<span>Sin foto</span>`;
+    return `
+    <div class="card item-card">
+      <button class="item-remove" data-i="${i}" data-del="estudiofoto">✕</button>
+      <div class="foto-preview" style="max-width:220px">${preview}</div>
+      <label class="btn-upload" style="max-width:220px;margin-top:8px;display:inline-block">SUBIR FOTO<input type="file" accept="image/*" data-i="${i}" class="estudiofoto-input"></label>
+      <p class="field-label" style="margin-top:12px">DESCRIPCIÓN (opcional)</p><input class="fi" data-i="${i}" data-f="desc" value="${esc(f.desc)}">
+    </div>
+  `;
+  }).join('') || '<p class="empty-note">Todavía no has añadido ninguna foto.</p>';
+  document.querySelectorAll('[data-del="estudiofoto"]').forEach(b => b.onclick = () => { content.estudioFotos.splice(+b.dataset.i,1); renderEstudioFotosList(); });
+  document.querySelectorAll('#estudio-fotos-list [data-f]').forEach(el => el.oninput = () => { content.estudioFotos[+el.dataset.i][el.dataset.f] = el.value; });
+  document.querySelectorAll('.estudiofoto-input').forEach(inp => inp.onchange = () => uploadListPhoto(inp, 'estudioFotos', renderEstudioFotosList));
+}
+function wireEstudio() {
+  content.estudioFotos = content.estudioFotos || [];
+  renderEstudioFotosList();
+  document.getElementById('btn-add-estudio-foto').onclick = () => {
+    content.estudioFotos.push({ url: '', desc: '' });
+    renderEstudioFotosList();
   };
 }
 function panelUniversity() {
@@ -1549,6 +1583,7 @@ function wireCurrentPanel() {
   if (activeTab === 'cuadros') wireCuadros();
   if (activeTab === 'galeria') wireGaleria();
   if (activeTab === 'experiences') wireExperiences();
+  if (activeTab === 'estudio') wireEstudio();
   if (activeTab === 'university') wireUniversity();
   if (activeTab === 'password') wirePassword();
 }

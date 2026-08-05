@@ -126,13 +126,13 @@ nav,footer{scroll-snap-align:none}
 .pl-t h4{font-size:14px;font-weight:600;letter-spacing:.04em;margin-bottom:4px}
 .pl-t p{font-size:14px;color:var(--t2);line-height:1.7}
 /* ★ FOTO PERFIL — Cambia en CONFIG */
-.nos-photo{aspect-ratio:4/5;border-radius:4px;overflow:hidden;box-shadow:var(--sh);position:relative;background:linear-gradient(160deg,#E0D8C8 0%,#D0C5B0 60%,#D5C9B5 100%)}
+.nos-photo{aspect-ratio:4/5;border-radius:4px;overflow:hidden;position:relative;background:linear-gradient(160deg,#E0D8C8 0%,#D0C5B0 60%,#D5C9B5 100%)}
 .nos-ph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px}
 .nos-ph span{font-size:10px;letter-spacing:.16em;color:rgba(60,40,10,.25)}
 
 /* ── ARTISTAS ── */
 .artista-card{display:grid;grid-template-columns:200px 1fr;gap:40px;align-items:start;max-width:760px}
-.artista-photo{aspect-ratio:1;border-radius:50%;overflow:hidden;box-shadow:var(--sh);position:relative;background:linear-gradient(160deg,#E0D8C8 0%,#D0C5B0 60%,#D5C9B5 100%)}
+.artista-photo{aspect-ratio:1;border-radius:50%;overflow:hidden;position:relative;background:linear-gradient(160deg,#E0D8C8 0%,#D0C5B0 60%,#D5C9B5 100%)}
 .artista-photo img{width:100%;height:100%;object-fit:cover;display:block}
 .artista-nombre{font-family:var(--serif);font-size:27px;font-weight:400;color:var(--tx);margin-bottom:4px}
 .artista-rol{font-size:11px;letter-spacing:.14em;color:var(--a);font-weight:600;margin-bottom:16px}
@@ -167,7 +167,7 @@ nav,footer{scroll-snap-align:none}
 .port-body{font-size:16px;color:var(--t2);max-width:340px;line-height:1.85;margin-top:10px}
 /* ★ FOTOS PORTFOLIO — Cambia en CONFIG */
 .port-grid{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:auto auto;gap:14px}
-.pimg{border-radius:5px;overflow:hidden;background:linear-gradient(160deg,#E0D8C8 0%,#D0C5B0 60%,#D5C9B5 100%);position:relative;cursor:default;box-shadow:var(--sh)}
+.pimg{border-radius:5px;overflow:hidden;background:linear-gradient(160deg,#E0D8C8 0%,#D0C5B0 60%,#D5C9B5 100%);position:relative;cursor:default}
 .pimg img{transition:transform .5s ease;width:100%;height:100%;object-fit:cover}
 .pimg:hover img{transform:scale(1.04)}
 .pimg.tall{grid-row:span 2}.pimg.wide{grid-column:span 2;aspect-ratio:16/8}
@@ -231,13 +231,13 @@ nav,footer{scroll-snap-align:none}
 .col-body{font-size:16px;color:var(--t2);max-width:380px;line-height:1.85;margin-top:10px}
 .col-tag-row{display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap}
 .col-tag{font-size:12px;padding:5px 13px;border-radius:20px;border:1px solid var(--bdr2);color:var(--t2)}
-.art-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:36px}
-.art-card{background:var(--w);border:1px solid var(--bdr);border-radius:8px;overflow:hidden;box-shadow:var(--sh);transition:all .2s}
-.art-card:hover{transform:translateY(-3px);box-shadow:0 10px 32px rgba(60,40,10,.1)}
-.art-img{aspect-ratio:4/5;background:linear-gradient(155deg,#E4DCC9 0%,#CBB99B 55%,#DACBAE 100%);display:flex;align-items:center;justify-content:center;position:relative}
+.art-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:36px;margin-top:40px}
+.art-card{background:transparent;transition:opacity .2s}
+.art-card:hover{opacity:.9}
+.art-img{aspect-ratio:2/3;border-radius:3px;overflow:hidden;background:linear-gradient(155deg,#E4DCC9 0%,#CBB99B 55%,#DACBAE 100%);display:flex;align-items:center;justify-content:center;position:relative}
 .art-img span{font-size:10px;letter-spacing:.16em;color:rgba(60,40,10,.32);text-align:center;line-height:2}
 .art-badge{position:absolute;top:12px;right:12px;background:rgba(139,94,42,.14);color:var(--a);font-size:9px;letter-spacing:.1em;font-weight:700;padding:4px 10px;border-radius:20px}
-.art-body{padding:16px 18px}
+.art-body{padding:16px 2px 0}
 .art-name{font-family:var(--serif);font-size:19px;font-weight:400;color:var(--tx);margin-bottom:4px}
 .art-meta{font-size:12px;color:var(--t2)}
 .art-significado{font-size:13px;color:var(--t2);line-height:1.7;margin-top:10px}
@@ -245,12 +245,18 @@ nav,footer{scroll-snap-align:none}
 .art-price{font-size:16px;color:var(--tx);letter-spacing:.03em;font-family:var(--serif)}
 .art-garantia{font-size:11.5px;color:var(--t3);margin-top:4px;letter-spacing:.01em}
 @media(max-width:720px){.art-grid{grid-template-columns:1fr}}
+.espacio-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:36px}
+.esp-img{aspect-ratio:4/5;border-radius:3px;overflow:hidden;background:linear-gradient(155deg,#E4DCC9 0%,#CBB99B 55%,#DACBAE 100%)}
+.esp-img img{width:100%;height:100%;object-fit:cover;display:block}
+.esp-placeholder{grid-column:1/-1;text-align:center;padding:70px 20px;border:1px solid var(--bdr);border-radius:4px;background:var(--s1)}
+.esp-placeholder-txt{font-family:var(--serif);font-size:20px;font-style:italic;color:var(--t2)}
+@media(max-width:720px){.espacio-grid{grid-template-columns:1fr}}
 
 /* ── EXPERIENCES — vídeo y fotos de eventos reales ── */
 .exp-video-wrap{border-radius:10px;overflow:hidden;box-shadow:var(--sh);margin-bottom:18px;background:#000;aspect-ratio:16/9}
 .exp-video-wrap video,.exp-video-wrap iframe{width:100%;height:100%;display:block;border:none;object-fit:cover}
 .exp-fotos-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
-.exp-foto{aspect-ratio:1;border-radius:6px;overflow:hidden;box-shadow:var(--sh)}
+.exp-foto{aspect-ratio:1;border-radius:6px;overflow:hidden}
 .exp-foto img{width:100%;height:100%;object-fit:cover;display:block}
 @media(max-width:720px){.exp-fotos-grid{grid-template-columns:repeat(2,1fr)}}
 .col-soon{background:var(--w);border:1px solid var(--bdr);border-radius:6px;padding:44px 28px;text-align:center;box-shadow:var(--sh)}
@@ -338,13 +344,13 @@ nav,footer{scroll-snap-align:none}
 
 /* ── GALERÍA ─── */
 #galeria{padding:88px 52px}
-.gal-grid{columns:3;column-gap:16px}
-.gal-card{break-inside:avoid;margin-bottom:16px;background:var(--s1);border:1px solid var(--bdr);border-radius:6px;overflow:hidden;box-shadow:var(--sh);transition:all .25s}
-.gal-card:hover{transform:translateY(-4px);box-shadow:0 12px 36px rgba(60,40,10,.12);border-color:var(--bdr2)}
-.gal-img{width:100%;overflow:hidden}
+.gal-grid{columns:3;column-gap:28px}
+.gal-card{break-inside:avoid;margin-bottom:32px;background:transparent;transition:opacity .25s}
+.gal-card:hover{opacity:.9}
+.gal-img{width:100%;overflow:hidden;border-radius:3px}
 .gal-img img{width:100%;height:auto;display:block;transition:transform .4s ease}
 .gal-card:hover .gal-img img{transform:scale(1.03)}
-.gal-body{padding:12px 16px 14px}
+.gal-body{padding:12px 2px 0}
 .gal-est{font-size:10px;letter-spacing:.2em;color:var(--a);font-weight:700;margin-bottom:3px}
 .gal-desc{font-size:14px;color:var(--t2);line-height:1.5}
 .gal-precio{font-size:12px;color:var(--t3);margin-top:6px;padding-top:6px;border-top:1px solid var(--bdr)}
@@ -576,6 +582,7 @@ body.wz-lock{overflow:hidden}
   </a>
   <div class="nav-links" id="nav-links">
     <button class="nl" onclick="scroll2('nosotros')">Quiénes somos</button>
+    <button class="nl" onclick="scroll2('espacio')">El Espacio</button>
     <button class="nl" onclick="scroll2('portfolio')">Trabajo</button>
     <button class="nl" onclick="scroll2('servicios')">Spécialités</button>
     <button class="nl" onclick="scroll2('experiences')">Experiences</button>
@@ -732,7 +739,6 @@ body.wz-lock{overflow:hidden}
     <div class="rv" style="margin-bottom:44px">
       <div class="sec-label">ARTISTAS</div>
       <h2 class="sec-title">Quién hay detrás de cada pieza.</h2>
-      <p style="font-size:16px;color:var(--t2);line-height:1.9;margin-top:12px;max-width:560px">Hoy, un artista. Mañana, puede que más — pero siempre con el mismo criterio.</p>
     </div>
     <div class="rv artista-card">
       <div class="artista-photo" id="artista-photo-wrap"><div class="nos-ph"><span>★ FOTO → edita en /admin</span></div></div>
@@ -747,6 +753,18 @@ body.wz-lock{overflow:hidden}
         </div>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- EL ESPACIO -->
+<section id="espacio" style="border-top:1px solid var(--bdr)">
+  <div class="sec-inner">
+    <div class="rv">
+      <div class="sec-label">EL ESPACIO</div>
+      <h2 class="sec-title">Un espacio pensado como un templo.</h2>
+      <p style="font-size:16px;color:var(--t2);line-height:1.9;margin-top:14px;max-width:560px">Cuidamos cada rincón igual que cuidamos cada trazo — un espacio pensado para la calma, la intimidad y el ritual que merece cada sesión.</p>
+    </div>
+    <div class="espacio-grid rv" id="espacio-grid" style="margin-top:40px"><!-- Generado por JS desde CONFIG.estudioFotos --></div>
   </div>
 </section>
 
@@ -1003,13 +1021,13 @@ body.wz-lock{overflow:hidden}
       </div>
       <div class="tar-row">
         <div class="tar-row-l">
-          <div class="tar-dur">3–4 HORAS <span class="tar-tag">· el formato más solicitado</span></div>
+          <div class="tar-dur">3–5 HORAS <span class="tar-tag">· el formato más solicitado</span></div>
           <div class="tar-name">Media sesión</div>
           <div class="tar-desc">Para piezas de tamaño medio o avances de un proyecto en curso — el equilibrio justo entre tiempo y profundidad.</div>
           <div class="tar-includes-line">Diseño el mismo día · Kit de cuidados · Seguimiento de curación</div>
         </div>
         <div class="tar-row-r">
-          <div class="tar-price">500–600€</div>
+          <div class="tar-price">450–550€</div>
           <div class="tar-senal">Señal 100€ · se descuenta del total</div>
           <button class="btn-tar" onclick="goBook()">Reservar media sesión →</button>
         </div>
@@ -1555,9 +1573,15 @@ function renderSite(CONFIG) {
   document.getElementById('cuadros-grid').innerHTML = (CONFIG.cuadros || []).map(c => `
     <div class="art-card">
       <div class="art-img">${c.url ? `<img src="${c.url}" alt="${c.nombre||'Cuadro'}" style="width:100%;height:100%;object-fit:cover" loading="lazy">` : `<span class="art-badge">PRÓXIMAMENTE</span><span>★ ${c.meta||''}</span>`}</div>
-      <div class="art-body"><div class="art-name">${c.nombre||''}</div><div class="art-meta">${c.meta||''}</div>${c.significado ? `<div class="art-significado">${c.significado}</div>` : ''}${c.precio ? `<div class="art-decision"><div class="art-price">${c.precio}</div><div class="art-garantia">Certificado de Autenticidad incluido · pieza única, sin reproducciones</div></div>` : ''}</div>
+      <div class="art-body"><div class="art-name">${c.nombre||''}</div><div class="art-meta">${c.meta||''}</div>${c.significado ? `<div class="art-significado">${c.significado}</div>` : ''}${c.precio ? `<div class="art-decision"><div class="art-price">${c.precio}</div><div class="art-garantia">Certificado de Autenticidad incluido · pieza única, sin reproducciones</div><button class="btn-tar" style="margin-top:12px;width:100%" onclick="waCuadro('${(c.nombre||'').replace(/'/g,"\\'")}','${(c.precio||'').replace(/'/g,"\\'")}')">Adquirir esta pieza →</button></div>` : ''}</div>
     </div>
   `).join('');
+
+  // ── El Espacio (fotos del estudio) ─────────────────────────────────
+  const espacioFotos = CONFIG.estudioFotos || [];
+  document.getElementById('espacio-grid').innerHTML = espacioFotos.filter(f => f.url).length
+    ? espacioFotos.filter(f => f.url).map(f => `<div class="esp-img"><img src="${f.url}" alt="${f.desc||'El espacio SACRAVM'}" loading="lazy"></div>`).join('')
+    : `<div class="esp-placeholder"><div class="esp-placeholder-txt">El espacio, muy pronto en imágenes.</div></div>`;
 
   // ── Galería completa ───────────────────────────────────────────────
   document.getElementById('galeria-grid').innerHTML = (CONFIG.galeria || []).map(g => `
@@ -1620,6 +1644,11 @@ function copyBizumData(numero, importe, concepto, btnEl) {
   } else {
     done();
   }
+}
+
+function waCuadro(nombre, precio) {
+  const txt = `Hola! Me interesa la pieza "${nombre}" de la Serie Origen (${precio}). ¿Sigue disponible?`;
+  window.open('https://wa.me/' + CONFIG.whatsapp.replace(/[^0-9]/g,'') + '?text=' + encodeURIComponent(txt), '_blank');
 }
 
 function waFallbackLink(payload) {
@@ -1710,15 +1739,18 @@ function goHome() { closeWizard(); window.scrollTo({ top: 0, behavior: 'smooth' 
 
 // ── Navegación silenciosa: se oculta al bajar, reaparece al subir ──
 let lastScrollY = window.scrollY;
-window.addEventListener('scroll', () => {
+function syncNavVisibility() {
   const nav = document.querySelector('nav');
   const mobileNavOpen = document.getElementById('nav-links').classList.contains('open');
   const currentY = window.scrollY;
-  if (mobileNavOpen) { nav.classList.remove('nav-hidden'); lastScrollY = currentY; return; }
-  if (currentY > lastScrollY && currentY > 80) nav.classList.add('nav-hidden');
+  if (mobileNavOpen || currentY <= 80) { nav.classList.remove('nav-hidden'); lastScrollY = currentY; return; }
+  if (currentY > lastScrollY) nav.classList.add('nav-hidden');
   else nav.classList.remove('nav-hidden');
   lastScrollY = currentY;
-}, { passive: true });
+}
+window.addEventListener('scroll', syncNavVisibility, { passive: true });
+window.addEventListener('pageshow', syncNavVisibility);
+syncNavVisibility();
 
 // ╔══════════════════════════════════════════════════════════════════╗
 // ║   ASISTENTE DE RESERVA (WIZARD) — experiencia interactiva        ║
