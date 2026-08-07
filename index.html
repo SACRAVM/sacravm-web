@@ -306,6 +306,8 @@ nav,footer{scroll-snap-align:none}
 }
 .tar-note{background:var(--aLt);border:1px solid var(--aBdr);border-radius:6px;padding:16px 20px;font-size:15px;color:var(--t2);line-height:1.75;margin-bottom:52px}
 .tar-note strong{color:var(--a)}
+.tar-thumb{width:88px;aspect-ratio:4/5;object-fit:cover;border-radius:3px;flex-shrink:0}
+@media(max-width:720px){.tar-thumb{display:none}}
 .zona-title{font-family:var(--serif);font-size:32px;font-weight:300;color:var(--tx);margin-bottom:8px}
 .zona-sub{font-size:15px;color:var(--t2);line-height:1.8;margin-bottom:28px;max-width:480px}
 .zona-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:52px}
@@ -1016,7 +1018,7 @@ body.wz-lock{overflow:hidden}
         <div class="tar-row-r">
           <div class="tar-price">90–220€</div>
           <div class="tar-senal">Señal 50€</div>
-          <button class="btn-tar" onclick="goBook()">Reservar mini →</button>
+          <button class="btn-tar" onclick="goBook('Mini tattoo')">Reservar mini →</button>
         </div>
       </div>
       <div class="tar-row">
@@ -1026,10 +1028,11 @@ body.wz-lock{overflow:hidden}
           <div class="tar-desc">Para piezas de tamaño medio o avances de un proyecto en curso — el equilibrio justo entre tiempo y profundidad.</div>
           <div class="tar-includes-line">Diseño el mismo día · Kit de cuidados · Seguimiento de curación</div>
         </div>
+        <img class="tar-thumb" src="/images/inversion/media-sesion.jpg" alt="Ejemplo real — media sesión" loading="lazy">
         <div class="tar-row-r">
           <div class="tar-price">450–550€</div>
           <div class="tar-senal">Señal 100€ · se descuenta del total</div>
-          <button class="btn-tar" onclick="goBook()">Reservar media sesión →</button>
+          <button class="btn-tar" onclick="goBook('Media sesión')">Reservar media sesión →</button>
         </div>
       </div>
       <div class="tar-row">
@@ -1039,10 +1042,11 @@ body.wz-lock{overflow:hidden}
           <div class="tar-desc">Para proyectos exigentes que necesitan tiempo, capas y profundidad de detalle en una sola jornada.</div>
           <div class="tar-includes-line">Kit de cuidados completo · Seguimiento de curación · Descuento en bloques de proyecto</div>
         </div>
+        <img class="tar-thumb" src="/images/inversion/sesion-completa.jpg" alt="Ejemplo real — sesión completa" loading="lazy">
         <div class="tar-row-r">
           <div class="tar-price">750–850€</div>
           <div class="tar-senal">Señal 150€ · se descuenta del total</div>
-          <button class="btn-tar" onclick="goBook()">Reservar sesión completa →</button>
+          <button class="btn-tar" onclick="goBook('Sesión completa')">Reservar sesión completa →</button>
         </div>
       </div>
       <div class="tar-row">
@@ -1052,6 +1056,7 @@ body.wz-lock{overflow:hidden}
           <div class="tar-desc">Mangas, espaldas y proyectos de envergadura, planificados por bloques con curación entre fases.</div>
           <div class="tar-includes-line">Planificación completa · Máx. 3 sesiones por bloque · Seguimiento personalizado</div>
         </div>
+        <img class="tar-thumb" src="/images/inversion/gran-proyecto.jpg" alt="Ejemplo real — gran proyecto" loading="lazy">
         <div class="tar-row-r">
           <div class="tar-price">750–850€/día</div>
           <div class="tar-senal">Señal 200€/sesión · se descuenta del total</div>
@@ -1823,28 +1828,33 @@ function renderWzRefPreview() {
   document.getElementById('wz-ref-count').textContent = wz.referencias.length + ' / ' + WZ_MAX_REFS + ' imágenes';
 }
 
+const WZ_SERVICE_OPTIONS = [
+  { nombre: 'Mini tattoo', ideal: '1–2 horas · piezas pequeñas y rápidas', precio: 'Desde 80€', tier: 'pequeno', fianza: 50 },
+  { nombre: 'Media sesión', ideal: '3–5 horas · el formato más solicitado', precio: '450–550€', tier: 'pequeno', fianza: 100 },
+  { nombre: 'Sesión completa', ideal: '6–8 horas · proyectos con más profundidad', precio: '750–850€', tier: 'grande', fianza: 150 },
+  { nombre: 'A consultar', ideal: 'No sabes qué formato encaja todavía', precio: '', tier: null, fianza: null },
+  { nombre: VALORACION_SERVICIO, ideal: 'Habla con JJ antes de reservar, sin compromiso', precio: 'Gratis', tier: 'consulta', fianza: 0 },
+];
 function renderWzServices() {
-  const opciones = [...CONFIG.servicios,
-    { nombre: 'Consulta general', ideal: 'No sabes qué servicio elegir todavía', precio: '' },
-    { nombre: VALORACION_SERVICIO, ideal: 'Habla con JJ antes de reservar tu sesión, sin compromiso', precio: 'Gratis' },
-  ];
-  document.getElementById('wz-services').innerHTML = opciones.map(s => `
+  document.getElementById('wz-services').innerHTML = WZ_SERVICE_OPTIONS.map(s => `
     <button type="button" class="wz-svc-card ${wz.servicio===s.nombre?'sel':''}" onclick="wzSelectServicio('${s.nombre.replace(/'/g,"\\'")}')">
       <strong>${s.nombre}</strong>
       <span>${s.ideal||''}</span>
       ${s.precio ? `<em>${s.precio}</em>` : ''}
     </button>
   `).join('');
-  const esValoracion = wz.servicio === VALORACION_SERVICIO;
+  const opt = WZ_SERVICE_OPTIONS.find(s => s.nombre === wz.servicio);
+  const necesitaTamano = !!(wz.servicio && opt && opt.tier === null);
   const tierLabel = document.querySelector('[data-tier-label]');
-  if (tierLabel) tierLabel.style.display = esValoracion ? 'none' : 'block';
+  if (tierLabel) tierLabel.style.display = necesitaTamano ? 'block' : 'none';
   const tierGrid = document.getElementById('wz-tier-grid');
-  if (tierGrid) tierGrid.style.display = esValoracion ? 'none' : '';
+  if (tierGrid) tierGrid.style.display = necesitaTamano ? '' : 'none';
 }
 function wzSelectServicio(nombre) {
   wz.servicio = nombre;
-  if (nombre === VALORACION_SERVICIO) { wz.tier = 'consulta'; wz.fianza = 0; }
-  else if (wz.tier === 'consulta') { wz.tier = null; wz.fianza = null; }
+  const opt = WZ_SERVICE_OPTIONS.find(s => s.nombre === nombre);
+  if (opt && opt.tier !== null) { wz.tier = opt.tier; wz.fianza = opt.fianza; }
+  else { wz.tier = null; wz.fianza = null; }
   renderWzServices();
   renderWzTiers();
 }
@@ -1957,7 +1967,7 @@ function wzCalSelectDay(dateStr) {
 function renderWzSummary() {
   document.getElementById('wz-summary').innerHTML = `
     <div><strong>Servicio:</strong> ${wz.servicio}</div>
-    ${wz.tier === 'consulta' ? '' : `<div><strong>Tamaño de la pieza:</strong> ${WZ_TIERS.find(t=>t.id===wz.tier)?.label || '-'} (fianza ${wz.fianza}€)</div>`}
+    ${wz.tier === 'consulta' ? '' : `<div><strong>Fianza:</strong> ${wz.fianza}€</div>`}
     <div><strong>Fecha:</strong> ${wz.fecha || '-'} ${wz.hora === 'Día completo' ? '(jornada completa)' : (wz.hora ? 'a las ' + wz.hora : '')}</div>
     <div><strong>Nombre:</strong> ${wz.nombre}</div>
     <div><strong>Email:</strong> ${wz.email}</div>
@@ -2082,13 +2092,13 @@ async function wzSubmit() {
     const esValoracion = wz.tier === 'consulta';
     if (esValoracion) {
       document.getElementById('wz-success-title').textContent = 'Tu valoración está reservada';
-      document.getElementById('wz-success-msg').textContent = 'Ese hueco ya es tuyo, sin coste. Te confirmamos por email y hablamos de tu proyecto en la llamada.';
+      document.getElementById('wz-success-msg').textContent = 'Ese hueco ya es tuyo, sin coste. Nos pondremos en contacto contigo en la mayor brevedad posible para confirmar la llamada.';
       bizumBox.style.display = 'none';
       showWzStep('success');
       return;
     }
     document.getElementById('wz-success-title').textContent = 'Tu cita está reservada';
-    document.getElementById('wz-success-msg').textContent = 'Ese hueco ya es tuyo. Completa el pago de la fianza abajo y te contactamos por email para confirmar la cita.';
+    document.getElementById('wz-success-msg').textContent = 'Ese hueco ya es tuyo. Completa el pago de la fianza abajo — nos pondremos en contacto contigo en la mayor brevedad posible para confirmar la cita.';
     const stripeLink = CONFIG['stripeLink' + wz.fianza];
     if (CONFIG.bizum || stripeLink) {
       const concepto = (wz.nombre || 'tu nombre') + ' - cita';
