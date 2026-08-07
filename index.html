@@ -150,12 +150,17 @@ nav,footer{scroll-snap-align:none}
 .svc-name{font-family:var(--serif);font-size:clamp(30px,3.2vw,40px);font-weight:300;margin-bottom:14px;color:var(--tx);letter-spacing:.01em}
 .svc-desc{font-size:15px;color:var(--t2);line-height:1.8;margin-bottom:14px}
 .svc-ideal{font-size:11.5px;letter-spacing:.08em;color:var(--t3)}
-.svc-row-r{text-align:right;flex-shrink:0;display:flex;flex-direction:column;align-items:flex-end;gap:16px;min-width:170px}
-.svc-pr{font-family:var(--serif);font-size:clamp(26px,2.6vw,34px);color:var(--tx);font-weight:300}
-.svc-pr .u{font-size:14px;color:var(--t3);font-weight:400;margin-left:1px}
+.svc-img{width:180px;flex-shrink:0}
+.svc-img-ph{aspect-ratio:4/5;border-radius:3px;overflow:hidden}
+.svc-img-ph img{width:100%;height:100%;object-fit:cover;display:block}
+.svc-img-cap{margin-top:12px;display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.svc-img-price{font-family:var(--serif);font-size:20px;color:var(--tx)}
+.svc-img-cta{font-size:12px;letter-spacing:.02em;color:var(--a);background:none;border:none;cursor:pointer;text-decoration:underline;text-underline-offset:3px;white-space:nowrap;font-family:var(--sans)}
 @media(max-width:720px){
   .svc-row{flex-direction:column;gap:14px;padding:32px 4px}
   .svc-n{width:auto}
+  .svc-img{width:100%}
+  .svc-img-ph{aspect-ratio:16/9}
   .svc-row-r{align-items:flex-start;text-align:left}
 }
 .btn-svc{background:none;border:1px solid var(--bdr2);color:var(--a);font-size:13px;padding:8px 18px;border-radius:3px;cursor:pointer;letter-spacing:.07em;font-weight:500;transition:all .15s}
@@ -166,12 +171,12 @@ nav,footer{scroll-snap-align:none}
 .port-top{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:44px;flex-wrap:wrap;gap:16px}
 .port-body{font-size:16px;color:var(--t2);max-width:340px;line-height:1.85;margin-top:10px}
 /* ★ FOTOS PORTFOLIO — Cambia en CONFIG */
-.port-grid{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:auto auto;gap:14px}
+.port-grid{display:grid;grid-template-columns:1.5fr 1fr;grid-template-rows:1fr 1fr;gap:20px}
 .pimg{border-radius:5px;overflow:hidden;background:linear-gradient(160deg,#E0D8C8 0%,#D0C5B0 60%,#D5C9B5 100%);position:relative;cursor:default}
 .pimg img{transition:transform .5s ease;width:100%;height:100%;object-fit:cover}
 .pimg:hover img{transform:scale(1.04)}
-.pimg.tall{grid-row:span 2}.pimg.wide{grid-column:span 2;aspect-ratio:16/8}
-.pimg.sq{aspect-ratio:1}
+.pimg.big{grid-column:1;grid-row:1/3}
+.pimg.small{aspect-ratio:1}
 .pimg-ph{width:100%;height:100%;min-height:200px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px}
 .pimg-ph span{font-size:10px;letter-spacing:.18em;color:rgba(60,40,10,.28)}
 .pimg-info{position:absolute;bottom:0;left:0;right:0;padding:16px;background:linear-gradient(to top,rgba(28,23,20,.65),transparent);opacity:0;transition:opacity .25s}
@@ -498,8 +503,10 @@ body.wz-lock{overflow:hidden}
   .hero-r{display:none}
   .nos-grid,.form-grid{grid-template-columns:1fr}
   .nos-photo{display:none}
-  .testi-grid,.port-grid{grid-template-columns:1fr}
-  .pimg.tall,.pimg.wide{grid-row:unset;grid-column:unset;aspect-ratio:4/3}
+  .testi-grid{grid-template-columns:1fr}
+  .port-grid{grid-template-columns:1fr;grid-template-rows:none}
+  .pimg.big{grid-row:unset;grid-column:unset;aspect-ratio:4/3}
+  .pimg.small{aspect-ratio:4/3}
   .bk-flow{gap:0}
   .bk-step{max-width:160px}
   .bk-step-sep{display:none}
@@ -808,18 +815,17 @@ body.wz-lock{overflow:hidden}
       <div>
         <div class="sec-label">COLECCIONES</div>
         <h2 class="sec-title">Diseños disponibles ahora</h2>
-        <p class="col-body">Flash collections de diseños exclusivos disponibles por tiempo limitado. Cada colección tiene plazas contadas — cuando se agotan, no se repiten.</p>
+        <p class="col-body">Muchas veces quieres hacerte algo pero no sabes cómo plasmarlo. Aquí te dejamos algunas ideas que podrían cuadrar con la tuya. Podemos modificarlas para darles tu toque personal — si alguna te gusta o se adapta a lo que buscas, dínoslo.</p>
         <div class="col-tag-row">
-          <span class="col-tag">Edición limitada</span>
-          <span class="col-tag">Precio cerrado</span>
+          <span class="col-tag">Punto de partida</span>
+          <span class="col-tag">100% personalizable</span>
           <span class="col-tag">Reserva con señal</span>
-          <span class="col-tag">Sin modificaciones</span>
         </div>
       </div>
     </div>
     <div class="col-soon rv">
       <strong>Próximamente</strong>
-      <p>Estamos preparando la primera flash collection de SACRAVM. ¿Quieres ser el primero en verla? Apúntate a la lista de formación o sígueme en Instagram — las colecciones se anuncian ahí primero.</p>
+      <p>Estamos preparando las primeras ideas para dejarte aquí. ¿Quieres ser el primero en verlas? Apúntate a la lista de formación o síguenos en Instagram — se anuncian ahí primero.</p>
     </div>
   </div>
 </section>
@@ -1003,9 +1009,10 @@ body.wz-lock{overflow:hidden}
 <section id="tarifas">
   <div class="sec-inner">
     <div class="rv">
-      <div class="sec-label">INVERSIÓN</div>
+      <div class="sec-label">INVERSIÓN <span style="color:var(--t3);font-weight:400">· DESDE 90€</span></div>
       <h2 class="sec-title" id="txt-inversion-titulo" style="margin-bottom:14px">Cada formato, pensado para que el resultado esté a la altura</h2>
-      <p id="txt-inversion-texto" style="font-size:16px;color:var(--t2);line-height:1.85;margin-bottom:40px;max-width:540px">El diseño se prepara en exclusiva el día de tu cita. La señal confirma tu plaza y se descuenta del total — el resto se abona al cerrar la sesión.</p>
+      <p id="txt-inversion-texto" style="font-size:16px;color:var(--t2);line-height:1.85;margin-bottom:18px;max-width:540px">El diseño se prepara en exclusiva el día de tu cita. La señal confirma tu plaza y se descuenta del total — el resto se abona al cerrar la sesión.</p>
+      <p style="font-family:var(--serif);font-size:18px;font-style:italic;color:var(--a);line-height:1.7;max-width:520px;margin-bottom:40px">No todos los proyectos entran en SACRAVM. Si el tuyo entra, recibe toda nuestra atención — como se merece lo que va a quedarse contigo para siempre.</p>
     </div>
     <div class="tar-list rv">
       <div class="tar-row">
@@ -1013,7 +1020,7 @@ body.wz-lock{overflow:hidden}
           <div class="tar-dur">1–2 HORAS</div>
           <div class="tar-name">Mini tattoo</div>
           <div class="tar-desc">Para piezas pequeñas, limpias y con resultado garantizado — el primer contacto natural con el atelier.</div>
-          <div class="tar-includes-line">Diseño el mismo día · Kit de cuidados incluido</div>
+          <div class="tar-includes-line">Diseño el mismo día · Kit de cuidados incluido · Repaso incluido (4 meses)</div>
         </div>
         <div class="tar-row-r">
           <div class="tar-price">90–220€</div>
@@ -1026,7 +1033,7 @@ body.wz-lock{overflow:hidden}
           <div class="tar-dur">3–5 HORAS <span class="tar-tag">· el formato más solicitado</span></div>
           <div class="tar-name">Media sesión</div>
           <div class="tar-desc">Para piezas de tamaño medio o avances de un proyecto en curso — el equilibrio justo entre tiempo y profundidad.</div>
-          <div class="tar-includes-line">Diseño el mismo día · Kit de cuidados · Seguimiento de curación</div>
+          <div class="tar-includes-line">Diseño el mismo día · Kit de cuidados · Seguimiento de curación · Repaso incluido (4 meses)</div>
         </div>
         <img class="tar-thumb" src="/media-sesion.jpg" alt="Ejemplo real — media sesión" loading="lazy">
         <div class="tar-row-r">
@@ -1040,7 +1047,7 @@ body.wz-lock{overflow:hidden}
           <div class="tar-dur">6–8 HORAS</div>
           <div class="tar-name">Sesión completa</div>
           <div class="tar-desc">Para proyectos exigentes que necesitan tiempo, capas y profundidad de detalle en una sola jornada.</div>
-          <div class="tar-includes-line">Kit de cuidados completo · Seguimiento de curación · Descuento en bloques de proyecto</div>
+          <div class="tar-includes-line">Kit de cuidados completo · Seguimiento de curación · Repaso incluido (4 meses) · Descuento en bloques de proyecto</div>
         </div>
         <img class="tar-thumb" src="/sesion-completa.jpg" alt="Ejemplo real — sesión completa" loading="lazy">
         <div class="tar-row-r">
@@ -1073,6 +1080,16 @@ body.wz-lock{overflow:hidden}
       </div>
       <button class="btn-p" style="flex-shrink:0" onclick="goBook('Valoración y diseño (30 min, gratis)')">RESERVAR VALORACIÓN →</button>
     </div>
+
+    <div class="rv" style="background:var(--w);border:1px solid var(--aBdr);border-radius:6px;padding:28px 32px;margin-bottom:32px;display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap">
+      <div>
+        <div class="sec-label" style="margin-bottom:6px">REPASO INCLUIDO · 4 PRIMEROS MESES</div>
+        <div style="font-family:var(--serif);font-size:22px;font-weight:400;color:var(--tx);margin-bottom:4px">¿Te ha pasado algo importante en este tiempo?</div>
+        <p style="font-size:14px;color:var(--t2)">Seguro que quieres plasmarlo en la piel — marcar tu historia debería ser un derecho. Todas las piezas, desde el mini tattoo hasta el proyecto más grande, incluyen un repaso gratuito dentro de los primeros 4 meses. Pásate a enseñarnos cómo ha sanado y cuéntanos tu nueva idea.</p>
+      </div>
+      <button class="btn-p" style="flex-shrink:0" onclick="goBook()">RESERVAR REPASO →</button>
+    </div>
+
     <div class="tar-note rv">
       <strong>Nota sobre proyectos grandes:</strong> Para piezas de gran formato (mangas, espaldas, pectorales) programo un máximo de 3 sesiones consecutivas por bloque. Así la piel sana bien entre sesiones y puedo acumular profundidad y detalle de forma óptima. Entre bloques: mínimo 3 semanas de curación. Esto no es opcional — es lo que garantiza el mejor resultado posible.
     </div>
@@ -1550,28 +1567,27 @@ function renderSite(CONFIG) {
   document.getElementById('svcs-grid').innerHTML = CONFIG.servicios.map((s,i) => `
     <div class="svc-row rv d${i+1}">
       <div class="svc-n">${String(i+1).padStart(2,'0')}</div>
+      ${s.foto ? `<div class="svc-img">
+        <div class="svc-img-ph"><img src="${s.foto}" alt="Ejemplo de ${s.nombre}" loading="lazy"></div>
+        <div class="svc-img-cap"><span class="svc-img-price">${s.precio}</span><button class="svc-img-cta" onclick="goBook('${s.nombre}')">Reservar →</button></div>
+      </div>` : ''}
       <div class="svc-row-l">
         <h3 class="svc-name">${s.nombre}</h3>
         <p class="svc-desc">${s.descripcion}</p>
         <p class="svc-ideal">IDEAL PARA · ${s.ideal}</p>
-      </div>
-      <div class="svc-row-r">
-        <div class="svc-pr">${s.precio.replace('€','<span class="u">€</span>')}</div>
-        <button class="btn-tar" onclick="goBook('${s.nombre}')">Reservar →</button>
       </div>
     </div>
   `).join('');
 
   // ── Portfolio ────────────────────────────────────────────────────
   const portItems = [
-    { key:'tt1', cls:'tall' }, { key:'tt2', cls:'sq' }, { key:'tt3', cls:'sq' },
-    { key:'tt4', cls:'wide' }, { key:'tt5', cls:'sq' }, { key:'tt6', cls:'sq' },
+    { key:'tt1', cls:'big' }, { key:'tt5', cls:'small' }, { key:'tt6', cls:'small' },
   ];
   document.getElementById('port-grid').innerHTML = portItems.map(({key,cls}) => {
     const p = CONFIG.fotos[key] || {};
     const img = p.url
       ? `<img src="${p.url}" alt="Tatuaje SACRAVM — ${p.estilo||''}${p.desc?', '+p.desc:''}" loading="lazy">`
-      : `<div class="pimg-ph" style="min-height:${cls==='tall'?'460px':cls==='wide'?'190px':'210px'}"><span>★ Sube esta foto desde /admin</span></div>`;
+      : `<div class="pimg-ph" style="min-height:${cls==='big'?'460px':'210px'}"><span>★ Sube esta foto desde /admin</span></div>`;
     const tag = (p.duracion || p.precio) ? `<span class="pimg-tag">${[p.duracion,p.precio].filter(Boolean).join(' · ')}</span>` : '';
     return `<div class="pimg ${cls}">${img}<div class="pimg-info"><em>${p.desc||''}</em><small>${p.estilo||''}</small><br>${tag}</div></div>`;
   }).join('');
