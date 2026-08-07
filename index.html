@@ -307,7 +307,7 @@ nav,footer{scroll-snap-align:none}
 .tar-note{background:var(--aLt);border:1px solid var(--aBdr);border-radius:6px;padding:16px 20px;font-size:15px;color:var(--t2);line-height:1.75;margin-bottom:52px}
 .tar-note strong{color:var(--a)}
 .tar-thumb{width:88px;aspect-ratio:4/5;object-fit:cover;border-radius:3px;flex-shrink:0}
-@media(max-width:720px){.tar-thumb{display:none}}
+@media(max-width:720px){.tar-thumb{width:100%;aspect-ratio:16/9;object-position:center 20%}}
 .zona-title{font-family:var(--serif);font-size:32px;font-weight:300;color:var(--tx);margin-bottom:8px}
 .zona-sub{font-size:15px;color:var(--t2);line-height:1.8;margin-bottom:28px;max-width:480px}
 .zona-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:52px}
@@ -1498,6 +1498,26 @@ const contentReady = (async () => {
   renderSite(CONFIG);
   return CONFIG;
 })();
+
+// ── Handoff desde la página del QR: abre el wizard con los datos ya rellenados ──
+contentReady.then(() => {
+  if (location.hash !== '#qrbook') return;
+  let d = null;
+  try { d = JSON.parse(sessionStorage.getItem('sacravm_qr_prefill') || 'null'); } catch (e) {}
+  sessionStorage.removeItem('sacravm_qr_prefill');
+  if (!d) return;
+  goBook().then(() => {
+    wz.nombre = d.nombre || ''; wz.email = d.email || ''; wz.whatsapp = d.telefono || '';
+    wz.mensaje = d.idea || ''; wz.zona = d.zona || ''; wz.tamano = d.tamano || '';
+    document.getElementById('wz-nombre').value = wz.nombre;
+    document.getElementById('wz-email').value = wz.email;
+    document.getElementById('wz-whatsapp').value = wz.whatsapp;
+    document.getElementById('wz-mensaje').value = wz.mensaje;
+    document.getElementById('wz-zona').value = wz.zona;
+    document.getElementById('wz-tamano').value = wz.tamano;
+    history.replaceState(null, '', location.pathname);
+  });
+});
 
 function renderSite(CONFIG) {
   // ── Datos básicos ──────────────────────────────────────────────

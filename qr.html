@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>SACRAVM · Cuéntanos tu idea</title>
+<link rel="icon" href="/images/misc/logo.png">
+<meta name="theme-color" content="#1C1714">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#FBF8F3;--s1:#F5EFE4;--w:#FDFCF9;
+  --bdr:rgba(60,40,10,.08);--bdr2:rgba(60,40,10,.16);
+  --tx:#1C1714;--t2:#6B6460;--t3:#A8A29C;
+  --a:#8B5E2A;--aLt:rgba(139,94,42,.08);--aBdr:rgba(139,94,42,.22);
+  --dk:#1C1714;--dtx:#EDE7DC;
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+  --r:5px
+}
+body{background:var(--bg);color:var(--tx);font-family:var(--sans);line-height:1.6;max-width:520px;margin:0 auto;padding-bottom:60px}
+img{display:block;width:100%;height:100%;object-fit:cover}
+::placeholder{color:var(--t3)}
+input,select,textarea,button{font-family:var(--sans)}
+
+header{padding:28px 24px 18px;text-align:center}
+.logo{font-family:var(--serif);font-size:24px;letter-spacing:.22em;color:var(--tx)}
+.logo-sub{font-size:10.5px;letter-spacing:.24em;color:var(--t3);margin-top:6px}
+
+.hero{padding:8px 24px 26px;text-align:center}
+.hero h1{font-family:var(--serif);font-size:27px;font-weight:400;line-height:1.35;color:var(--tx)}
+.hero p{font-size:14.5px;color:var(--t2);line-height:1.75;margin-top:12px}
+
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;padding:0 0 8px}
+.grid-item{aspect-ratio:4/5;position:relative;overflow:hidden;background:var(--s1)}
+.grid-item span{position:absolute;left:8px;bottom:8px;font-size:10px;letter-spacing:.08em;color:#fff;text-shadow:0 1px 6px rgba(0,0,0,.5);text-transform:uppercase}
+
+.sec{padding:30px 24px 0}
+.sec-label{font-size:11px;letter-spacing:.2em;color:var(--a);font-weight:600;margin-bottom:8px}
+.sec h2{font-family:var(--serif);font-size:21px;font-weight:400;margin-bottom:6px}
+.sec p{font-size:13.5px;color:var(--t2);line-height:1.7}
+
+.field-label{font-size:11px;letter-spacing:.1em;color:var(--t3);margin:18px 0 6px;text-transform:uppercase}
+.fi{width:100%;padding:13px 14px;border:1px solid var(--bdr2);border-radius:var(--r);background:var(--w);font-size:15px;color:var(--tx)}
+.fi:focus{outline:none;border-color:var(--a)}
+textarea.fi{resize:none;height:80px}
+
+.consent-row{display:flex;align-items:flex-start;gap:8px;margin-top:18px;font-size:12px;color:var(--t2);line-height:1.6}
+.consent-row input{margin-top:3px;flex-shrink:0}
+.consent-row a{color:var(--a)}
+
+.err{color:#a33;font-size:12.5px;margin-top:8px;min-height:16px}
+
+.cta-block{padding:26px 24px 0;display:flex;flex-direction:column;gap:12px}
+.btn-p{background:var(--dk);color:var(--dtx);border:none;padding:16px 20px;border-radius:var(--r);font-size:14.5px;font-weight:600;letter-spacing:.03em;cursor:pointer;text-align:center}
+.btn-o{background:transparent;color:var(--tx);border:1px solid var(--bdr2);padding:16px 20px;border-radius:var(--r);font-size:14.5px;font-weight:600;letter-spacing:.03em;cursor:pointer;text-align:center}
+.cta-note{font-size:12px;color:var(--t3);text-align:center;line-height:1.6;margin-top:2px}
+
+.success{padding:60px 28px;text-align:center;display:none}
+.success.show{display:block}
+.success-icon{font-family:var(--serif);font-size:36px;color:var(--a);margin-bottom:16px}
+.success h2{font-family:var(--serif);font-size:24px;font-weight:400;margin-bottom:14px}
+.success p{font-size:14.5px;color:var(--t2);line-height:1.8;max-width:380px;margin:0 auto}
+.success .btn-o{margin-top:26px;display:inline-block;text-decoration:none;padding:14px 26px}
+
+#form-wrap.hide{display:none}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">SACRAVM</div>
+  <div class="logo-sub">TATTOO ATELIER · LEÓN</div>
+</header>
+
+<div id="form-wrap">
+  <div class="hero">
+    <h1 id="qr-titulo">Antes de tatuarte con nosotros, cuéntanos tu idea.</h1>
+    <p>Así vemos si tu proyecto encaja con SACRAVM y te proponemos los siguientes pasos.</p>
+  </div>
+
+  <div class="grid" id="qr-grid"></div>
+
+  <div class="sec">
+    <div class="sec-label">TU PROYECTO</div>
+    <h2>Un par de minutos, nada más</h2>
+    <p>Rellena esto y decide al final si prefieres reservar ya, o que te contactemos nosotros.</p>
+
+    <div class="field-label">TU NOMBRE</div>
+    <input class="fi" id="q-nombre" placeholder="Nombre y apellidos">
+
+    <div class="field-label">CORREO ELECTRÓNICO</div>
+    <input class="fi" type="email" id="q-email" placeholder="tu@email.com">
+
+    <div class="field-label">TELÉFONO / WHATSAPP</div>
+    <input class="fi" id="q-telefono" placeholder="Tu número">
+
+    <div class="field-label">¿QUÉ TE GUSTARÍA HACERTE?</div>
+    <textarea class="fi" id="q-idea" placeholder="Cuéntanos tu idea, qué quiere transmitir, referencias…"></textarea>
+
+    <div class="field-label">ZONA DEL CUERPO</div>
+    <input class="fi" id="q-zona" placeholder="Brazo, costillas, pierna…">
+
+    <div class="field-label">TAMAÑO APROXIMADO</div>
+    <input class="fi" id="q-tamano" placeholder="En cm, o compáralo con algo (una mano, un folio…)">
+
+    <label class="consent-row"><input type="checkbox" id="q-consent"> He leído y acepto la <a href="/legal" target="_blank">Política de Privacidad</a>.</label>
+    <div class="err" id="q-err"></div>
+  </div>
+
+  <div class="cta-block">
+    <button class="btn-p" id="btn-reservar" onclick="qrGo('reservar')">QUIERO RESERVAR CITA →</button>
+    <button class="btn-o" id="btn-contacto" onclick="qrGo('contacto')">PREFIERO QUE ME CONTACTÉIS →</button>
+    <p class="cta-note">Si aún no lo tienes claro, elige la segunda opción — hablamos contigo antes de nada.</p>
+  </div>
+</div>
+
+<div class="success" id="success-contacto">
+  <div class="success-icon">✦</div>
+  <h2>Recibido</h2>
+  <p>Hemos recibido tu idea. Nos pondremos en contacto contigo en la mayor brevedad posible para contarte si tu proyecto encaja con SACRAVM y proponerte una sesión de asesoramiento.</p>
+  <a class="btn-o" href="/">VOLVER A LA WEB</a>
+</div>
+
+<script>
+let CONFIG = {};
+
+function esc(s) { return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+async function loadContent() {
+  try {
+    const res = await fetch('/api/content');
+    CONFIG = await res.json();
+  } catch (e) { CONFIG = {}; }
+  renderGrid();
+}
+
+function renderGrid() {
+  const fotos = CONFIG.fotos || {};
+  const items = [fotos.tt1, fotos.tt2, fotos.tt3, fotos.tt4].filter(f => f && f.url);
+  document.getElementById('qr-grid').innerHTML = items.map(f => `
+    <div class="grid-item"><img src="${f.url}" alt="${esc(f.estilo || 'Tatuaje SACRAVM')}" loading="lazy"><span>${esc(f.estilo || '')}</span></div>
+  `).join('');
+}
+
+function qrCollect() {
+  return {
+    nombre: document.getElementById('q-nombre').value.trim(),
+    email: document.getElementById('q-email').value.trim(),
+    telefono: document.getElementById('q-telefono').value.trim(),
+    idea: document.getElementById('q-idea').value.trim(),
+    zona: document.getElementById('q-zona').value.trim(),
+    tamano: document.getElementById('q-tamano').value.trim(),
+  };
+}
+
+async function qrGo(via) {
+  const err = document.getElementById('q-err');
+  const d = qrCollect();
+  if (!d.nombre || !d.email) { err.textContent = 'Nombre y correo son obligatorios.'; return; }
+  if (!document.getElementById('q-consent').checked) { err.textContent = 'Debes aceptar la Política de Privacidad para continuar.'; return; }
+  err.textContent = '';
+
+  if (via === 'reservar') {
+    sessionStorage.setItem('sacravm_qr_prefill', JSON.stringify(d));
+    window.location.href = '/#qrbook';
+    return;
+  }
+
+  const btn = document.getElementById('btn-contacto');
+  btn.textContent = 'ENVIANDO…'; btn.disabled = true;
+  try {
+    await fetch('/api/lead', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        tipo: 'qr_contacto', nombre: d.nombre, email: d.email, whatsapp: d.telefono,
+        mensaje: d.idea, zona: d.zona, tamano: d.tamano, fuente: 'QR',
+        fecha_envio: new Date().toISOString()
+      })
+    });
+  } catch (e) {}
+  document.getElementById('form-wrap').classList.add('hide');
+  document.getElementById('success-contacto').classList.add('show');
+  window.scrollTo(0, 0);
+}
+
+loadContent();
+</script>
+
+</body>
+</html>

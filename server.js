@@ -766,6 +766,7 @@ const server = http.createServer(async (req, res) => {
     if (filePath === '/academy') filePath = '/academy.html';
     if (filePath === '/legal') filePath = '/legal.html';
     if (filePath === '/certificado') filePath = '/certificado.html';
+    if (filePath === '/qr') filePath = '/qr.html';
     filePath = path.join(ROOT, decodeURIComponent(filePath));
     if (!filePath.startsWith(ROOT)) { res.writeHead(403); res.end('Prohibido'); return; }
 
