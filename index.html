@@ -431,6 +431,7 @@ footer{background:var(--dk);border-top:1px solid rgba(255,255,255,.05);padding:2
 .obra-overlay.show{opacity:1;pointer-events:auto}
 .obra-box{background:var(--w);border-radius:10px;max-width:920px;width:100%;max-height:90vh;overflow-y:auto;position:relative;box-shadow:0 30px 80px rgba(20,15,10,.35);transform:translateY(16px) scale(.98);transition:transform .3s ease;border:1px solid var(--bdr);display:grid;grid-template-columns:1fr 1fr}
 .obra-overlay.show .obra-box{transform:translateY(0) scale(1)}
+.obra-overlay .wz-close,.estilo-overlay .wz-close{position:fixed;top:24px;right:24px;background:var(--w);box-shadow:0 2px 12px rgba(20,15,10,.18)}
 .obra-gallery{background:var(--s1)}
 .obra-main-img{aspect-ratio:4/5;overflow:hidden}
 .obra-main-img img{width:100%;height:100%;object-fit:cover;display:block}
@@ -1354,8 +1355,8 @@ body.wz-lock{overflow:hidden}
 
 <!-- ═══ WIZARD DE RESERVA (experiencia interactiva) ═══ -->
 <div class="obra-overlay" id="obra-overlay" onclick="if(event.target===this)closeObraModal()">
+  <button class="wz-close" onclick="closeObraModal()">✕</button>
   <div class="obra-box">
-    <button class="wz-close" onclick="closeObraModal()">✕</button>
     <div class="obra-gallery">
       <div class="obra-main-img"><img id="obra-main-img" src="" alt=""></div>
       <div class="obra-thumbs" id="obra-thumbs"></div>
@@ -1371,8 +1372,8 @@ body.wz-lock{overflow:hidden}
 </div>
 
 <div class="estilo-overlay" id="estilo-overlay" onclick="if(event.target===this)closeEstiloModal()">
+  <button class="wz-close" onclick="closeEstiloModal()">✕</button>
   <div class="estilo-box">
-    <button class="wz-close" onclick="closeEstiloModal()">✕</button>
     <div class="estilo-label" id="estilo-label"></div>
     <h3 class="estilo-nombre" id="estilo-nombre"></h3>
     <p class="estilo-desc" id="estilo-desc"></p>
@@ -1972,7 +1973,7 @@ function renderWzRefPreview() {
 }
 
 const WZ_SERVICE_OPTIONS = [
-  { nombre: 'Mini tattoo', ideal: '1–2 horas · piezas pequeñas y rápidas', precio: 'Desde 80€', tier: 'pequeno', fianza: 50 },
+  { nombre: 'Mini tattoo', ideal: '1–2 horas · piezas pequeñas y rápidas', precio: 'Desde 90€', tier: 'pequeno', fianza: 50 },
   { nombre: 'Media sesión', ideal: '3–5 horas · el formato más solicitado', precio: '450–550€', tier: 'pequeno', fianza: 100 },
   { nombre: 'Sesión completa', ideal: '6–8 horas · proyectos con más profundidad', precio: '750–850€', tier: 'grande', fianza: 150 },
   { nombre: 'A consultar', ideal: 'No sabes qué formato encaja todavía', precio: '', tier: null, fianza: null },
