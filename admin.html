@@ -384,19 +384,25 @@ function panelServicios() {
   `;
 }
 function renderServiciosList() {
-  document.getElementById('servicios-list').innerHTML = content.servicios.map((s,i) => `
+  document.getElementById('servicios-list').innerHTML = content.servicios.map((s,i) => {
+    const preview = s.foto ? `<img src="${s.foto}">` : `<span>Sin foto</span>`;
+    return `
     <div class="card item-card">
       <button class="item-remove" data-i="${i}" data-del="servicio">✕</button>
-      <p class="field-label">NOMBRE</p><input class="fi" data-i="${i}" data-f="nombre" value="${esc(s.nombre)}">
+      <div class="foto-preview" style="max-width:220px">${preview}</div>
+      <label class="btn-upload" style="max-width:220px;margin-top:8px;display:inline-block">SUBIR FOTO<input type="file" accept="image/*" data-i="${i}" class="servicio-input"></label>
+      <p class="field-label" style="margin-top:12px">NOMBRE</p><input class="fi" data-i="${i}" data-f="nombre" value="${esc(s.nombre)}">
       <p class="field-label">DESCRIPCIÓN</p><textarea class="fi" data-i="${i}" data-f="descripcion">${esc(s.descripcion)}</textarea>
       <div class="row2">
         <div><p class="field-label">IDEAL PARA</p><input class="fi" data-i="${i}" data-f="ideal" value="${esc(s.ideal)}"></div>
         <div><p class="field-label">PRECIO</p><input class="fi" data-i="${i}" data-f="precio" value="${esc(s.precio)}"></div>
       </div>
     </div>
-  `).join('');
+  `;
+  }).join('');
   document.querySelectorAll('[data-del="servicio"]').forEach(b => b.onclick = () => { content.servicios.splice(+b.dataset.i,1); renderServiciosList(); });
   document.querySelectorAll('#servicios-list [data-f]').forEach(el => el.oninput = () => { content.servicios[+el.dataset.i][el.dataset.f] = el.value; });
+  document.querySelectorAll('.servicio-input').forEach(inp => inp.onchange = () => uploadListPhoto(inp, 'servicios', renderServiciosList, 'foto'));
 }
 function wireServicios() {
   renderServiciosList();
@@ -475,27 +481,39 @@ function panelCuadros() {
 function renderCuadrosList() {
   document.getElementById('cuadros-list').innerHTML = content.cuadros.map((c,i) => {
     const preview = c.url ? `<img src="${c.url}">` : `<span>Sin foto</span>`;
+    const galeria = c.galeria || [];
+    const galeriaHtml = galeria.map((url, gi) => `
+      <div style="position:relative;display:inline-block;margin:0 6px 6px 0">
+        <img src="${url}" style="width:64px;height:64px;object-fit:cover;border-radius:4px;display:block">
+        <button data-i="${i}" data-gi="${gi}" data-del="galeriafoto" style="position:absolute;top:-6px;right:-6px;width:18px;height:18px;border-radius:50%;background:#1C1714;color:#fff;border:none;cursor:pointer;font-size:10px;line-height:1">✕</button>
+      </div>
+    `).join('');
     return `
     <div class="card item-card">
       <button class="item-remove" data-i="${i}" data-del="cuadro">✕</button>
       <div class="foto-preview" style="max-width:220px">${preview}</div>
-      <label class="btn-upload" style="max-width:220px;margin-top:8px;display:inline-block">SUBIR FOTO<input type="file" accept="image/*" data-i="${i}" class="cuadro-input"></label>
+      <label class="btn-upload" style="max-width:220px;margin-top:8px;display:inline-block">SUBIR FOTO PRINCIPAL<input type="file" accept="image/*" data-i="${i}" class="cuadro-input"></label>
       <p class="field-label" style="margin-top:12px">NOMBRE</p><input class="fi" data-i="${i}" data-f="nombre" value="${esc(c.nombre)}">
       <p class="field-label">DETALLE (técnica, tamaño…)</p><input class="fi" data-i="${i}" data-f="meta" value="${esc(c.meta)}">
       <p class="field-label">PRECIO (opcional, ej. "1.200€")</p><input class="fi" data-i="${i}" data-f="precio" value="${esc(c.precio)}">
       <p class="field-label">QUÉ SIGNIFICA (opcional)</p><textarea class="fi" data-i="${i}" data-f="significado" style="height:70px">${esc(c.significado)}</textarea>
+      <p class="field-label" style="margin-top:14px">GALERÍA — más fotos de esta pieza (se ven al pinchar en la web, como una ficha de producto)</p>
+      <div style="margin-bottom:6px">${galeriaHtml || '<span style="font-size:12px;color:var(--t3)">Sin fotos adicionales todavía.</span>'}</div>
+      <label class="btn-upload" style="max-width:220px;display:inline-block">+ AÑADIR FOTO A LA GALERÍA<input type="file" accept="image/*" data-i="${i}" class="cuadro-galeria-input"></label>
     </div>
   `;
   }).join('') || '<p class="empty-note">Todavía no has añadido ningún cuadro.</p>';
   document.querySelectorAll('[data-del="cuadro"]').forEach(b => b.onclick = () => { content.cuadros.splice(+b.dataset.i,1); renderCuadrosList(); });
+  document.querySelectorAll('[data-del="galeriafoto"]').forEach(b => b.onclick = () => { content.cuadros[+b.dataset.i].galeria.splice(+b.dataset.gi,1); renderCuadrosList(); });
   document.querySelectorAll('#cuadros-list [data-f]').forEach(el => el.oninput = () => { content.cuadros[+el.dataset.i][el.dataset.f] = el.value; });
   document.querySelectorAll('.cuadro-input').forEach(inp => inp.onchange = () => uploadListPhoto(inp, 'cuadros', renderCuadrosList));
+  document.querySelectorAll('.cuadro-galeria-input').forEach(inp => inp.onchange = () => uploadListPhoto(inp, 'cuadros', renderCuadrosList, 'galeria', true));
 }
 function wireCuadros() {
   content.cuadros = content.cuadros || [];
   renderCuadrosList();
   document.getElementById('btn-add-cuadro').onclick = () => {
-    content.cuadros.push({ url: '', nombre: 'Pieza nueva', meta: '', significado: '', precio: '' });
+    content.cuadros.push({ url: '', nombre: 'Pieza nueva', meta: '', significado: '', precio: '', galeria: [] });
     renderCuadrosList();
   };
 }
@@ -675,7 +693,7 @@ function wireUniversity() {
     renderAcademyTestiList();
   };
 }
-async function uploadListPhoto(inp, listKey, rerender, field) {
+async function uploadListPhoto(inp, listKey, rerender, field, append) {
   field = field || 'url';
   const file = inp.files[0];
   if (!file) return;
@@ -684,12 +702,16 @@ async function uploadListPhoto(inp, listKey, rerender, field) {
   reader.onload = async () => {
     const res = await fetch('/api/upload-photo', {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ listKey, index, field, filename: file.name, dataBase64: reader.result })
+      body: JSON.stringify({ listKey, index, field, filename: file.name, dataBase64: reader.result, append: !!append })
     });
     const data = await res.json();
     if (data.ok) {
       content[listKey][index] = content[listKey][index] || {};
-      content[listKey][index][field] = data.path;
+      if (append) {
+        content[listKey][index][field] = (Array.isArray(content[listKey][index][field]) ? content[listKey][index][field] : []).concat(data.path);
+      } else {
+        content[listKey][index][field] = data.path;
+      }
       rerender();
       flashSaved('✓ Foto subida');
     } else {

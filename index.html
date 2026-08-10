@@ -153,8 +153,8 @@ nav,footer{scroll-snap-align:none}
 .svc-img{width:180px;flex-shrink:0}
 .svc-img-ph{aspect-ratio:4/5;border-radius:3px;overflow:hidden}
 .svc-img-ph img{width:100%;height:100%;object-fit:cover;display:block}
-.svc-img-cap{margin-top:12px;display:flex;justify-content:space-between;align-items:baseline;gap:10px}
-.svc-img-price{font-family:var(--serif);font-size:20px;color:var(--tx)}
+.svc-img-cap{margin-top:12px;display:flex;flex-direction:column;gap:6px}
+.svc-img-price{font-family:var(--serif);font-size:17px;color:var(--tx);line-height:1.4}
 .svc-img-cta{font-size:12px;letter-spacing:.02em;color:var(--a);background:none;border:none;cursor:pointer;text-decoration:underline;text-underline-offset:3px;white-space:nowrap;font-family:var(--sans)}
 @media(max-width:720px){
   .svc-row{flex-direction:column;gap:14px;padding:32px 4px}
@@ -199,8 +199,6 @@ nav,footer{scroll-snap-align:none}
 #proceso{background:var(--dk);padding:0;overflow:hidden}
 .proc-row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px}
 .proc-row3 div{aspect-ratio:3/4;overflow:hidden;position:relative}
-.proc-row2{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-top:2px}
-.proc-row2 div{aspect-ratio:16/9;overflow:hidden;position:relative}
 
 /* ── ORIGEN ─── */
 #origen{background:var(--dk);padding:88px 52px;border-top:1px solid rgba(255,255,255,.04)}
@@ -220,15 +218,16 @@ nav,footer{scroll-snap-align:none}
 
 /* ── QUÉ HACEMOS ─── */
 #queHacemos{background:var(--w);border-top:1px solid var(--bdr);padding:88px 52px}
-.qh-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-top:48px}
-.qh-card{background:var(--bg);border:1px solid var(--bdr);border-radius:6px;padding:24px 20px;transition:all .2s;text-align:center;cursor:pointer;position:relative;overflow:hidden}
-.qh-card:hover{border-color:var(--aBdr);transform:translateY(-3px);box-shadow:var(--sh)}
-.qh-card.pronto{opacity:.55;cursor:default}
-.qh-card.pronto:hover{transform:none;box-shadow:none;border-color:var(--bdr)}
-.qh-soon{position:absolute;top:10px;right:10px;background:var(--s2);color:var(--t3);font-size:9px;letter-spacing:.14em;padding:2px 8px;border-radius:10px}
-.qh-ico{font-size:28px;margin-bottom:14px;display:block}
-.qh-name{font-family:var(--serif);font-size:20px;font-weight:400;color:var(--tx);margin-bottom:6px}
-.qh-desc{font-size:13px;color:var(--t2);line-height:1.65}
+.qh-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:22px;margin-top:48px}
+.qh-card{background:transparent;transition:opacity .2s;cursor:pointer;text-align:left;position:relative}
+.qh-card:hover{opacity:.85}
+.qh-img{aspect-ratio:4/5;border-radius:4px;overflow:hidden;margin-bottom:14px;background:var(--s1)}
+.qh-img img{width:100%;height:100%;object-fit:cover;display:block}
+.qh-card.pronto{opacity:.5;cursor:default}
+.qh-card.pronto:hover{opacity:.5}
+.qh-soon{position:absolute;top:10px;right:10px;background:var(--w);color:var(--t3);font-size:9px;letter-spacing:.14em;padding:2px 8px;border-radius:10px;z-index:2}
+.qh-name{font-family:var(--serif);font-size:19px;font-weight:400;color:var(--tx);margin-bottom:5px}
+.qh-desc{font-size:12.5px;color:var(--t2);line-height:1.6}
 
 /* ── COLECCIONES ─── */
 #colecciones{background:var(--bg);border-top:1px solid var(--bdr);padding:88px 52px}
@@ -237,7 +236,7 @@ nav,footer{scroll-snap-align:none}
 .col-tag-row{display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap}
 .col-tag{font-size:12px;padding:5px 13px;border-radius:20px;border:1px solid var(--bdr2);color:var(--t2)}
 .art-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:36px;margin-top:40px}
-.art-card{background:transparent;transition:opacity .2s}
+.art-card{background:transparent;transition:opacity .2s;cursor:pointer}
 .art-card:hover{opacity:.9}
 .art-img{aspect-ratio:2/3;border-radius:3px;overflow:hidden;background:linear-gradient(155deg,#E4DCC9 0%,#CBB99B 55%,#DACBAE 100%);display:flex;align-items:center;justify-content:center;position:relative}
 .art-img span{font-size:10px;letter-spacing:.16em;color:rgba(60,40,10,.32);text-align:center;line-height:2}
@@ -315,13 +314,13 @@ nav,footer{scroll-snap-align:none}
 @media(max-width:720px){.tar-thumb{width:100%;aspect-ratio:16/9;object-position:center 20%}}
 .zona-title{font-family:var(--serif);font-size:32px;font-weight:300;color:var(--tx);margin-bottom:8px}
 .zona-sub{font-size:15px;color:var(--t2);line-height:1.8;margin-bottom:28px;max-width:480px}
-.zona-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:52px}
-.zona-card{background:var(--w);border:1px solid var(--bdr);border-radius:6px;padding:14px 16px;display:flex;align-items:flex-start;gap:14px;transition:all .15s}
-.zona-card:hover{border-color:var(--bdr2);box-shadow:0 2px 12px rgba(60,40,10,.07)}
-.zona-ico{width:38px;height:38px;background:var(--aLt);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
-.zona-name{font-size:15px;font-weight:600;color:var(--tx);margin-bottom:3px}
-.zona-ses{font-family:var(--serif);font-size:20px;color:var(--a);font-weight:300;margin-bottom:2px}
-.zona-fmt{font-size:12px;color:var(--t3);letter-spacing:.04em}
+.zona-list{display:grid;grid-template-columns:1fr 1fr;column-gap:40px;margin-bottom:52px}
+.zona-row{display:flex;justify-content:space-between;align-items:baseline;gap:14px;padding:13px 2px;border-top:1px solid var(--bdr)}
+.zona-list .zona-row:nth-last-child(-n+2){border-bottom:1px solid var(--bdr)}
+.zona-row-name{font-size:14.5px;color:var(--tx)}
+.zona-row-r{text-align:right;flex-shrink:0;white-space:nowrap}
+.zona-row-ses{font-family:var(--serif);font-size:16px;color:var(--a)}
+.zona-row-fmt{font-size:11px;color:var(--t3)}
 
 /* ── TÉRMINOS ─── */
 #terminos{background:var(--s1);border-top:1px solid var(--bdr)}
@@ -352,7 +351,7 @@ nav,footer{scroll-snap-align:none}
 /* ── GALERÍA ─── */
 #galeria{padding:88px 52px}
 .gal-grid{columns:3;column-gap:28px}
-.gal-card{break-inside:avoid;margin-bottom:32px;background:transparent;transition:opacity .25s}
+.gal-card{break-inside:avoid;margin-bottom:32px;background:transparent;transition:opacity .25s;cursor:pointer}
 .gal-card:hover{opacity:.9}
 .gal-img{width:100%;overflow:hidden;border-radius:3px}
 .gal-img img{width:100%;height:auto;display:block;transition:transform .4s ease}
@@ -426,8 +425,46 @@ footer{background:var(--dk);border-top:1px solid rgba(255,255,255,.05);padding:2
 .wz-overlay.show{opacity:1;pointer-events:auto}
 .wz-box{background:var(--w);border-radius:10px;max-width:580px;width:100%;max-height:88vh;overflow-y:auto;padding:40px 40px 32px;position:relative;box-shadow:0 30px 80px rgba(20,15,10,.35);transform:translateY(16px) scale(.98);transition:transform .3s ease;border:1px solid var(--bdr)}
 .wz-overlay.show .wz-box{transform:translateY(0) scale(1)}
-.wz-close{position:absolute;top:18px;right:18px;background:none;border:none;font-size:17px;color:var(--t3);cursor:pointer;width:28px;height:28px;border-radius:50%;transition:all .15s}
+.wz-close{position:absolute;top:18px;right:18px;background:none;border:none;font-size:17px;color:var(--t3);cursor:pointer;width:28px;height:28px;border-radius:50%;transition:all .15s;z-index:2}
 .wz-close:hover{background:var(--s1);color:var(--tx)}
+.obra-overlay{position:fixed;inset:0;background:rgba(20,15,10,.55);backdrop-filter:blur(4px);z-index:1000;display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;pointer-events:none;transition:opacity .25s ease}
+.obra-overlay.show{opacity:1;pointer-events:auto}
+.obra-box{background:var(--w);border-radius:10px;max-width:920px;width:100%;max-height:90vh;overflow-y:auto;position:relative;box-shadow:0 30px 80px rgba(20,15,10,.35);transform:translateY(16px) scale(.98);transition:transform .3s ease;border:1px solid var(--bdr);display:grid;grid-template-columns:1fr 1fr}
+.obra-overlay.show .obra-box{transform:translateY(0) scale(1)}
+.obra-gallery{background:var(--s1)}
+.obra-main-img{aspect-ratio:4/5;overflow:hidden}
+.obra-main-img img{width:100%;height:100%;object-fit:cover;display:block}
+.obra-thumbs{display:flex;gap:8px;padding:12px}
+.obra-thumb{width:56px;height:56px;border-radius:4px;overflow:hidden;cursor:pointer;opacity:.55;transition:opacity .15s;flex-shrink:0;border:1px solid var(--bdr2)}
+.obra-thumb.sel{opacity:1;border-color:var(--a)}
+.obra-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.obra-info{padding:40px 36px}
+.obra-serie{font-size:11px;letter-spacing:.2em;color:var(--a);font-weight:600;margin-bottom:10px}
+.obra-nombre{font-family:var(--serif);font-size:32px;font-weight:300;color:var(--tx);margin-bottom:8px}
+.obra-meta{font-size:13px;color:var(--t3);margin-bottom:20px}
+.obra-significado{font-size:15px;color:var(--t2);line-height:1.85;margin-bottom:24px}
+.obra-decision{padding-top:20px;border-top:1px solid var(--bdr)}
+.obra-price{font-family:var(--serif);font-size:26px;color:var(--tx);margin-bottom:6px}
+.obra-garantia{font-size:12px;color:var(--t3);margin-bottom:18px}
+@media(max-width:720px){
+  .obra-box{grid-template-columns:1fr;max-height:92vh}
+  .obra-info{padding:28px 24px}
+}
+.estilo-overlay{position:fixed;inset:0;background:rgba(20,15,10,.55);backdrop-filter:blur(4px);z-index:1000;display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;pointer-events:none;transition:opacity .25s ease}
+.estilo-overlay.show{opacity:1;pointer-events:auto}
+.estilo-box{background:var(--w);border-radius:10px;max-width:620px;width:100%;max-height:88vh;overflow-y:auto;padding:40px 40px 32px;position:relative;box-shadow:0 30px 80px rgba(20,15,10,.35);transform:translateY(16px) scale(.98);transition:transform .3s ease;border:1px solid var(--bdr)}
+.estilo-overlay.show .estilo-box{transform:translateY(0) scale(1)}
+.estilo-label{font-size:11px;letter-spacing:.2em;color:var(--a);font-weight:600;margin-bottom:10px}
+.estilo-nombre{font-family:var(--serif);font-size:28px;font-weight:300;color:var(--tx);margin-bottom:12px}
+.estilo-desc{font-size:15px;color:var(--t2);line-height:1.8;margin-bottom:14px}
+.estilo-precio{font-size:13px;color:var(--tx);padding-top:14px;border-top:1px solid var(--bdr);margin-bottom:22px}
+.estilo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.estilo-img{aspect-ratio:4/5;border-radius:4px;overflow:hidden}
+.estilo-img img{width:100%;height:100%;object-fit:cover;display:block}
+@media(max-width:720px){
+  .estilo-box{padding:30px 24px 24px}
+  .estilo-grid{grid-template-columns:repeat(2,1fr)}
+}
 .wz-progress{display:flex;gap:6px;margin-bottom:26px}
 .wp-dot{height:2px;flex:1;background:var(--bdr2);border-radius:2px;transition:background .2s}
 .wp-dot.active,.wp-dot.done{background:var(--a)}
@@ -520,9 +557,11 @@ body.wz-lock{overflow:hidden}
   .col-grid,.g3{grid-template-columns:1fr}
   #experiences>div>div[style*="grid-template-columns:repeat(3,1fr)"]{grid-template-columns:1fr!important}
   #experiences>div>div[style*="grid-template-columns:1fr 1fr"]{grid-template-columns:1fr!important}
-  .zona-grid{grid-template-columns:1fr 1fr}
+  .zona-list{grid-template-columns:1fr}
+  .zona-list .zona-row:nth-last-child(-n+2){border-bottom:none}
+  .zona-list .zona-row:last-child{border-bottom:1px solid var(--bdr)}
   .terms-grid{grid-template-columns:1fr}
-  .proc-row3,.proc-row2{grid-template-columns:1fr}
+  .proc-row3{grid-template-columns:1fr}
   .gal-grid{columns:1}
   .eterno-product{grid-template-columns:1fr!important}
   .foot-links{display:none}
@@ -634,13 +673,9 @@ body.wz-lock{overflow:hidden}
 <!-- PROCESO — franja fotográfica -->
 <section id="proceso">
   <div class="proc-row3">
-    <div><img src="/images/proceso/proceso1.jpg" alt="Sesión de tatuaje en el atelier SACRAVM" loading="lazy"></div>
-    <div><img src="/images/proceso/proceso2.jpg" alt="Detalle de trabajo en piel, micro-realismo" loading="lazy"></div>
-    <div><img src="/images/proceso/proceso3.jpg" alt="Preparación del diseño antes de tatuar" loading="lazy"></div>
-  </div>
-  <div class="proc-row2">
-    <div><img src="/images/proceso/proceso4.jpg" alt="Proceso de tatuaje, trazo fino" loading="lazy"></div>
-    <div><img src="/images/proceso/proceso5.jpg" alt="Resultado de sesión de tatuaje realista" loading="lazy"></div>
+    <div><img src="/images/proceso/proceso1.jpg" alt="Detalle de rama de olivo tatuada, fine line" loading="lazy"></div>
+    <div><img src="/images/proceso/proceso3.jpg" alt="Aguja de tatuaje en primer plano, atelier SACRAVM" loading="lazy"></div>
+    <div><img src="/images/proceso/proceso2.jpg" alt="Brazo completo tatuado, composición de piezas" loading="lazy"></div>
   </div>
 </section>
 
@@ -689,33 +724,33 @@ body.wz-lock{overflow:hidden}
     </div>
     <div class="qh-grid rv">
       <div class="qh-card" onclick="scroll2('servicios')">
-        <span class="qh-ico">🎨</span>
+        <div class="qh-img"><img src="/images/galeria/g2.jpg" alt="Tattoo custom SACRAVM" loading="lazy"></div>
         <div class="qh-name">Tattoo custom</div>
         <p class="qh-desc">Un ritual. Un templo. Una experiencia eterna en tu piel.</p>
       </div>
       <div class="qh-card" onclick="scroll2('experiences')">
-        <span class="qh-ico">💍</span>
+        <div class="qh-img"><img src="/images/hero/hero.jpg" alt="Experiences SACRAVM" loading="lazy"></div>
         <div class="qh-name">Experiences</div>
         <p class="qh-desc">Bodas, aniversarios y eventos privados. Llevamos el atelier a tu celebración.</p>
       </div>
       <div class="qh-card" onclick="scroll2('colecciones')">
-        <span class="qh-ico">✦</span>
+        <div class="qh-img"><img src="/images/portfolio/tt4.jpg" alt="Colecciones SACRAVM" loading="lazy"></div>
         <div class="qh-name">Colecciones</div>
         <p class="qh-desc">Flash collections y diseños exclusivos disponibles por tiempo limitado.</p>
       </div>
       <div class="qh-card" onclick="scroll2('formacion')">
-        <span class="qh-ico">📚</span>
+        <div class="qh-img"><img src="/images/hero/perfil.jpg" alt="SACRAVM Academy" loading="lazy"></div>
         <div class="qh-name">SACRAVM Academy</div>
         <p class="qh-desc">Curso de tatuaje online desde cualquier lugar del mundo — tatuadores que quieren el siguiente nivel.</p>
       </div>
       <div class="qh-card" onclick="scroll2('obras')">
-        <span class="qh-ico">🖼️</span>
+        <div class="qh-img"><img src="/images/cuadros/pieza2.jpg" alt="Cuadros SACRAVM" loading="lazy"></div>
         <div class="qh-name">Cuadros</div>
         <p class="qh-desc">Óleo, acrílico y técnica mixta sobre lienzo. Piezas únicas, firmadas y numeradas.</p>
       </div>
       <div class="qh-card pronto">
         <span class="qh-soon">PRÓXIMAMENTE</span>
-        <span class="qh-ico">✦</span>
+        <div class="qh-img"><img src="/images/galeria/g8.jpg" alt="Láser SACRAVM" loading="lazy"></div>
         <div class="qh-name">Láser</div>
         <p class="qh-desc">Eliminación y preparación de piel para cubrir o retirar tatuajes.</p>
       </div>
@@ -730,6 +765,7 @@ body.wz-lock{overflow:hidden}
       <div class="sec-label">QUIÉNES SOMOS</div>
       <h2 class="sec-title">Un atelier diseñado para escuchar bien la idea antes de convertirla en piel.</h2>
       <p class="nos-body">SACRAVM va más allá del tatuaje: marcamos historias. Escuchamos tu idea desde el primer momento y trabajamos cada detalle hasta que quede en armonía con tu cuerpo y tu estilo. Sabemos que esto es para siempre — por eso nos comprometemos a dar el máximo en cada proyecto.</p>
+      <p style="font-family:var(--serif);font-size:18px;font-style:italic;color:var(--a);line-height:1.7;max-width:540px;margin-top:18px;margin-bottom:8px">En SACRAVM no hacemos tatuajes — vivimos una experiencia contigo. No todos los proyectos encajan con nuestra idea: cuéntanos la tuya y creemos algo juntos. Si sentimos que no vibra con SACRAVM, te lo diremos.</p>
       <div>
         <div class="pillar"><div class="pl-n">01</div><div class="pl-t"><h4>Reserva directa con fianza</h4><p>Eliges fecha, pagas la señal y la cita queda confirmada automáticamente. Sin esperas.</p></div></div>
         <div class="pillar"><div class="pl-n">02</div><div class="pl-t"><h4>Diseño personalizado</h4><p>Hablamos del diseño y referencias después de confirmar. Me adapto a tu idea.</p></div></div>
@@ -778,12 +814,27 @@ body.wz-lock{overflow:hidden}
 </section>
 
 <!-- SERVICIOS -->
-<section id="servicios">
+<!-- TRABAJO · SPÉCIALITÉS · INVERSIÓN (unificado) -->
+<section id="portfolio">
   <div class="sec-inner">
-    <div class="rv">
-      <div class="sec-label">SPÉCIALITÉS</div>
-      <h2 class="sec-title">El arte que puedes reservar</h2>
-      <p style="font-size:15px;color:var(--t2);line-height:1.8;margin-top:12px;max-width:520px">Especialistas en micro-realismo, realismo y fine line — no por casualidad, sino tras muchas horas y mucha experiencia. En el micro-realismo está el detalle y la paciencia; en el realismo, nuestra forma de ver el mundo; en el fine line, la precisión de buscar la perfección, aunque sepamos que no existe. Trabajamos para eso: daros lo mejor.</p>
+    <div class="port-top rv">
+      <div>
+        <div class="sec-label">TRABAJO · SPÉCIALITÉS · INVERSIÓN</div>
+        <h2 class="sec-title">Llevar SACRAVM es pertenecer a algo distinto.</h2>
+        <p class="port-body">Micro-realismo, realismo conceptual y fine line. Cada pieza que sale de aquí te convierte en parte de algo que pocos llegan a tener.</p>
+      </div>
+      <button class="btn-p" onclick="goBook()">Reservar cita →</button>
+    </div>
+    <div class="port-grid" id="port-grid">
+      <!-- Generado por JavaScript desde CONFIG -->
+    </div>
+  </div>
+</section>
+
+<section id="servicios" style="border-top:1px solid var(--bdr)">
+  <div class="sec-inner">
+    <div class="rv" style="margin-bottom:8px">
+      <div class="sec-label">ESTILOS</div>
     </div>
     <div class="svc-list" id="svcs-grid">
       <!-- Generado por JavaScript desde CONFIG -->
@@ -791,19 +842,115 @@ body.wz-lock{overflow:hidden}
   </div>
 </section>
 
-<!-- PORTFOLIO -->
-<section id="portfolio">
+<section id="tarifas" style="border-top:1px solid var(--bdr)">
   <div class="sec-inner">
-    <div class="port-top rv">
-      <div>
-        <div class="sec-label">TRABAJO</div>
-        <h2 class="sec-title">Cada pieza, pensada para durar.</h2>
-        <p class="port-body">Micro-realismo, realismo conceptual y fine line. Proyectos diseñados para la piel como lienzo permanente.</p>
-      </div>
-      <button class="btn-p" onclick="goBook()">Reservar cita →</button>
+    <div class="rv">
+      <div class="sec-label">FORMATOS Y PRECIO <span style="color:var(--t3);font-weight:400">· DESDE 90€</span></div>
+      <p id="txt-inversion-texto" style="font-size:16px;color:var(--t2);line-height:1.85;margin-bottom:18px;max-width:540px">El diseño se prepara en exclusiva el día de tu cita. La señal confirma tu plaza y se descuenta del total — el resto se abona al cerrar la sesión.</p>
+      <p style="font-family:var(--serif);font-size:18px;font-style:italic;color:var(--a);line-height:1.7;max-width:520px;margin-bottom:40px">No todos los proyectos entran en SACRAVM. Si el tuyo entra, recibe toda nuestra atención — como se merece lo que va a quedarse contigo para siempre.</p>
     </div>
-    <div class="port-grid" id="port-grid">
-      <!-- Generado por JavaScript desde CONFIG -->
+    <div class="tar-list rv">
+      <div class="tar-row">
+        <div class="tar-row-l">
+          <div class="tar-dur">1–2 HORAS</div>
+          <div class="tar-name">Mini tattoo</div>
+          <div class="tar-desc">Para piezas pequeñas, limpias y con resultado garantizado — el primer contacto natural con el atelier.</div>
+          <div class="tar-includes-line">Diseño el mismo día · Kit de cuidados incluido · Repaso incluido (4 meses)</div>
+        </div>
+        <div class="tar-row-r">
+          <div class="tar-price">90–220€</div>
+          <div class="tar-senal">Señal 50€</div>
+          <button class="btn-tar" onclick="goBook('Mini tattoo')">Reservar mini →</button>
+        </div>
+      </div>
+      <div class="tar-row">
+        <div class="tar-row-l">
+          <div class="tar-dur">3–5 HORAS <span class="tar-tag">· el formato más solicitado</span></div>
+          <div class="tar-name">Media sesión</div>
+          <div class="tar-desc">Para piezas de tamaño medio o avances de un proyecto en curso — el equilibrio justo entre tiempo y profundidad.</div>
+          <div class="tar-includes-line">Diseño el mismo día · Kit de cuidados · Seguimiento de curación · Repaso incluido (4 meses)</div>
+        </div>
+        <img class="tar-thumb" src="/media-sesion.jpg" alt="Ejemplo real — media sesión" loading="lazy">
+        <div class="tar-row-r">
+          <div class="tar-price">450–550€</div>
+          <div class="tar-senal">Señal 100€ · se descuenta del total</div>
+          <button class="btn-tar" onclick="goBook('Media sesión')">Reservar media sesión →</button>
+        </div>
+      </div>
+      <div class="tar-row">
+        <div class="tar-row-l">
+          <div class="tar-dur">6–8 HORAS</div>
+          <div class="tar-name">Sesión completa</div>
+          <div class="tar-desc">Para proyectos exigentes que necesitan tiempo, capas y profundidad de detalle en una sola jornada.</div>
+          <div class="tar-includes-line">Kit de cuidados completo · Seguimiento de curación · Repaso incluido (4 meses) · Descuento en bloques de proyecto</div>
+        </div>
+        <img class="tar-thumb" src="/sesion-completa.jpg" alt="Ejemplo real — sesión completa" loading="lazy">
+        <div class="tar-row-r">
+          <div class="tar-price">750–850€</div>
+          <div class="tar-senal">Señal 150€ · se descuenta del total</div>
+          <button class="btn-tar" onclick="goBook('Sesión completa')">Reservar sesión completa →</button>
+        </div>
+      </div>
+      <div class="tar-row">
+        <div class="tar-row-l">
+          <div class="tar-dur">2+ DÍAS · PROYECTO</div>
+          <div class="tar-name">Gran proyecto</div>
+          <div class="tar-desc">Mangas, espaldas y proyectos de envergadura, planificados por bloques con curación entre fases.</div>
+          <div class="tar-includes-line">Planificación completa · Máx. 3 sesiones por bloque · Seguimiento personalizado</div>
+        </div>
+        <img class="tar-thumb" src="/gran-proyecto.jpg" alt="Ejemplo real — gran proyecto" loading="lazy">
+        <div class="tar-row-r">
+          <div class="tar-price">750–850€/día</div>
+          <div class="tar-senal">Señal 200€/sesión · se descuenta del total</div>
+          <button class="btn-tar" onclick="goBook()">Consultar proyecto →</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="rv" style="background:var(--w);border:1px solid var(--aBdr);border-radius:6px;padding:28px 32px;margin-bottom:32px;display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap">
+      <div>
+        <div class="sec-label" style="margin-bottom:6px">¿AÚN NO LO TIENES CLARO?</div>
+        <div style="font-family:var(--serif);font-size:22px;font-weight:400;color:var(--tx);margin-bottom:4px">Reserva una valoración y diseño gratuita de 30 min</div>
+        <p style="font-size:14px;color:var(--t2)">Hablamos de tu idea, resolvemos dudas y cerramos el proyecto — sin compromiso ni coste.</p>
+      </div>
+      <button class="btn-p" style="flex-shrink:0" onclick="goBook('Valoración y diseño (30 min, gratis)')">RESERVAR VALORACIÓN →</button>
+    </div>
+
+    <div class="tar-note rv">
+      <strong>Nota sobre proyectos grandes:</strong> Para piezas de gran formato (mangas, espaldas, pectorales) programo un máximo de 3 sesiones consecutivas por bloque. Así la piel sana bien entre sesiones y puedo acumular profundidad y detalle de forma óptima. Entre bloques: mínimo 3 semanas de curación. Esto no es opcional — es lo que garantiza el mejor resultado posible.
+    </div>
+    <div class="rv" style="background:var(--w);border:1px solid var(--bdr);border-radius:6px;padding:24px 28px;margin-bottom:52px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px">
+      <div style="text-align:center">
+        <div style="font-family:var(--serif);font-size:40px;font-weight:300;color:var(--a);line-height:1;margin-bottom:6px">~125€</div>
+        <div style="font-size:12px;letter-spacing:.12em;color:var(--t2)">POR HORA · FRANJA PREMIUM ESPAÑA</div>
+      </div>
+      <div style="text-align:center;border-left:1px solid var(--bdr);border-right:1px solid var(--bdr);padding:0 24px">
+        <div style="font-family:var(--serif);font-size:40px;font-weight:300;color:var(--a);line-height:1;margin-bottom:6px">1 a 1</div>
+        <div style="font-size:12px;letter-spacing:.12em;color:var(--t2)">UN CLIENTE A LA VEZ · ESPACIO PRIVADO</div>
+      </div>
+      <div style="text-align:center">
+        <div style="font-family:var(--serif);font-size:40px;font-weight:300;color:var(--a);line-height:1;margin-bottom:6px">100%</div>
+        <div style="font-size:12px;letter-spacing:.12em;color:var(--t2)">DISEÑO PERSONALIZADO INCLUIDO</div>
+      </div>
+    </div>
+
+    <div class="rv">
+      <div class="zona-title">Sesiones estimadas por zona</div>
+      <p class="zona-sub">Orientativo — y solo eso. Cada tatuaje y cada persona son únicos: el diseño, tu piel y tu aguante influyen tanto que no tiene sentido darte un número cerrado. Te damos una estimación personalizada en el primer contacto.</p>
+    </div>
+    <div class="zona-list rv">
+      <div class="zona-row"><div class="zona-row-name">Manga completa</div><div class="zona-row-r"><div class="zona-row-ses">6–9 sesiones</div><div class="zona-row-fmt">Proyecto multisesión</div></div></div>
+      <div class="zona-row"><div class="zona-row-name">Medio brazo</div><div class="zona-row-r"><div class="zona-row-ses">3–4 sesiones</div><div class="zona-row-fmt">Sesiones completas</div></div></div>
+      <div class="zona-row"><div class="zona-row-name">Antebrazo</div><div class="zona-row-r"><div class="zona-row-ses">2–3 sesiones</div><div class="zona-row-fmt">Media sesión × 2-3</div></div></div>
+      <div class="zona-row"><div class="zona-row-name">Pecho</div><div class="zona-row-r"><div class="zona-row-ses">3–5 sesiones</div><div class="zona-row-fmt">Sesiones completas</div></div></div>
+      <div class="zona-row"><div class="zona-row-name">Espalda completa</div><div class="zona-row-r"><div class="zona-row-ses">6–9 sesiones</div><div class="zona-row-fmt">Proyecto multisesión</div></div></div>
+      <div class="zona-row"><div class="zona-row-name">Media espalda</div><div class="zona-row-r"><div class="zona-row-ses">3–5 sesiones</div><div class="zona-row-fmt">Sesiones completas</div></div></div>
+      <div class="zona-row"><div class="zona-row-name">Muslo</div><div class="zona-row-r"><div class="zona-row-ses">3–5 sesiones</div><div class="zona-row-fmt">Sesiones completas</div></div></div>
+      <div class="zona-row"><div class="zona-row-name">Pierna completa</div><div class="zona-row-r"><div class="zona-row-ses">14–20 sesiones</div><div class="zona-row-fmt">Proyecto multisesión</div></div></div>
+      <div class="zona-row"><div class="zona-row-name">Costado</div><div class="zona-row-r"><div class="zona-row-ses">3–4 sesiones</div><div class="zona-row-fmt">Sesiones completas</div></div></div>
+      <div class="zona-row"><div class="zona-row-name">Pie / tobillo</div><div class="zona-row-r"><div class="zona-row-ses">1–2 sesiones</div><div class="zona-row-fmt">Mini o media sesión</div></div></div>
+      <div class="zona-row"><div class="zona-row-name">Mano / muñeca</div><div class="zona-row-r"><div class="zona-row-ses">1–2 sesiones</div><div class="zona-row-fmt">Mini o media sesión</div></div></div>
+      <div class="zona-row"><div class="zona-row-name">Pieza pequeña (−8cm)</div><div class="zona-row-r"><div class="zona-row-ses">1 sesión</div><div class="zona-row-fmt">Mini tattoo 1-2h</div></div></div>
     </div>
   </div>
 </section>
@@ -1006,128 +1153,6 @@ body.wz-lock{overflow:hidden}
 </section>
 
 <!-- TARIFAS -->
-<section id="tarifas">
-  <div class="sec-inner">
-    <div class="rv">
-      <div class="sec-label">INVERSIÓN <span style="color:var(--t3);font-weight:400">· DESDE 90€</span></div>
-      <h2 class="sec-title" id="txt-inversion-titulo" style="margin-bottom:14px">Cada formato, pensado para que el resultado esté a la altura</h2>
-      <p id="txt-inversion-texto" style="font-size:16px;color:var(--t2);line-height:1.85;margin-bottom:18px;max-width:540px">El diseño se prepara en exclusiva el día de tu cita. La señal confirma tu plaza y se descuenta del total — el resto se abona al cerrar la sesión.</p>
-      <p style="font-family:var(--serif);font-size:18px;font-style:italic;color:var(--a);line-height:1.7;max-width:520px;margin-bottom:40px">No todos los proyectos entran en SACRAVM. Si el tuyo entra, recibe toda nuestra atención — como se merece lo que va a quedarse contigo para siempre.</p>
-    </div>
-    <div class="tar-list rv">
-      <div class="tar-row">
-        <div class="tar-row-l">
-          <div class="tar-dur">1–2 HORAS</div>
-          <div class="tar-name">Mini tattoo</div>
-          <div class="tar-desc">Para piezas pequeñas, limpias y con resultado garantizado — el primer contacto natural con el atelier.</div>
-          <div class="tar-includes-line">Diseño el mismo día · Kit de cuidados incluido · Repaso incluido (4 meses)</div>
-        </div>
-        <div class="tar-row-r">
-          <div class="tar-price">90–220€</div>
-          <div class="tar-senal">Señal 50€</div>
-          <button class="btn-tar" onclick="goBook('Mini tattoo')">Reservar mini →</button>
-        </div>
-      </div>
-      <div class="tar-row">
-        <div class="tar-row-l">
-          <div class="tar-dur">3–5 HORAS <span class="tar-tag">· el formato más solicitado</span></div>
-          <div class="tar-name">Media sesión</div>
-          <div class="tar-desc">Para piezas de tamaño medio o avances de un proyecto en curso — el equilibrio justo entre tiempo y profundidad.</div>
-          <div class="tar-includes-line">Diseño el mismo día · Kit de cuidados · Seguimiento de curación · Repaso incluido (4 meses)</div>
-        </div>
-        <img class="tar-thumb" src="/media-sesion.jpg" alt="Ejemplo real — media sesión" loading="lazy">
-        <div class="tar-row-r">
-          <div class="tar-price">450–550€</div>
-          <div class="tar-senal">Señal 100€ · se descuenta del total</div>
-          <button class="btn-tar" onclick="goBook('Media sesión')">Reservar media sesión →</button>
-        </div>
-      </div>
-      <div class="tar-row">
-        <div class="tar-row-l">
-          <div class="tar-dur">6–8 HORAS</div>
-          <div class="tar-name">Sesión completa</div>
-          <div class="tar-desc">Para proyectos exigentes que necesitan tiempo, capas y profundidad de detalle en una sola jornada.</div>
-          <div class="tar-includes-line">Kit de cuidados completo · Seguimiento de curación · Repaso incluido (4 meses) · Descuento en bloques de proyecto</div>
-        </div>
-        <img class="tar-thumb" src="/sesion-completa.jpg" alt="Ejemplo real — sesión completa" loading="lazy">
-        <div class="tar-row-r">
-          <div class="tar-price">750–850€</div>
-          <div class="tar-senal">Señal 150€ · se descuenta del total</div>
-          <button class="btn-tar" onclick="goBook('Sesión completa')">Reservar sesión completa →</button>
-        </div>
-      </div>
-      <div class="tar-row">
-        <div class="tar-row-l">
-          <div class="tar-dur">2+ DÍAS · PROYECTO</div>
-          <div class="tar-name">Gran proyecto</div>
-          <div class="tar-desc">Mangas, espaldas y proyectos de envergadura, planificados por bloques con curación entre fases.</div>
-          <div class="tar-includes-line">Planificación completa · Máx. 3 sesiones por bloque · Seguimiento personalizado</div>
-        </div>
-        <img class="tar-thumb" src="/gran-proyecto.jpg" alt="Ejemplo real — gran proyecto" loading="lazy">
-        <div class="tar-row-r">
-          <div class="tar-price">750–850€/día</div>
-          <div class="tar-senal">Señal 200€/sesión · se descuenta del total</div>
-          <button class="btn-tar" onclick="goBook()">Consultar proyecto →</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="rv" style="background:var(--w);border:1px solid var(--aBdr);border-radius:6px;padding:28px 32px;margin-bottom:32px;display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap">
-      <div>
-        <div class="sec-label" style="margin-bottom:6px">¿AÚN NO LO TIENES CLARO?</div>
-        <div style="font-family:var(--serif);font-size:22px;font-weight:400;color:var(--tx);margin-bottom:4px">Reserva una valoración y diseño gratuita de 30 min</div>
-        <p style="font-size:14px;color:var(--t2)">Hablamos de tu idea, resolvemos dudas y cerramos el proyecto — sin compromiso ni coste.</p>
-      </div>
-      <button class="btn-p" style="flex-shrink:0" onclick="goBook('Valoración y diseño (30 min, gratis)')">RESERVAR VALORACIÓN →</button>
-    </div>
-
-    <div class="rv" style="background:var(--w);border:1px solid var(--aBdr);border-radius:6px;padding:28px 32px;margin-bottom:32px;display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap">
-      <div>
-        <div class="sec-label" style="margin-bottom:6px">REPASO INCLUIDO · 4 PRIMEROS MESES</div>
-        <div style="font-family:var(--serif);font-size:22px;font-weight:400;color:var(--tx);margin-bottom:4px">¿Te ha pasado algo importante en este tiempo?</div>
-        <p style="font-size:14px;color:var(--t2)">Seguro que quieres plasmarlo en la piel — marcar tu historia debería ser un derecho. Todas las piezas, desde el mini tattoo hasta el proyecto más grande, incluyen un repaso gratuito dentro de los primeros 4 meses. Pásate a enseñarnos cómo ha sanado y cuéntanos tu nueva idea.</p>
-      </div>
-      <button class="btn-p" style="flex-shrink:0" onclick="goBook()">RESERVAR REPASO →</button>
-    </div>
-
-    <div class="tar-note rv">
-      <strong>Nota sobre proyectos grandes:</strong> Para piezas de gran formato (mangas, espaldas, pectorales) programo un máximo de 3 sesiones consecutivas por bloque. Así la piel sana bien entre sesiones y puedo acumular profundidad y detalle de forma óptima. Entre bloques: mínimo 3 semanas de curación. Esto no es opcional — es lo que garantiza el mejor resultado posible.
-    </div>
-    <div class="rv" style="background:var(--w);border:1px solid var(--bdr);border-radius:6px;padding:24px 28px;margin-bottom:52px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px">
-      <div style="text-align:center">
-        <div style="font-family:var(--serif);font-size:40px;font-weight:300;color:var(--a);line-height:1;margin-bottom:6px">~125€</div>
-        <div style="font-size:12px;letter-spacing:.12em;color:var(--t2)">POR HORA · FRANJA PREMIUM ESPAÑA</div>
-      </div>
-      <div style="text-align:center;border-left:1px solid var(--bdr);border-right:1px solid var(--bdr);padding:0 24px">
-        <div style="font-family:var(--serif);font-size:40px;font-weight:300;color:var(--a);line-height:1;margin-bottom:6px">1 a 1</div>
-        <div style="font-size:12px;letter-spacing:.12em;color:var(--t2)">UN CLIENTE A LA VEZ · ESPACIO PRIVADO</div>
-      </div>
-      <div style="text-align:center">
-        <div style="font-family:var(--serif);font-size:40px;font-weight:300;color:var(--a);line-height:1;margin-bottom:6px">100%</div>
-        <div style="font-size:12px;letter-spacing:.12em;color:var(--t2)">DISEÑO PERSONALIZADO INCLUIDO</div>
-      </div>
-    </div>
-
-    <div class="rv">
-      <div class="zona-title">Sesiones estimadas por zona</div>
-      <p class="zona-sub">Orientativo — y solo eso. Cada tatuaje y cada persona son únicos: el diseño, tu piel y tu aguante influyen tanto que no tiene sentido darte un número cerrado. Te damos una estimación personalizada en el primer contacto.</p>
-    </div>
-    <div class="zona-grid rv">
-      <div class="zona-card"><div class="zona-ico">💪</div><div><div class="zona-name">Manga completa</div><div class="zona-ses">6–9 sesiones</div><div class="zona-fmt">Proyecto multisesión</div></div></div>
-      <div class="zona-card"><div class="zona-ico">🦾</div><div><div class="zona-name">Medio brazo</div><div class="zona-ses">3–4 sesiones</div><div class="zona-fmt">Sesiones completas</div></div></div>
-      <div class="zona-card"><div class="zona-ico">✊</div><div><div class="zona-name">Antebrazo</div><div class="zona-ses">2–3 sesiones</div><div class="zona-fmt">Media sesión × 2-3</div></div></div>
-      <div class="zona-card"><div class="zona-ico">🫀</div><div><div class="zona-name">Pecho</div><div class="zona-ses">3–5 sesiones</div><div class="zona-fmt">Sesiones completas</div></div></div>
-      <div class="zona-card"><div class="zona-ico">🔙</div><div><div class="zona-name">Espalda completa</div><div class="zona-ses">6–9 sesiones</div><div class="zona-fmt">Proyecto multisesión</div></div></div>
-      <div class="zona-card"><div class="zona-ico">🔻</div><div><div class="zona-name">Media espalda</div><div class="zona-ses">3–5 sesiones</div><div class="zona-fmt">Sesiones completas</div></div></div>
-      <div class="zona-card"><div class="zona-ico">🦵</div><div><div class="zona-name">Muslo</div><div class="zona-ses">3–5 sesiones</div><div class="zona-fmt">Sesiones completas</div></div></div>
-      <div class="zona-card"><div class="zona-ico">🦿</div><div><div class="zona-name">Pierna completa</div><div class="zona-ses">14–20 sesiones</div><div class="zona-fmt">Proyecto multisesión</div></div></div>
-      <div class="zona-card"><div class="zona-ico">🌊</div><div><div class="zona-name">Costado</div><div class="zona-ses">3–4 sesiones</div><div class="zona-fmt">Sesiones completas</div></div></div>
-      <div class="zona-card"><div class="zona-ico">🦶</div><div><div class="zona-name">Pie / tobillo</div><div class="zona-ses">1–2 sesiones</div><div class="zona-fmt">Mini o media sesión</div></div></div>
-      <div class="zona-card"><div class="zona-ico">🤚</div><div><div class="zona-name">Mano / muñeca</div><div class="zona-ses">1–2 sesiones</div><div class="zona-fmt">Mini o media sesión</div></div></div>
-      <div class="zona-card"><div class="zona-ico">✨</div><div><div class="zona-name">Pieza pequeña (−8cm)</div><div class="zona-ses">1 sesión</div><div class="zona-fmt">Mini tattoo 1-2h</div></div></div>
-    </div>
-  </div>
-</section>
 
 <!-- VALE REGALO -->
 <section id="vale-regalo">
@@ -1236,9 +1261,9 @@ body.wz-lock{overflow:hidden}
   <div class="sec-inner" style="text-align:center;max-width:640px;margin:0 auto">
     <div class="rv">
       <div class="sec-label">SACRAVM ACADEMY</div>
-      <h2 class="sec-title" id="txt-academy-titulo">Domina el oficio con quien ya se lo juega en piel real.</h2>
+      <h2 class="sec-title" id="txt-academy-titulo">Si realmente quieres mejorar, hazlo con criterio.</h2>
       <p id="txt-academy-texto" style="font-size:16px;color:var(--t2);line-height:1.9;margin-top:14px">Curso de tatuaje online, desde cualquier lugar del mundo — cursos sueltos, el programa completo o mentoría 1:1. Técnica, criterio, marca personal y captación de clientes.</p>
-      <p style="font-family:var(--serif);font-size:19px;font-style:italic;color:var(--a);line-height:1.6;margin-top:18px">Si buscas hacer las cosas bien — respetándote a ti y a tus clientes — esto es para ti. Si no, mejor pasa de largo.</p>
+      <p style="font-family:var(--serif);font-size:19px;font-style:italic;color:var(--a);line-height:1.6;margin-top:18px">No solo aprendes a tatuar — entras en un oficio que se respeta. Si eso te representa, perteneces aquí.</p>
       <div class="form-pills" style="justify-content:center">
         <span class="pill">Cursos sueltos</span>
         <span class="pill">Programa completo</span>
@@ -1263,7 +1288,7 @@ body.wz-lock{overflow:hidden}
     <div class="bk-sup rv">RESERVA TU CITA</div>
     <h2 class="bk-title rv">Elige tu servicio,<br><em>elige tu momento,<br>empieza el ritual.</em></h2>
     <div class="bk-rule rv"></div>
-    <p class="bk-sub rv">Eliges servicio, fecha y hora. Te confirmamos por WhatsApp en menos de 24h.</p>
+    <p class="bk-sub rv">Eliges servicio, fecha y hora. Te confirmamos por correo en menos de 24h.</p>
     <div class="bk-flow rv">
       <div class="bk-step"><span class="bk-step-n">1</span><div class="bk-step-t"><strong>Elige tu sesión</strong>Día entero, media sesión o mini tattoo</div></div>
       <span class="bk-step-sep">→</span>
@@ -1271,7 +1296,7 @@ body.wz-lock{overflow:hidden}
       <span class="bk-step-sep">→</span>
       <div class="bk-step"><span class="bk-step-n">3</span><div class="bk-step-t"><strong>Cuéntanos tu idea</strong>Un par de líneas para preparar la sesión</div></div>
       <span class="bk-step-sep">→</span>
-      <div class="bk-step"><span class="bk-step-n">4</span><div class="bk-step-t"><strong>Confirmación</strong>Te escribimos por WhatsApp para cerrar fecha y fianza</div></div>
+      <div class="bk-step"><span class="bk-step-n">4</span><div class="bk-step-t"><strong>Confirmación</strong>Te escribimos por correo para cerrar fecha y fianza</div></div>
     </div>
     <div class="rv">
       <button class="btn-bk-main" onclick="goBook()">RESERVAR MI CITA →</button>
@@ -1328,6 +1353,35 @@ body.wz-lock{overflow:hidden}
 </div>
 
 <!-- ═══ WIZARD DE RESERVA (experiencia interactiva) ═══ -->
+<div class="obra-overlay" id="obra-overlay" onclick="if(event.target===this)closeObraModal()">
+  <div class="obra-box">
+    <button class="wz-close" onclick="closeObraModal()">✕</button>
+    <div class="obra-gallery">
+      <div class="obra-main-img"><img id="obra-main-img" src="" alt=""></div>
+      <div class="obra-thumbs" id="obra-thumbs"></div>
+    </div>
+    <div class="obra-info">
+      <div class="obra-serie">SERIE ORIGEN</div>
+      <div class="obra-nombre" id="obra-nombre"></div>
+      <div class="obra-meta" id="obra-meta"></div>
+      <div class="obra-significado" id="obra-significado"></div>
+      <div class="obra-decision" id="obra-decision"></div>
+    </div>
+  </div>
+</div>
+
+<div class="estilo-overlay" id="estilo-overlay" onclick="if(event.target===this)closeEstiloModal()">
+  <div class="estilo-box">
+    <button class="wz-close" onclick="closeEstiloModal()">✕</button>
+    <div class="estilo-label" id="estilo-label"></div>
+    <h3 class="estilo-nombre" id="estilo-nombre"></h3>
+    <p class="estilo-desc" id="estilo-desc"></p>
+    <div class="estilo-precio" id="estilo-precio"></div>
+    <div class="estilo-grid" id="estilo-grid"></div>
+    <button class="btn-p" style="width:100%;margin-top:22px" onclick="closeEstiloModal();goBook()">Reservar cita →</button>
+  </div>
+</div>
+
 <div class="wz-overlay" id="wz-overlay" onclick="if(event.target===this)closeWizard()">
   <div class="wz-box">
     <button class="wz-close" onclick="closeWizard()">✕</button>
@@ -1508,6 +1562,7 @@ body.wz-lock{overflow:hidden}
 // ╚══════════════════════════════════════════════════════════════════╝
 
 let CONFIG = null;
+let obrasData = [];
 
 const contentReady = (async () => {
   const res = await fetch('/api/content');
@@ -1605,16 +1660,17 @@ function renderSite(CONFIG) {
   const T = CONFIG.textos || {};
   if (T.valeRegaloTitulo) document.getElementById('txt-valeregalo-titulo').innerHTML = T.valeRegaloTitulo.replace(/\n/g, '<br>');
   if (T.valeRegaloTexto) document.getElementById('txt-valeregalo-texto').textContent = T.valeRegaloTexto;
-  if (T.inversionTitulo) document.getElementById('txt-inversion-titulo').textContent = T.inversionTitulo;
+  if (T.inversionTitulo && document.getElementById('txt-inversion-titulo')) document.getElementById('txt-inversion-titulo').textContent = T.inversionTitulo;
   if (T.inversionTexto) document.getElementById('txt-inversion-texto').textContent = T.inversionTexto;
   if (T.academyTitulo) document.getElementById('txt-academy-titulo').textContent = T.academyTitulo;
   if (T.academyTexto) document.getElementById('txt-academy-texto').textContent = T.academyTexto;
 
   // ── Cuadros (galería de arte) ─────────────────────────────────────
-  document.getElementById('cuadros-grid').innerHTML = (CONFIG.cuadros || []).map(c => `
-    <div class="art-card">
+  obrasData = CONFIG.cuadros || [];
+  document.getElementById('cuadros-grid').innerHTML = obrasData.map((c,i) => `
+    <div class="art-card" onclick="openObraModal(${i})">
       <div class="art-img">${c.url ? `<img src="${c.url}" alt="${c.nombre||'Cuadro'}" style="width:100%;height:100%;object-fit:cover" loading="lazy">` : `<span class="art-badge">PRÓXIMAMENTE</span><span>★ ${c.meta||''}</span>`}</div>
-      <div class="art-body"><div class="art-name">${c.nombre||''}</div><div class="art-meta">${c.meta||''}</div>${c.significado ? `<div class="art-significado">${c.significado}</div>` : ''}${c.precio ? `<div class="art-decision"><div class="art-price">${c.precio}</div><div class="art-garantia">Certificado de Autenticidad incluido · pieza única, sin reproducciones</div><button class="btn-tar" style="margin-top:12px;width:100%" onclick="waCuadro('${(c.nombre||'').replace(/'/g,"\\'")}','${(c.precio||'').replace(/'/g,"\\'")}')">Adquirir esta pieza →</button></div>` : ''}</div>
+      <div class="art-body"><div class="art-name">${c.nombre||''}</div><div class="art-meta">${c.meta||''}</div>${c.significado ? `<div class="art-significado">${c.significado}</div>` : ''}${c.precio ? `<div class="art-decision"><div class="art-price">${c.precio}</div><div class="art-garantia">Certificado de Autenticidad incluido · pieza única, sin reproducciones</div><button class="btn-tar" style="margin-top:12px;width:100%" onclick="event.stopPropagation();waCuadro('${(c.nombre||'').replace(/'/g,"\\'")}','${(c.precio||'').replace(/'/g,"\\'")}')">Adquirir esta pieza →</button></div>` : ''}</div>
     </div>
   `).join('');
 
@@ -1626,7 +1682,7 @@ function renderSite(CONFIG) {
 
   // ── Galería completa ───────────────────────────────────────────────
   document.getElementById('galeria-grid').innerHTML = (CONFIG.galeria || []).map(g => `
-    <div class="gal-card"><div class="gal-img"><img src="${g.url}" alt="Tatuaje SACRAVM — ${g.estilo||''}${g.desc?', '+g.desc:''}" loading="lazy"></div><div class="gal-body"><div class="gal-est">${g.estilo||''}</div><div class="gal-desc">${g.desc||''}</div>${(g.duracion||g.precio) ? `<div class="gal-precio">${[g.duracion,g.precio].filter(Boolean).join(' · ')}</div>` : ''}</div></div>
+    <div class="gal-card" onclick="openEstiloModal('${(g.estilo||'').replace(/'/g,"\\'")}')"><div class="gal-img"><img src="${g.url}" alt="Tatuaje SACRAVM — ${g.estilo||''}${g.desc?', '+g.desc:''}" loading="lazy"></div><div class="gal-body"><div class="gal-est">${g.estilo||''}</div><div class="gal-desc">${g.desc||''}</div>${(g.duracion||g.precio) ? `<div class="gal-precio">${[g.duracion,g.precio].filter(Boolean).join(' · ')}</div>` : ''}</div></div>
   `).join('');
 
   // ── Experiences — vídeo y fotos de eventos reales ─────────────────
@@ -1690,6 +1746,57 @@ function copyBizumData(numero, importe, concepto, btnEl) {
 function waCuadro(nombre, precio) {
   const txt = `Hola! Me interesa la pieza "${nombre}" de la Serie Origen (${precio}). ¿Sigue disponible?`;
   window.open('https://wa.me/' + CONFIG.whatsapp.replace(/[^0-9]/g,'') + '?text=' + encodeURIComponent(txt), '_blank');
+}
+
+// ── Ficha de producto de cada cuadro (galería + detalle, como una PDP) ──
+function openObraModal(i) {
+  const c = obrasData[i];
+  if (!c) return;
+  const imgs = [c.url, ...(c.galeria || [])].filter(Boolean);
+  document.getElementById('obra-main-img').src = imgs[0] || '';
+  document.getElementById('obra-main-img').alt = c.nombre || 'Cuadro';
+  document.getElementById('obra-thumbs').innerHTML = imgs.length > 1 ? imgs.map((url, gi) => `
+    <div class="obra-thumb ${gi===0?'sel':''}" data-gi="${gi}" onclick="obraSelectImg(this,'${url.replace(/'/g,"\\'")}')"><img src="${url}" alt=""></div>
+  `).join('') : '';
+  document.getElementById('obra-nombre').textContent = c.nombre || '';
+  document.getElementById('obra-meta').textContent = c.meta || '';
+  document.getElementById('obra-significado').textContent = c.significado || '';
+  document.getElementById('obra-decision').innerHTML = c.precio ? `
+    <div class="obra-price">${c.precio}</div>
+    <div class="obra-garantia">Certificado de Autenticidad incluido · pieza única, sin reproducciones</div>
+    <button class="btn-tar" style="width:100%" onclick="waCuadro('${(c.nombre||'').replace(/'/g,"\\'")}','${(c.precio||'').replace(/'/g,"\\'")}')">Adquirir esta pieza →</button>
+  ` : '';
+  document.getElementById('obra-overlay').classList.add('show');
+  document.body.classList.add('wz-lock');
+}
+function obraSelectImg(el, url) {
+  document.getElementById('obra-main-img').src = url;
+  document.querySelectorAll('.obra-thumb').forEach(t => t.classList.remove('sel'));
+  el.classList.add('sel');
+}
+function closeObraModal() {
+  document.getElementById('obra-overlay').classList.remove('show');
+  document.body.classList.remove('wz-lock');
+}
+
+// ── Ficha de estilo desde Galería: 2-3 trabajos similares + descripción + precio ──
+function openEstiloModal(estiloRaw) {
+  const key = (estiloRaw || '').toLowerCase();
+  const works = (CONFIG.galeria || []).filter(g => (g.estilo || '').toLowerCase() === key).slice(0, 3);
+  const svc = (CONFIG.servicios || []).find(s => (s.nombre || '').toLowerCase() === key);
+  document.getElementById('estilo-label').textContent = (estiloRaw || '').toUpperCase();
+  document.getElementById('estilo-nombre').textContent = svc ? svc.nombre : (estiloRaw || '');
+  document.getElementById('estilo-desc').textContent = svc ? svc.descripcion : '';
+  document.getElementById('estilo-precio').textContent = svc ? 'Precio orientativo: ' + svc.precio : '';
+  document.getElementById('estilo-grid').innerHTML = works.map(w => `
+    <div class="estilo-img"><img src="${w.url}" alt="${w.desc || estiloRaw || 'Tatuaje SACRAVM'}" loading="lazy"></div>
+  `).join('');
+  document.getElementById('estilo-overlay').classList.add('show');
+  document.body.classList.add('wz-lock');
+}
+function closeEstiloModal() {
+  document.getElementById('estilo-overlay').classList.remove('show');
+  document.body.classList.remove('wz-lock');
 }
 
 function waFallbackLink(payload) {
@@ -1869,7 +1976,7 @@ const WZ_SERVICE_OPTIONS = [
   { nombre: 'Media sesión', ideal: '3–5 horas · el formato más solicitado', precio: '450–550€', tier: 'pequeno', fianza: 100 },
   { nombre: 'Sesión completa', ideal: '6–8 horas · proyectos con más profundidad', precio: '750–850€', tier: 'grande', fianza: 150 },
   { nombre: 'A consultar', ideal: 'No sabes qué formato encaja todavía', precio: '', tier: null, fianza: null },
-  { nombre: VALORACION_SERVICIO, ideal: 'Habla con JJ antes de reservar, sin compromiso', precio: 'Gratis', tier: 'consulta', fianza: 0 },
+  { nombre: VALORACION_SERVICIO, ideal: 'Te guiamos sin compromiso', precio: 'Gratis', tier: 'consulta', fianza: 0 },
 ];
 function renderWzServices() {
   document.getElementById('wz-services').innerHTML = WZ_SERVICE_OPTIONS.map(s => `
@@ -2134,7 +2241,7 @@ async function wzSubmit() {
       return;
     }
     document.getElementById('wz-success-title').textContent = 'Tu cita está reservada';
-    document.getElementById('wz-success-msg').textContent = 'Ese hueco ya es tuyo. Completa el pago de la fianza abajo — nos pondremos en contacto contigo en la mayor brevedad posible para confirmar la cita.';
+    document.getElementById('wz-success-msg').textContent = 'Ese hueco ya es tuyo. Para cerrar la cita, completa el pago de la fianza abajo — te escribiremos por correo en cuanto la recibamos para confirmarlo todo.';
     const stripeLink = CONFIG['stripeLink' + wz.fianza];
     if (CONFIG.bizum || stripeLink) {
       const concepto = (wz.nombre || 'tu nombre') + ' - cita';
@@ -2163,7 +2270,7 @@ async function wzSubmit() {
 }
 
 // Cerrar con tecla ESC
-document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeWizard(); closeLeadPopup(); } });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeWizard(); closeLeadPopup(); closeObraModal(); closeEstiloModal(); } });
 
 // ╔══════════════════════════════════════════════════════════════════╗
 // ║   POP-UP DE CAPTACIÓN — aparece a los 60s, mini-quiz de 3 pasos   ║

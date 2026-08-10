@@ -108,9 +108,9 @@ const DEFAULT_CONTENT = {
     tt6: { url: '/images/portfolio/tt6.jpg', estilo: 'Realismo conceptual', desc: 'Narrativo' },
   },
   servicios: [
-    { nombre: 'Micro-realismo', descripcion: 'Piezas pequeñas y medias con lectura limpia, profundidad visual y detalle fino pensado para durar bien en piel.', ideal: 'Retratos, símbolos delicados, composiciones precisas.', precio: '150–500€' },
-    { nombre: 'Realismo conceptual', descripcion: 'Diseños con carga simbólica, composición estética y narrativa visual construida contigo desde la idea.', ideal: 'Proyectos con significado personal, composiciones únicas.', precio: '250–500€' },
-    { nombre: 'Fine line', descripcion: 'Línea fina, limpia y elegante para quienes buscan sutileza, gusto y una estética menos obvia.', ideal: 'Lettering delicado, botánicos, ornamentos sutiles.', precio: '60–300€' },
+    { nombre: 'Micro-realismo', descripcion: 'Piezas pequeñas y medias con lectura limpia, profundidad visual y detalle fino pensado para durar bien en piel.', ideal: 'Retratos, símbolos delicados, composiciones precisas.', precio: '250–450€', foto: '/images/galeria/g2.jpg' },
+    { nombre: 'Realismo conceptual', descripcion: 'Diseños con carga simbólica, composición estética y narrativa visual construida contigo desde la idea.', ideal: 'Proyectos con significado personal, composiciones únicas.', precio: '350–550€', foto: '/images/galeria/g3.jpg' },
+    { nombre: 'Fine line', descripcion: 'Línea fina, limpia y elegante para quienes buscan sutileza, gusto y una estética menos obvia.', ideal: 'Lettering delicado, botánicos, ornamentos sutiles.', precio: 'Desde 90€ · Consultar idea, diseño y disponibilidad', foto: '/images/galeria/g9.jpg' },
   ],
   testimonios: [
     { txt: 'No sentí que estuviera entrando a un estudio más, sino a un sitio preparado para escuchar bien la idea y llevarla a un resultado fino y con criterio.', by: 'Claudia M.' },
@@ -118,12 +118,12 @@ const DEFAULT_CONTENT = {
     { txt: 'Se agradece que no haya prisas ni ruido. JJ se toma el tiempo de entender la idea y eso cambia completamente el resultado.', by: 'Lucía P.' },
   ],
   cuadros: [
-    { url: '', nombre: 'Pieza I', meta: 'Bic sobre papel', significado: '', precio: '' },
-    { url: '', nombre: 'Pieza II', meta: 'Bic sobre papel', significado: '', precio: '' },
-    { url: '', nombre: 'Pieza III', meta: 'Bic sobre papel', significado: '', precio: '' },
+    { url: '', nombre: 'Pieza I', meta: 'Bic sobre papel', significado: '', precio: '', galeria: [] },
+    { url: '', nombre: 'Pieza II', meta: 'Bic sobre papel', significado: '', precio: '', galeria: [] },
+    { url: '', nombre: 'Pieza III', meta: 'Bic sobre papel', significado: '', precio: '', galeria: [] },
   ],
   galeria: [
-    { url: '/images/galeria/g1.jpg', estilo: 'FINE LINE', desc: 'Composición vertical' },
+    { url: '/images/galeria/g9.jpg', estilo: 'FINE LINE', desc: 'Letras' },
     { url: '/images/galeria/g2.jpg', estilo: 'MICRO-REALISMO', desc: 'Detalle' },
     { url: '/images/galeria/g3.jpg', estilo: 'REALISMO CONCEPTUAL', desc: 'Composición' },
     { url: '/images/galeria/g4.jpg', estilo: 'REALISMO', desc: 'Proyecto de brazo' },
@@ -706,7 +706,7 @@ const server = http.createServer(async (req, res) => {
 
     if (pathname === '/api/upload-photo' && req.method === 'POST') {
       const body = JSON.parse(await readBody(req, 12e6) || '{}');
-      const { slot, listKey, index, filename, dataBase64, field } = body;
+      const { slot, listKey, index, filename, dataBase64, field, append } = body;
       if ((!slot && !listKey) || !dataBase64) return sendJSON(res, 400, { ok: false, error: 'Faltan datos.' });
       const ext = (path.extname(filename || '') || '.jpg').toLowerCase();
       const safeExt = ['.jpg', '.jpeg', '.png', '.webp', '.gif'].includes(ext) ? ext : '.jpg';
@@ -726,7 +726,12 @@ const server = http.createServer(async (req, res) => {
       } else if (listKey) {
         content[listKey] = content[listKey] || [];
         content[listKey][index] = content[listKey][index] || {};
-        content[listKey][index][field || 'url'] = publicPath;
+        if (append) {
+          const arr = content[listKey][index][field || 'url'];
+          content[listKey][index][field || 'url'] = (Array.isArray(arr) ? arr : []).concat(publicPath);
+        } else {
+          content[listKey][index][field || 'url'] = publicPath;
+        }
       }
       writeJSON(CONTENT_FILE, content);
       return sendJSON(res, 200, { ok: true, path: publicPath });
