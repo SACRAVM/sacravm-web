@@ -72,7 +72,8 @@ select option{background:var(--w);color:var(--tx)}
 .rv.d1{transition-delay:.1s}.rv.d2{transition-delay:.2s}.rv.d3{transition-delay:.3s}
 
 /* ── NAV ─── */
-nav{position:sticky;top:0;z-index:100;min-height:58px;display:flex;align-items:center;justify-content:space-between;padding:8px 28px;gap:10px;background:rgba(251,248,243,.95);border-bottom:1px solid var(--bdr);backdrop-filter:blur(12px);flex-wrap:wrap;transition:transform .35s ease}
+nav{position:sticky;top:0;z-index:100;min-height:58px;display:flex;align-items:center;justify-content:space-between;padding:8px 28px;gap:10px;border-bottom:1px solid var(--bdr);flex-wrap:wrap;transition:transform .35s ease}
+nav::before{content:'';position:absolute;inset:0;z-index:-1;background:rgba(251,248,243,.95);backdrop-filter:blur(12px)}
 nav.nav-hidden{transform:translateY(-100%)}
 .nav-l{display:flex;align-items:baseline;gap:10px;cursor:pointer;text-decoration:none;white-space:nowrap}
 .logo{font-family:var(--serif);font-size:20px;font-weight:400;letter-spacing:.2em;color:var(--tx)}
@@ -535,7 +536,8 @@ body.wz-lock{overflow:hidden}
 /* ── RESPONSIVE ─── */
 @media(max-width:720px){
   nav,#hero,section,#booking,footer{padding-left:20px;padding-right:20px}
-  nav{padding-top:0;padding-bottom:0}
+  nav{padding-top:0;padding-bottom:0;flex-wrap:nowrap}
+  .nav-l small{display:none}
   #hero{grid-template-columns:1fr;min-height:auto}
   .hero-l{padding:60px 20px}
   .hero-r{display:none}
@@ -1893,9 +1895,9 @@ function syncNavVisibility() {
   const nav = document.querySelector('nav');
   const mobileNavOpen = document.getElementById('nav-links').classList.contains('open');
   const currentY = window.scrollY;
-  if (!navReady || mobileNavOpen || currentY <= 80) { nav.classList.remove('nav-hidden'); lastScrollY = currentY; return; }
-  if (currentY > lastScrollY) nav.classList.add('nav-hidden');
-  else nav.classList.remove('nav-hidden');
+  if (!navReady || mobileNavOpen || currentY <= 150) { nav.classList.remove('nav-hidden'); lastScrollY = currentY; return; }
+  if (currentY > lastScrollY + 10) nav.classList.add('nav-hidden');
+  else if (currentY < lastScrollY - 10) nav.classList.remove('nav-hidden');
   lastScrollY = currentY;
 }
 function armNav() {
