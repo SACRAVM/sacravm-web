@@ -852,63 +852,7 @@ body.wz-lock{overflow:hidden}
       <p id="txt-inversion-texto" style="font-size:16px;color:var(--t2);line-height:1.85;margin-bottom:18px;max-width:540px">El diseño se prepara en exclusiva el día de tu cita. La señal confirma tu plaza y se descuenta del total — el resto se abona al cerrar la sesión.</p>
       <p style="font-family:var(--serif);font-size:18px;font-style:italic;color:var(--a);line-height:1.7;max-width:520px;margin-bottom:40px">No todos los proyectos entran en SACRAVM. Si el tuyo entra, recibe toda nuestra atención — como se merece lo que va a quedarse contigo para siempre.</p>
     </div>
-    <div class="tar-list rv">
-      <div class="tar-row">
-        <div class="tar-row-l">
-          <div class="tar-dur">1–2 HORAS</div>
-          <div class="tar-name">Mini tattoo</div>
-          <div class="tar-desc">Para piezas pequeñas, limpias y con resultado garantizado — el primer contacto natural con el atelier.</div>
-          <div class="tar-includes-line">Diseño el mismo día · Kit de cuidados incluido · Repaso incluido (4 meses)</div>
-        </div>
-        <div class="tar-row-r">
-          <div class="tar-price">90–220€</div>
-          <div class="tar-senal">Señal 50€</div>
-          <button class="btn-tar" onclick="goBook('Mini tattoo')">Reservar mini →</button>
-        </div>
-      </div>
-      <div class="tar-row">
-        <div class="tar-row-l">
-          <div class="tar-dur">3–5 HORAS <span class="tar-tag">· el formato más solicitado</span></div>
-          <div class="tar-name">Media sesión</div>
-          <div class="tar-desc">Para piezas de tamaño medio o avances de un proyecto en curso — el equilibrio justo entre tiempo y profundidad.</div>
-          <div class="tar-includes-line">Diseño el mismo día · Kit de cuidados · Seguimiento de curación · Repaso incluido (4 meses)</div>
-        </div>
-        <img class="tar-thumb" src="/media-sesion.jpg" alt="Ejemplo real — media sesión" loading="lazy">
-        <div class="tar-row-r">
-          <div class="tar-price">450–550€</div>
-          <div class="tar-senal">Señal 100€ · se descuenta del total</div>
-          <button class="btn-tar" onclick="goBook('Media sesión')">Reservar media sesión →</button>
-        </div>
-      </div>
-      <div class="tar-row">
-        <div class="tar-row-l">
-          <div class="tar-dur">6–8 HORAS</div>
-          <div class="tar-name">Sesión completa</div>
-          <div class="tar-desc">Para proyectos exigentes que necesitan tiempo, capas y profundidad de detalle en una sola jornada.</div>
-          <div class="tar-includes-line">Kit de cuidados completo · Seguimiento de curación · Repaso incluido (4 meses) · Descuento en bloques de proyecto</div>
-        </div>
-        <img class="tar-thumb" src="/sesion-completa.jpg" alt="Ejemplo real — sesión completa" loading="lazy">
-        <div class="tar-row-r">
-          <div class="tar-price">750–850€</div>
-          <div class="tar-senal">Señal 150€ · se descuenta del total</div>
-          <button class="btn-tar" onclick="goBook('Sesión completa')">Reservar sesión completa →</button>
-        </div>
-      </div>
-      <div class="tar-row">
-        <div class="tar-row-l">
-          <div class="tar-dur">2+ DÍAS · PROYECTO</div>
-          <div class="tar-name">Gran proyecto</div>
-          <div class="tar-desc">Mangas, espaldas y proyectos de envergadura, planificados por bloques con curación entre fases.</div>
-          <div class="tar-includes-line">Planificación completa · Máx. 3 sesiones por bloque · Seguimiento personalizado</div>
-        </div>
-        <img class="tar-thumb" src="/gran-proyecto.jpg" alt="Ejemplo real — gran proyecto" loading="lazy">
-        <div class="tar-row-r">
-          <div class="tar-price">750–850€/día</div>
-          <div class="tar-senal">Señal 200€/sesión · se descuenta del total</div>
-          <button class="btn-tar" onclick="goBook()">Consultar proyecto →</button>
-        </div>
-      </div>
-    </div>
+    <div class="tar-list rv" id="tar-list"></div>
 
     <div class="rv" style="background:var(--w);border:1px solid var(--aBdr);border-radius:6px;padding:28px 32px;margin-bottom:32px;display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap">
       <div>
@@ -1633,6 +1577,24 @@ function renderSite(CONFIG) {
         <h3 class="svc-name">${s.nombre}</h3>
         <p class="svc-desc">${s.descripcion}</p>
         <p class="svc-ideal">IDEAL PARA · ${s.ideal}</p>
+      </div>
+    </div>
+  `).join('');
+
+  // ── Tarifas ──────────────────────────────────────────────────────
+  document.getElementById('tar-list').innerHTML = (CONFIG.tarifas || []).map(t => `
+    <div class="tar-row">
+      <div class="tar-row-l">
+        <div class="tar-dur">${t.duracion || ''}${t.tag ? ` <span class="tar-tag">· ${t.tag}</span>` : ''}</div>
+        <div class="tar-name">${t.nombre || ''}</div>
+        <div class="tar-desc">${t.desc || ''}</div>
+        <div class="tar-includes-line">${t.incluye || ''}</div>
+      </div>
+      ${t.thumb ? `<img class="tar-thumb" src="${t.thumb}" alt="Ejemplo real — ${t.nombre || ''}" loading="lazy">` : ''}
+      <div class="tar-row-r">
+        <div class="tar-price">${t.precio || ''}</div>
+        <div class="tar-senal">${t.senal || ''}</div>
+        <button class="btn-tar" onclick="goBook(${t.bookKey ? `'${t.bookKey.replace(/'/g, "\\'")}'` : ''})">${t.ctaLabel || 'Reservar →'}</button>
       </div>
     </div>
   `).join('');

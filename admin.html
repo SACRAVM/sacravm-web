@@ -228,6 +228,7 @@ const TABS = [
   { id: 'datos', label: 'Datos básicos' },
   { id: 'horarios', label: 'Horarios' },
   { id: 'servicios', label: 'Servicios' },
+  { id: 'tarifas', label: 'Tarifas' },
   { id: 'fotos', label: 'Fotos' },
   { id: 'testimonios', label: 'Testimonios' },
   { id: 'textos', label: 'Textos' },
@@ -278,6 +279,7 @@ function renderPanel() {
   if (activeTab === 'datos') area.innerHTML = panelDatos();
   if (activeTab === 'horarios') area.innerHTML = panelHorarios();
   if (activeTab === 'servicios') area.innerHTML = panelServicios();
+  if (activeTab === 'tarifas') area.innerHTML = panelTarifas();
   if (activeTab === 'fotos') area.innerHTML = panelFotos();
   if (activeTab === 'testimonios') area.innerHTML = panelTestimonios();
   if (activeTab === 'textos') area.innerHTML = panelTextos();
@@ -350,6 +352,15 @@ function panelHorarios() {
       <input class="fi" type="number" min="0" id="f-diasMinReserva" style="max-width:120px" value="${content.diasMinReserva ?? 3}">
       <p style="font-size:12px;color:var(--t3);margin-top:6px">Con 3, por ejemplo, un cliente no podrá reservar ni para hoy, ni mañana, ni pasado mañana — el primer día disponible en el calendario sería dentro de 3 días.</p>
     </div>
+    <div class="card">
+      <p class="field-label">VER TUS CITAS EN EL CALENDARIO DEL IPHONE</p>
+      <p style="font-size:12px;color:var(--t3);margin-bottom:10px">Añade este enlace una vez en Ajustes → Calendario → Cuentas → Añadir cuenta → Otra → Añadir calendario suscrito. A partir de ahí, cada cita nueva de la web aparecerá sola (se actualiza cada hora aprox., no al segundo).</p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+        <input class="fi" id="f-calendar-url" readonly style="flex:1;min-width:220px" value="${esc(location.origin + '/api/calendario.ics?token=' + (content.calendarToken || ''))}">
+        <button class="btn-add" id="btn-copy-calendar" type="button">COPIAR</button>
+      </div>
+      <p style="font-size:12px;color:var(--t3);margin-top:10px">¿Se te ha compartido sin querer? <button id="btn-regen-calendar" style="background:none;border:none;color:var(--a);cursor:pointer;text-decoration:underline;padding:0;font-size:12px">Genera un enlace nuevo</button> (el anterior deja de funcionar).</p>
+    </div>
   `;
 }
 function renderHorariosChips() {
@@ -372,6 +383,17 @@ function wireHorarios() {
   diasInput.oninput = () => { content.diasMaxReserva = parseInt(diasInput.value, 10) || 45; };
   const diasMinInput = document.getElementById('f-diasMinReserva');
   diasMinInput.oninput = () => { content.diasMinReserva = parseInt(diasMinInput.value, 10); if (Number.isNaN(content.diasMinReserva)) content.diasMinReserva = 0; };
+  document.getElementById('btn-copy-calendar').onclick = () => {
+    const inp = document.getElementById('f-calendar-url');
+    inp.select();
+    navigator.clipboard.writeText(inp.value).then(() => flashSaved('✓ Enlace copiado')).catch(() => {});
+  };
+  document.getElementById('btn-regen-calendar').onclick = async () => {
+    if (!confirm('El enlace actual dejará de funcionar y tendrás que añadir el nuevo en el iPhone otra vez. ¿Continuar?')) return;
+    const res = await fetch('/api/calendar-token/regenerar', { method: 'POST' });
+    const data = await res.json();
+    if (data.ok) { content.calendarToken = data.token; renderPanel(); flashSaved('✓ Enlace regenerado'); }
+  };
 }
 
 // ── Servicios ────────────────────────────────────────────────────
@@ -409,6 +431,53 @@ function wireServicios() {
   document.getElementById('btn-add-servicio').onclick = () => {
     content.servicios.push({ nombre: 'Nuevo servicio', descripcion: '', ideal: '', precio: '' });
     renderServiciosList();
+  };
+}
+
+// ── Tarifas (Inversión) ───────────────────────────────────────────
+function panelTarifas() {
+  return `
+    <div class="panel-title">Tarifas</div>
+    <div class="panel-desc">Los formatos y precios que ven tus clientes en la sección "Inversión" antes de reservar.</div>
+    <div id="tarifas-list"></div>
+    <button class="btn-add-item" id="btn-add-tarifa">+ AÑADIR TARIFA</button>
+  `;
+}
+function renderTarifasList() {
+  document.getElementById('tarifas-list').innerHTML = content.tarifas.map((t,i) => {
+    const preview = t.thumb ? `<img src="${t.thumb}">` : `<span>Sin foto</span>`;
+    return `
+    <div class="card item-card">
+      <button class="item-remove" data-i="${i}" data-del="tarifa">✕</button>
+      <div class="foto-preview" style="max-width:220px">${preview}</div>
+      <label class="btn-upload" style="max-width:220px;margin-top:8px;display:inline-block">SUBIR FOTO<input type="file" accept="image/*" data-i="${i}" class="tarifa-input"></label>
+      <div class="row2" style="margin-top:12px">
+        <div><p class="field-label">DURACIÓN</p><input class="fi" data-i="${i}" data-f="duracion" placeholder="ej. 1–2 HORAS" value="${esc(t.duracion)}"></div>
+        <div><p class="field-label">ETIQUETA (opcional)</p><input class="fi" data-i="${i}" data-f="tag" placeholder="ej. el formato más solicitado" value="${esc(t.tag)}"></div>
+      </div>
+      <p class="field-label">NOMBRE</p><input class="fi" data-i="${i}" data-f="nombre" value="${esc(t.nombre)}">
+      <p class="field-label">DESCRIPCIÓN</p><textarea class="fi" data-i="${i}" data-f="desc">${esc(t.desc)}</textarea>
+      <p class="field-label">QUÉ INCLUYE</p><input class="fi" data-i="${i}" data-f="incluye" placeholder="ej. Diseño el mismo día · Kit de cuidados incluido" value="${esc(t.incluye)}">
+      <div class="row2">
+        <div><p class="field-label">PRECIO</p><input class="fi" data-i="${i}" data-f="precio" value="${esc(t.precio)}"></div>
+        <div><p class="field-label">SEÑAL</p><input class="fi" data-i="${i}" data-f="senal" value="${esc(t.senal)}"></div>
+      </div>
+      <div class="row2">
+        <div><p class="field-label">TEXTO DEL BOTÓN</p><input class="fi" data-i="${i}" data-f="ctaLabel" value="${esc(t.ctaLabel)}"></div>
+        <div><p class="field-label">SERVICIO A PRESELECCIONAR AL RESERVAR (déjalo vacío para "a consultar")</p><input class="fi" data-i="${i}" data-f="bookKey" value="${esc(t.bookKey)}"></div>
+      </div>
+    </div>
+  `;
+  }).join('');
+  document.querySelectorAll('[data-del="tarifa"]').forEach(b => b.onclick = () => { content.tarifas.splice(+b.dataset.i,1); renderTarifasList(); });
+  document.querySelectorAll('#tarifas-list [data-f]').forEach(el => el.oninput = () => { content.tarifas[+el.dataset.i][el.dataset.f] = el.value; });
+  document.querySelectorAll('.tarifa-input').forEach(inp => inp.onchange = () => uploadListPhoto(inp, 'tarifas', renderTarifasList, 'thumb'));
+}
+function wireTarifas() {
+  renderTarifasList();
+  document.getElementById('btn-add-tarifa').onclick = () => {
+    content.tarifas.push({ duracion: '', tag: '', nombre: 'Nueva tarifa', desc: '', incluye: '', precio: '', senal: '', ctaLabel: 'Reservar →', bookKey: '', thumb: '' });
+    renderTarifasList();
   };
 }
 
@@ -1599,6 +1668,7 @@ function wireCurrentPanel() {
   if (activeTab === 'datos') wireDatos();
   if (activeTab === 'horarios') wireHorarios();
   if (activeTab === 'servicios') wireServicios();
+  if (activeTab === 'tarifas') wireTarifas();
   if (activeTab === 'fotos') wireFotos();
   if (activeTab === 'testimonios') wireTestimonios();
   if (activeTab === 'textos') wireTextos();

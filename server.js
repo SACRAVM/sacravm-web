@@ -95,6 +95,7 @@ const DEFAULT_CONTENT = {
   whatsapp: '+34 XXX XXX XXX',
   bizum: '+34 XXX XXX XXX',
   instagram: 'sacravm',
+  calendarToken: '',
   horarios: ['10:00', '12:00', '16:00', '18:00'],
   diasMaxReserva: 45,
   diasMinReserva: 3,
@@ -111,6 +112,12 @@ const DEFAULT_CONTENT = {
     { nombre: 'Micro-realismo', descripcion: 'Piezas pequeñas y medias con lectura limpia, profundidad visual y detalle fino pensado para durar bien en piel.', ideal: 'Retratos, símbolos delicados, composiciones precisas.', precio: '250–450€', foto: '/images/galeria/g2.jpg' },
     { nombre: 'Realismo conceptual', descripcion: 'Diseños con carga simbólica, composición estética y narrativa visual construida contigo desde la idea.', ideal: 'Proyectos con significado personal, composiciones únicas.', precio: '350–550€', foto: '/images/galeria/g3.jpg' },
     { nombre: 'Fine line', descripcion: 'Línea fina, limpia y elegante para quienes buscan sutileza, gusto y una estética menos obvia.', ideal: 'Lettering delicado, botánicos, ornamentos sutiles.', precio: 'Desde 90€ · Consultar idea, diseño y disponibilidad', foto: '/images/galeria/g9.jpg' },
+  ],
+  tarifas: [
+    { duracion: '1–2 HORAS', tag: '', nombre: 'Mini tattoo', desc: 'Para piezas pequeñas, limpias y con resultado garantizado — el primer contacto natural con el atelier.', incluye: 'Diseño el mismo día · Kit de cuidados incluido · Repaso incluido (4 meses)', precio: '90–220€', senal: 'Señal 50€', ctaLabel: 'Reservar mini →', bookKey: 'Mini tattoo', thumb: '' },
+    { duracion: '3–5 HORAS', tag: 'el formato más solicitado', nombre: 'Media sesión', desc: 'Para piezas de tamaño medio o avances de un proyecto en curso — el equilibrio justo entre tiempo y profundidad.', incluye: 'Diseño el mismo día · Kit de cuidados · Seguimiento de curación · Repaso incluido (4 meses)', precio: '450–550€', senal: 'Señal 100€ · se descuenta del total', ctaLabel: 'Reservar media sesión →', bookKey: 'Media sesión', thumb: '/media-sesion.jpg' },
+    { duracion: '6–8 HORAS', tag: '', nombre: 'Sesión completa', desc: 'Para proyectos exigentes que necesitan tiempo, capas y profundidad de detalle en una sola jornada.', incluye: 'Kit de cuidados completo · Seguimiento de curación · Repaso incluido (4 meses) · Descuento en bloques de proyecto', precio: '750–850€', senal: 'Señal 150€ · se descuenta del total', ctaLabel: 'Reservar sesión completa →', bookKey: 'Sesión completa', thumb: '/sesion-completa.jpg' },
+    { duracion: '2+ DÍAS · PROYECTO', tag: '', nombre: 'Gran proyecto', desc: 'Mangas, espaldas y proyectos de envergadura, planificados por bloques con curación entre fases.', incluye: 'Planificación completa · Máx. 3 sesiones por bloque · Seguimiento personalizado', precio: '750–850€/día', senal: 'Señal 200€/sesión · se descuenta del total', ctaLabel: 'Consultar proyecto →', bookKey: '', thumb: '/gran-proyecto.jpg' },
   ],
   testimonios: [
     { txt: 'No sentí que estuviera entrando a un estudio más, sino a un sitio preparado para escuchar bien la idea y llevarla a un resultado fino y con criterio.', by: 'Claudia M.' },
@@ -147,6 +154,13 @@ const DEFAULT_CONTENT = {
     academyTexto: 'Un programa online de 3-6 meses para tatuadores que no quieren aprender por prueba y error. Técnica, criterio, marca personal y captación de clientes.',
   },
 };
+
+// Lee content.json y rellena con los valores por defecto cualquier clave que
+// todavía no exista en el archivo real (p.ej. cuando se añade un campo nuevo
+// a DEFAULT_CONTENT después de que la web ya lleve tiempo en producción).
+function readContent() {
+  return Object.assign({}, DEFAULT_CONTENT, readJSON(CONTENT_FILE, {}));
+}
 
 // ── CSV (leads) ─────────────────────────────────────────────────────
 function csvEscape(val) {
@@ -208,6 +222,82 @@ function readOcupados() {
   return rows
     .filter(r => r.tipo === 'reserva' && r.fecha_cita)
     .map(r => ({ fecha: r.fecha_cita, hora: r.hora_cita }));
+}
+
+// ── Calendario suscribible (.ics) — para verlo automáticamente en el Calendario del iPhone ──
+// Token de acceso: solo quien tenga esta URL puede ver las citas, no hace falta login
+// (las apps de calendario no saben iniciar sesión, así que el "secreto" va en la propia URL).
+function getOrCreateCalendarToken() {
+  const content = readContent();
+  if (content.calendarToken) return content.calendarToken;
+  content.calendarToken = crypto.randomBytes(16).toString('hex');
+  writeJSON(CONTENT_FILE, content);
+  return content.calendarToken;
+}
+function regenerateCalendarToken() {
+  const content = readContent();
+  content.calendarToken = crypto.randomBytes(16).toString('hex');
+  writeJSON(CONTENT_FILE, content);
+  return content.calendarToken;
+}
+function icsEscape(s) {
+  return String(s || '').replace(/\\/g, '\\\\').replace(/,/g, '\\,').replace(/;/g, '\\;').replace(/\n/g, '\\n');
+}
+// Duración estimada por tipo de servicio, solo para bloquear un hueco razonable en el calendario
+// (la duración real de cada Pase varía — JJ puede ajustar el evento a mano si hace falta).
+function estimarDuracionHoras(servicio) {
+  const s = (servicio || '').toLowerCase();
+  if (s.includes('valoración') || s.includes('valoracion')) return 0.5;
+  if (s.includes('mini')) return 2;
+  if (s.includes('media')) return 5;
+  if (s.includes('completa')) return 8;
+  if (s.includes('proyecto')) return 8;
+  return 3;
+}
+function buildCalendarIcs() {
+  const { rows } = readLeadsRaw();
+  const citas = rows.filter(r => r.tipo === 'reserva' && r.fecha_cita);
+  const lines = [
+    'BEGIN:VCALENDAR',
+    'VERSION:2.0',
+    'PRODID:-//SACRAVM//Citas//ES',
+    'CALSCALE:GREGORIAN',
+    'X-WR-CALNAME:SACRAVM · Citas',
+    'X-WR-TIMEZONE:Europe/Madrid',
+    'REFRESH-INTERVAL;VALUE=DURATION:PT1H',
+    'X-PUBLISHED-TTL:PT1H',
+  ];
+  const dtstamp = new Date().toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+  citas.forEach(r => {
+    const [y, m, d] = r.fecha_cita.split('-').map(n => parseInt(n, 10));
+    const horaOk = /^\d{1,2}:\d{2}$/.test(r.hora_cita || '');
+    const [hh, mm] = horaOk ? r.hora_cita.split(':').map(n => parseInt(n, 10)) : [10, 0];
+    const start = new Date(y, (m || 1) - 1, d || 1, hh, mm);
+    const durH = estimarDuracionHoras(r.servicio);
+    const end = new Date(start.getTime() + durH * 3600000);
+    const fmt = dt => dt.getFullYear() + String(dt.getMonth() + 1).padStart(2, '0') + String(dt.getDate()).padStart(2, '0')
+      + 'T' + String(dt.getHours()).padStart(2, '0') + String(dt.getMinutes()).padStart(2, '0') + '00';
+    const uid = crypto.createHash('md5').update([r.fecha_cita, r.hora_cita, r.nombre, r.servicio].join('|')).digest('hex') + '@sacravm';
+    const descParts = [
+      r.servicio ? 'Servicio: ' + r.servicio : '',
+      r.whatsapp ? 'WhatsApp: ' + r.whatsapp : '',
+      r.email ? 'Email: ' + r.email : '',
+      r.fianza ? 'Fianza: ' + r.fianza + '€ (' + (r.estado_fianza === 'pagada' ? 'pagada' : 'pendiente') + ')' : '',
+      r.mensaje ? 'Idea: ' + r.mensaje : '',
+    ].filter(Boolean).map(icsEscape).join('\\n');
+    lines.push(
+      'BEGIN:VEVENT',
+      'UID:' + uid,
+      'DTSTAMP:' + dtstamp,
+      'DTSTART:' + fmt(start),
+      'DTEND:' + fmt(end),
+      'SUMMARY:' + icsEscape((r.nombre || 'Cita') + (r.servicio ? ' · ' + r.servicio : '')),
+      'DESCRIPTION:' + descParts,
+      'END:VEVENT'
+    );
+  });
+  lines.push('END:VCALENDAR');
+  return lines.join('\r\n');
 }
 
 // ── EMAILS AUTOMÁTICOS (confirmación, recordatorio, seguimiento) ────
@@ -390,7 +480,7 @@ async function runEmailScheduler() {
     const ago180days = new Date(today); ago180days.setDate(ago180days.getDate() - 180);
     const ago365days = new Date(today); ago365days.setDate(ago365days.getDate() - 365);
     const in2Str = fmt(in2days), ago7Str = fmt(ago7days), ago180Str = fmt(ago180days), ago365Str = fmt(ago365days);
-    const jjEmail = readJSON(CONTENT_FILE, DEFAULT_CONTENT).email;
+    const jjEmail = readContent().email;
     let changed = false;
     for (const row of rows) {
       if (row.tipo !== 'reserva' || !row.fecha_cita) continue;
@@ -552,7 +642,7 @@ const server = http.createServer(async (req, res) => {
   try {
     // ═══ API pública ═══
     if (pathname === '/api/content' && req.method === 'GET') {
-      return sendJSON(res, 200, readJSON(CONTENT_FILE, DEFAULT_CONTENT));
+      return sendJSON(res, 200, readContent());
     }
     if (pathname === '/api/lead' && req.method === 'POST') {
       const body = await readBody(req, 15e6);
@@ -582,6 +672,17 @@ const server = http.createServer(async (req, res) => {
     // Fechas/horas ya reservadas — para pintar el calendario de citas en verde/rojo
     if (pathname === '/api/ocupados' && req.method === 'GET') {
       return sendJSON(res, 200, { ok: true, ocupados: readOcupados() });
+    }
+
+    // Calendario suscribible (.ics) — lo añade el iPhone como "Calendario suscrito" y se
+    // actualiza solo. Protegido por token en la URL en vez de login (las apps de calendario
+    // no saben iniciar sesión).
+    if (pathname === '/api/calendario.ics' && req.method === 'GET') {
+      if (parsed.query.token !== getOrCreateCalendarToken()) {
+        return sendJSON(res, 403, { ok: false, error: 'Enlace de calendario no válido.' });
+      }
+      res.writeHead(200, { 'Content-Type': 'text/calendar; charset=utf-8' });
+      return res.end(buildCalendarIcs());
     }
 
     // ═══ Estado de la cuenta / sesión ═══
@@ -678,6 +779,13 @@ const server = http.createServer(async (req, res) => {
       return sendJSON(res, 200, { ok: true, count });
     }
 
+    // Regenerar el enlace del calendario suscribible (por si se ha compartido sin querer)
+    if (pathname === '/api/calendar-token/regenerar' && req.method === 'POST') {
+      if (!getSession(req)) return sendJSON(res, 401, { ok: false, error: 'Sesión no iniciada.' });
+      const token = regenerateCalendarToken();
+      return sendJSON(res, 200, { ok: true, token });
+    }
+
     // Proveedores y colaboraciones — mismo patrón simple (listar / crear / editar)
     const simpleMatch = pathname.match(/^\/api\/(proveedores|colaboraciones|materiales|pedidos|cuentas)(-edit)?$/);
     if (simpleMatch) {
@@ -714,7 +822,7 @@ const server = http.createServer(async (req, res) => {
       const outPath = path.join(UPLOADS_DIR, outName);
       const base64Data = dataBase64.replace(/^data:image\/\w+;base64,/, '');
       fs.writeFileSync(outPath, Buffer.from(base64Data, 'base64'));
-      const content = readJSON(CONTENT_FILE, DEFAULT_CONTENT);
+      const content = readContent();
       const publicPath = '/uploads/' + outName;
       if (slot) {
         if (slot === 'hero' || slot === 'perfil') {
