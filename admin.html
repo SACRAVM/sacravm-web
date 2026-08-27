@@ -356,8 +356,8 @@ function panelHorarios() {
       <p class="field-label">VER TUS CITAS EN EL CALENDARIO DEL IPHONE</p>
       <p style="font-size:12px;color:var(--t3);margin-bottom:10px">Añade este enlace una vez en Ajustes → Calendario → Cuentas → Añadir cuenta → Otra → Añadir calendario suscrito. A partir de ahí, cada cita nueva de la web aparecerá sola (se actualiza cada hora aprox., no al segundo).</p>
       <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
-        <input class="fi" id="f-calendar-url" readonly style="flex:1;min-width:220px" value="${esc(location.origin + '/api/calendario.ics?token=' + (content.calendarToken || ''))}">
-        <button class="btn-add" id="btn-copy-calendar" type="button">COPIAR</button>
+        <input class="fi" id="f-calendar-url" readonly style="flex:1;min-width:220px" value="Cargando enlace…">
+        <button class="btn-add" id="btn-copy-calendar" type="button" disabled>COPIAR</button>
       </div>
       <p style="font-size:12px;color:var(--t3);margin-top:10px">¿Se te ha compartido sin querer? <button id="btn-regen-calendar" style="background:none;border:none;color:var(--a);cursor:pointer;text-decoration:underline;padding:0;font-size:12px">Genera un enlace nuevo</button> (el anterior deja de funcionar).</p>
     </div>
@@ -383,16 +383,19 @@ function wireHorarios() {
   diasInput.oninput = () => { content.diasMaxReserva = parseInt(diasInput.value, 10) || 45; };
   const diasMinInput = document.getElementById('f-diasMinReserva');
   diasMinInput.oninput = () => { content.diasMinReserva = parseInt(diasMinInput.value, 10); if (Number.isNaN(content.diasMinReserva)) content.diasMinReserva = 0; };
-  document.getElementById('btn-copy-calendar').onclick = () => {
-    const inp = document.getElementById('f-calendar-url');
-    inp.select();
-    navigator.clipboard.writeText(inp.value).then(() => flashSaved('✓ Enlace copiado')).catch(() => {});
+  const urlInput = document.getElementById('f-calendar-url');
+  const copyBtn = document.getElementById('btn-copy-calendar');
+  const setCalendarUrl = (token) => { urlInput.value = location.origin + '/api/calendario.ics?token=' + token; copyBtn.disabled = false; };
+  fetch('/api/calendar-token').then(r => r.json()).then(data => { if (data.ok) setCalendarUrl(data.token); });
+  copyBtn.onclick = () => {
+    urlInput.select();
+    navigator.clipboard.writeText(urlInput.value).then(() => flashSaved('✓ Enlace copiado')).catch(() => {});
   };
   document.getElementById('btn-regen-calendar').onclick = async () => {
     if (!confirm('El enlace actual dejará de funcionar y tendrás que añadir el nuevo en el iPhone otra vez. ¿Continuar?')) return;
     const res = await fetch('/api/calendar-token/regenerar', { method: 'POST' });
     const data = await res.json();
-    if (data.ok) { content.calendarToken = data.token; renderPanel(); flashSaved('✓ Enlace regenerado'); }
+    if (data.ok) { setCalendarUrl(data.token); flashSaved('✓ Enlace regenerado'); }
   };
 }
 

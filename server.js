@@ -44,7 +44,7 @@ function readJSON(file, fallback) {
 function writeJSON(file, data) {
   fs.writeFileSync(file, JSON.stringify(data, null, 2), 'utf8');
 }
-const LEADS_HEADER = ['fecha_registro','tipo','nombre','email','whatsapp','servicio','fecha_cita','hora_cita','mensaje','instagram','zona','tamano','bebida','ya_tatuado','fuente','tier','fianza','referencias','estado_fianza','recordatorio_enviado','seguimiento_enviado','reactivacion_6m_enviado','reactivacion_1a_enviado','alerta_fianza_enviado'];
+const LEADS_HEADER = ['fecha_registro','tipo','nombre','email','whatsapp','servicio','fecha_cita','hora_cita','mensaje','instagram','zona','tamano','bebida','ya_tatuado','fuente','tier','fianza','referencias','estado_fianza','recordatorio_enviado','seguimiento_enviado','reactivacion_6m_enviado','reactivacion_1a_enviado','alerta_fianza_enviado','aviso_prep_24h_enviado'];
 const PROVEEDORES_FILE = path.join(DATA_DIR, 'proveedores.csv');
 const PROVEEDORES_HEADER = ['fecha_registro','nombre','que_suministra','contacto','telefono','email','condiciones','notas'];
 const COLABORACIONES_FILE = path.join(DATA_DIR, 'colaboraciones.csv');
@@ -177,7 +177,7 @@ function appendLead(data, referenciasPaths) {
     data.tier || '', data.fianza || '',
     (referenciasPaths || []).join(';'),
     data.estado_fianza === 'pagada' ? 'pagada' : '', // se puede marcar ya cobrada al crear la ficha manual
-    '', '', '', '', '' // recordatorio_enviado, seguimiento_enviado, reactivacion_6m_enviado, reactivacion_1a_enviado, alerta_fianza_enviado — los rellena el planificador de emails
+    '', '', '', '', '', '' // recordatorio_enviado, seguimiento_enviado, reactivacion_6m_enviado, reactivacion_1a_enviado, alerta_fianza_enviado, aviso_prep_24h_enviado — los rellena el planificador de emails
   ].map(csvEscape).join(',');
   fs.appendFileSync(LEADS_FILE, row + '\n', 'utf8');
 }
@@ -467,6 +467,29 @@ function emailAvisoFianza(lead) {
   };
 }
 
+// Aviso a JJ 24h antes de cada cita real (no valoraciones), con todo lo necesario para prepararla.
+function emailAvisoPreparacion(lead) {
+  const fecha = fmtFechaEs(lead.fecha_cita);
+  const refsCount = (lead.referencias || '').split(';').filter(Boolean).length;
+  return {
+    subject: `Mañana: ${lead.nombre || 'sin nombre'} — ${lead.servicio || 'cita'} (${lead.hora_cita || ''})`,
+    html: EMAIL_WRAP(`
+      <p>Mañana ${fecha}${lead.hora_cita ? ' a las ' + lead.hora_cita : ''} tienes cita con <strong>${lead.nombre || 'sin nombre'}</strong>. Info para preparártela:</p>
+      <p>
+        Servicio: ${lead.servicio || 'no indicado'}<br>
+        Zona: ${lead.zona || 'no indicada'}<br>
+        Tamaño: ${lead.tamano || 'no indicado'}<br>
+        ¿Ya tatuado antes?: ${lead.ya_tatuado || 'no indicado'}<br>
+        Bebida preferida: ${lead.bebida || 'no indicada'}<br>
+        Teléfono: ${lead.whatsapp || 'no indicado'}<br>
+        Fianza: ${lead.fianza ? lead.fianza + '€ (' + (lead.estado_fianza === 'pagada' ? 'pagada' : 'pendiente') + ')' : 'no indicada'}
+      </p>
+      <p><strong>Idea del cliente:</strong><br>${(lead.mensaje || 'sin mensaje').replace(/\n/g, '<br>')}</p>
+      ${refsCount ? `<p>${refsCount} imagen(es) de referencia subidas — velas en <a href="https://sacravm-web.onrender.com/admin">el admin</a>, pestaña Leads.</p>` : ''}
+    `),
+  };
+}
+
 // Comprueba citas para las que toca mandar recordatorio (2 días antes),
 // seguimiento (7 días después) o reactivación (6 meses / 1 año después),
 // y las envía una sola vez por cita.
@@ -475,15 +498,22 @@ async function runEmailScheduler() {
     const { headers, rows } = readLeadsRaw();
     const today = new Date(); today.setHours(0, 0, 0, 0);
     const fmt = (d) => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+    const in1day = new Date(today); in1day.setDate(in1day.getDate() + 1);
     const in2days = new Date(today); in2days.setDate(in2days.getDate() + 2);
     const ago7days = new Date(today); ago7days.setDate(ago7days.getDate() - 7);
     const ago180days = new Date(today); ago180days.setDate(ago180days.getDate() - 180);
     const ago365days = new Date(today); ago365days.setDate(ago365days.getDate() - 365);
-    const in2Str = fmt(in2days), ago7Str = fmt(ago7days), ago180Str = fmt(ago180days), ago365Str = fmt(ago365days);
+    const in1Str = fmt(in1day), in2Str = fmt(in2days), ago7Str = fmt(ago7days), ago180Str = fmt(ago180days), ago365Str = fmt(ago365days);
     const jjEmail = readContent().email;
     let changed = false;
     for (const row of rows) {
       if (row.tipo !== 'reserva' || !row.fecha_cita) continue;
+      // Aviso a JJ para prepararse: 24h antes de CUALQUIER cita (incluidas valoraciones).
+      if (row.fecha_cita === in1Str && row.aviso_prep_24h_enviado !== 'si' && jjEmail) {
+        const { subject, html } = emailAvisoPreparacion(row);
+        const r = await sendEmail(jjEmail, subject, html);
+        if (r.ok) { row.aviso_prep_24h_enviado = 'si'; changed = true; }
+      }
       // Aviso a JJ (independiente de si el cliente puso email): fianza sin cobrar a 2 días de la cita.
       // No aplica a valoraciones (tier 'consulta'), que son gratuitas y no llevan fianza.
       if (row.tier !== 'consulta' && row.fecha_cita === in2Str && row.estado_fianza !== 'pagada' && row.alerta_fianza_enviado !== 'si' && jjEmail) {
@@ -642,7 +672,15 @@ const server = http.createServer(async (req, res) => {
   try {
     // ═══ API pública ═══
     if (pathname === '/api/content' && req.method === 'GET') {
-      return sendJSON(res, 200, readContent());
+      // No exponer el token del calendario aquí — este endpoint no requiere sesión
+      // (lo usa la propia web pública) y ese token es lo único que protege tus citas.
+      const { calendarToken, ...publicContent } = readContent();
+      return sendJSON(res, 200, publicContent);
+    }
+    // Enlace del calendario suscribible — requiere sesión, a diferencia de /api/content
+    if (pathname === '/api/calendar-token' && req.method === 'GET') {
+      if (!getSession(req)) return sendJSON(res, 401, { ok: false, error: 'Sesión no iniciada.' });
+      return sendJSON(res, 200, { ok: true, token: getOrCreateCalendarToken() });
     }
     if (pathname === '/api/lead' && req.method === 'POST') {
       const body = await readBody(req, 15e6);
@@ -808,6 +846,9 @@ const server = http.createServer(async (req, res) => {
 
     if (pathname === '/api/content' && req.method === 'POST') {
       const body = JSON.parse(await readBody(req, 2e6) || '{}');
+      // El admin nunca recibe calendarToken (se oculta en el GET público), así que si no
+      // viene en lo que guarda, mantenemos el que ya había en vez de borrarlo.
+      if (!('calendarToken' in body)) body.calendarToken = readContent().calendarToken;
       writeJSON(CONTENT_FILE, body);
       return sendJSON(res, 200, { ok: true });
     }
