@@ -44,7 +44,8 @@ function readJSON(file, fallback) {
 function writeJSON(file, data) {
   fs.writeFileSync(file, JSON.stringify(data, null, 2), 'utf8');
 }
-const LEADS_HEADER = ['fecha_registro','tipo','nombre','email','whatsapp','servicio','fecha_cita','hora_cita','mensaje','instagram','zona','tamano','bebida','ya_tatuado','fuente','tier','fianza','referencias','estado_fianza','recordatorio_enviado','seguimiento_enviado','reactivacion_6m_enviado','reactivacion_1a_enviado','alerta_fianza_enviado','aviso_prep_24h_enviado'];
+const LEADS_HEADER = ['fecha_registro','tipo','nombre','email','whatsapp','servicio','fecha_cita','hora_cita','mensaje','instagram','zona','tamano','bebida','ya_tatuado','fuente','tier','fianza','referencias','estado_fianza','recordatorio_enviado','seguimiento_enviado','reactivacion_6m_enviado','reactivacion_1a_enviado','alerta_fianza_enviado','aviso_prep_24h_enviado','artista'];
+const ARTISTA_DEFAULT = 'JJ Rodríguez';
 const PROVEEDORES_FILE = path.join(DATA_DIR, 'proveedores.csv');
 const PROVEEDORES_HEADER = ['fecha_registro','nombre','que_suministra','contacto','telefono','email','condiciones','notas'];
 const COLABORACIONES_FILE = path.join(DATA_DIR, 'colaboraciones.csv');
@@ -177,7 +178,8 @@ function appendLead(data, referenciasPaths) {
     data.tier || '', data.fianza || '',
     (referenciasPaths || []).join(';'),
     data.estado_fianza === 'pagada' ? 'pagada' : '', // se puede marcar ya cobrada al crear la ficha manual
-    '', '', '', '', '', '' // recordatorio_enviado, seguimiento_enviado, reactivacion_6m_enviado, reactivacion_1a_enviado, alerta_fianza_enviado, aviso_prep_24h_enviado — los rellena el planificador de emails
+    '', '', '', '', '', '', // recordatorio_enviado, seguimiento_enviado, reactivacion_6m_enviado, reactivacion_1a_enviado, alerta_fianza_enviado, aviso_prep_24h_enviado — los rellena el planificador de emails
+    data.artista || ARTISTA_DEFAULT,
   ].map(csvEscape).join(',');
   fs.appendFileSync(LEADS_FILE, row + '\n', 'utf8');
 }
@@ -254,15 +256,24 @@ function estimarDuracionHoras(servicio) {
   if (s.includes('proyecto')) return 8;
   return 3;
 }
-function buildCalendarIcs() {
+// quien: undefined/'todos' = todas las citas: 'jj' = solo JJ Rodríguez (o citas antiguas sin
+// artista asignado, que se consideran suyas por defecto); 'otros' = cualquier otro artista.
+// Así, suscribiendo el feed de JJ y el de "otros" como DOS calendarios separados en el iPhone,
+// cada uno puede llevar su propio color — un calendario suscrito no permite colorear evento a
+// evento, solo por calendario entero.
+function esDeJJ(artista) { return !artista || artista.trim() === ARTISTA_DEFAULT; }
+function buildCalendarIcs(quien) {
   const { rows } = readLeadsRaw();
-  const citas = rows.filter(r => r.tipo === 'reserva' && r.fecha_cita);
+  let citas = rows.filter(r => r.tipo === 'reserva' && r.fecha_cita);
+  if (quien === 'jj') citas = citas.filter(r => esDeJJ(r.artista));
+  else if (quien === 'otros') citas = citas.filter(r => !esDeJJ(r.artista));
+  const calName = quien === 'jj' ? 'SACRAVM · JJ Rodríguez' : quien === 'otros' ? 'SACRAVM · Otros artistas' : 'SACRAVM · Citas';
   const lines = [
     'BEGIN:VCALENDAR',
     'VERSION:2.0',
     'PRODID:-//SACRAVM//Citas//ES',
     'CALSCALE:GREGORIAN',
-    'X-WR-CALNAME:SACRAVM · Citas',
+    'X-WR-CALNAME:' + calName,
     'X-WR-TIMEZONE:Europe/Madrid',
     'REFRESH-INTERVAL;VALUE=DURATION:PT1H',
     'X-PUBLISHED-TTL:PT1H',
@@ -278,20 +289,25 @@ function buildCalendarIcs() {
     const fmt = dt => dt.getFullYear() + String(dt.getMonth() + 1).padStart(2, '0') + String(dt.getDate()).padStart(2, '0')
       + 'T' + String(dt.getHours()).padStart(2, '0') + String(dt.getMinutes()).padStart(2, '0') + '00';
     const uid = crypto.createHash('md5').update([r.fecha_cita, r.hora_cita, r.nombre, r.servicio].join('|')).digest('hex') + '@sacravm';
+    const artista = r.artista || ARTISTA_DEFAULT;
     const descParts = [
+      'Artista: ' + artista,
       r.servicio ? 'Servicio: ' + r.servicio : '',
       r.whatsapp ? 'WhatsApp: ' + r.whatsapp : '',
       r.email ? 'Email: ' + r.email : '',
       r.fianza ? 'Fianza: ' + r.fianza + '€ (' + (r.estado_fianza === 'pagada' ? 'pagada' : 'pendiente') + ')' : '',
       r.mensaje ? 'Idea: ' + r.mensaje : '',
     ].filter(Boolean).map(icsEscape).join('\\n');
+    // En el feed combinado (sin filtrar) se marca quién no es JJ en el propio título,
+    // para que se distinga incluso si alguien solo suscribe ese calendario único.
+    const summaryArtista = (!quien && !esDeJJ(r.artista)) ? ' · ' + artista : '';
     lines.push(
       'BEGIN:VEVENT',
       'UID:' + uid,
       'DTSTAMP:' + dtstamp,
       'DTSTART:' + fmt(start),
       'DTEND:' + fmt(end),
-      'SUMMARY:' + icsEscape((r.nombre || 'Cita') + (r.servicio ? ' · ' + r.servicio : '')),
+      'SUMMARY:' + icsEscape((r.nombre || 'Cita') + (r.servicio ? ' · ' + r.servicio : '') + summaryArtista),
       'DESCRIPTION:' + descParts,
       'END:VEVENT'
     );
@@ -719,8 +735,9 @@ const server = http.createServer(async (req, res) => {
       if (parsed.query.token !== getOrCreateCalendarToken()) {
         return sendJSON(res, 403, { ok: false, error: 'Enlace de calendario no válido.' });
       }
+      const quien = ['jj', 'otros'].includes(parsed.query.quien) ? parsed.query.quien : undefined;
       res.writeHead(200, { 'Content-Type': 'text/calendar; charset=utf-8' });
-      return res.end(buildCalendarIcs());
+      return res.end(buildCalendarIcs(quien));
     }
 
     // ═══ Estado de la cuenta / sesión ═══
@@ -790,7 +807,7 @@ const server = http.createServer(async (req, res) => {
     }
 
     if (pathname === '/api/lead-edit' && req.method === 'POST') {
-      const EDITABLE_LEAD_FIELDS = ['nombre', 'email', 'whatsapp', 'servicio', 'fecha_cita', 'hora_cita', 'mensaje', 'zona', 'tamano', 'bebida', 'ya_tatuado', 'fuente'];
+      const EDITABLE_LEAD_FIELDS = ['nombre', 'email', 'whatsapp', 'servicio', 'fecha_cita', 'hora_cita', 'mensaje', 'zona', 'tamano', 'bebida', 'ya_tatuado', 'fuente', 'artista'];
       const body = JSON.parse(await readBody(req, 2e5) || '{}');
       const rowIndex = Number(body.rowIndex);
       if (Number.isNaN(rowIndex)) return sendJSON(res, 400, { ok: false, error: 'Falta rowIndex.' });
