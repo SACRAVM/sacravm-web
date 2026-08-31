@@ -172,7 +172,9 @@ function csvEscape(val) {
 function appendLead(data, referenciasPaths) {
   ensureDirs();
   const row = [
-    new Date().toLocaleString('es-ES'), data.tipo || '', data.nombre || '', data.email || '',
+    // Normalmente es "ahora", pero al importar contactos antiguos se puede pasar
+    // fecha_registro para conservar la fecha real en que escribió esa persona.
+    data.fecha_registro || new Date().toLocaleString('es-ES'), data.tipo || '', data.nombre || '', data.email || '',
     data.whatsapp || '', data.servicio || '', data.fecha || '', data.hora || '', data.mensaje || '', data.instagram || '',
     data.zona || '', data.tamano || '', data.bebida || '', data.ya_tatuado || '', data.fuente || '',
     data.tier || '', data.fianza || '',
@@ -204,6 +206,16 @@ function writeLeadsRaw(headers, rows) {
 }
 function setLeadEstadoFianza(rowIndex, estado) {
   return updateLeadFields(rowIndex, { estado_fianza: estado });
+}
+// Borra un lead por su número de fila. Devuelve false si esa fila ya no existe
+// (por ejemplo si se borró en otra pestaña), para no romper nada en silencio.
+function deleteLead(rowIndex) {
+  const { headers, rows } = readLeadsRaw();
+  const idx = rows.findIndex(r => r._row === rowIndex);
+  if (idx === -1) return false;
+  rows.splice(idx, 1);
+  writeLeadsRaw(headers, rows);
+  return true;
 }
 // Actualiza uno o varios campos de un lead concreto (identificado por su
 // número de fila). Solo toca los campos que existan como columna real —
@@ -782,12 +794,13 @@ const server = http.createServer(async (req, res) => {
     }
 
     // ═══ A partir de aquí, todo requiere sesión iniciada ═══
-    const protectedRoutes = ['/api/content', '/api/upload-photo', '/api/change-password', '/api/leads', '/api/lead-status', '/api/lead-edit'];
+    const protectedRoutes = ['/api/content', '/api/upload-photo', '/api/change-password', '/api/leads', '/api/lead-status', '/api/lead-edit', '/api/lead-delete'];
     const isProtectedWrite = (pathname === '/api/content' && req.method === 'POST') ||
       pathname === '/api/upload-photo' || pathname === '/api/change-password' ||
       (pathname === '/api/leads' && req.method === 'GET') ||
       (pathname === '/api/lead-status' && req.method === 'POST') ||
-      (pathname === '/api/lead-edit' && req.method === 'POST');
+      (pathname === '/api/lead-edit' && req.method === 'POST') ||
+      (pathname === '/api/lead-delete' && req.method === 'POST');
 
     if (isProtectedWrite && !getSession(req)) {
       return sendJSON(res, 401, { ok: false, error: 'Sesión no iniciada.' });
@@ -807,13 +820,21 @@ const server = http.createServer(async (req, res) => {
     }
 
     if (pathname === '/api/lead-edit' && req.method === 'POST') {
-      const EDITABLE_LEAD_FIELDS = ['nombre', 'email', 'whatsapp', 'servicio', 'fecha_cita', 'hora_cita', 'mensaje', 'zona', 'tamano', 'bebida', 'ya_tatuado', 'fuente', 'artista'];
+      const EDITABLE_LEAD_FIELDS = ['nombre', 'email', 'whatsapp', 'instagram', 'servicio', 'fecha_registro', 'fecha_cita', 'hora_cita', 'mensaje', 'zona', 'tamano', 'bebida', 'ya_tatuado', 'fuente', 'artista', 'fianza', 'estado_fianza'];
       const body = JSON.parse(await readBody(req, 2e5) || '{}');
       const rowIndex = Number(body.rowIndex);
       if (Number.isNaN(rowIndex)) return sendJSON(res, 400, { ok: false, error: 'Falta rowIndex.' });
       const fields = {};
       EDITABLE_LEAD_FIELDS.forEach(k => { if (Object.prototype.hasOwnProperty.call(body.fields || {}, k)) fields[k] = body.fields[k]; });
       const ok = updateLeadFields(rowIndex, fields);
+      return sendJSON(res, ok ? 200 : 404, { ok });
+    }
+
+    // Borrado de un lead. La confirmación se pide en el panel, aquí solo se ejecuta.
+    if (pathname === '/api/lead-delete' && req.method === 'POST') {
+      if (!getSession(req)) return sendJSON(res, 401, { ok: false, error: 'Sesión no iniciada.' });
+      const body = JSON.parse(await readBody(req, 5e5) || '{}');
+      const ok = deleteLead(Number(body.rowIndex));
       return sendJSON(res, ok ? 200 : 404, { ok });
     }
 
@@ -827,8 +848,22 @@ const server = http.createServer(async (req, res) => {
         const nombre = (r.nombre || '').trim();
         const email = (r.email || '').trim();
         const whatsapp = (r.whatsapp || '').trim();
-        if (!nombre && !email && !whatsapp) return;
-        appendLead({ tipo: 'manual', nombre, email, whatsapp, mensaje: r.notas || '', fuente: 'Importado (Excel/a mano)' }, []);
+        const instagram = (r.instagram || '').trim();
+        if (!nombre && !email && !whatsapp && !instagram) return;
+        appendLead({
+          tipo: 'manual',
+          nombre, email, whatsapp, instagram,
+          // Fecha real en que escribió la persona (dd/mm/aaaa). Si no se sabe,
+          // se deja vacío y el CSV guarda la fecha de hoy como hasta ahora.
+          fecha_registro: (r.fecha_contacto || '').trim() || undefined,
+          servicio: (r.servicio || '').trim(),
+          zona: (r.zona || '').trim(),
+          tamano: (r.tamano || '').trim(),
+          fianza: (r.fianza || '').trim(),
+          estado_fianza: (r.estado_fianza || '').trim(),
+          mensaje: r.notas || '',
+          fuente: (r.fuente || '').trim() || 'Importado (lista de espera)'
+        }, []);
         count++;
       });
       return sendJSON(res, 200, { ok: true, count });

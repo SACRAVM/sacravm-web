@@ -131,6 +131,7 @@ table.leads-table tr:hover td{background:var(--s1)}
 .lead-card-meta{font-size:12px;color:var(--t2);margin-bottom:8px}
 .lead-card-idea{font-size:12px;color:var(--t3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:10px}
 .lead-card-fianza{width:100%;text-align:center}
+.lead-card-borrar{width:100%;text-align:center;margin-top:8px;border-color:#8c2f2f;color:#c96b6b;font-size:11px}
 
 @media(max-width:780px){
   .layout{flex-direction:column}
@@ -889,9 +890,12 @@ async function loadLeads() {
     </div>
     <div class="panel-desc">Se guardan también en el archivo leads/leads.csv, por si prefieres abrirlo en Excel.</div>
     <div class="card" id="import-panel" style="display:none">
-      <p class="field-label">PEGA TUS CONTACTOS (uno por línea — copia y pega directamente desde Excel/Sheets: Nombre, Email, WhatsApp, Notas)</p>
-      <textarea class="fi" id="import-textarea" style="min-height:160px" placeholder="Juan Pérez	juan@email.com	+34600111222
-María López		+34600333444	Cliente recurrente, alergia al látex"></textarea>
+      <p class="field-label">PEGA TUS CONTACTOS — uno por línea, en este orden:<br>
+      <strong>Fecha · Nombre · Instagram · WhatsApp · Email · Señal(€) · Notas</strong></p>
+      <div class="panel-desc" style="margin-bottom:10px">La <strong>fecha</strong> es el día en que esa persona te escribió (dd/mm/aaaa), no la de hoy — así la lista mantiene su orden real. Si no la sabes, déjala vacía. Rellenar una <strong>señal</strong> marca a esa persona como fianza pagada. Puedes dejar huecos vacíos, pero respeta las separaciones.</div>
+      <textarea class="fi" id="import-textarea" style="min-height:160px" placeholder="12/03/2026	Juan Pérez	@juanp	+34600111222	juan@email.com	50	Antebrazo micro-realismo
+04/05/2026	María López	@marial	+34600333444			Costillas — pidió presupuesto
+	Carlos Ruiz	@cruiz			30	Sin fecha, señal pagada en mano"></textarea>
       <div class="auth-msg" id="import-msg"></div>
       <button class="btn-p" id="btn-do-import" style="width:auto;padding:12px 28px">IMPORTAR</button>
     </div>
@@ -975,7 +979,20 @@ María López		+34600333444	Cliente recurrente, alergia al látex"></textarea>
       </div>
       <div class="row2">
         <div><p class="field-label">WHATSAPP</p><input class="fi" id="le-whatsapp"></div>
+        <div><p class="field-label">INSTAGRAM</p><input class="fi" id="le-instagram" placeholder="ej. itts.karen"></div>
+      </div>
+      <div class="row2">
         <div><p class="field-label">SERVICIO</p><input class="fi" id="le-servicio"></div>
+        <div><p class="field-label">FECHA DE CONTACTO</p><input class="fi" id="le-fecharegistro" placeholder="dd/mm/aaaa — cuándo te escribió"></div>
+      </div>
+      <div class="row2">
+        <div><p class="field-label">SEÑAL (€)</p><input class="fi" id="le-fianza" placeholder="ej. 50"></div>
+        <div><p class="field-label">¿SEÑAL PAGADA?</p>
+          <select class="fi" id="le-estadofianza">
+            <option value="">Pendiente</option>
+            <option value="pagada">Pagada</option>
+          </select>
+        </div>
       </div>
       <p class="field-label">ARTISTA (para diferenciar de color en tu calendario del iPhone)</p><input class="fi" id="le-artista" placeholder="JJ Rodríguez">
       <div class="row2">
@@ -1012,21 +1029,31 @@ María López		+34600333444	Cliente recurrente, alergia al látex"></textarea>
   await renderLeadsTable();
 }
 
+// Orden de columnas al pegar: fecha, nombre, instagram, whatsapp, email, señal, notas.
+// La fecha es la del día en que esa persona escribió — no la de hoy — para no
+// perder el orden real de la lista de espera. Puede ir vacía si no se sabe.
 function parseImportLine(line) {
   let parts = line.split('\t');
   if (parts.length < 2) parts = line.split(',');
+  const senal = (parts[5] || '').trim();
   return {
-    nombre: (parts[0] || '').trim(),
-    email: (parts[1] || '').trim(),
-    whatsapp: (parts[2] || '').trim(),
-    notas: (parts[3] || '').trim(),
+    fecha_contacto: (parts[0] || '').trim(),
+    nombre: (parts[1] || '').trim(),
+    instagram: (parts[2] || '').trim(),
+    whatsapp: (parts[3] || '').trim(),
+    email: (parts[4] || '').trim(),
+    fianza: senal,
+    estado_fianza: senal ? 'pagada' : '',
+    notas: (parts[6] || '').trim(),
   };
 }
 async function importLeadsFromText() {
   const ta = document.getElementById('import-textarea');
   const msg = document.getElementById('import-msg');
-  const lines = ta.value.split('\n').map(l => l.trim()).filter(Boolean);
-  const rows = lines.map(parseImportLine).filter(r => r.nombre || r.email || r.whatsapp);
+  // Ojo: no se hace trim() de la línea entera. Si alguien no tiene fecha, la
+  // línea empieza por tabulador y recortarla desplazaría todas las columnas.
+  const lines = ta.value.split('\n').map(l => l.replace(/\r$/, '')).filter(l => l.trim().length);
+  const rows = lines.map(parseImportLine).filter(r => r.nombre || r.email || r.whatsapp || r.instagram);
   if (!rows.length) { msg.textContent = 'Pega al menos una fila con nombre, email o whatsapp.'; return; }
   const btn = document.getElementById('btn-do-import');
   btn.disabled = true; btn.textContent = 'IMPORTANDO…';
@@ -1134,6 +1161,10 @@ function openEditLead(rowIndex) {
   document.getElementById('le-nombre').value = lead.nombre || '';
   document.getElementById('le-email').value = lead.email || '';
   document.getElementById('le-whatsapp').value = lead.whatsapp || '';
+  document.getElementById('le-instagram').value = lead.instagram || '';
+  document.getElementById('le-fecharegistro').value = lead.fecha_registro || '';
+  document.getElementById('le-fianza').value = lead.fianza || '';
+  document.getElementById('le-estadofianza').value = lead.estado_fianza === 'pagada' ? 'pagada' : '';
   document.getElementById('le-servicio').value = lead.servicio || '';
   document.getElementById('le-artista').value = lead.artista || 'JJ Rodríguez';
   document.getElementById('le-fecha').value = lead.fecha_cita || '';
@@ -1158,6 +1189,10 @@ async function saveLeadEdit() {
     nombre: document.getElementById('le-nombre').value.trim(),
     email: document.getElementById('le-email').value.trim(),
     whatsapp: document.getElementById('le-whatsapp').value.trim(),
+    instagram: document.getElementById('le-instagram').value.trim(),
+    fecha_registro: document.getElementById('le-fecharegistro').value.trim(),
+    fianza: document.getElementById('le-fianza').value.trim(),
+    estado_fianza: document.getElementById('le-estadofianza').value,
     servicio: document.getElementById('le-servicio').value.trim(),
     artista: document.getElementById('le-artista').value.trim(),
     fecha_cita: document.getElementById('le-fecha').value,
@@ -1181,6 +1216,22 @@ async function saveLeadEdit() {
 }
 
 let currentLeads = [];
+// Borrar un lead es irreversible (no hay papelera), así que se pide confirmación
+// mostrando el nombre concreto.
+async function borrarLead(rowIndex) {
+  const lead = currentLeads.find(l => l._row === rowIndex);
+  if (!lead) return;
+  const quien = lead.nombre || lead.email || lead.whatsapp || lead.instagram || 'este lead (sin nombre)';
+  if (!confirm('¿Borrar a ' + quien + '?\n\nEsto no se puede deshacer.')) return;
+  const res = await fetch('/api/lead-delete', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ rowIndex }) });
+  const data = await res.json().catch(() => ({ ok: false }));
+  if (!data.ok) { alert('No se pudo borrar. Recarga la página y vuelve a intentarlo.'); return; }
+  // Si estaba abierto en el panel de edición, se cierra para no editar algo que ya no existe.
+  if (editingLeadRow === rowIndex) closeEditLead();
+  flashSaved('✓ Lead borrado');
+  await renderLeadsTable();
+}
+
 async function renderLeadsTable() {
   const res = await fetch('/api/leads');
   const data = await res.json();
@@ -1207,9 +1258,10 @@ async function renderLeadsTable() {
             <span class="tag ${l.tipo}">${esc(l.tipo)}</span>
           </div>
           <div class="lead-card-nombre">${esc(l.nombre) || '(sin nombre)'}</div>
-          <div class="lead-card-meta">${esc(l.whatsapp) || esc(l.email) || '—'}</div>
+          <div class="lead-card-meta">${[esc(l.whatsapp), esc(l.email), l.instagram ? '@' + esc(l.instagram) : ''].filter(Boolean).join(' · ') || '—'}</div>
           ${idea ? `<div class="lead-card-idea">${idea}</div>` : ''}
           ${fianzaBtn}
+          <button class="btn-o lead-card-borrar" onclick="event.stopPropagation();borrarLead(${l._row})">🗑 Borrar</button>
         </div>
       `; }).join('')}
     </div>
