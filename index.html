@@ -3,21 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="Tatuajes en León con cita previa: SACRAVM, atelier privado especializado en micro-realismo, realismo conceptual y fine line. Reserva tu cita online.">
+<meta name="description" content="Tatuajes en León, solo con cita previa. Atelier privado de micro-realismo y fine line: cada mes abrimos Pases limitados y elegimos cada proyecto, uno a uno.">
 <title>Tatuajes en León | SACRAVM · Tattoo Atelier Privado</title>
 <link rel="icon" href="/images/misc/logo.png">
 <meta name="theme-color" content="#1C1714">
 <!-- ★ Actualizar a dominio propio (canonical/og:url/sitemap/robots.txt) en cuanto se compre uno -->
 <link rel="canonical" href="https://sacravm-web.onrender.com/">
 <meta property="og:title" content="Tatuajes en León | SACRAVM Tattoo Atelier">
-<meta property="og:description" content="Atelier privado de tatuaje en León con cita previa online. Micro-realismo, realismo conceptual y fine line.">
+<meta property="og:description" content="Tatuajes en León, solo con cita previa. Atelier privado: cada mes abrimos Pases limitados y elegimos cada proyecto, uno a uno.">
 <meta property="og:type" content="business.business">
 <meta property="og:image" content="https://sacravm-web.onrender.com/images/hero/hero.jpg">
 <meta property="og:locale" content="es_ES">
 <meta property="og:url" content="https://sacravm-web.onrender.com/">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Tatuajes en León | SACRAVM Tattoo Atelier">
-<meta name="twitter:description" content="Atelier privado de tatuaje en León con cita previa online. Micro-realismo, realismo conceptual y fine line.">
+<meta name="twitter:description" content="Tatuajes en León, solo con cita previa. Atelier privado: cada mes abrimos Pases limitados y elegimos cada proyecto, uno a uno.">
 <meta name="twitter:image" content="https://sacravm-web.onrender.com/images/hero/hero.jpg">
 <script type="application/ld+json">
 {
@@ -36,6 +36,7 @@
   "areaServed": "León, España",
   "priceRange": "€€€",
   "knowsAbout": ["Micro-realismo", "Realismo conceptual", "Fine line", "Tatuajes en León"],
+  "slogan": "Tu historia merece ser eterna",
   "founder": { "@type": "Person", "name": "JJ Rodríguez", "jobTitle": "Fundador y Director de Marca" },
   "sameAs": ["https://instagram.com/sacravm"]
 }
@@ -98,6 +99,8 @@ h1 em{color:var(--a);font-style:italic}
 .h-sub{font-size:16px;color:var(--t2);line-height:1.9;max-width:380px;margin-bottom:8px}
 .h-styles{font-size:10px;letter-spacing:.26em;color:var(--t3);margin-bottom:44px}
 .h-btns{display:flex;gap:12px;flex-wrap:wrap}
+.h-btns-note{font-size:13px;color:var(--t3);line-height:1.65;margin-top:14px;max-width:400px}
+.h-btns-note strong{color:var(--a);font-weight:400}
 .btn-p{background:var(--dk);border:none;color:var(--dtx);padding:14px 40px;font-size:14px;font-weight:600;letter-spacing:.1em;border-radius:var(--r);cursor:pointer;transition:opacity .15s}
 .btn-p:hover{opacity:.82}
 .btn-o{background:none;border:1px solid var(--bdr2);color:var(--t2);padding:14px 40px;font-size:14px;letter-spacing:.08em;border-radius:var(--r);cursor:pointer;transition:all .15s}
@@ -640,26 +643,27 @@ body.wz-lock{overflow:hidden}
     <button class="nl" onclick="scroll2('tarifas')">Inversión</button>
     <button class="nl" onclick="scroll2('galeria')">Galería</button>
   </div>
-  <button class="btn-book" onclick="goBook()">RESERVAR CITA</button>
+  <button class="btn-book" onclick="goBook()">PEDIR CITA</button>
   <button class="nav-burger" id="nav-burger" onclick="toggleMobileNav()" aria-label="Abrir menú">☰</button>
 </nav>
 
 <!-- HERO -->
 <section id="hero" style="padding:0">
   <div class="hero-l rv">
-    <div class="hero-tag"><div class="hero-tag-dot"></div><span id="hero-tag-txt">ATELIER PRIVADO · RESERVA ONLINE</span></div>
+    <div class="hero-tag"><div class="hero-tag-dot"></div><span id="hero-tag-txt">ATELIER PRIVADO · PASES LIMITADOS AL MES</span></div>
     <h1>SACR<em>AVM</em></h1>
     <div class="h-rule"></div>
     <p class="h-sub" id="hero-sub-txt">No tatúo a cualquiera, ni con prisa — esto es para toda la vida.</p>
     <p class="h-styles">MICRO-REALISMO · REALISMO CONCEPTUAL · FINE LINE</p>
     <div class="h-btns">
-      <button class="btn-p" onclick="goBook()">RESERVAR CITA →</button>
+      <button class="btn-p" onclick="goBook()">PEDIR CITA →</button>
       <button class="btn-o" onclick="scroll2('portfolio')">VER TRABAJO</button>
     </div>
+    <p class="h-btns-note"><strong>Presenta tu proyecto</strong> — cada mes concedemos un número limitado de Pases y elegimos cada uno, uno a uno.</p>
   </div>
   <div class="hero-r" id="hero-photo-wrap">
     <!-- Foto cargada por JavaScript desde CONFIG -->
-    <div class="hero-badge"><p>CITAS DISPONIBLES</p><strong id="hero-badge-name">SACRAVM</strong></div>
+    <div class="hero-badge"><p>PASES ABIERTOS</p><strong id="hero-badge-name">SACRAVM</strong></div>
   </div>
 </section>
 
@@ -770,9 +774,9 @@ body.wz-lock{overflow:hidden}
       <p class="nos-body">SACRAVM va más allá del tatuaje: marcamos historias. Escuchamos tu idea desde el primer momento y trabajamos cada detalle hasta que quede en armonía con tu cuerpo y tu estilo. Sabemos que esto es para siempre — por eso nos comprometemos a dar el máximo en cada proyecto.</p>
       <p style="font-family:var(--serif);font-size:18px;font-style:italic;color:var(--a);line-height:1.7;max-width:540px;margin-top:18px;margin-bottom:8px">En SACRAVM no hacemos tatuajes — vivimos una experiencia contigo. No todos los proyectos encajan con nuestra idea: cuéntanos la tuya y creemos algo juntos. Si sentimos que no vibra con SACRAVM, te lo diremos.</p>
       <div>
-        <div class="pillar"><div class="pl-n">01</div><div class="pl-t"><h4>Reserva directa con fianza</h4><p>Eliges fecha, pagas la señal y la cita queda confirmada automáticamente. Sin esperas.</p></div></div>
-        <div class="pillar"><div class="pl-n">02</div><div class="pl-t"><h4>Diseño personalizado</h4><p>Hablamos del diseño y referencias después de confirmar. Me adapto a tu idea.</p></div></div>
-        <div class="pillar"><div class="pl-n">03</div><div class="pl-t"><h4>Estudio privado · León</h4><p>Un cliente a la vez. Privacidad total. El espacio está preparado para ti.</p></div></div>
+        <div class="pillar"><div class="pl-n">01</div><div class="pl-t"><h4>El Pase se concede</h4><p>Elegimos cada proyecto, uno a uno. Cuando el tuyo entra, somos nosotros quienes te damos fecha — y solo entonces se pide la señal.</p></div></div>
+        <div class="pillar"><div class="pl-n">02</div><div class="pl-t"><h4>Diseño de autor</h4><p>Con el Pase concedido trabajamos el diseño contigo. Tu idea dirige; la ejecución es nuestra.</p></div></div>
+        <div class="pillar"><div class="pl-n">03</div><div class="pl-t"><h4>Un Pase, una persona</h4><p>Atelier privado en León. Nadie más en la sala. El espacio se prepara entero para ti.</p></div></div>
       </div>
     </div>
     <div class="nos-photo rv d2" id="perfil-wrap">
@@ -826,7 +830,7 @@ body.wz-lock{overflow:hidden}
         <h2 class="sec-title">Llevar SACRAVM es pertenecer a algo distinto.</h2>
         <p class="port-body">Micro-realismo, realismo conceptual y fine line. Cada pieza que sale de aquí te convierte en parte de algo que pocos llegan a tener.</p>
       </div>
-      <button class="btn-p" onclick="goBook()">Reservar cita →</button>
+      <button class="btn-p" onclick="goBook()">Presentar mi proyecto →</button>
     </div>
     <div class="port-grid" id="port-grid">
       <!-- Generado por JavaScript desde CONFIG -->
@@ -849,7 +853,7 @@ body.wz-lock{overflow:hidden}
   <div class="sec-inner">
     <div class="rv">
       <div class="sec-label">FORMATOS Y PRECIO <span style="color:var(--t3);font-weight:400">· DESDE 90€</span></div>
-      <p id="txt-inversion-texto" style="font-size:16px;color:var(--t2);line-height:1.85;margin-bottom:18px;max-width:540px">El diseño se prepara en exclusiva el día de tu cita. La señal confirma tu plaza y se descuenta del total — el resto se abona al cerrar la sesión.</p>
+      <p id="txt-inversion-texto" style="font-size:16px;color:var(--t2);line-height:1.85;margin-bottom:18px;max-width:540px">El diseño se prepara en exclusiva para tu Pase. La señal lo confirma y se descuenta del total — el resto se abona al cerrar la sesión.</p>
       <p style="font-family:var(--serif);font-size:18px;font-style:italic;color:var(--a);line-height:1.7;max-width:520px;margin-bottom:40px">No todos los proyectos entran en SACRAVM. Si el tuyo entra, recibe toda nuestra atención — como se merece lo que va a quedarse contigo para siempre.</p>
     </div>
     <div class="tar-list rv" id="tar-list"></div>
@@ -857,10 +861,10 @@ body.wz-lock{overflow:hidden}
     <div class="rv" style="background:var(--w);border:1px solid var(--aBdr);border-radius:6px;padding:28px 32px;margin-bottom:32px;display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap">
       <div>
         <div class="sec-label" style="margin-bottom:6px">¿AÚN NO LO TIENES CLARO?</div>
-        <div style="font-family:var(--serif);font-size:22px;font-weight:400;color:var(--tx);margin-bottom:4px">Reserva una valoración y diseño gratuita de 30 min</div>
+        <div style="font-family:var(--serif);font-size:22px;font-weight:400;color:var(--tx);margin-bottom:4px">Antes del Pase, una valoración de 30 min sin coste</div>
         <p style="font-size:14px;color:var(--t2)">Hablamos de tu idea, resolvemos dudas y cerramos el proyecto — sin compromiso ni coste.</p>
       </div>
-      <button class="btn-p" style="flex-shrink:0" onclick="goBook('Valoración y diseño (30 min, gratis)')">RESERVAR VALORACIÓN →</button>
+      <button class="btn-p" style="flex-shrink:0" onclick="goBook('Valoración y diseño (30 min, gratis)')">PEDIR LA VALORACIÓN →</button>
     </div>
 
     <div class="tar-note rv">
@@ -913,7 +917,7 @@ body.wz-lock{overflow:hidden}
         <div class="col-tag-row">
           <span class="col-tag">Punto de partida</span>
           <span class="col-tag">100% personalizable</span>
-          <span class="col-tag">Reserva con señal</span>
+          <span class="col-tag">Se concede como cualquier Pase</span>
         </div>
       </div>
     </div>
@@ -1146,15 +1150,15 @@ body.wz-lock{overflow:hidden}
 <section id="terminos">
   <div class="sec-inner">
     <div class="rv">
-      <div class="sec-label">ANTES DE RESERVAR</div>
+      <div class="sec-label">ANTES DE PRESENTAR TU PROYECTO</div>
       <h2 class="sec-title">Información importante</h2>
-      <p style="font-size:16px;color:var(--t2);line-height:1.85;margin-top:12px;max-width:540px">Por favor, lee esto antes de rellenar el formulario. Tu información es necesaria para asegurar una reserva que funcione bien para los dos.</p>
+      <p style="font-size:16px;color:var(--t2);line-height:1.85;margin-top:12px;max-width:540px">Léelo antes de rellenar el formulario. Rellenarlo no reserva nada: elegimos cada proyecto uno a uno y, si el tuyo entra, te damos fecha y las instrucciones de la señal. Lo que escribas es lo que nos permite decidir bien.</p>
     </div>
     <div class="terms-grid rv">
       <div>
         <div class="term-block">
           <h4>Nuestro enfoque y cómo elegimos proyectos</h4>
-          <p>Creamos cada tatuaje con total libertad artística dentro del tema acordado. Tu idea inspira el diseño, pero añadimos nuestro toque personal. No copiamos otros tatuajes ni estilos. El diseño final lo preparamos el primer día de tu cita.</p>
+          <p>Creamos cada tatuaje con total libertad artística dentro del tema acordado. Tu idea inspira el diseño, pero añadimos nuestro toque personal. No copiamos otros tatuajes ni estilos. El diseño final lo preparamos el primer día de tu Pase.</p>
           <div class="term-highlight"><p>Priorizamos a los clientes con grandes ideas y buen ambiente, especialmente a quienes confían en nosotros para hacer lo que mejor sabemos hacer. <strong>Si consideramos que un diseño o ubicación no es adecuado, te lo haremos saber y podemos rechazar el proyecto.</strong></p></div>
         </div>
         <div class="term-block">
@@ -1176,7 +1180,7 @@ body.wz-lock{overflow:hidden}
       <div>
         <div class="term-block">
           <h4>Señal y pago</h4>
-          <p>La señal no es reembolsable bajo ninguna circunstancia. Se descuenta del total al finalizar la sesión. Sin señal, no hay cita confirmada.</p>
+          <p>La señal no es reembolsable bajo ninguna circunstancia. Se descuenta del total al finalizar la sesión. Sin señal, el Pase no queda confirmado.</p>
           <div class="term-highlight">
             <p><strong>Formas de pago de la señal:</strong> Bizum o transferencia bancaria. El resto del pago se realiza el día de la sesión en efectivo, Bizum o transferencia.</p>
           </div>
@@ -1193,12 +1197,12 @@ body.wz-lock{overflow:hidden}
         </div>
         <div class="term-block">
           <h4>Diseño y referencias</h4>
-          <p>Envía las referencias antes de la cita. Cuanto más claro esté el concepto, mejor se prepara. El diseño final puede diferir de las referencias — eso es parte del proceso creativo.</p>
+          <p>Envía las referencias antes del Pase. Cuanto más claro esté el concepto, mejor se prepara. El diseño final puede diferir de las referencias — eso es parte del proceso creativo.</p>
         </div>
       </div>
     </div>
     <div class="terms-footer rv">
-      Al reservar, confirmas haber leído y aceptado esta información. Si tienes cualquier duda antes de reservar, <strong>escríbenos</strong> — mejor hablar antes que tener malentendidos después.
+      Al enviar la solicitud, confirmas haber leído y aceptado esta información. Si tienes cualquier duda antes de presentar tu proyecto, <strong>escríbenos</strong> — mejor hablar antes que tener malentendidos después.
     </div>
   </div>
 </section>
@@ -1232,22 +1236,22 @@ body.wz-lock{overflow:hidden}
 <!-- BOOKING CTA -->
 <section id="booking" style="padding:80px 52px">
   <div class="bk-inner">
-    <div class="bk-sup rv">RESERVA TU CITA</div>
-    <h2 class="bk-title rv">Elige tu servicio,<br><em>elige tu momento,<br>empieza el ritual.</em></h2>
+    <div class="bk-sup rv">CÓMO SE CONCEDE UN PASE</div>
+    <h2 class="bk-title rv">Cuenta tu historia,<br><em>déjanos elegirla,<br>empieza el ritual.</em></h2>
     <div class="bk-rule rv"></div>
-    <p class="bk-sub rv">Eliges servicio, fecha y hora. Te confirmamos por correo en menos de 24h.</p>
+    <p class="bk-sub rv">Cada mes se abre un número limitado de Pases. Elegimos cada proyecto, uno a uno.</p>
     <div class="bk-flow rv">
-      <div class="bk-step"><span class="bk-step-n">1</span><div class="bk-step-t"><strong>Elige tu sesión</strong>Día entero, media sesión o mini tattoo</div></div>
+      <div class="bk-step"><span class="bk-step-n">1</span><div class="bk-step-t"><strong>Elige el formato</strong>Día entero, media sesión o mini tattoo</div></div>
       <span class="bk-step-sep">→</span>
-      <div class="bk-step"><span class="bk-step-n">2</span><div class="bk-step-t"><strong>Elige fecha y hora</strong>Marca tu preferencia en el calendario</div></div>
+      <div class="bk-step"><span class="bk-step-n">2</span><div class="bk-step-t"><strong>Marca tu preferencia</strong>Una fecha que te vendría bien — todavía no es tuya</div></div>
       <span class="bk-step-sep">→</span>
-      <div class="bk-step"><span class="bk-step-n">3</span><div class="bk-step-t"><strong>Cuéntanos tu idea</strong>Un par de líneas para preparar la sesión</div></div>
+      <div class="bk-step"><span class="bk-step-n">3</span><div class="bk-step-t"><strong>Cuéntanos la historia</strong>Es lo único que tenemos para decidir</div></div>
       <span class="bk-step-sep">→</span>
-      <div class="bk-step"><span class="bk-step-n">4</span><div class="bk-step-t"><strong>Confirmación</strong>Te escribimos por correo para cerrar fecha y fianza</div></div>
+      <div class="bk-step"><span class="bk-step-n">4</span><div class="bk-step-t"><strong>El Pase se concede</strong>La leemos en 48 h. Si entra, te damos fecha y la señal la confirma</div></div>
     </div>
     <div class="rv">
-      <button class="btn-bk-main" onclick="goBook()">RESERVAR MI CITA →</button>
-      <p class="bk-note">Solicitud gratuita · La fianza se acuerda al confirmar la fecha</p>
+      <button class="btn-bk-main" onclick="goBook()">PRESENTAR MI PROYECTO →</button>
+      <p class="bk-note">Presentar tu proyecto no cuesta nada ni te compromete a nada · La señal solo se pide si te concedemos el Pase</p>
     </div>
   </div>
 </section>
@@ -1263,7 +1267,7 @@ body.wz-lock{overflow:hidden}
     <div class="gal-grid rv" id="galeria-grid"><!-- Generado por JS desde CONFIG.galeria --></div>
     <div class="rv" style="text-align:center;margin-top:52px">
       <p style="font-size:15px;color:var(--t2);margin-bottom:20px">¿Tienes una idea? Cuéntanosla.</p>
-      <button class="btn-p" onclick="goBook()" style="font-size:15px">Solicitar cita →</button>
+      <button class="btn-p" onclick="goBook()" style="font-size:15px">Presentar mi proyecto →</button>
     </div>
   </div>
 </section>
@@ -1273,6 +1277,7 @@ body.wz-lock{overflow:hidden}
   <div>
     <div class="foot-logo" id="foot-logo">SACRAVM</div>
     <div class="foot-sub" id="foot-sub">TATTOO ATELIER · LEÓN</div>
+    <div class="foot-sub" style="margin-top:6px">SOLO CON CITA PREVIA · PASES LIMITADOS AL MES</div>
   </div>
   <div class="foot-links">
     <button class="fl" onclick="scroll2('nosotros')">Quiénes somos</button>
@@ -1285,14 +1290,14 @@ body.wz-lock{overflow:hidden}
     <button class="fl" onclick="scroll2('obras')">Cuadros</button>
     <button class="fl" onclick="scroll2('formacion')">Academy</button>
     <button class="fl" onclick="scroll2('galeria')">Galería</button>
-    <button class="fl" onclick="scroll2('booking')">Reservar</button>
+    <button class="fl" onclick="scroll2('booking')">Pedir cita</button>
   </div>
   <div class="foot-right">
     <a class="btn-wa" id="btn-wa" href="#" target="_blank">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
       WhatsApp
     </a>
-    <button class="btn-book" onclick="goBook()">RESERVAR CITA</button>
+    <button class="btn-book" onclick="goBook()">PEDIR CITA</button>
   </div>
 </footer>
 <div style="background:var(--dk);border-top:1px solid rgba(255,255,255,.05);padding:14px 24px;text-align:center">
@@ -1325,7 +1330,7 @@ body.wz-lock{overflow:hidden}
     <p class="estilo-desc" id="estilo-desc"></p>
     <div class="estilo-precio" id="estilo-precio"></div>
     <div class="estilo-grid" id="estilo-grid"></div>
-    <button class="btn-p" style="width:100%;margin-top:22px" onclick="closeEstiloModal();goBook()">Reservar cita →</button>
+    <button class="btn-p" style="width:100%;margin-top:22px" onclick="closeEstiloModal();goBook()">Presentar mi proyecto →</button>
   </div>
 </div>
 
@@ -1342,7 +1347,7 @@ body.wz-lock{overflow:hidden}
 
     <div class="wz-step" id="wz-s1">
       <div class="sec-label">PASO 1 DE 5</div>
-      <h3 class="wz-title">¿Qué te gustaría reservar?</h3>
+      <h3 class="wz-title">¿Qué Pase quieres pedir?</h3>
       <div class="wz-services" id="wz-services"></div>
       <div class="wz-label" data-tier-label>TAMAÑO DE LA PIEZA</div>
       <div class="wz-tier-grid" id="wz-tier-grid"></div>
@@ -1353,6 +1358,7 @@ body.wz-lock{overflow:hidden}
     <div class="wz-step" id="wz-s2" style="display:none">
       <div class="sec-label">PASO 2 DE 5</div>
       <h3 class="wz-title">Elige fecha y hora preferida</h3>
+      <p class="wz-sub" style="margin-bottom:14px">Marca la que te vendría bien. Todavía no es tuya: la fecha la damos nosotros al conceder el Pase.</p>
       <input type="hidden" id="wz-fecha">
       <div class="wz-cal-head">
         <button type="button" class="wz-cal-nav" id="wz-cal-prev" onclick="wzCalMove(-1)">‹</button>
@@ -1390,7 +1396,7 @@ body.wz-lock{overflow:hidden}
     <div class="wz-step" id="wz-s4" style="display:none">
       <div class="sec-label">PASO 4 DE 5</div>
       <h3 class="wz-title">Cuéntanos más sobre tu proyecto</h3>
-      <p class="wz-sub" style="margin-bottom:16px">Con esto preparamos mejor tu sesión — cuanto más sepamos antes, menos tiempo perdemos el día de la cita.</p>
+      <p class="wz-sub" style="margin-bottom:16px">Cuanto mejor entendamos el proyecto, mejor podemos decidir — y mejor llega preparado el día del Pase.</p>
 
       <div class="wz-label">ZONA *</div>
       <div class="wz-2col">
@@ -1436,18 +1442,19 @@ body.wz-lock{overflow:hidden}
 
     <div class="wz-step" id="wz-s5" style="display:none">
       <div class="sec-label">PASO 5 DE 5</div>
-      <h3 class="wz-title">Revisa y confirma</h3>
+      <h3 class="wz-title">Revisa y preséntalo</h3>
+      <p class="wz-sub" style="margin-bottom:14px">Al enviarlo no se te cobra nada. Lo leemos en un máximo de 48 h y te decimos si hay Pase para ti.</p>
       <div class="wz-summary" id="wz-summary"></div>
       <label class="consent-row"><input type="checkbox" id="wz-consent"> He leído y acepto la <a href="/legal" target="_blank">Política de Privacidad</a>.</label>
       <div class="wz-err" id="wz-err-5"></div>
-      <div class="wz-nav"><button class="btn-o" onclick="wzBack()">← ATRÁS</button><button class="btn-p" id="wz-submit-btn" onclick="wzSubmit()">ENVIAR SOLICITUD →</button></div>
+      <div class="wz-nav"><button class="btn-o" onclick="wzBack()">← ATRÁS</button><button class="btn-p" id="wz-submit-btn" onclick="wzSubmit()">PRESENTAR MI PROYECTO →</button></div>
     </div>
 
     <div class="wz-step" id="wz-success" style="display:none">
       <div class="wz-success">
         <div class="wz-success-icon">✦</div>
-        <h3 id="wz-success-title">Tu cita está reservada</h3>
-        <p id="wz-success-msg">Ese hueco ya es tuyo. Completa el pago de la fianza abajo y te contactamos por email para confirmar la cita.</p>
+        <h3 id="wz-success-title">Tu proyecto está en el Atelier</h3>
+        <p id="wz-success-msg">Lo leemos y te escribimos en un máximo de 48 h. Todavía no tienes que pagar nada.</p>
         <div class="gift-bizum" id="wz-bizum-box" style="display:none;max-width:360px;margin:18px auto"></div>
         <button class="btn-p" onclick="closeWizard()">CERRAR</button>
       </div>
@@ -1550,9 +1557,9 @@ function renderSite(CONFIG) {
   // ── Fotos ──────────────────────────────────────────────────────
   const heroWrap = document.getElementById('hero-photo-wrap');
   if (CONFIG.fotos.hero) {
-    heroWrap.innerHTML = `<img src="${CONFIG.fotos.hero}" alt="SACRAVM Tattoo Atelier — tatuajes en ${CONFIG.ciudad}"><div class="hero-badge"><p>CITAS DISPONIBLES</p><strong>SACRAVM</strong></div>`;
+    heroWrap.innerHTML = `<img src="${CONFIG.fotos.hero}" alt="SACRAVM Tattoo Atelier — tatuajes en ${CONFIG.ciudad}"><div class="hero-badge"><p>PASES ABIERTOS</p><strong>SACRAVM</strong></div>`;
   } else {
-    heroWrap.innerHTML = `<div class="hero-r-ph"><span>★ Sube tu foto desde /admin</span></div><div class="hero-badge"><p>CITAS DISPONIBLES</p><strong>SACRAVM</strong></div>`;
+    heroWrap.innerHTML = `<div class="hero-r-ph"><span>★ Sube tu foto desde /admin</span></div><div class="hero-badge"><p>PASES ABIERTOS</p><strong>SACRAVM</strong></div>`;
   }
   const perfilWrap = document.getElementById('perfil-wrap');
   const artistaPhotoWrap = document.getElementById('artista-photo-wrap');
@@ -1571,7 +1578,7 @@ function renderSite(CONFIG) {
       <div class="svc-n">${String(i+1).padStart(2,'0')}</div>
       ${s.foto ? `<div class="svc-img">
         <div class="svc-img-ph"><img src="${s.foto}" alt="Ejemplo de ${s.nombre}" loading="lazy"></div>
-        <div class="svc-img-cap"><span class="svc-img-price">${s.precio}</span><button class="svc-img-cta" onclick="goBook('${s.nombre}')">Reservar →</button></div>
+        <div class="svc-img-cap"><span class="svc-img-price">${s.precio}</span><button class="svc-img-cta" onclick="goBook('${s.nombre}')">Pedir cita →</button></div>
       </div>` : ''}
       <div class="svc-row-l">
         <h3 class="svc-name">${s.nombre}</h3>
@@ -1594,7 +1601,7 @@ function renderSite(CONFIG) {
       <div class="tar-row-r">
         <div class="tar-price">${t.precio || ''}</div>
         <div class="tar-senal">${t.senal || ''}</div>
-        <button class="btn-tar" onclick="goBook(${t.bookKey ? `'${t.bookKey.replace(/'/g, "\\'")}'` : ''})">${t.ctaLabel || 'Reservar →'}</button>
+        <button class="btn-tar" onclick="goBook(${t.bookKey ? `'${t.bookKey.replace(/'/g, "\\'")}'` : ''})">${t.ctaLabel || 'Pedir cita →'}</button>
       </div>
     </div>
   `).join('');
@@ -1765,7 +1772,7 @@ function closeEstiloModal() {
 }
 
 function waFallbackLink(payload) {
-  const txt = `Hola! Quiero reservar cita en SACRAVM.\nServicio: ${payload.servicio||'-'}\nFecha preferida: ${payload.fecha||'-'} ${payload.hora||''}\nNombre: ${payload.nombre||'-'}\nZona: ${payload.zona||'-'}\nTamaño: ${payload.tamano||'-'}\nIdea: ${payload.mensaje||'-'}`;
+  const txt = `Hola! Quiero presentar un proyecto en SACRAVM.\nServicio: ${payload.servicio||'-'}\nFecha preferida: ${payload.fecha||'-'} ${payload.hora||''}\nNombre: ${payload.nombre||'-'}\nZona: ${payload.zona||'-'}\nTamaño: ${payload.tamano||'-'}\nIdea: ${payload.mensaje||'-'}`;
   return 'https://wa.me/' + CONFIG.whatsapp.replace(/[^0-9]/g,'') + '?text=' + encodeURIComponent(txt);
 }
 
@@ -2157,7 +2164,7 @@ function wzNext() {
     wz.whatsapp = document.getElementById('wz-whatsapp').value.trim();
     wz.mensaje = document.getElementById('wz-mensaje').value.trim();
     const err = document.getElementById('wz-err-3');
-    if (!wz.nombre || !wz.email || !wz.mensaje) { err.textContent = 'Nombre, email e idea del tattoo son necesarios para confirmarte la cita.'; return; }
+    if (!wz.nombre || !wz.email || !wz.mensaje) { err.textContent = 'Nombre, email e idea del tattoo son necesarios para poder revisar tu solicitud.'; return; }
     err.textContent = '';
     wz.step = 4; showWzStep(4); return;
   }
@@ -2182,7 +2189,7 @@ async function wzSubmit() {
   const err = document.getElementById('wz-err-5');
   if (!document.getElementById('wz-consent').checked) { err.textContent = 'Debes aceptar la Política de Privacidad para continuar.'; return; }
   err.textContent = '';
-  btn.textContent = 'ENVIANDO...'; btn.disabled = true;
+  btn.textContent = 'ENVIANDO…'; btn.disabled = true;
   const payload = {
     tipo: 'reserva',
     servicio: wz.servicio, fecha: wz.fecha, hora: wz.hora,
@@ -2194,36 +2201,16 @@ async function wzSubmit() {
     fecha_envio: new Date().toISOString()
   };
   const result = await sendLead(payload);
-  btn.textContent = 'ENVIAR SOLICITUD →'; btn.disabled = false;
+  btn.textContent = 'PRESENTAR MI PROYECTO →'; btn.disabled = false;
   if (result.ok) {
-    const bizumBox = document.getElementById('wz-bizum-box');
+    // La web ya no confirma citas ni cobra nada aquí. Solo recoge la solicitud:
+    // JJ la revisa y, si encaja, envía el visto bueno con la señal por correo.
     const esValoracion = wz.tier === 'consulta';
-    if (esValoracion) {
-      document.getElementById('wz-success-title').textContent = 'Tu valoración está reservada';
-      document.getElementById('wz-success-msg').textContent = 'Ese hueco ya es tuyo, sin coste. Nos pondremos en contacto contigo en la mayor brevedad posible para confirmar la llamada.';
-      bizumBox.style.display = 'none';
-      showWzStep('success');
-      return;
-    }
-    document.getElementById('wz-success-title').textContent = 'Tu cita está reservada';
-    document.getElementById('wz-success-msg').textContent = 'Ese hueco ya es tuyo. Para cerrar la cita, completa el pago de la fianza abajo — te escribiremos por correo en cuanto la recibamos para confirmarlo todo.';
-    const stripeLink = CONFIG['stripeLink' + wz.fianza];
-    if (CONFIG.bizum || stripeLink) {
-      const concepto = (wz.nombre || 'tu nombre') + ' - cita';
-      bizumBox.style.display = 'block';
-      let html = `<strong>PARA CONFIRMAR TU CITA — FIANZA ${wz.fianza}€</strong>`;
-      if (stripeLink) {
-        html += `<p>Paga la fianza ahora mismo con tarjeta — confirmación al instante.</p><a href="${stripeLink}" target="_blank" class="btn-p" style="display:inline-block;text-decoration:none;margin-top:4px">PAGAR FIANZA CON TARJETA →</a>`;
-        if (CONFIG.bizum) html += `<p style="font-size:11px;color:var(--dt2);margin-top:14px">¿Prefieres Bizum? Envía ${wz.fianza}€ a <span>${CONFIG.bizum}</span>, concepto: <span>${concepto}</span></p><button type="button" class="btn-copy" id="wz-copy-btn">📋 COPIAR DATOS BIZUM</button>`;
-      } else {
-        html += `<p>Envía ${wz.fianza}€ por Bizum a <span>${CONFIG.bizum}</span><br>Concepto: <span>${concepto}</span></p><button type="button" class="btn-copy" id="wz-copy-btn">📋 COPIAR DATOS DEL PAGO</button>`;
-      }
-      html += `<p style="font-size:11px;color:var(--dt2);margin-top:10px">¿Prefieres pagar la sesión completa por adelantado? Dínoslo por WhatsApp y te paso el importe exacto.</p>`;
-      bizumBox.innerHTML = html;
-      if (CONFIG.bizum) document.getElementById('wz-copy-btn').onclick = (e) => copyBizumData(CONFIG.bizum, wz.fianza, concepto, e.target);
-    } else {
-      bizumBox.style.display = 'none';
-    }
+    document.getElementById('wz-bizum-box').style.display = 'none';
+    document.getElementById('wz-success-title').textContent = 'Tu proyecto está en el Atelier';
+    document.getElementById('wz-success-msg').textContent = esValoracion
+      ? 'Te escribimos en un máximo de 48 h para confirmarte la valoración. Es gratuita y sin compromiso — no tienes que pagar nada.'
+      : 'Lo leeremos con el tiempo que merece, no en diagonal. En un máximo de 48 h sabrás si hay Pase para ti — y si lo hay, seremos nosotros quienes te demos fecha y te expliquemos cómo dejar la señal. Hasta entonces no tienes que pagar nada.';
     showWzStep('success');
   } else {
     // Fallback: si la web no tiene el servidor de leads corriendo, abrimos WhatsApp con todo ya escrito
@@ -2250,7 +2237,7 @@ const LP_PREFS = [
   { id: 'estetica', label: 'Busco más la estética, el resultado visual' }
 ];
 const LP_OFFERS = {
-  cita:      { title: 'Prioridad en la agenda, solo para ti',   msg: 'Te avisamos antes que a nadie cuando se libere un hueco — antes de que se publique en Instagram.' },
+  cita:      { title: 'Aviso antes que nadie cuando se abran Pases', msg: 'Cada mes abrimos pocos. Te lo decimos a ti antes de publicarlo en Instagram.' },
   formarme:  { title: 'Acceso anticipado a la Academy',         msg: 'Serás de los primeros en enterarte cuando abramos inscripciones, con condiciones especiales de lanzamiento.' },
   regalo:    { title: 'Prioridad en vales regalo',              msg: 'Te avisamos en cuanto tu vale esté listo y te damos prioridad si hay lista de espera.' }
 };

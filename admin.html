@@ -132,6 +132,15 @@ table.leads-table tr:hover td{background:var(--s1)}
 .lead-card-idea{font-size:12px;color:var(--t3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:10px}
 .lead-card-fianza{width:100%;text-align:center}
 .lead-card-borrar{width:100%;text-align:center;margin-top:8px;border-color:#8c2f2f;color:#c96b6b;font-size:11px}
+.lead-card.pendiente{border-color:#b8892f;box-shadow:0 0 0 1px #b8892f33}
+.chip-sol{font-size:10px;letter-spacing:.08em;padding:3px 8px;border-radius:99px;border:1px solid;white-space:nowrap}
+.chip-sol.pendiente{color:#b8892f;border-color:#b8892f}
+.chip-sol.aprobada{color:#3d7a4e;border-color:#3d7a4e}
+.chip-sol.rechazada{color:#8c2f2f;border-color:#8c2f2f}
+.lead-decision{display:flex;gap:8px;margin-top:8px}
+.lead-decision button{flex:1;font-size:11px;text-align:center}
+.lead-decision .ok{border-color:#3d7a4e;color:#3d7a4e}
+.lead-decision .no{border-color:#8c2f2f;color:#c96b6b}
 
 @media(max-width:780px){
   .layout{flex-direction:column}
@@ -335,7 +344,7 @@ function wireDatos() {
 function panelHorarios() {
   return `
     <div class="panel-title">Horarios</div>
-    <div class="panel-desc">Estas son las horas que tus clientes pueden elegir al reservar cita.</div>
+    <div class="panel-desc">Estas son las horas que se pueden elegir al pedir un Pase.</div>
     <div class="card">
       <div class="chips" id="horarios-chips"></div>
       <div class="add-row">
@@ -344,12 +353,12 @@ function panelHorarios() {
       </div>
     </div>
     <div class="card">
-      <p class="field-label">CON CUÁNTA ANTELACIÓN MÁXIMA SE PUEDE RESERVAR (DÍAS)</p>
+      <p class="field-label">CON CUÁNTA ANTELACIÓN MÁXIMA SE PUEDE PEDIR UN PASE (DÍAS)</p>
       <input class="fi" type="number" min="1" id="f-diasMaxReserva" style="max-width:120px" value="${content.diasMaxReserva || 45}">
       <p style="font-size:12px;color:var(--t3);margin-top:6px">Por ejemplo, 45 días equivale a mes y medio. La agenda solo dejará elegir fechas dentro de ese rango.</p>
     </div>
     <div class="card">
-      <p class="field-label">ANTELACIÓN MÍNIMA PARA RESERVAR (DÍAS)</p>
+      <p class="field-label">ANTELACIÓN MÍNIMA PARA PEDIR UN PASE (DÍAS)</p>
       <input class="fi" type="number" min="0" id="f-diasMinReserva" style="max-width:120px" value="${content.diasMinReserva ?? 3}">
       <p style="font-size:12px;color:var(--t3);margin-top:6px">Con 3, por ejemplo, un cliente no podrá reservar ni para hoy, ni mañana, ni pasado mañana — el primer día disponible en el calendario sería dentro de 3 días.</p>
     </div>
@@ -484,7 +493,7 @@ function renderTarifasList() {
       </div>
       <div class="row2">
         <div><p class="field-label">TEXTO DEL BOTÓN</p><input class="fi" data-i="${i}" data-f="ctaLabel" value="${esc(t.ctaLabel)}"></div>
-        <div><p class="field-label">SERVICIO A PRESELECCIONAR AL RESERVAR (déjalo vacío para "a consultar")</p><input class="fi" data-i="${i}" data-f="bookKey" value="${esc(t.bookKey)}"></div>
+        <div><p class="field-label">SERVICIO A PRESELECCIONAR (déjalo vacío para "a consultar")</p><input class="fi" data-i="${i}" data-f="bookKey" value="${esc(t.bookKey)}"></div>
       </div>
     </div>
   `;
@@ -536,6 +545,10 @@ function panelTextos() {
     <div class="panel-title">Textos</div>
     <div class="panel-desc">El titular y el párrafo de estas secciones. Cambia lo que quieras, se ve tal cual en la web.</div>
     <div class="card">
+      <p class="field-label">AVISO DE APERTURA — sale arriba del cuestionario del QR. <strong>Vacíalo el día que abra el Atelier.</strong></p>
+      <textarea class="fi" id="tx-ap" style="height:70px">${esc(t.aperturaAviso || '')}</textarea>
+    </div>
+    <div class="card">
       <p class="field-label">VALE REGALO — TITULAR (deja una línea en blanco donde quieras el salto de línea)</p><textarea class="fi" id="tx-vr-t" style="height:56px">${esc(t.valeRegaloTitulo)}</textarea>
       <p class="field-label">VALE REGALO — TEXTO</p><textarea class="fi" id="tx-vr-x">${esc(t.valeRegaloTexto)}</textarea>
     </div>
@@ -551,7 +564,7 @@ function panelTextos() {
 }
 function wireTextos() {
   content.textos = content.textos || {};
-  const map = { 'tx-vr-t':'valeRegaloTitulo', 'tx-vr-x':'valeRegaloTexto', 'tx-inv-t':'inversionTitulo', 'tx-inv-x':'inversionTexto', 'tx-ac-t':'academyTitulo', 'tx-ac-x':'academyTexto' };
+  const map = { 'tx-ap':'aperturaAviso', 'tx-vr-t':'valeRegaloTitulo', 'tx-vr-x':'valeRegaloTexto', 'tx-inv-t':'inversionTitulo', 'tx-inv-x':'inversionTexto', 'tx-ac-t':'academyTitulo', 'tx-ac-x':'academyTexto' };
   Object.keys(map).forEach(id => {
     const el = document.getElementById(id);
     if (el) el.oninput = () => content.textos[map[id]] = el.value;
@@ -1006,6 +1019,8 @@ async function loadLeads() {
       <div class="row2">
         <div><p class="field-label">¿YA TATUADO CONMIGO?</p><input class="fi" id="le-yatatuado"></div>
         <div><p class="field-label">CÓMO TE CONOCIÓ</p><input class="fi" id="le-fuente"></div>
+        <div><p class="field-label">PRESUPUESTO</p><input class="fi" id="le-presupuesto"></div>
+        <div><p class="field-label">PLAZO</p><input class="fi" id="le-plazo"></div>
       </div>
       <p class="field-label">MENSAJE / IDEA</p><textarea class="fi" id="le-mensaje"></textarea>
       <div class="auth-msg" id="lead-edit-msg"></div>
@@ -1136,12 +1151,42 @@ async function saveFicha() {
     estado_fianza: fichaFianza ? 'pagada' : '',
     mensaje: idea + (notas ? ' — Notas: ' + notas : ''),
     fuente: fuente || 'Ficha manual (admin)',
+    // Una ficha creada aquí es una cita que ya has cerrado tú: no pasa por revisión.
+    origen: 'admin',
   };
   const res = await fetch('/api/lead', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
   const data = await res.json();
   if (!data.ok) { msg.textContent = 'No se pudo guardar. Inténtalo de nuevo.'; return; }
   document.getElementById('ficha-panel').style.display = 'none';
   flashSaved('✓ Ficha guardada');
+  await renderLeadsTable();
+}
+
+// Visto bueno de JJ sobre una solicitud llegada por la web. Aprobar dispara el
+// email al cliente con la señal; rechazar libera el hueco en el calendario.
+async function decidirSolicitud(rowIndex, decision) {
+  const lead = currentLeads.find(l => l._row === rowIndex) || {};
+  const quien = lead.nombre || 'esta persona';
+  const aviso = lead.email
+    ? (decision === 'aprobada'
+        ? `Se le enviará a ${lead.email} el Pase concedido, con la fecha y las instrucciones de la señal.`
+        : `Se le enviará a ${lead.email} un correo diciendo que esta vez no la coges.`)
+    : 'No tiene email guardado, así que tendrás que avisarle tú por WhatsApp.';
+  const titulo = decision === 'aprobada' ? `¿Conceder el Pase a ${quien}?` : `¿Rechazar el proyecto de ${quien}?`;
+  if (!confirm(titulo + '\n\n' + aviso)) return;
+  const res = await fetch('/api/lead-decision', {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ rowIndex, decision }),
+  });
+  const data = await res.json();
+  if (data.error === 'sin_fecha') {
+    // Solicitudes del QR de la puerta: llegan sin fecha porque la ponemos nosotros.
+    alert('Conceder el Pase es dar fecha.\n\nAbre la ficha, rellena la fecha y la hora, guarda, y vuelve a concederlo.');
+    openEditLead(rowIndex);
+    return;
+  }
+  if (!data.ok) { alert(data.error || 'No se pudo guardar la decisión.'); return; }
+  flashSaved(decision === 'aprobada' ? '✓ Pase concedido y avisado' : '✓ Marcado como no encaja');
   await renderLeadsTable();
 }
 
@@ -1173,6 +1218,8 @@ function openEditLead(rowIndex) {
   document.getElementById('le-tamano').value = lead.tamano || '';
   document.getElementById('le-yatatuado').value = lead.ya_tatuado || '';
   document.getElementById('le-fuente').value = lead.fuente || '';
+  document.getElementById('le-presupuesto').value = lead.presupuesto || '';
+  document.getElementById('le-plazo').value = lead.plazo || '';
   document.getElementById('le-mensaje').value = lead.mensaje || '';
   document.getElementById('lead-edit-msg').textContent = '';
   const panel = document.getElementById('lead-edit-panel');
@@ -1201,6 +1248,8 @@ async function saveLeadEdit() {
     tamano: document.getElementById('le-tamano').value.trim(),
     ya_tatuado: document.getElementById('le-yatatuado').value.trim(),
     fuente: document.getElementById('le-fuente').value.trim(),
+    presupuesto: document.getElementById('le-presupuesto').value.trim(),
+    plazo: document.getElementById('le-plazo').value.trim(),
     mensaje: document.getElementById('le-mensaje').value.trim(),
   };
   const msg = document.getElementById('lead-edit-msg');
@@ -1236,8 +1285,11 @@ async function renderLeadsTable() {
   const res = await fetch('/api/leads');
   const data = await res.json();
   const leads = (data.leads || []);
+  // Las que esperan tu visto bueno van arriba: son lo único que bloquea a alguien.
+  leads.sort((a, b) => ((b.estado_solicitud === 'pendiente') ? 1 : 0) - ((a.estado_solicitud === 'pendiente') ? 1 : 0));
   currentLeads = leads;
-  document.getElementById('leads-title').textContent = 'Leads (' + leads.length + ')';
+  const nPend = leads.filter(l => l.estado_solicitud === 'pendiente').length;
+  document.getElementById('leads-title').textContent = 'Leads (' + leads.length + ')' + (nPend ? ' · ' + nPend + ' por elegir' : '');
   const wrap = document.getElementById('leads-table-wrap');
   if (!leads.length) {
     wrap.innerHTML = '<div class="empty-note">Todavía no hay ninguno. En cuanto alguien reserve, se apunte a una lista, o añadas una ficha manual, aparecerá aquí.</div>';
@@ -1248,18 +1300,33 @@ async function renderLeadsTable() {
       ${leads.map(l => {
         const fecha = (l.tipo === 'reserva' && l.fecha_cita) ? esc(l.fecha_cita) + (l.hora_cita ? ' · ' + esc(l.hora_cita) : '') : esc(l.fecha_registro);
         const idea = esc(l.mensaje || l.instagram || '');
-        const fianzaBtn = l.tipo === 'reserva'
+        // Columna vacía = ficha anterior a este flujo, ya estaba confirmada.
+        const sol = l.tipo === 'reserva' ? (l.estado_solicitud || 'aprobada') : '';
+        const pendiente = sol === 'pendiente';
+        const chipSol = sol
+          ? `<span class="chip-sol ${sol}">${pendiente ? '● Por elegir' : sol === 'rechazada' ? '✕ No encaja' : '✓ Pase concedido'}</span>`
+          : '';
+        const decisionBtns = pendiente
+          ? `<div class="lead-decision">
+              <button class="btn-o ok" onclick="event.stopPropagation();decidirSolicitud(${l._row},'aprobada')">✓ Conceder Pase</button>
+              <button class="btn-o no" onclick="event.stopPropagation();decidirSolicitud(${l._row},'rechazada')">✕ No encaja</button>
+            </div>`
+          : '';
+        // Mientras no esté aprobada no se le ha pedido dinero: no tiene sentido el botón de fianza.
+        const fianzaBtn = (l.tipo === 'reserva' && sol === 'aprobada')
           ? `<button class="btn-o lead-card-fianza" data-row="${l._row}" data-estado="${esc(l.estado_fianza)}" onclick="event.stopPropagation();toggleFianza(this)">${l.estado_fianza === 'pagada' ? '✓ Fianza pagada' : '○ Fianza pendiente'}</button>`
           : '';
         return `
-        <div class="lead-card" onclick="openEditLead(${l._row})">
+        <div class="lead-card${pendiente ? ' pendiente' : ''}" onclick="openEditLead(${l._row})">
           <div class="lead-card-top">
             <span class="lead-card-fecha">${fecha}</span>
-            <span class="tag ${l.tipo}">${esc(l.tipo)}</span>
+            <span style="display:flex;gap:6px;align-items:center">${chipSol}<span class="tag ${l.tipo}">${esc(l.tipo)}</span></span>
           </div>
           <div class="lead-card-nombre">${esc(l.nombre) || '(sin nombre)'}</div>
           <div class="lead-card-meta">${[esc(l.whatsapp), esc(l.email), l.instagram ? '@' + esc(l.instagram) : ''].filter(Boolean).join(' · ') || '—'}</div>
           ${idea ? `<div class="lead-card-idea">${idea}</div>` : ''}
+          ${(l.presupuesto || l.plazo) ? `<div class="lead-card-idea" style="color:var(--a)">${[esc(l.presupuesto), esc(l.plazo)].filter(Boolean).join(' · ')}</div>` : ''}
+          ${decisionBtns}
           ${fianzaBtn}
           <button class="btn-o lead-card-borrar" onclick="event.stopPropagation();borrarLead(${l._row})">🗑 Borrar</button>
         </div>

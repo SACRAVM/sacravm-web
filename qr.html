@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>SACRAVM · Cuéntanos tu idea</title>
+<title>SACRAVM · Solicitud de Pase</title>
 <link rel="icon" href="/images/misc/logo.png">
 <meta name="theme-color" content="#1C1714">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
@@ -52,6 +52,14 @@ textarea.fi{resize:none;height:80px}
 .consent-row a{color:var(--a)}
 
 .err{color:#a33;font-size:12.5px;margin-top:8px;min-height:16px}
+.aviso{margin:0 24px 4px;padding:13px 15px;background:var(--aLt);border:1px solid var(--aBdr);border-radius:var(--r);font-size:13px;color:var(--a);line-height:1.65;text-align:center}
+.ref-input{width:100%;padding:12px 14px;border:1px dashed var(--bdr2);border-radius:var(--r);background:var(--w);font-size:13px;color:var(--t2);cursor:pointer}
+.ref-preview{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.ref-thumb{position:relative;width:56px;height:56px;border-radius:4px;overflow:hidden;border:1px solid var(--bdr)}
+.ref-thumb img{width:100%;height:100%;object-fit:cover}
+.ref-thumb button{position:absolute;top:0;right:0;background:rgba(28,23,20,.75);color:#fff;border:none;width:17px;height:17px;font-size:11px;line-height:1;cursor:pointer;border-radius:0 0 0 4px}
+.ref-count{font-size:11px;color:var(--t3);margin-top:5px}
+.field-note{font-size:11.5px;color:var(--t3);margin-top:-2px;margin-bottom:2px;line-height:1.55}
 
 .cta-block{padding:26px 24px 0;display:flex;flex-direction:column;gap:12px}
 .btn-p{background:var(--dk);color:var(--dtx);border:none;padding:16px 20px;border-radius:var(--r);font-size:14.5px;font-weight:600;letter-spacing:.03em;cursor:pointer;text-align:center}
@@ -76,17 +84,18 @@ textarea.fi{resize:none;height:80px}
 </header>
 
 <div id="form-wrap">
+  <div class="aviso" id="qr-aviso" style="display:none"></div>
   <div class="hero">
-    <h1 id="qr-titulo">Antes de tatuarte con nosotros, cuéntanos tu idea.</h1>
-    <p>Así vemos si tu proyecto encaja con SACRAVM y te proponemos los siguientes pasos.</p>
+    <h1 id="qr-titulo">El Pase se concede.</h1>
+    <p>Cada mes el Atelier abre un número limitado de Pases. Elegimos cada proyecto, uno a uno. Cuéntanos qué historia quieres hacer eterna.</p>
   </div>
 
   <div class="grid" id="qr-grid"></div>
 
   <div class="sec">
-    <div class="sec-label">TU PROYECTO</div>
-    <h2>Un par de minutos, nada más</h2>
-    <p>Rellena esto y decide al final si prefieres reservar ya, o que te contactemos nosotros.</p>
+    <div class="sec-label">TU CANDIDATURA</div>
+    <h2>Esto no es un formulario. Es tu proyecto.</h2>
+    <p>Escríbelo como nos lo contarías en persona. Lo que pongas aquí es lo único que tenemos para decidir — y lo leeremos entero.</p>
 
     <div class="field-label">TU NOMBRE</div>
     <input class="fi" id="q-nombre" placeholder="Nombre y apellidos">
@@ -97,31 +106,75 @@ textarea.fi{resize:none;height:80px}
     <div class="field-label">TELÉFONO / WHATSAPP</div>
     <input class="fi" id="q-telefono" placeholder="Tu número">
 
-    <div class="field-label">¿QUÉ TE GUSTARÍA HACERTE?</div>
-    <textarea class="fi" id="q-idea" placeholder="Cuéntanos tu idea, qué quiere transmitir, referencias…"></textarea>
+    <div class="field-label">TU INSTAGRAM</div>
+    <input class="fi" id="q-instagram" placeholder="@tuusuario — así vemos tu estilo antes de decidir">
 
-    <div class="field-label">ZONA DEL CUERPO</div>
+    <div class="field-label">LA HISTORIA QUE QUIERES LLEVAR</div>
+    <textarea class="fi" id="q-idea" placeholder="No nos describas un dibujo. Cuéntanos qué significa, de dónde viene y por qué ahora."></textarea>
+
+    <div class="field-label">DÓNDE VA A VIVIR</div>
     <input class="fi" id="q-zona" placeholder="Brazo, costillas, pierna…">
 
-    <div class="field-label">TAMAÑO APROXIMADO</div>
+    <div class="field-label">QUÉ ESPACIO OCUPA</div>
     <input class="fi" id="q-tamano" placeholder="En cm, o compáralo con algo (una mano, un folio…)">
+
+    <div class="field-label">REFERENCIAS</div>
+    <p class="field-note">Hasta 6 imágenes. No para copiarlas — para entender el tono, el encaje y el nivel de detalle que buscas.</p>
+    <input type="file" accept="image/*" multiple id="q-referencias" class="ref-input" onchange="qrRefs(event)">
+    <div class="ref-preview" id="q-ref-preview"></div>
+    <div class="ref-count" id="q-ref-count"></div>
+
+    <div class="field-label">QUÉ PRESUPUESTO MANEJAS</div>
+    <p class="field-note">Nadie va a cobrarte por esto. Sirve para no proponerte algo que no encaje con lo que tienes pensado.</p>
+    <select class="fi" id="q-presupuesto">
+      <option value="">Prefiero hablarlo</option>
+      <option value="Hasta 250€">Hasta 250€</option>
+      <option value="250–550€">250–550€</option>
+      <option value="550–850€">550–850€</option>
+      <option value="Más de 850€ / proyecto">Más de 850€ · es un proyecto grande</option>
+    </select>
+
+    <div class="field-label">¿PARA CUÁNDO LO QUIERES?</div>
+    <select class="fi" id="q-plazo">
+      <option value="En cuanto haya hueco">En cuanto haya hueco</option>
+      <option value="En 1–3 meses">En 1–3 meses</option>
+      <option value="Este año, sin prisa">Este año, sin prisa</option>
+      <option value="Todavía lo estoy pensando">Todavía lo estoy pensando</option>
+    </select>
+
+    <div class="field-label">¿ES TU PRIMER TATUAJE?</div>
+    <select class="fi" id="q-primero">
+      <option value="No">No, ya tengo alguno</option>
+      <option value="Sí">Sí, sería el primero</option>
+    </select>
+
+    <div class="field-label">¿POR DÓNDE NOS CONOCISTE?</div>
+    <select class="fi" id="q-fuente">
+      <option value="QR puerta">Vi el cartel en la puerta</option>
+      <option value="Instagram">Instagram</option>
+      <option value="Recomendación">Me lo recomendaron</option>
+      <option value="Google">Google</option>
+      <option value="Vio un tatuaje">Le vi un tatuaje a alguien</option>
+      <option value="Cuadros">Por los cuadros</option>
+      <option value="Otro">Otro</option>
+    </select>
 
     <label class="consent-row"><input type="checkbox" id="q-consent"> He leído y acepto la <a href="/legal" target="_blank">Política de Privacidad</a>.</label>
     <div class="err" id="q-err"></div>
   </div>
 
   <div class="cta-block">
-    <button class="btn-p" id="btn-reservar" onclick="qrGo('reservar')">QUIERO RESERVAR CITA →</button>
-    <button class="btn-o" id="btn-contacto" onclick="qrGo('contacto')">PREFIERO QUE ME CONTACTÉIS →</button>
-    <p class="cta-note">Si aún no lo tienes claro, elige la segunda opción — hablamos contigo antes de nada.</p>
+    <button class="btn-p" id="btn-enviar" onclick="qrEnviar()">PRESENTAR MI PROYECTO →</button>
+    <p class="cta-note">Respondemos en 48 h. Si hay Pase para ti, seremos nosotros quienes te demos fecha.<br>Presentarlo no cuesta nada ni te compromete a nada.</p>
   </div>
 </div>
 
 <div class="success" id="success-contacto">
   <div class="success-icon">✦</div>
-  <h2>Recibido</h2>
-  <p>Hemos recibido tu idea. Nos pondremos en contacto contigo en la mayor brevedad posible para contarte si tu proyecto encaja con SACRAVM y proponerte una sesión de asesoramiento.</p>
-  <a class="btn-o" href="/">VOLVER A LA WEB</a>
+  <h2>Tu proyecto está en el Atelier</h2>
+  <p>Lo leeremos con el tiempo que merece, no en diagonal. En un máximo de 48 h sabrás si hay Pase para ti — y si lo hay, seremos nosotros quienes te demos fecha.</p>
+  <p style="margin-top:14px;font-style:italic;color:var(--a)">Tu historia merece ser eterna.</p>
+  <a class="btn-o" href="/">MIENTRAS TANTO, MIRA NUESTRO TRABAJO</a>
 </div>
 
 <script>
@@ -135,6 +188,13 @@ async function loadContent() {
     CONFIG = await res.json();
   } catch (e) { CONFIG = {}; }
   renderGrid();
+  // Aviso de apertura: se pinta solo si hay texto en el panel. Vacío = no aparece.
+  const aviso = (CONFIG.textos || {}).aperturaAviso;
+  if (aviso) {
+    const box = document.getElementById('qr-aviso');
+    box.textContent = aviso;
+    box.style.display = 'block';
+  }
 }
 
 function renderGrid() {
@@ -145,39 +205,85 @@ function renderGrid() {
   `).join('');
 }
 
+// ── Referencias: hasta 6 imágenes, reducidas antes de enviarlas ──
+let qrReferencias = [];
+const QR_MAX_REFS = 6;
+
+function qrRefs(ev) {
+  const files = Array.from(ev.target.files || []);
+  const sitio = QR_MAX_REFS - qrReferencias.length;
+  files.slice(0, Math.max(0, sitio)).forEach(f => {
+    const lector = new FileReader();
+    lector.onload = e => {
+      const img = new Image();
+      img.onload = () => {
+        // Se redimensiona en el navegador: si no, seis fotos de móvil
+        // superan el límite del servidor y la solicitud se pierde entera.
+        const max = 1200;
+        const escala = Math.min(1, max / Math.max(img.width, img.height));
+        const c = document.createElement('canvas');
+        c.width = Math.round(img.width * escala);
+        c.height = Math.round(img.height * escala);
+        c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+        qrReferencias.push({ dataUrl: c.toDataURL('image/jpeg', 0.82) });
+        qrPintaRefs();
+      };
+      img.src = e.target.result;
+    };
+    lector.readAsDataURL(f);
+  });
+  ev.target.value = '';
+}
+
+function qrQuitaRef(i) { qrReferencias.splice(i, 1); qrPintaRefs(); }
+
+function qrPintaRefs() {
+  document.getElementById('q-ref-preview').innerHTML = qrReferencias.map((r, i) =>
+    `<div class="ref-thumb"><img src="${r.dataUrl}" alt=""><button type="button" onclick="qrQuitaRef(${i})">✕</button></div>`
+  ).join('');
+  document.getElementById('q-ref-count').textContent =
+    qrReferencias.length ? `${qrReferencias.length} de ${QR_MAX_REFS}` : '';
+}
+
 function qrCollect() {
+  const v = id => document.getElementById(id).value.trim();
   return {
-    nombre: document.getElementById('q-nombre').value.trim(),
-    email: document.getElementById('q-email').value.trim(),
-    telefono: document.getElementById('q-telefono').value.trim(),
-    idea: document.getElementById('q-idea').value.trim(),
-    zona: document.getElementById('q-zona').value.trim(),
-    tamano: document.getElementById('q-tamano').value.trim(),
+    nombre: v('q-nombre'),
+    email: v('q-email'),
+    telefono: v('q-telefono'),
+    instagram: v('q-instagram').replace(/^@/, ''),
+    idea: v('q-idea'),
+    zona: v('q-zona'),
+    tamano: v('q-tamano'),
+    presupuesto: v('q-presupuesto'),
+    plazo: v('q-plazo'),
+    primero: v('q-primero'),
+    fuente: v('q-fuente'),
   };
 }
 
-async function qrGo(via) {
+// Una sola vía: se manda la solicitud y la revisamos. Aquí nadie elige fecha
+// ni paga nada — la fecha la damos nosotros al aprobar.
+async function qrEnviar() {
   const err = document.getElementById('q-err');
   const d = qrCollect();
   if (!d.nombre || !d.email) { err.textContent = 'Nombre y correo son obligatorios.'; return; }
+  if (!d.idea) { err.textContent = 'Cuéntanos la historia — es lo único que tenemos para decidir.'; return; }
   if (!document.getElementById('q-consent').checked) { err.textContent = 'Debes aceptar la Política de Privacidad para continuar.'; return; }
   err.textContent = '';
 
-  if (via === 'reservar') {
-    sessionStorage.setItem('sacravm_qr_prefill', JSON.stringify(d));
-    window.location.href = '/#qrbook';
-    return;
-  }
-
-  const btn = document.getElementById('btn-contacto');
+  const btn = document.getElementById('btn-enviar');
   btn.textContent = 'ENVIANDO…'; btn.disabled = true;
   try {
     await fetch('/api/lead', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        tipo: 'qr_contacto', nombre: d.nombre, email: d.email, whatsapp: d.telefono,
-        mensaje: d.idea, zona: d.zona, tamano: d.tamano, fuente: 'QR',
+        tipo: 'reserva', nombre: d.nombre, email: d.email, whatsapp: d.telefono,
+        instagram: d.instagram, mensaje: d.idea, zona: d.zona, tamano: d.tamano,
+        presupuesto: d.presupuesto, plazo: d.plazo, ya_tatuado: d.primero === 'Sí' ? 'No' : 'Sí',
+        fuente: d.fuente || 'QR puerta',
+        referencias: qrReferencias.map(r => r.dataUrl),
         fecha_envio: new Date().toISOString()
       })
     });

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>SACRAVM · Agenda</title>
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#1C1714">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="SACRAVM Agenda">
+<link rel="apple-touch-icon" href="/images/misc/apple-touch-icon.png">
+<link rel="icon" href="/images/misc/icon-192.png">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{
+  --bg:#FBF8F3;--s1:#F5EFE4;--s2:#EEE7D9;--w:#FDFCF9;
+  --bdr:rgba(60,40,10,.08);--bdr2:rgba(60,40,10,.16);
+  --tx:#1C1714;--t2:#6B6460;--t3:#A8A29C;
+  --a:#8B5E2A;--aLt:rgba(139,94,42,.08);--aBdr:rgba(139,94,42,.22);
+  --dk:#1C1714;--dtx:#EDE7DC;
+  --ok:#3F7A4E;--okLt:rgba(63,122,78,.1);--okBdr:rgba(63,122,78,.28);
+  --err:#B5473A;--errLt:rgba(181,71,58,.1);--errBdr:rgba(181,71,58,.3);
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+  --sh:0 1px 20px rgba(60,40,10,.07);--r:10px;
+}
+body{background:var(--bg);color:var(--tx);font-family:var(--sans);line-height:1.5;min-height:100vh;
+  padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom)}
+input,button{font-family:var(--sans)}
+::placeholder{color:var(--t3)}
+a{color:inherit}
+
+/* ── AUTH ─── */
+.auth-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+.auth-box{background:var(--w);border:1px solid var(--bdr);border-radius:10px;box-shadow:var(--sh);max-width:380px;width:100%;padding:40px 32px}
+.auth-logo{font-family:var(--serif);font-size:24px;letter-spacing:.2em;text-align:center;margin-bottom:4px}
+.auth-sub{font-size:10px;letter-spacing:.2em;color:var(--t3);text-align:center;margin-bottom:28px}
+.fi{width:100%;background:var(--bg);border:1px solid var(--bdr);border-radius:4px;padding:0 13px;height:44px;color:var(--tx);outline:none;font-size:15px;margin-bottom:12px}
+.fi:focus{border-color:var(--a)}
+.btn-p{background:var(--dk);border:none;color:var(--dtx);padding:14px 30px;font-size:12px;font-weight:600;letter-spacing:.1em;border-radius:var(--r);cursor:pointer;width:100%}
+.btn-p:active{opacity:.8}
+.auth-msg{font-size:12px;color:var(--err);margin-bottom:10px;min-height:16px}
+.auth-note{font-size:11px;color:var(--t3);text-align:center;margin-top:16px;line-height:1.7}
+
+/* ── TOPBAR ─── */
+.topbar{position:sticky;top:0;z-index:20;background:rgba(251,248,243,.96);backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--bdr);padding:calc(14px + env(safe-area-inset-top)) 18px 14px}
+.tb-row{display:flex;align-items:center;justify-content:space-between}
+.tb-logo{font-family:var(--serif);font-size:19px;letter-spacing:.16em}
+.tb-links{display:flex;gap:14px;align-items:center}
+.tb-link{font-size:11px;color:var(--t3);text-decoration:none;letter-spacing:.03em}
+
+/* ── STATS STRIP ─── */
+.stats{display:flex;gap:10px;padding:14px 18px 4px}
+.stat{flex:1;background:var(--w);border:1px solid var(--bdr);border-radius:8px;padding:12px 14px;text-align:center}
+.stat b{display:block;font-family:var(--serif);font-size:26px;font-weight:400;color:var(--tx)}
+.stat span{font-size:10px;letter-spacing:.06em;color:var(--t3)}
+.stat.warn b{color:var(--err)}
+
+/* ── AGENDA LIST ─── */
+.wrap{padding:8px 18px 60px;max-width:520px;margin:0 auto}
+.day-heading{font-size:11px;letter-spacing:.1em;color:var(--a);font-weight:600;margin:26px 0 10px;text-transform:uppercase}
+.day-heading:first-child{margin-top:18px}
+.cita-card{background:var(--w);border:1px solid var(--bdr);border-radius:10px;padding:16px 18px;margin-bottom:10px;box-shadow:var(--sh)}
+.cita-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px}
+.cita-hora{font-family:var(--serif);font-size:22px;font-weight:400;color:var(--tx)}
+.cita-servicio{font-size:11px;color:var(--t3);letter-spacing:.03em;text-transform:uppercase}
+.cita-nombre{font-family:var(--serif);font-size:19px;font-weight:500;margin-bottom:8px}
+.cita-meta{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
+.cita-meta a{font-size:12px;color:var(--a);text-decoration:none;background:var(--aLt);border:1px solid var(--aBdr);border-radius:20px;padding:5px 12px}
+.cita-idea{font-size:13px;color:var(--t2);line-height:1.7;margin-bottom:12px;cursor:pointer}
+.cita-idea.clamp{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.fianza-btn{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;letter-spacing:.02em;
+  border-radius:20px;padding:7px 14px;cursor:pointer;border:1px solid transparent}
+.fianza-btn.pagada{background:var(--okLt);border-color:var(--okBdr);color:var(--ok)}
+.fianza-btn.pendiente{background:var(--errLt);border-color:var(--errBdr);color:var(--err)}
+.empty-note{color:var(--t3);font-size:14px;text-align:center;padding:60px 20px;line-height:1.8}
+.loading{color:var(--t3);font-size:13px;text-align:center;padding:40px}
+</style>
+</head>
+<body>
+<div id="app"></div>
+
+<script>
+let session = null;
+let leads = [];
+const app = document.getElementById('app');
+
+async function boot() {
+  const res = await fetch('/api/auth-status');
+  session = await res.json();
+  if (!session.hasAccount) { app.innerHTML = `<div class="auth-wrap"><div class="auth-box"><div class="auth-logo">SACRAVM</div><div class="auth-sub">AGENDA</div><p class="auth-note">Todavía no hay ninguna cuenta creada — créala primero desde <a href="/admin" style="color:var(--a)">el panel de administración</a>.</p></div></div>`; return; }
+  if (!session.loggedIn) return renderLogin();
+  await loadAgenda();
+}
+
+function renderLogin() {
+  app.innerHTML = `
+    <div class="auth-wrap">
+      <div class="auth-box">
+        <div class="auth-logo">SACRAVM</div>
+        <div class="auth-sub">AGENDA</div>
+        <div class="auth-msg" id="msg"></div>
+        <input class="fi" id="username" placeholder="Usuario" autocomplete="username">
+        <input class="fi" id="password" type="password" placeholder="Contraseña" autocomplete="current-password">
+        <button class="btn-p" id="btn-login">ENTRAR →</button>
+      </div>
+    </div>
+  `;
+  const tryLogin = async () => {
+    const username = document.getElementById('username').value.trim();
+    const password = document.getElementById('password').value;
+    const msg = document.getElementById('msg');
+    const res = await fetch('/api/login', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ username, password }) });
+    const data = await res.json();
+    if (!data.ok) { msg.textContent = data.error || 'No se pudo iniciar sesión.'; return; }
+    await loadAgenda();
+  };
+  document.getElementById('btn-login').onclick = tryLogin;
+  document.getElementById('password').addEventListener('keydown', e => { if (e.key === 'Enter') tryLogin(); });
+}
+
+async function loadAgenda() {
+  app.innerHTML = `<div class="loading">Cargando tu agenda…</div>`;
+  const res = await fetch('/api/leads');
+  const data = await res.json();
+  // Solo Pases concedidos: un proyecto por elegir todavía no es una cita.
+  leads = (data.leads || []).filter(l => l.tipo === 'reserva' && l.fecha_cita && (l.estado_solicitud || 'aprobada') === 'aprobada');
+  renderAgenda();
+}
+
+function fmtDiaCorto(fechaISO) {
+  const [y,m,d] = fechaISO.split('-').map(Number);
+  const date = new Date(y, m-1, d);
+  const dias = ['DOM','LUN','MAR','MIÉ','JUE','VIE','SÁB'];
+  const meses = ['ENE','FEB','MAR','ABR','MAY','JUN','JUL','AGO','SEP','OCT','NOV','DIC'];
+  return `${dias[date.getDay()]} ${date.getDate()} ${meses[date.getMonth()]}`;
+}
+
+function renderAgenda() {
+  const todayStr = new Date().toISOString().slice(0,10);
+  const proximas = leads
+    .filter(l => l.fecha_cita >= todayStr)
+    .sort((a,b) => (a.fecha_cita+a.hora_cita).localeCompare(b.fecha_cita+b.hora_cita));
+
+  const pendientes = proximas.filter(l => l.estado_fianza !== 'pagada').length;
+
+  let byDay = {};
+  proximas.forEach(l => { (byDay[l.fecha_cita] = byDay[l.fecha_cita] || []).push(l); });
+
+  let html = `
+    <div class="topbar">
+      <div class="tb-row">
+        <div class="tb-logo">SACRAVM</div>
+        <div class="tb-links">
+          <a class="tb-link" href="/admin">Panel completo</a>
+          <a class="tb-link" href="#" id="logout-link">Salir</a>
+        </div>
+      </div>
+    </div>
+    <div class="stats">
+      <div class="stat"><b>${proximas.length}</b><span>PASES PRÓXIMOS</span></div>
+      <div class="stat ${pendientes ? 'warn' : ''}"><b>${pendientes}</b><span>SEÑALES PENDIENTES</span></div>
+    </div>
+    <div class="wrap">
+  `;
+
+  if (!proximas.length) {
+    html += `<div class="empty-note">No hay Pases próximos.<br>En cuanto concedas uno, aparece aquí.</div>`;
+  } else {
+    Object.keys(byDay).sort().forEach(fecha => {
+      html += `<div class="day-heading">${fmtDiaCorto(fecha)}</div>`;
+      byDay[fecha].forEach(l => {
+        const pagada = l.estado_fianza === 'pagada';
+        const tel = (l.whatsapp || '').replace(/[^\d+]/g,'');
+        html += `
+          <div class="cita-card">
+            <div class="cita-top">
+              <span class="cita-hora">${l.hora_cita || '—'}</span>
+              <span class="cita-servicio">${l.servicio || ''}</span>
+            </div>
+            <div class="cita-nombre">${esc(l.nombre || 'Sin nombre')}</div>
+            <div class="cita-meta">
+              ${tel ? `<a href="https://wa.me/${tel.replace('+','')}">WhatsApp</a>` : ''}
+              ${tel ? `<a href="tel:${tel}">Llamar</a>` : ''}
+              ${l.zona ? `<a href="#" onclick="return false">${esc(l.zona)}</a>` : ''}
+            </div>
+            ${l.mensaje ? `<div class="cita-idea clamp" onclick="this.classList.toggle('clamp')">${esc(l.mensaje)}</div>` : ''}
+            <button class="fianza-btn ${pagada ? 'pagada' : 'pendiente'}" data-row="${l._row}" data-estado="${pagada ? 'pagada' : ''}" onclick="toggleFianza(this)">
+              ${pagada ? '✓ Fianza pagada' : '⚠ Fianza pendiente'}
+            </button>
+          </div>
+        `;
+      });
+    });
+  }
+
+  html += `</div>`;
+  app.innerHTML = html;
+  document.getElementById('logout-link').onclick = async (e) => {
+    e.preventDefault();
+    await fetch('/api/logout', { method: 'POST' });
+    boot();
+  };
+}
+
+async function toggleFianza(btn) {
+  const rowIndex = btn.dataset.row;
+  const nuevoEstado = btn.dataset.estado === 'pagada' ? '' : 'pagada';
+  btn.disabled = true;
+  await fetch('/api/lead-status', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ rowIndex: Number(rowIndex), estado: nuevoEstado }) });
+  await loadAgenda();
+}
+
+function esc(s) { return String(s || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+boot();
+</script>
+</body>
+</html>

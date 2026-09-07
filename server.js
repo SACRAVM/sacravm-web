@@ -44,7 +44,7 @@ function readJSON(file, fallback) {
 function writeJSON(file, data) {
   fs.writeFileSync(file, JSON.stringify(data, null, 2), 'utf8');
 }
-const LEADS_HEADER = ['fecha_registro','tipo','nombre','email','whatsapp','servicio','fecha_cita','hora_cita','mensaje','instagram','zona','tamano','bebida','ya_tatuado','fuente','tier','fianza','referencias','estado_fianza','recordatorio_enviado','seguimiento_enviado','reactivacion_6m_enviado','reactivacion_1a_enviado','alerta_fianza_enviado','aviso_prep_24h_enviado','artista'];
+const LEADS_HEADER = ['fecha_registro','tipo','nombre','email','whatsapp','servicio','fecha_cita','hora_cita','mensaje','instagram','zona','tamano','bebida','ya_tatuado','fuente','tier','fianza','referencias','estado_fianza','recordatorio_enviado','seguimiento_enviado','reactivacion_6m_enviado','reactivacion_1a_enviado','alerta_fianza_enviado','aviso_prep_24h_enviado','artista','estado_solicitud','fecha_aprobacion','alerta_senal_enviado','presupuesto','plazo'];
 const ARTISTA_DEFAULT = 'JJ Rodríguez';
 const PROVEEDORES_FILE = path.join(DATA_DIR, 'proveedores.csv');
 const PROVEEDORES_HEADER = ['fecha_registro','nombre','que_suministra','contacto','telefono','email','condiciones','notas'];
@@ -115,10 +115,10 @@ const DEFAULT_CONTENT = {
     { nombre: 'Fine line', descripcion: 'Línea fina, limpia y elegante para quienes buscan sutileza, gusto y una estética menos obvia.', ideal: 'Lettering delicado, botánicos, ornamentos sutiles.', precio: 'Desde 90€ · Consultar idea, diseño y disponibilidad', foto: '/images/galeria/g9.jpg' },
   ],
   tarifas: [
-    { duracion: '1–2 HORAS', tag: '', nombre: 'Mini tattoo', desc: 'Para piezas pequeñas, limpias y con resultado garantizado — el primer contacto natural con el atelier.', incluye: 'Diseño el mismo día · Kit de cuidados incluido · Repaso incluido (4 meses)', precio: '90–220€', senal: 'Señal 50€', ctaLabel: 'Reservar mini →', bookKey: 'Mini tattoo', thumb: '' },
-    { duracion: '3–5 HORAS', tag: 'el formato más solicitado', nombre: 'Media sesión', desc: 'Para piezas de tamaño medio o avances de un proyecto en curso — el equilibrio justo entre tiempo y profundidad.', incluye: 'Diseño el mismo día · Kit de cuidados · Seguimiento de curación · Repaso incluido (4 meses)', precio: '450–550€', senal: 'Señal 100€ · se descuenta del total', ctaLabel: 'Reservar media sesión →', bookKey: 'Media sesión', thumb: '/media-sesion.jpg' },
-    { duracion: '6–8 HORAS', tag: '', nombre: 'Sesión completa', desc: 'Para proyectos exigentes que necesitan tiempo, capas y profundidad de detalle en una sola jornada.', incluye: 'Kit de cuidados completo · Seguimiento de curación · Repaso incluido (4 meses) · Descuento en bloques de proyecto', precio: '750–850€', senal: 'Señal 150€ · se descuenta del total', ctaLabel: 'Reservar sesión completa →', bookKey: 'Sesión completa', thumb: '/sesion-completa.jpg' },
-    { duracion: '2+ DÍAS · PROYECTO', tag: '', nombre: 'Gran proyecto', desc: 'Mangas, espaldas y proyectos de envergadura, planificados por bloques con curación entre fases.', incluye: 'Planificación completa · Máx. 3 sesiones por bloque · Seguimiento personalizado', precio: '750–850€/día', senal: 'Señal 200€/sesión · se descuenta del total', ctaLabel: 'Consultar proyecto →', bookKey: '', thumb: '/gran-proyecto.jpg' },
+    { duracion: '1–2 HORAS', tag: '', nombre: 'Mini tattoo', desc: 'Para piezas pequeñas, limpias y con resultado garantizado — el primer contacto natural con el atelier.', incluye: 'Diseño el mismo día · Kit de cuidados incluido · Repaso incluido (4 meses)', precio: '90–220€', senal: 'Señal 50€', ctaLabel: 'Pedir cita →', bookKey: 'Mini tattoo', thumb: '' },
+    { duracion: '3–5 HORAS', tag: 'el formato más solicitado', nombre: 'Media sesión', desc: 'Para piezas de tamaño medio o avances de un proyecto en curso — el equilibrio justo entre tiempo y profundidad.', incluye: 'Diseño el mismo día · Kit de cuidados · Seguimiento de curación · Repaso incluido (4 meses)', precio: '450–550€', senal: 'Señal 100€ · se descuenta del total', ctaLabel: 'Pedir cita →', bookKey: 'Media sesión', thumb: '/media-sesion.jpg' },
+    { duracion: '6–8 HORAS', tag: '', nombre: 'Sesión completa', desc: 'Para proyectos exigentes que necesitan tiempo, capas y profundidad de detalle en una sola jornada.', incluye: 'Kit de cuidados completo · Seguimiento de curación · Repaso incluido (4 meses) · Descuento en bloques de proyecto', precio: '750–850€', senal: 'Señal 150€ · se descuenta del total', ctaLabel: 'Pedir cita →', bookKey: 'Sesión completa', thumb: '/sesion-completa.jpg' },
+    { duracion: '2+ DÍAS · PROYECTO', tag: '', nombre: 'Gran proyecto', desc: 'Mangas, espaldas y proyectos de envergadura, planificados por bloques con curación entre fases.', incluye: 'Planificación completa · Máx. 3 sesiones por bloque · Seguimiento personalizado', precio: '750–850€/día', senal: 'Señal 200€/sesión · se descuenta del total', ctaLabel: 'Pedir cita →', bookKey: '', thumb: '/gran-proyecto.jpg' },
   ],
   testimonios: [
     { txt: 'No sentí que estuviera entrando a un estudio más, sino a un sitio preparado para escuchar bien la idea y llevarla a un resultado fino y con criterio.', by: 'Claudia M.' },
@@ -147,10 +147,12 @@ const DEFAULT_CONTENT = {
   academyResultados: [],
   academyTestimonios: [],
   textos: {
+    // Se muestra arriba del cuestionario del QR. Vacíalo el día que abra el Atelier.
+    aperturaAviso: 'El Atelier de Paseo Quintanilla abre sus puertas en las próximas semanas. Estos son los primeros Pases: los proyectos que elijamos ahora son los que inauguran la casa.',
     valeRegaloTitulo: 'Regala algo único.\nY para siempre.',
     valeRegaloTexto: 'Unas flores se marchitan. Una cena se olvida. Un tatuaje de SACRAVM se queda para siempre — y lleva tu gesto dentro. Elige un importe, desde SACRAVM nos encargamos del resto.',
     inversionTitulo: 'Cada formato, pensado para que el resultado esté a la altura',
-    inversionTexto: 'El diseño se prepara en exclusiva el día de tu cita. La señal confirma tu plaza y se descuenta del total — el resto se abona al cerrar la sesión.',
+    inversionTexto: 'El diseño se prepara en exclusiva para tu Pase. La señal lo confirma y se descuenta del total — el resto se abona al cerrar la sesión.',
     academyTitulo: 'Domina el oficio con quien ya se lo juega en piel real.',
     academyTexto: 'Un programa online de 3-6 meses para tatuadores que no quieren aprender por prueba y error. Técnica, criterio, marca personal y captación de clientes.',
   },
@@ -182,6 +184,11 @@ function appendLead(data, referenciasPaths) {
     data.estado_fianza === 'pagada' ? 'pagada' : '', // se puede marcar ya cobrada al crear la ficha manual
     '', '', '', '', '', '', // recordatorio_enviado, seguimiento_enviado, reactivacion_6m_enviado, reactivacion_1a_enviado, alerta_fianza_enviado, aviso_prep_24h_enviado — los rellena el planificador de emails
     data.artista || ARTISTA_DEFAULT,
+    // '' en fichas antiguas = ya estaban confirmadas (flujo anterior). Las
+    // solicitudes nuevas de la web nacen en 'pendiente' hasta que JJ las revisa.
+    data.estado_solicitud || '',
+    '', '', // fecha_aprobacion, alerta_senal_enviado — los rellena el visto bueno y el planificador
+    data.presupuesto || '', data.plazo || '',
   ].map(csvEscape).join(',');
   fs.appendFileSync(LEADS_FILE, row + '\n', 'utf8');
 }
@@ -231,10 +238,17 @@ function updateLeadFields(rowIndex, fields) {
   return true;
 }
 // Fechas/horas ya reservadas (para pintar el calendario público en verde/rojo)
+// Estado de la solicitud. Las fichas creadas antes de este flujo tienen la
+// columna vacía: eran citas ya confirmadas, así que cuentan como aprobadas.
+function esPendiente(row) { return (row.estado_solicitud || '') === 'pendiente'; }
+function esRechazada(row) { return (row.estado_solicitud || '') === 'rechazada'; }
+
 function readOcupados() {
   const { rows } = readLeadsRaw();
   return rows
-    .filter(r => r.tipo === 'reserva' && r.fecha_cita)
+    // Una solicitud pendiente bloquea el hueco provisionalmente para que no se
+    // pida dos veces el mismo día. Si se rechaza, el hueco vuelve a liberarse.
+    .filter(r => r.tipo === 'reserva' && r.fecha_cita && !esRechazada(r))
     .map(r => ({ fecha: r.fecha_cita, hora: r.hora_cita }));
 }
 
@@ -276,14 +290,16 @@ function estimarDuracionHoras(servicio) {
 function esDeJJ(artista) { return !artista || artista.trim() === ARTISTA_DEFAULT; }
 function buildCalendarIcs(quien) {
   const { rows } = readLeadsRaw();
-  let citas = rows.filter(r => r.tipo === 'reserva' && r.fecha_cita);
+  // Los proyectos rechazados no ocupan agenda. Los que están por elegir sí
+  // aparecen, pero marcados con ● para no confundirlos con un Pase concedido.
+  let citas = rows.filter(r => r.tipo === 'reserva' && r.fecha_cita && !esRechazada(r));
   if (quien === 'jj') citas = citas.filter(r => esDeJJ(r.artista));
   else if (quien === 'otros') citas = citas.filter(r => !esDeJJ(r.artista));
-  const calName = quien === 'jj' ? 'SACRAVM · JJ Rodríguez' : quien === 'otros' ? 'SACRAVM · Otros artistas' : 'SACRAVM · Citas';
+  const calName = quien === 'jj' ? 'SACRAVM · JJ Rodríguez' : quien === 'otros' ? 'SACRAVM · Otros artistas' : 'SACRAVM · Pases';
   const lines = [
     'BEGIN:VCALENDAR',
     'VERSION:2.0',
-    'PRODID:-//SACRAVM//Citas//ES',
+    'PRODID:-//SACRAVM//Pases//ES',
     'CALSCALE:GREGORIAN',
     'X-WR-CALNAME:' + calName,
     'X-WR-TIMEZONE:Europe/Madrid',
@@ -307,19 +323,20 @@ function buildCalendarIcs(quien) {
       r.servicio ? 'Servicio: ' + r.servicio : '',
       r.whatsapp ? 'WhatsApp: ' + r.whatsapp : '',
       r.email ? 'Email: ' + r.email : '',
-      r.fianza ? 'Fianza: ' + r.fianza + '€ (' + (r.estado_fianza === 'pagada' ? 'pagada' : 'pendiente') + ')' : '',
+      r.fianza ? 'Señal: ' + r.fianza + '€ (' + (r.estado_fianza === 'pagada' ? 'pagada' : 'pendiente') + ')' : '',
       r.mensaje ? 'Idea: ' + r.mensaje : '',
     ].filter(Boolean).map(icsEscape).join('\\n');
     // En el feed combinado (sin filtrar) se marca quién no es JJ en el propio título,
     // para que se distinga incluso si alguien solo suscribe ese calendario único.
     const summaryArtista = (!quien && !esDeJJ(r.artista)) ? ' · ' + artista : '';
+    const marcaPendiente = esPendiente(r) ? '● POR ELEGIR · ' : '';
     lines.push(
       'BEGIN:VEVENT',
       'UID:' + uid,
       'DTSTAMP:' + dtstamp,
       'DTSTART:' + fmt(start),
       'DTEND:' + fmt(end),
-      'SUMMARY:' + icsEscape((r.nombre || 'Cita') + (r.servicio ? ' · ' + r.servicio : '') + summaryArtista),
+      'SUMMARY:' + icsEscape(marcaPendiente + (r.nombre || 'Pase') + (r.servicio ? ' · ' + r.servicio : '') + summaryArtista),
       'DESCRIPTION:' + descParts,
       'END:VEVENT'
     );
@@ -376,10 +393,10 @@ function emailConfirmacion(lead) {
   const nombre = (lead.nombre || '').split(' ')[0] || 'Hola';
   const fecha = fmtFechaEs(lead.fecha_cita);
   return {
-    subject: `Tu cita en SACRAVM — ${fecha}`,
+    subject: `Tu Pase en SACRAVM — ${fecha}`,
     html: EMAIL_WRAP(`
       <p>Hola ${nombre},</p>
-      <p>Tu cita ha quedado reservada:</p>
+      <p>Tu Pase ha quedado confirmado:</p>
       <p><strong>Fecha:</strong> ${fecha}<br><strong>Hora:</strong> ${lead.hora_cita || ''}<br><strong>Servicio:</strong> ${lead.servicio || ''}</p>
       <p>Para dejarla confirmada del todo, recuerda completar el pago de la fianza por Bizum si aún no lo has hecho.</p>
       <p>Unos días antes te escribo con todo lo que conviene saber antes de la sesión.</p>
@@ -403,6 +420,103 @@ function emailConfirmacionValoracion(lead) {
   };
 }
 
+// ══ Flujo de solicitud: pedir → revisar → aprobar ═══════════════════
+// La web ya no confirma citas sola. El cliente manda una solicitud, JJ la
+// revisa en el panel y solo entonces se le da el visto bueno con la señal.
+
+function emailSolicitudRecibida(lead) {
+  const nombre = (lead.nombre || '').split(' ')[0] || 'Hola';
+  const fecha = fmtFechaEs(lead.fecha_cita);
+  const esConsulta = lead.tier === 'consulta';
+  return {
+    subject: `Tu proyecto está en el Atelier — SACRAVM`,
+    html: EMAIL_WRAP(`
+      <p>Hola ${nombre},</p>
+      <p>Tu proyecto ya está en mis manos. <strong>Todavía no es un Pase concedido</strong>: cada mes el Atelier abre un número limitado y elijo cada proyecto uno a uno.</p>
+      <p><strong>Lo que has pedido:</strong><br>
+      ${esConsulta ? 'Valoración y diseño' : (lead.servicio || 'Sesión de tatuaje')}<br>
+      Fecha preferida: ${fecha}${lead.hora_cita ? ' · ' + lead.hora_cita : ''}</p>
+      <p>Te respondo en un máximo de <strong>48 horas</strong>. Si hay Pase para ti, te escribo con la fecha y las instrucciones para dejar la señal — <em>hasta ese momento no tienes que pagar nada</em>.</p>
+      <p>Si necesito entender mejor el proyecto antes de decidir, te escribo también.</p>
+    `),
+  };
+}
+
+function emailAprobacion(lead, cfg) {
+  const nombre = (lead.nombre || '').split(' ')[0] || 'Hola';
+  const fecha = fmtFechaEs(lead.fecha_cita);
+  const fianza = lead.fianza || '';
+  const esConsulta = lead.tier === 'consulta';
+  const concepto = (lead.nombre || 'tu nombre') + ' - cita';
+  const stripeLink = cfg['stripeLink' + fianza] || '';
+  let pago = '';
+  if (!esConsulta && fianza) {
+    pago = `<p style="margin-top:24px"><strong>Para confirmarlo: señal de ${fianza}€</strong> (se descuenta del total al terminar la sesión).</p>`;
+    if (stripeLink) {
+      pago += `<p><a href="${stripeLink}" style="display:inline-block;background:#1C1714;color:#fff;text-decoration:none;padding:12px 22px;letter-spacing:.08em;font-size:13px">PAGAR LA SEÑAL →</a></p>`;
+      if (cfg.bizum) pago += `<p style="font-size:13px;color:#6B6460">¿Prefieres Bizum? ${fianza}€ al ${cfg.bizum}, concepto: <strong>${concepto}</strong></p>`;
+    } else if (cfg.bizum) {
+      pago += `<p>Bizum de ${fianza}€ al <strong>${cfg.bizum}</strong><br>Concepto: <strong>${concepto}</strong></p>`;
+    }
+    pago += `<p style="font-size:13px;color:#6B6460">Tienes <strong>48 horas</strong> para dejarla. Pasado ese plazo el Pase vuelve a abrirse — hay más proyectos esperando.</p>`;
+  }
+  return {
+    subject: esConsulta ? `Confirmada tu valoración — ${fecha}` : `Pase concedido — ${fecha}`,
+    html: EMAIL_WRAP(`
+      <p>Hola ${nombre},</p>
+      <p>${esConsulta
+        ? 'He revisado tu solicitud y te confirmo la valoración. Es gratuita y sin compromiso.'
+        : 'He leído tu proyecto y lo he elegido. <strong>Tienes Pase.</strong>'}</p>
+      <p><strong>Fecha:</strong> ${fecha}<br><strong>Hora:</strong> ${lead.hora_cita || ''}<br><strong>Servicio:</strong> ${lead.servicio || ''}</p>
+      ${pago}
+      <p>Unos días antes te escribo con todo lo que conviene saber para llegar preparado.</p>
+      <p style="font-style:italic;color:#8B5E2A">Tu historia merece ser eterna.</p>
+    `),
+  };
+}
+
+function emailNoEncaja(lead) {
+  const nombre = (lead.nombre || '').split(' ')[0] || 'Hola';
+  return {
+    subject: `Sobre tu proyecto — SACRAVM`,
+    html: EMAIL_WRAP(`
+      <p>Hola ${nombre},</p>
+      <p>Gracias por escribirme y por contarme tu proyecto con detalle. Lo he leído entero.</p>
+      <p>Esta vez no hay Pase para él. No es un juicio sobre tu idea: es que no es un proyecto al que pueda aportar lo que quiero aportar, y prefiero decírtelo antes que hacerlo a medias.</p>
+      <p>Si en algún momento quieres darle otra vuelta al concepto, escríbeme y lo vemos sin problema.</p>
+    `),
+  };
+}
+
+function emailSenalSinPagar(lead) {
+  return {
+    subject: `⚠ Señal sin pagar — ${lead.nombre || 'sin nombre'} (Pase concedido hace 48 h)`,
+    html: EMAIL_WRAP(`
+      <p>Concediste este Pase hace 48 h y la señal <strong>sigue sin entrar</strong>.</p>
+      <p>${lead.nombre || 'Sin nombre'}<br>${lead.email || ''} · ${lead.whatsapp || 'sin teléfono'}<br>
+      Cita: ${fmtFechaEs(lead.fecha_cita)} ${lead.hora_cita || ''} · Señal: ${lead.fianza || ''}€</p>
+      <p>O le das un toque, o retiras el Pase. Si lo retiras, márcalo como <strong>No encaja</strong> en el panel y la fecha vuelve al calendario.</p>
+    `),
+  };
+}
+
+function emailNuevaSolicitud(lead) {
+  const fecha = fmtFechaEs(lead.fecha_cita);
+  return {
+    subject: `● Proyecto por elegir: ${lead.nombre || 'sin nombre'} — ${fecha}`,
+    html: EMAIL_WRAP(`
+      <p><strong>Nuevo proyecto esperando a que decidas.</strong></p>
+      <p>${lead.nombre || 'Sin nombre'}<br>
+      ${lead.email || ''} · ${lead.whatsapp || 'sin teléfono'}</p>
+      <p><strong>Pide:</strong> ${lead.servicio || ''} · ${fecha} ${lead.hora_cita || ''}<br>
+      <strong>Zona:</strong> ${lead.zona || 'no indicada'} · <strong>Tamaño:</strong> ${lead.tamano || 'no indicado'}<br>
+      <strong>Presupuesto:</strong> ${lead.presupuesto || 'no indicado'} · <strong>Plazo:</strong> ${lead.plazo || 'no indicado'}${lead.instagram ? '<br><strong>Instagram:</strong> @' + lead.instagram : ''}</p>
+      <p><strong>Idea:</strong><br>${(lead.mensaje || '').replace(/</g, '&lt;')}</p>
+      <p>Léelo en el panel y dale a <strong>Conceder Pase</strong> o <strong>No encaja</strong>. Hasta entonces no se le pide la señal.</p>
+    `),
+  };
+}
+
 function emailRecordatorioValoracion(lead) {
   const nombre = (lead.nombre || '').split(' ')[0] || 'Hola';
   const fecha = fmtFechaEs(lead.fecha_cita);
@@ -421,10 +535,10 @@ function emailRecordatorio(lead) {
   const nombre = (lead.nombre || '').split(' ')[0] || 'Hola';
   const fecha = fmtFechaEs(lead.fecha_cita);
   return {
-    subject: `Tu cita es en 2 días — ${fecha}`,
+    subject: `Tu Pase es en 2 días — ${fecha}`,
     html: EMAIL_WRAP(`
       <p>Hola ${nombre},</p>
-      <p>Te escribo porque tu cita es en dos días, el <strong>${fecha}${lead.hora_cita ? ' a las ' + lead.hora_cita : ''}</strong>.</p>
+      <p>Te escribo porque tu Pase es en dos días, el <strong>${fecha}${lead.hora_cita ? ' a las ' + lead.hora_cita : ''}</strong>.</p>
       <p>Antes de venir, unas recomendaciones para que la sesión vaya lo mejor posible:</p>
       <ul>
         <li>Duerme bien la noche anterior</li>
@@ -528,14 +642,25 @@ async function runEmailScheduler() {
     const fmt = (d) => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
     const in1day = new Date(today); in1day.setDate(in1day.getDate() + 1);
     const in2days = new Date(today); in2days.setDate(in2days.getDate() + 2);
+    const ago2days = new Date(today); ago2days.setDate(ago2days.getDate() - 2);
     const ago7days = new Date(today); ago7days.setDate(ago7days.getDate() - 7);
     const ago180days = new Date(today); ago180days.setDate(ago180days.getDate() - 180);
     const ago365days = new Date(today); ago365days.setDate(ago365days.getDate() - 365);
-    const in1Str = fmt(in1day), in2Str = fmt(in2days), ago7Str = fmt(ago7days), ago180Str = fmt(ago180days), ago365Str = fmt(ago365days);
+    const in1Str = fmt(in1day), in2Str = fmt(in2days), ago2Str = fmt(ago2days), ago7Str = fmt(ago7days), ago180Str = fmt(ago180days), ago365Str = fmt(ago365days);
     const jjEmail = readContent().email;
     let changed = false;
     for (const row of rows) {
-      if (row.tipo !== 'reserva' || !row.fecha_cita) continue;
+      if (row.tipo !== 'reserva') continue;
+      // Aprobada hace 2 días y la señal sin entrar: aviso a JJ para que decida.
+      if (row.estado_solicitud === 'aprobada' && row.tier !== 'consulta' && row.fecha_aprobacion === ago2Str
+          && row.estado_fianza !== 'pagada' && row.alerta_senal_enviado !== 'si' && jjEmail) {
+        const { subject, html } = emailSenalSinPagar(row);
+        const r = await sendEmail(jjEmail, subject, html);
+        if (r.ok) { row.alerta_senal_enviado = 'si'; changed = true; }
+      }
+      if (!row.fecha_cita) continue;
+      // Una solicitud sin aprobar no es una cita: no manda recordatorios ni avisos.
+      if (esPendiente(row) || esRechazada(row)) continue;
       // Aviso a JJ para prepararse: 24h antes de CUALQUIER cita (incluidas valoraciones).
       if (row.fecha_cita === in1Str && row.aviso_prep_24h_enviado !== 'si' && jjEmail) {
         const { subject, html } = emailAvisoPreparacion(row);
@@ -724,12 +849,29 @@ const server = http.createServer(async (req, res) => {
           return 'leads/referencias/' + outName;
         } catch (e) { return null; }
       }).filter(Boolean);
+      // Las solicitudes que llegan de la web nacen pendientes de revisión: la web
+      // ya no confirma citas sola. Las fichas creadas a mano desde el panel son
+      // citas que JJ ya ha cerrado por su cuenta, así que entran aprobadas.
+      const desdeAdmin = data.origen === 'admin';
+      if (data.tipo === 'reserva') data.estado_solicitud = desdeAdmin ? 'aprobada' : 'pendiente';
       appendLead(data, referenciasPaths);
-      console.log('✓ Nuevo lead:', data.tipo, '-', data.nombre || data.email, referenciasPaths.length ? `(${referenciasPaths.length} refs)` : '');
+      console.log('✓ Nuevo lead:', data.tipo, '-', data.nombre || data.email, data.estado_solicitud ? `[${data.estado_solicitud}]` : '', referenciasPaths.length ? `(${referenciasPaths.length} refs)` : '');
       sendJSON(res, 200, { ok: true }, { 'Access-Control-Allow-Origin': '*' });
-      // Email de confirmación — no bloquea la respuesta al cliente
-      if (data.tipo === 'reserva' && data.email) {
-        const leadInfo = { nombre: data.nombre, fecha_cita: data.fecha, hora_cita: data.hora, servicio: data.servicio };
+      // Emails — no bloquean la respuesta al cliente
+      const leadInfo = { nombre: data.nombre, fecha_cita: data.fecha, hora_cita: data.hora, servicio: data.servicio, tier: data.tier, mensaje: data.mensaje, zona: data.zona, tamano: data.tamano, email: data.email, whatsapp: data.whatsapp, instagram: data.instagram, presupuesto: data.presupuesto, plazo: data.plazo };
+      if (data.tipo === 'reserva' && !desdeAdmin) {
+        // Al cliente: acuse de recibo, NO confirmación.
+        if (data.email) {
+          const m = emailSolicitudRecibida(leadInfo);
+          sendEmail(data.email, m.subject, m.html).catch(() => {});
+        }
+        // A JJ: avisar de que hay algo que revisar.
+        const jjEmail = readContent().email;
+        if (jjEmail) {
+          const m = emailNuevaSolicitud(leadInfo);
+          sendEmail(jjEmail, m.subject, m.html).catch(() => {});
+        }
+      } else if (data.tipo === 'reserva' && data.email) {
         const { subject, html } = data.tier === 'consulta' ? emailConfirmacionValoracion(leadInfo) : emailConfirmacion(leadInfo);
         sendEmail(data.email, subject, html).catch(() => {});
       }
@@ -794,13 +936,14 @@ const server = http.createServer(async (req, res) => {
     }
 
     // ═══ A partir de aquí, todo requiere sesión iniciada ═══
-    const protectedRoutes = ['/api/content', '/api/upload-photo', '/api/change-password', '/api/leads', '/api/lead-status', '/api/lead-edit', '/api/lead-delete'];
+    const protectedRoutes = ['/api/content', '/api/upload-photo', '/api/change-password', '/api/leads', '/api/lead-status', '/api/lead-edit', '/api/lead-delete', '/api/lead-decision'];
     const isProtectedWrite = (pathname === '/api/content' && req.method === 'POST') ||
       pathname === '/api/upload-photo' || pathname === '/api/change-password' ||
       (pathname === '/api/leads' && req.method === 'GET') ||
       (pathname === '/api/lead-status' && req.method === 'POST') ||
       (pathname === '/api/lead-edit' && req.method === 'POST') ||
-      (pathname === '/api/lead-delete' && req.method === 'POST');
+      (pathname === '/api/lead-delete' && req.method === 'POST') ||
+      (pathname === '/api/lead-decision' && req.method === 'POST');
 
     if (isProtectedWrite && !getSession(req)) {
       return sendJSON(res, 401, { ok: false, error: 'Sesión no iniciada.' });
@@ -820,7 +963,7 @@ const server = http.createServer(async (req, res) => {
     }
 
     if (pathname === '/api/lead-edit' && req.method === 'POST') {
-      const EDITABLE_LEAD_FIELDS = ['nombre', 'email', 'whatsapp', 'instagram', 'servicio', 'fecha_registro', 'fecha_cita', 'hora_cita', 'mensaje', 'zona', 'tamano', 'bebida', 'ya_tatuado', 'fuente', 'artista', 'fianza', 'estado_fianza'];
+      const EDITABLE_LEAD_FIELDS = ['nombre', 'email', 'whatsapp', 'instagram', 'servicio', 'fecha_registro', 'fecha_cita', 'hora_cita', 'mensaje', 'zona', 'tamano', 'bebida', 'ya_tatuado', 'fuente', 'artista', 'fianza', 'estado_fianza', 'estado_solicitud', 'presupuesto', 'plazo'];
       const body = JSON.parse(await readBody(req, 2e5) || '{}');
       const rowIndex = Number(body.rowIndex);
       if (Number.isNaN(rowIndex)) return sendJSON(res, 400, { ok: false, error: 'Falta rowIndex.' });
@@ -831,6 +974,35 @@ const server = http.createServer(async (req, res) => {
     }
 
     // Borrado de un lead. La confirmación se pide en el panel, aquí solo se ejecuta.
+    // Visto bueno (o no) de JJ sobre una solicitud. Es el paso que antes hacía
+    // la web sola: hasta aquí el cliente no ha pagado ni tiene cita confirmada.
+    if (pathname === '/api/lead-decision' && req.method === 'POST') {
+      const body = JSON.parse(await readBody(req, 1e4) || '{}');
+      const rowIndex = parseInt(body.rowIndex, 10);
+      const decision = body.decision === 'aprobada' ? 'aprobada' : body.decision === 'rechazada' ? 'rechazada' : null;
+      if (!decision || isNaN(rowIndex)) return sendJSON(res, 400, { ok: false, error: 'Decisión no válida.' });
+      const { rows } = readLeadsRaw();
+      const lead = rows.find(r => r._row === rowIndex);
+      if (!lead) return sendJSON(res, 404, { ok: false, error: 'Esa ficha ya no existe.' });
+      // Aprobar es dar fecha. Sin fecha no hay nada que confirmar ni que cobrar.
+      if (decision === 'aprobada' && !lead.fecha_cita) {
+        return sendJSON(res, 400, { ok: false, error: 'sin_fecha' });
+      }
+      const hoy = new Date();
+      const hoyStr = hoy.getFullYear() + '-' + String(hoy.getMonth() + 1).padStart(2, '0') + '-' + String(hoy.getDate()).padStart(2, '0');
+      const ok = updateLeadFields(rowIndex, decision === 'aprobada'
+        ? { estado_solicitud: decision, fecha_aprobacion: hoyStr }
+        : { estado_solicitud: decision });
+      if (!ok) return sendJSON(res, 404, { ok: false, error: 'Esa ficha ya no existe.' });
+      sendJSON(res, 200, { ok: true, decision });
+      // El aviso al cliente sale solo si dejó email; si no, JJ le escribe por WhatsApp.
+      if (lead.email && body.avisar !== false) {
+        const m = decision === 'aprobada' ? emailAprobacion(lead, readContent()) : emailNoEncaja(lead);
+        sendEmail(lead.email, m.subject, m.html).catch(() => {});
+      }
+      return;
+    }
+
     if (pathname === '/api/lead-delete' && req.method === 'POST') {
       if (!getSession(req)) return sendJSON(res, 401, { ok: false, error: 'Sesión no iniciada.' });
       const body = JSON.parse(await readBody(req, 5e5) || '{}');
