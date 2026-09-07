@@ -549,6 +549,12 @@ function panelTextos() {
       <textarea class="fi" id="tx-ap" style="height:70px">${esc(t.aperturaAviso || '')}</textarea>
     </div>
     <div class="card">
+      <p class="field-label">TARIFA FUNDACIONAL — TITULAR. Sale en la web (Formatos y precio) y en el cuestionario del QR. <strong>Vacía este titular y el bloque entero desaparece.</strong></p>
+      <input class="fi" id="tx-fu-t" value="${esc(t.fundacionalTitulo || '')}">
+      <p class="field-label">TARIFA FUNDACIONAL — TEXTO (deja una línea en blanco entre párrafos)</p>
+      <textarea class="fi" id="tx-fu-x" style="height:150px">${esc(t.fundacionalTexto || '')}</textarea>
+    </div>
+    <div class="card">
       <p class="field-label">VALE REGALO — TITULAR (deja una línea en blanco donde quieras el salto de línea)</p><textarea class="fi" id="tx-vr-t" style="height:56px">${esc(t.valeRegaloTitulo)}</textarea>
       <p class="field-label">VALE REGALO — TEXTO</p><textarea class="fi" id="tx-vr-x">${esc(t.valeRegaloTexto)}</textarea>
     </div>
@@ -564,7 +570,7 @@ function panelTextos() {
 }
 function wireTextos() {
   content.textos = content.textos || {};
-  const map = { 'tx-ap':'aperturaAviso', 'tx-vr-t':'valeRegaloTitulo', 'tx-vr-x':'valeRegaloTexto', 'tx-inv-t':'inversionTitulo', 'tx-inv-x':'inversionTexto', 'tx-ac-t':'academyTitulo', 'tx-ac-x':'academyTexto' };
+  const map = { 'tx-ap':'aperturaAviso', 'tx-fu-t':'fundacionalTitulo', 'tx-fu-x':'fundacionalTexto', 'tx-vr-t':'valeRegaloTitulo', 'tx-vr-x':'valeRegaloTexto', 'tx-inv-t':'inversionTitulo', 'tx-inv-x':'inversionTexto', 'tx-ac-t':'academyTitulo', 'tx-ac-x':'academyTexto' };
   Object.keys(map).forEach(id => {
     const el = document.getElementById(id);
     if (el) el.oninput = () => content.textos[map[id]] = el.value;

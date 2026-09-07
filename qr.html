@@ -60,6 +60,11 @@ textarea.fi{resize:none;height:80px}
 .ref-thumb button{position:absolute;top:0;right:0;background:rgba(28,23,20,.75);color:#fff;border:none;width:17px;height:17px;font-size:11px;line-height:1;cursor:pointer;border-radius:0 0 0 4px}
 .ref-count{font-size:11px;color:var(--t3);margin-top:5px}
 .field-note{font-size:11.5px;color:var(--t3);margin-top:-2px;margin-bottom:2px;line-height:1.55}
+.fund{margin:26px 24px 0;padding:20px 22px;background:var(--dk);border-radius:var(--r)}
+.fund .lbl{font-size:10.5px;letter-spacing:.2em;color:var(--a);font-weight:600;margin-bottom:7px}
+.fund h3{font-family:var(--serif);font-size:20px;font-weight:400;color:var(--dtx);margin-bottom:9px}
+.fund p{font-size:13.5px;color:var(--t3);line-height:1.8;margin-bottom:9px}
+.fund p:last-child{margin-bottom:0}
 
 .cta-block{padding:26px 24px 0;display:flex;flex-direction:column;gap:12px}
 .btn-p{background:var(--dk);color:var(--dtx);border:none;padding:16px 20px;border-radius:var(--r);font-size:14.5px;font-weight:600;letter-spacing:.03em;cursor:pointer;text-align:center}
@@ -96,6 +101,7 @@ textarea.fi{resize:none;height:80px}
     <div class="sec-label">TU CANDIDATURA</div>
     <h2>Esto no es un formulario. Es tu proyecto.</h2>
     <p>Escríbelo como nos lo contarías en persona. Lo que pongas aquí es lo único que tenemos para decidir — y lo leeremos entero.</p>
+    <p style="margin-top:8px"><strong style="color:var(--a);font-weight:600">Hay que rellenarlo todo.</strong> No es capricho: si falta algo, no podemos valorar el proyecto y la solicitud se queda fuera.</p>
 
     <div class="field-label">TU NOMBRE</div>
     <input class="fi" id="q-nombre" placeholder="Nombre y apellidos">
@@ -127,7 +133,8 @@ textarea.fi{resize:none;height:80px}
     <div class="field-label">QUÉ PRESUPUESTO MANEJAS</div>
     <p class="field-note">Nadie va a cobrarte por esto. Sirve para no proponerte algo que no encaje con lo que tienes pensado.</p>
     <select class="fi" id="q-presupuesto">
-      <option value="">Prefiero hablarlo</option>
+      <option value="">Elige una opción</option>
+      <option value="Prefiero hablarlo">Prefiero hablarlo contigo</option>
       <option value="Hasta 250€">Hasta 250€</option>
       <option value="250–550€">250–550€</option>
       <option value="550–850€">550–850€</option>
@@ -136,6 +143,7 @@ textarea.fi{resize:none;height:80px}
 
     <div class="field-label">¿PARA CUÁNDO LO QUIERES?</div>
     <select class="fi" id="q-plazo">
+      <option value="">Elige una opción</option>
       <option value="En cuanto haya hueco">En cuanto haya hueco</option>
       <option value="En 1–3 meses">En 1–3 meses</option>
       <option value="Este año, sin prisa">Este año, sin prisa</option>
@@ -144,12 +152,14 @@ textarea.fi{resize:none;height:80px}
 
     <div class="field-label">¿ES TU PRIMER TATUAJE?</div>
     <select class="fi" id="q-primero">
+      <option value="">Elige una opción</option>
       <option value="No">No, ya tengo alguno</option>
       <option value="Sí">Sí, sería el primero</option>
     </select>
 
     <div class="field-label">¿POR DÓNDE NOS CONOCISTE?</div>
     <select class="fi" id="q-fuente">
+      <option value="">Elige una opción</option>
       <option value="QR puerta">Vi el cartel en la puerta</option>
       <option value="Instagram">Instagram</option>
       <option value="Recomendación">Me lo recomendaron</option>
@@ -161,6 +171,12 @@ textarea.fi{resize:none;height:80px}
 
     <label class="consent-row"><input type="checkbox" id="q-consent"> He leído y acepto la <a href="/legal" target="_blank">Política de Privacidad</a>.</label>
     <div class="err" id="q-err"></div>
+  </div>
+
+  <div class="fund" id="qr-fund" style="display:none">
+    <div class="lbl">TARIFA FUNDACIONAL</div>
+    <h3 id="qr-fund-titulo"></h3>
+    <div id="qr-fund-texto"></div>
   </div>
 
   <div class="cta-block">
@@ -189,11 +205,23 @@ async function loadContent() {
   } catch (e) { CONFIG = {}; }
   renderGrid();
   // Aviso de apertura: se pinta solo si hay texto en el panel. Vacío = no aparece.
-  const aviso = (CONFIG.textos || {}).aperturaAviso;
-  if (aviso) {
+  const T = CONFIG.textos || {};
+  if (T.aperturaAviso) {
     const box = document.getElementById('qr-aviso');
-    box.textContent = aviso;
+    box.textContent = T.aperturaAviso;
     box.style.display = 'block';
+  }
+  // Tarifa fundacional: mismo texto que en la web, editable desde el panel.
+  if (T.fundacionalTitulo) {
+    document.getElementById('qr-fund-titulo').textContent = T.fundacionalTitulo;
+    const cont = document.getElementById('qr-fund-texto');
+    cont.innerHTML = '';
+    (T.fundacionalTexto || '').split('\n\n').filter(Boolean).forEach(parrafo => {
+      const el = document.createElement('p');
+      el.textContent = parrafo;
+      cont.appendChild(el);
+    });
+    document.getElementById('qr-fund').style.display = 'block';
   }
 }
 
@@ -264,11 +292,41 @@ function qrCollect() {
 
 // Una sola vía: se manda la solicitud y la revisamos. Aquí nadie elige fecha
 // ni paga nada — la fecha la damos nosotros al aprobar.
+// Todos los campos son obligatorios: una solicitud a medias no se puede valorar,
+// así que es mejor pararla aquí que dejarla entrar y tener que perseguir los datos.
+const QR_OBLIGATORIOS = [
+  ['nombre', 'tu nombre'],
+  ['email', 'tu correo electrónico'],
+  ['telefono', 'tu teléfono'],
+  ['instagram', 'tu Instagram (pon «no tengo» si no usas)'],
+  ['idea', 'la historia que quieres llevar'],
+  ['zona', 'la zona del cuerpo'],
+  ['tamano', 'el espacio que ocupa'],
+  ['presupuesto', 'el presupuesto que manejas'],
+  ['plazo', 'para cuándo lo quieres'],
+  ['primero', 'si es tu primer tatuaje'],
+  ['fuente', 'por dónde nos conociste'],
+];
+
 async function qrEnviar() {
   const err = document.getElementById('q-err');
   const d = qrCollect();
-  if (!d.nombre || !d.email) { err.textContent = 'Nombre y correo son obligatorios.'; return; }
-  if (!d.idea) { err.textContent = 'Cuéntanos la historia — es lo único que tenemos para decidir.'; return; }
+  const faltan = QR_OBLIGATORIOS.filter(([k]) => !d[k]).map(([, txt]) => txt);
+  if (faltan.length) {
+    err.textContent = faltan.length === 1
+      ? 'Falta ' + faltan[0] + '.'
+      : 'Faltan ' + faltan.length + ' datos: ' + faltan.join(', ') + '.';
+    const primero = QR_OBLIGATORIOS.find(([k]) => !d[k])[0];
+    const campo = document.getElementById('q-' + primero);
+    campo.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    campo.focus({ preventScroll: true });
+    return;
+  }
+  if (!qrReferencias.length) {
+    err.textContent = 'Sube al menos una imagen de referencia — sin ver hacia dónde vas, no podemos decidir.';
+    document.getElementById('q-referencias').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return;
+  }
   if (!document.getElementById('q-consent').checked) { err.textContent = 'Debes aceptar la Política de Privacidad para continuar.'; return; }
   err.textContent = '';
 

@@ -858,6 +858,13 @@ body.wz-lock{overflow:hidden}
     </div>
     <div class="tar-list rv" id="tar-list"></div>
 
+    <!-- Tarifa fundacional — se pinta desde el panel; si el titular está vacío, no aparece -->
+    <div class="rv" id="fundacional-box" style="display:none;background:var(--dk);border-radius:6px;padding:30px 34px;margin-bottom:32px">
+      <div class="sec-label" style="color:var(--a);margin-bottom:8px">TARIFA FUNDACIONAL</div>
+      <div id="fundacional-titulo" style="font-family:var(--serif);font-size:26px;font-weight:400;color:var(--dtx);margin-bottom:12px"></div>
+      <div id="fundacional-texto" style="font-size:15px;color:var(--dt2);line-height:1.85;max-width:640px"></div>
+    </div>
+
     <div class="rv" style="background:var(--w);border:1px solid var(--aBdr);border-radius:6px;padding:28px 32px;margin-bottom:32px;display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap">
       <div>
         <div class="sec-label" style="margin-bottom:6px">¿AÚN NO LO TIENES CLARO?</div>
@@ -1396,12 +1403,12 @@ body.wz-lock{overflow:hidden}
     <div class="wz-step" id="wz-s4" style="display:none">
       <div class="sec-label">PASO 4 DE 5</div>
       <h3 class="wz-title">Cuéntanos más sobre tu proyecto</h3>
-      <p class="wz-sub" style="margin-bottom:16px">Cuanto mejor entendamos el proyecto, mejor podemos decidir — y mejor llega preparado el día del Pase.</p>
+      <p class="wz-sub" style="margin-bottom:16px">Cuanto mejor entendamos el proyecto, mejor podemos decidir — y mejor llega preparado el día del Pase. <strong style="color:var(--a)">Hay que rellenarlo todo.</strong></p>
 
-      <div class="wz-label">ZONA *</div>
+      <div class="wz-label">ZONA Y TAMAÑO</div>
       <div class="wz-2col">
         <input class="fi2" id="wz-zona" placeholder="Brazo, costillas, pierna…">
-        <input class="fi2" id="wz-tamano" placeholder="Tamaño aprox. (opcional)">
+        <input class="fi2" id="wz-tamano" placeholder="Tamaño aprox. en cm">
       </div>
 
       <div class="wz-label">¿QUÉ TE GUSTARÍA TOMAR AL LLEGAR?</div>
@@ -1411,6 +1418,7 @@ body.wz-lock{overflow:hidden}
         <div>
           <div class="wz-label">¿YA TE HAS TATUADO EN SACRAVM?</div>
           <select class="fi2" id="wz-repeticion">
+            <option value="">Elige una opción</option>
             <option value="No">No</option>
             <option value="Sí">Sí</option>
           </select>
@@ -1418,6 +1426,7 @@ body.wz-lock{overflow:hidden}
         <div>
           <div class="wz-label">¿POR DÓNDE ME HAS CONOCIDO?</div>
           <select class="fi2" id="wz-fuente">
+            <option value="">Elige una opción</option>
             <option value="Instagram">Instagram</option>
             <option value="Recomendación">Recomendación</option>
             <option value="Google">Google</option>
@@ -1431,7 +1440,7 @@ body.wz-lock{overflow:hidden}
       </div>
 
       <div class="wz-label">IMÁGENES DE REFERENCIA</div>
-      <p class="wz-sub">Sube hasta 6 referencias — nos ayudan a entender mejor el estilo, el encaje y el nivel de detalle.</p>
+      <p class="wz-sub">Al menos una, hasta 6. Nos ayudan a entender el estilo, el encaje y el nivel de detalle — no para copiarlas.</p>
       <input type="file" accept="image/*" multiple id="wz-referencias" class="wz-ref-input" onchange="wzHandleReferencias(event)">
       <div class="wz-ref-preview" id="wz-ref-preview"></div>
       <div class="wz-ref-count" id="wz-ref-count"></div>
@@ -1634,6 +1643,21 @@ function renderSite(CONFIG) {
   if (T.valeRegaloTexto) document.getElementById('txt-valeregalo-texto').textContent = T.valeRegaloTexto;
   if (T.inversionTitulo && document.getElementById('txt-inversion-titulo')) document.getElementById('txt-inversion-titulo').textContent = T.inversionTitulo;
   if (T.inversionTexto) document.getElementById('txt-inversion-texto').textContent = T.inversionTexto;
+  // Tarifa fundacional: solo existe mientras JJ mantenga el titular en el panel.
+  const fbox = document.getElementById('fundacional-box');
+  if (fbox && T.fundacionalTitulo) {
+    document.getElementById('fundacional-titulo').textContent = T.fundacionalTitulo;
+    // textContent por párrafo: el texto viene del panel, nunca se inyecta como HTML.
+    const cont = document.getElementById('fundacional-texto');
+    cont.innerHTML = '';
+    (T.fundacionalTexto || '').split('\n\n').filter(Boolean).forEach(parrafo => {
+      const el = document.createElement('p');
+      el.style.marginBottom = '12px';
+      el.textContent = parrafo;
+      cont.appendChild(el);
+    });
+    fbox.style.display = 'block';
+  }
   if (T.academyTitulo) document.getElementById('txt-academy-titulo').textContent = T.academyTitulo;
   if (T.academyTexto) document.getElementById('txt-academy-texto').textContent = T.academyTexto;
 
@@ -1887,7 +1911,7 @@ const WZ_TIERS = [
   { id: 'consulta', label: 'Valoración y diseño', fianza: 0 },
 ];
 const VALORACION_SERVICIO = 'Valoración y diseño (30 min, gratis)';
-let wz = { step: 1, servicio: null, tier: null, fianza: null, fecha: null, hora: null, nombre: '', email: '', whatsapp: '', zona: '', tamano: '', bebida: '', mensaje: '', repeticion: 'No', fuente: 'Instagram', referencias: [] };
+let wz = { step: 1, servicio: null, tier: null, fianza: null, fecha: null, hora: null, nombre: '', email: '', whatsapp: '', zona: '', tamano: '', bebida: '', mensaje: '', repeticion: '', fuente: '', referencias: [] };
 
 // ── Referencias (imágenes redimensionadas antes de enviar) ─────────
 const WZ_MAX_REFS = 6;
@@ -2117,7 +2141,7 @@ function showWzStep(n) {
 async function goBook(preselectServicio) {
   await contentReady;
   const esValoracionPreselect = preselectServicio === VALORACION_SERVICIO;
-  wz = { step: 1, servicio: preselectServicio || null, tier: esValoracionPreselect ? 'consulta' : null, fianza: esValoracionPreselect ? 0 : null, fecha: null, hora: null, nombre: '', email: '', whatsapp: '', zona: '', tamano: '', bebida: '', mensaje: '', repeticion: 'No', fuente: 'Instagram', referencias: [] };
+  wz = { step: 1, servicio: preselectServicio || null, tier: esValoracionPreselect ? 'consulta' : null, fianza: esValoracionPreselect ? 0 : null, fecha: null, hora: null, nombre: '', email: '', whatsapp: '', zona: '', tamano: '', bebida: '', mensaje: '', repeticion: '', fuente: '', referencias: [] };
   renderWzServices();
   renderWzTiers();
   wzCalDate = new Date();
@@ -2164,7 +2188,12 @@ function wzNext() {
     wz.whatsapp = document.getElementById('wz-whatsapp').value.trim();
     wz.mensaje = document.getElementById('wz-mensaje').value.trim();
     const err = document.getElementById('wz-err-3');
-    if (!wz.nombre || !wz.email || !wz.mensaje) { err.textContent = 'Nombre, email e idea del tattoo son necesarios para poder revisar tu solicitud.'; return; }
+    const faltan3 = [];
+    if (!wz.nombre) faltan3.push('tu nombre');
+    if (!wz.email) faltan3.push('tu correo');
+    if (!wz.whatsapp) faltan3.push('tu teléfono');
+    if (!wz.mensaje) faltan3.push('la idea del tattoo');
+    if (faltan3.length) { err.textContent = 'Falta ' + faltan3.join(', ') + '. Necesitamos todo para poder valorar el proyecto.'; return; }
     err.textContent = '';
     wz.step = 4; showWzStep(4); return;
   }
@@ -2175,7 +2204,17 @@ function wzNext() {
     wz.repeticion = document.getElementById('wz-repeticion').value;
     wz.fuente = document.getElementById('wz-fuente').value;
     const err = document.getElementById('wz-err-4');
-    if (!wz.zona && wz.tier !== 'consulta') { err.textContent = 'Cuéntanos al menos la zona — nos ayuda a preparar tu sesión.'; return; }
+    // Una valoración es una llamada de 30 min: no hace falta el detalle del proyecto.
+    if (wz.tier !== 'consulta') {
+      const faltan4 = [];
+      if (!wz.zona) faltan4.push('la zona');
+      if (!wz.tamano) faltan4.push('el tamaño aproximado');
+      if (!wz.bebida) faltan4.push('qué te gustaría tomar');
+      if (!wz.repeticion) faltan4.push('si ya te has tatuado aquí');
+      if (!wz.fuente) faltan4.push('por dónde nos conociste');
+      if (faltan4.length) { err.textContent = 'Falta ' + faltan4.join(', ') + '. Hay que rellenarlo todo para poder valorar el proyecto.'; return; }
+      if (!wz.referencias.length) { err.textContent = 'Sube al menos una imagen de referencia — sin ver hacia dónde vas, no podemos decidir.'; return; }
+    }
     err.textContent = '';
     wz.step = 5; showWzStep(5); return;
   }
