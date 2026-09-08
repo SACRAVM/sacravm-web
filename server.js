@@ -153,8 +153,8 @@ const DEFAULT_CONTENT = {
     // Se muestra arriba del cuestionario del QR. Vacíalo el día que abra el Atelier.
     aperturaAviso: 'El Atelier de Paseo Quintanilla abre sus puertas en las próximas semanas. Estos son los primeros Pases: los proyectos que elijamos ahora son los que inauguran la casa.',
     // Tarifa fundacional. Al vaciar el titular, el bloque desaparece de la web y del QR.
-    fundacionalTitulo: 'Ahora la sesión está en 750€. Al abrir, en 1.000€.',
-    fundacionalTexto: 'Quien tenga el Pase concedido antes de la apertura se queda en 750€ — y se queda ahí para todo el proyecto, aunque las sesiones se alarguen meses. No es un descuento que caduca: es la tarifa con la que nace la casa.\n\nY no es un truco de urgencia. Aceptamos muy pocos proyectos fundacionales precisamente para poder volcarnos entero en cada uno. Quien entra ahora confía en un Atelier que todavía no ha abierto sus puertas; eso se reconoce con precio, no con promesas.',
+    fundacionalTitulo: '750€ hasta que abramos. Después, 1.000€.',
+    fundacionalTexto: 'El día que el Atelier abra sus puertas, la sesión pasa a 1.000€ para todo el mundo. Sin excepciones y sin vuelta atrás.\n\nQuien tenga el Pase concedido antes de ese día se queda en 750€ — y se queda ahí para todo el proyecto, aunque las sesiones se alarguen meses. El precio se fija el día que te lo concedemos, no el día que te sientas en la camilla.\n\nY no es un truco de urgencia. Aceptamos muy pocos proyectos fundacionales precisamente para poder volcarnos entero en cada uno. Quien entra ahora confía en un Atelier que todavía no ha abierto sus puertas; eso se reconoce con precio, no con promesas.',
     valeRegaloTitulo: 'Regala algo único.\nY para siempre.',
     valeRegaloTexto: 'Unas flores se marchitan. Una cena se olvida. Un tatuaje de SACRAVM se queda para siempre — y lleva tu gesto dentro. Elige un importe, desde SACRAVM nos encargamos del resto.',
     inversionTitulo: 'Cada formato, pensado para que el resultado esté a la altura',
@@ -472,6 +472,10 @@ function emailAprobacion(lead, cfg) {
       pago += `<p>Bizum de ${fianza}€ al <strong>${cfg.bizum}</strong><br>Concepto: <strong>${concepto}</strong></p>`;
     }
     pago += `<p style="font-size:13px;color:#6B6460">Tienes <strong>48 horas</strong> para dejarla. Pasado ese plazo el Pase vuelve a abrirse — hay más proyectos esperando.</p>`;
+    // El compromiso de precio va por escrito en el correo: es lo que vale si
+    // algún día hay una discusión sobre cuánto se acordó.
+    pago += `<p style="margin-top:18px;padding:12px 14px;background:#F5EFE4;border-left:2px solid #8B5E2A;font-size:13px;color:#1C1714">
+      <strong>Tu precio queda fijado hoy.</strong> Cuando el Atelier abra sus puertas la tarifa sube, pero a ti no te afecta: tu proyecto mantiene el precio con el que te concedí el Pase, de principio a fin, aunque las sesiones se alarguen meses.</p>`;
   }
   return {
     subject: esConsulta ? `Confirmada tu valoración — ${fecha}` : `Pase concedido — ${fecha}`,
