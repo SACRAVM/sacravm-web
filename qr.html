@@ -33,9 +33,9 @@ header{padding:28px 24px 18px;text-align:center}
 .hero h1{font-family:var(--serif);font-size:27px;font-weight:400;line-height:1.35;color:var(--tx)}
 .hero p{font-size:14.5px;color:var(--t2);line-height:1.75;margin-top:12px}
 
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;padding:0 0 8px}
+.grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px;padding:0 0 8px}
 .grid-item{aspect-ratio:4/5;position:relative;overflow:hidden;background:var(--s1)}
-.grid-item span{position:absolute;left:8px;bottom:8px;font-size:10px;letter-spacing:.08em;color:#fff;text-shadow:0 1px 6px rgba(0,0,0,.5);text-transform:uppercase}
+.grid-item span{position:absolute;left:6px;bottom:6px;font-size:8.5px;letter-spacing:.06em;color:#fff;text-shadow:0 1px 6px rgba(0,0,0,.55);text-transform:uppercase}
 
 .sec{padding:30px 24px 0}
 .sec-label{font-size:11px;letter-spacing:.2em;color:var(--a);font-weight:600;margin-bottom:8px}
@@ -60,6 +60,8 @@ textarea.fi{resize:none;height:80px}
 .ref-thumb button{position:absolute;top:0;right:0;background:rgba(28,23,20,.75);color:#fff;border:none;width:17px;height:17px;font-size:11px;line-height:1;cursor:pointer;border-radius:0 0 0 4px}
 .ref-count{font-size:11px;color:var(--t3);margin-top:5px}
 .field-note{font-size:11.5px;color:var(--t3);margin-top:-2px;margin-bottom:2px;line-height:1.55}
+.artista-uno{font-family:var(--serif);font-size:20px;color:var(--tx);line-height:1.35;padding:13px 15px;background:var(--w);border:1px solid var(--bdr2);border-radius:var(--r)}
+.artista-uno span{display:block;font-family:var(--sans);font-size:12px;color:var(--t3);margin-top:5px;line-height:1.6}
 .fund{margin:26px 24px 0;padding:20px 22px;background:var(--dk);border-radius:var(--r)}
 .fund .lbl{font-size:10.5px;letter-spacing:.2em;color:var(--a);font-weight:600;margin-bottom:7px}
 .fund h3{font-family:var(--serif);font-size:20px;font-weight:400;color:var(--dtx);margin-bottom:9px}
@@ -79,6 +81,26 @@ textarea.fi{resize:none;height:80px}
 .success .btn-o{margin-top:26px;display:inline-block;text-decoration:none;padding:14px 26px}
 
 #form-wrap.hide{display:none}
+
+/* ── El recorrido: tres pasos, no un formulario largo ── */
+.pasos{display:flex;gap:7px;justify-content:center;padding:6px 24px 0}
+.paso-dot{width:26px;height:2px;background:var(--bdr2);border-radius:2px;transition:background .35s}
+.paso-dot.on{background:var(--a)}
+.paso{display:none;animation:entra .45s ease both}
+.paso.on{display:block}
+@keyframes entra{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.paso-num{font-size:10.5px;letter-spacing:.22em;color:var(--a);font-weight:600;margin-bottom:9px}
+.paso-t{font-family:var(--serif);font-size:25px;font-weight:400;line-height:1.3;margin-bottom:7px}
+.paso-s{font-size:13.5px;color:var(--t2);line-height:1.75}
+.nav-pasos{display:flex;gap:10px;padding:24px 24px 0}
+.nav-pasos .btn-p{flex:1}
+.nav-pasos .btn-o{flex:0 0 40%}
+.criba{margin:24px 24px 0;padding:16px 18px;border-left:2px solid var(--aBdr);font-family:var(--serif);font-size:16px;font-style:italic;color:var(--t2);line-height:1.7}
+.leyendo{padding:80px 28px;text-align:center;display:none}
+.leyendo.show{display:block}
+.leyendo-marca{font-family:var(--serif);font-size:30px;color:var(--a);animation:latido 1.6s ease-in-out infinite}
+.leyendo p{font-size:14px;color:var(--t3);margin-top:18px;letter-spacing:.04em}
+@keyframes latido{0%,100%{opacity:.35;transform:scale(.94)}50%{opacity:1;transform:scale(1)}}
 </style>
 </head>
 <body>
@@ -90,99 +112,140 @@ textarea.fi{resize:none;height:80px}
 
 <div id="form-wrap">
   <div class="aviso" id="qr-aviso" style="display:none"></div>
-  <div class="hero">
-    <h1 id="qr-titulo">El Pase se concede.</h1>
-    <p>Cada mes el Atelier abre un número limitado de Pases. Elegimos cada proyecto, uno a uno. Cuéntanos qué historia quieres hacer eterna.</p>
+
+  <div class="paso on" id="paso1">
+    <div class="hero">
+      <h1 id="qr-titulo">Aquí empieza tu proyecto.</h1>
+      <p>Cada mes el Atelier abre un número limitado de Pases. Elegimos cada proyecto, uno a uno. Cuéntanos qué historia quieres hacer eterna.</p>
+    </div>
+
+    <div class="grid" id="qr-grid"></div>
+
+    <div class="pasos"><span class="paso-dot on"></span><span class="paso-dot"></span><span class="paso-dot"></span></div>
+
+    <div class="sec">
+      <div class="paso-num">PASO 1 DE 3</div>
+      <h2 class="paso-t">Empecemos por ti.</h2>
+      <p class="paso-s">Necesitamos poder responderte — y ver quién hay detrás del proyecto.</p>
+
+      <div class="field-label">TU NOMBRE</div>
+      <input class="fi" id="q-nombre" placeholder="Nombre y apellidos">
+
+      <div class="field-label">CORREO ELECTRÓNICO</div>
+      <input class="fi" type="email" id="q-email" placeholder="tu@email.com">
+
+      <div class="field-label">TELÉFONO / WHATSAPP</div>
+      <input class="fi" id="q-telefono" placeholder="Tu número">
+
+      <div class="field-label">TU INSTAGRAM</div>
+      <input class="fi" id="q-instagram" placeholder="@tuusuario — o «no tengo»">
+
+      <div class="err" id="q-err1"></div>
+    </div>
+    <div class="nav-pasos"><button class="btn-p" onclick="irPaso(2)">CONTINUAR →</button></div>
   </div>
 
-  <div class="grid" id="qr-grid"></div>
+  <div class="paso" id="paso2">
+    <div class="pasos"><span class="paso-dot on"></span><span class="paso-dot on"></span><span class="paso-dot"></span></div>
+    <div class="sec">
+      <div class="paso-num">PASO 2 DE 3</div>
+      <h2 class="paso-t">Ahora, lo que de verdad importa.</h2>
+      <p class="paso-s">Esto es lo que leeremos con calma. Escríbelo como nos lo contarías en persona: es lo único que tenemos para decidir.</p>
 
-  <div class="sec">
-    <div class="sec-label">TU CANDIDATURA</div>
-    <h2>Esto no es un formulario. Es tu proyecto.</h2>
-    <p>Escríbelo como nos lo contarías en persona. Lo que pongas aquí es lo único que tenemos para decidir — y lo leeremos entero.</p>
-    <p style="margin-top:8px"><strong style="color:var(--a);font-weight:600">Hay que rellenarlo todo.</strong> No es capricho: si falta algo, no podemos valorar el proyecto y la solicitud se queda fuera.</p>
+      <div class="field-label">LA HISTORIA QUE QUIERES LLEVAR</div>
+      <textarea class="fi" id="q-idea" style="height:120px" placeholder="No nos describas un dibujo. Cuéntanos qué significa, de dónde viene y por qué ahora."></textarea>
 
-    <div class="field-label">TU NOMBRE</div>
-    <input class="fi" id="q-nombre" placeholder="Nombre y apellidos">
+      <div class="field-label">DÓNDE VA A VIVIR</div>
+      <input class="fi" id="q-zona" placeholder="Brazo, costillas, pierna…">
 
-    <div class="field-label">CORREO ELECTRÓNICO</div>
-    <input class="fi" type="email" id="q-email" placeholder="tu@email.com">
+      <div class="field-label">QUÉ ESPACIO OCUPA</div>
+      <input class="fi" id="q-tamano" placeholder="En cm, o compáralo con algo (una mano, un folio…)">
 
-    <div class="field-label">TELÉFONO / WHATSAPP</div>
-    <input class="fi" id="q-telefono" placeholder="Tu número">
+      <div class="field-label">REFERENCIAS</div>
+      <p class="field-note">Al menos una, hasta seis. No para copiarlas — para entender el tono, el encaje y el nivel de detalle.</p>
+      <input type="file" accept="image/*" multiple id="q-referencias" class="ref-input" onchange="qrRefs(event)">
+      <div class="ref-preview" id="q-ref-preview"></div>
+      <div class="ref-count" id="q-ref-count"></div>
 
-    <div class="field-label">TU INSTAGRAM</div>
-    <input class="fi" id="q-instagram" placeholder="@tuusuario — así vemos tu estilo antes de decidir">
-
-    <div class="field-label">LA HISTORIA QUE QUIERES LLEVAR</div>
-    <textarea class="fi" id="q-idea" placeholder="No nos describas un dibujo. Cuéntanos qué significa, de dónde viene y por qué ahora."></textarea>
-
-    <div class="field-label">DÓNDE VA A VIVIR</div>
-    <input class="fi" id="q-zona" placeholder="Brazo, costillas, pierna…">
-
-    <div class="field-label">QUÉ ESPACIO OCUPA</div>
-    <input class="fi" id="q-tamano" placeholder="En cm, o compáralo con algo (una mano, un folio…)">
-
-    <div class="field-label">REFERENCIAS</div>
-    <p class="field-note">Hasta 6 imágenes. No para copiarlas — para entender el tono, el encaje y el nivel de detalle que buscas.</p>
-    <input type="file" accept="image/*" multiple id="q-referencias" class="ref-input" onchange="qrRefs(event)">
-    <div class="ref-preview" id="q-ref-preview"></div>
-    <div class="ref-count" id="q-ref-count"></div>
-
-    <div class="field-label">QUÉ PRESUPUESTO MANEJAS</div>
-    <p class="field-note">Nadie va a cobrarte por esto. Sirve para no proponerte algo que no encaje con lo que tienes pensado.</p>
-    <select class="fi" id="q-presupuesto">
-      <option value="">Elige una opción</option>
-      <option value="Prefiero hablarlo">Prefiero hablarlo contigo</option>
-      <option value="Hasta 250€">Hasta 250€</option>
-      <option value="250–550€">250–550€</option>
-      <option value="550–850€">550–850€</option>
-      <option value="Más de 850€ / proyecto">Más de 850€ · es un proyecto grande</option>
-    </select>
-
-    <div class="field-label">¿PARA CUÁNDO LO QUIERES?</div>
-    <select class="fi" id="q-plazo">
-      <option value="">Elige una opción</option>
-      <option value="En cuanto haya hueco">En cuanto haya hueco</option>
-      <option value="En 1–3 meses">En 1–3 meses</option>
-      <option value="Este año, sin prisa">Este año, sin prisa</option>
-      <option value="Todavía lo estoy pensando">Todavía lo estoy pensando</option>
-    </select>
-
-    <div class="field-label">¿ES TU PRIMER TATUAJE?</div>
-    <select class="fi" id="q-primero">
-      <option value="">Elige una opción</option>
-      <option value="No">No, ya tengo alguno</option>
-      <option value="Sí">Sí, sería el primero</option>
-    </select>
-
-    <div class="field-label">¿POR DÓNDE NOS CONOCISTE?</div>
-    <select class="fi" id="q-fuente">
-      <option value="">Elige una opción</option>
-      <option value="QR puerta">Vi el cartel en la puerta</option>
-      <option value="Instagram">Instagram</option>
-      <option value="Recomendación">Me lo recomendaron</option>
-      <option value="Google">Google</option>
-      <option value="Vio un tatuaje">Le vi un tatuaje a alguien</option>
-      <option value="Cuadros">Por los cuadros</option>
-      <option value="Otro">Otro</option>
-    </select>
-
-    <label class="consent-row"><input type="checkbox" id="q-consent"> He leído y acepto la <a href="/legal" target="_blank">Política de Privacidad</a>.</label>
-    <div class="err" id="q-err"></div>
+      <div class="err" id="q-err2"></div>
+    </div>
+    <div class="nav-pasos">
+      <button class="btn-o" onclick="irPaso(1)">← ATRÁS</button>
+      <button class="btn-p" onclick="irPaso(3)">CONTINUAR →</button>
+    </div>
   </div>
 
-  <div class="fund" id="qr-fund" style="display:none">
-    <div class="lbl">TARIFA FUNDACIONAL</div>
-    <h3 id="qr-fund-titulo"></h3>
-    <div id="qr-fund-texto"></div>
-  </div>
+  <div class="paso" id="paso3">
+    <div class="pasos"><span class="paso-dot on"></span><span class="paso-dot on"></span><span class="paso-dot on"></span></div>
+    <div class="sec">
+      <div class="paso-num">PASO 3 DE 3</div>
+      <h2 class="paso-t">Y por último, el encaje.</h2>
+      <p class="paso-s">Para saber si podemos hacerle justicia a lo que traes.</p>
 
-  <div class="cta-block">
-    <button class="btn-p" id="btn-enviar" onclick="qrEnviar()">PRESENTAR MI PROYECTO →</button>
-    <p class="cta-note">Respondemos en 48 h. Si hay Pase para ti, seremos nosotros quienes te demos fecha.<br>Presentarlo no cuesta nada ni te compromete a nada.</p>
+      <div id="q-artista-box"></div>
+
+      <div class="field-label">QUÉ PRESUPUESTO MANEJAS</div>
+      <p class="field-note">Nadie va a cobrarte por esto. Sirve para no proponerte algo que no encaje con lo que tienes pensado.</p>
+      <select class="fi" id="q-presupuesto">
+        <option value="">Elige una opción</option>
+        <option value="Prefiero hablarlo">Prefiero hablarlo contigo</option>
+        <option value="Hasta 250€">Hasta 250€</option>
+        <option value="250–550€">250–550€</option>
+        <option value="550–850€">550–850€</option>
+        <option value="Más de 850€ / proyecto">Más de 850€ · es un proyecto grande</option>
+      </select>
+
+      <div class="field-label">¿PARA CUÁNDO LO QUIERES?</div>
+      <select class="fi" id="q-plazo">
+        <option value="">Elige una opción</option>
+        <option value="En cuanto haya hueco">En cuanto haya hueco</option>
+        <option value="En 1–3 meses">En 1–3 meses</option>
+        <option value="Este año, sin prisa">Este año, sin prisa</option>
+        <option value="Todavía lo estoy pensando">Todavía lo estoy pensando</option>
+      </select>
+
+      <div class="field-label">¿ES TU PRIMER TATUAJE?</div>
+      <select class="fi" id="q-primero">
+        <option value="">Elige una opción</option>
+        <option value="No">No, ya tengo alguno</option>
+        <option value="Sí">Sí, sería el primero</option>
+      </select>
+
+      <div class="field-label">¿POR DÓNDE NOS CONOCISTE?</div>
+      <select class="fi" id="q-fuente">
+        <option value="">Elige una opción</option>
+        <option value="QR puerta">Vi el cartel en la puerta</option>
+        <option value="Instagram">Instagram</option>
+        <option value="Recomendación">Me lo recomendaron</option>
+        <option value="Google">Google</option>
+        <option value="Vio un tatuaje">Le vi un tatuaje a alguien</option>
+        <option value="Cuadros">Por los cuadros</option>
+        <option value="Otro">Otro</option>
+      </select>
+
+      <label class="consent-row"><input type="checkbox" id="q-consent"> He leído y acepto la <a href="/legal" target="_blank">Política de Privacidad</a>.</label>
+      <div class="err" id="q-err3"></div>
+    </div>
+
+    <div class="fund" id="qr-fund" style="display:none">
+      <div class="lbl">TARIFA FUNDACIONAL</div>
+      <h3 id="qr-fund-titulo"></h3>
+      <div id="qr-fund-texto"></div>
+    </div>
+
+    <p class="criba">No todos los proyectos reciben Pase. Si el tuyo no encaja, te lo diremos con la misma claridad con la que te lo diríamos si encaja.</p>
+
+    <div class="cta-block">
+      <button class="btn-p" id="btn-enviar" onclick="qrEnviar()">PRESENTAR MI PROYECTO →</button>
+      <p class="cta-note">Lo leemos en 48 h. Si hay Pase para ti, seremos nosotros quienes te demos fecha.<br>Presentarlo no cuesta nada ni te compromete a nada.</p>
+    </div>
+    <div class="nav-pasos"><button class="btn-o" style="flex:1" onclick="irPaso(2)">← ATRÁS</button></div>
   </div>
+</div>
+
+<div class="leyendo" id="leyendo">
+  <div class="leyendo-marca">✦</div>
+  <p>Entregando tu proyecto al Atelier…</p>
 </div>
 
 <div class="success" id="success-contacto">
@@ -211,6 +274,25 @@ async function loadContent() {
     box.textContent = T.aperturaAviso;
     box.style.display = 'block';
   }
+  // Artista: con uno solo no se pregunta (un desplegable de una opción es ruido).
+  // En cuanto el panel tenga dos, el cliente elige con quién quiere tatuarse.
+  const artistas = (CONFIG.artistas || []).filter(Boolean);
+  const box = document.getElementById('q-artista-box');
+  if (artistas.length > 1) {
+    box.innerHTML = `
+      <div class="field-label">¿CON QUIÉN QUIERES TATUARTE?</div>
+      <p class="field-note">Cada artista del Atelier tiene su mano y su lista. Si te da igual, lo asignamos al que mejor encaje con tu proyecto.</p>
+      <select class="fi" id="q-artista">
+        <option value="">Elige una opción</option>
+        ${artistas.map(a => `<option value="${esc(a)}">${esc(a)}</option>`).join('')}
+        <option value="Sin preferencia">Me da igual — el que mejor encaje</option>
+      </select>`;
+  } else if (artistas.length === 1) {
+    box.innerHTML = `
+      <div class="field-label">QUIÉN VALORARÁ TU PROYECTO</div>
+      <p class="artista-uno">${esc(artistas[0])}<span>Lee y elige personalmente cada proyecto que entra en el Atelier.</span></p>`;
+  }
+
   // Tarifa fundacional: mismo texto que en la web, editable desde el panel.
   if (T.fundacionalTitulo) {
     document.getElementById('qr-fund-titulo').textContent = T.fundacionalTitulo;
@@ -227,7 +309,10 @@ async function loadContent() {
 
 function renderGrid() {
   const fotos = CONFIG.fotos || {};
-  const items = [fotos.tt1, fotos.tt2, fotos.tt3, fotos.tt4].filter(f => f && f.url);
+  // Solo tres: en el cuestionario la foto acompaña, no compite con el texto.
+  // Se usan tt2/tt3/tt4 a propósito: la portada usa tt1, tt5 y tt6, así que
+  // cambiar las del cuestionario no toca la página principal.
+  const items = [fotos.tt2, fotos.tt3, fotos.tt4].filter(f => f && f.url);
   document.getElementById('qr-grid').innerHTML = items.map(f => `
     <div class="grid-item"><img src="${f.url}" alt="${esc(f.estilo || 'Tatuaje SACRAVM')}" loading="lazy"><span>${esc(f.estilo || '')}</span></div>
   `).join('');
@@ -287,48 +372,88 @@ function qrCollect() {
     plazo: v('q-plazo'),
     primero: v('q-primero'),
     fuente: v('q-fuente'),
+    artista: document.getElementById('q-artista') ? v('q-artista') : '',
   };
 }
 
 // Una sola vía: se manda la solicitud y la revisamos. Aquí nadie elige fecha
 // ni paga nada — la fecha la damos nosotros al aprobar.
-// Todos los campos son obligatorios: una solicitud a medias no se puede valorar,
-// así que es mejor pararla aquí que dejarla entrar y tener que perseguir los datos.
-const QR_OBLIGATORIOS = [
-  ['nombre', 'tu nombre'],
-  ['email', 'tu correo electrónico'],
-  ['telefono', 'tu teléfono'],
-  ['instagram', 'tu Instagram (pon «no tengo» si no usas)'],
-  ['idea', 'la historia que quieres llevar'],
-  ['zona', 'la zona del cuerpo'],
-  ['tamano', 'el espacio que ocupa'],
-  ['presupuesto', 'el presupuesto que manejas'],
-  ['plazo', 'para cuándo lo quieres'],
-  ['primero', 'si es tu primer tatuaje'],
-  ['fuente', 'por dónde nos conociste'],
-];
+// Cada paso se cierra antes de abrir el siguiente. Una solicitud a medias no se
+// puede valorar, y perseguir los datos por WhatsApp después es tiempo perdido.
+const QR_PASOS = {
+  1: [['nombre', 'tu nombre'], ['email', 'tu correo electrónico'],
+      ['telefono', 'tu teléfono'], ['instagram', 'tu Instagram (pon «no tengo» si no usas)']],
+  2: [['idea', 'la historia que quieres llevar'], ['zona', 'la zona del cuerpo'],
+      ['tamano', 'el espacio que ocupa']],
+  3: [['presupuesto', 'el presupuesto que manejas'], ['plazo', 'para cuándo lo quieres'],
+      ['primero', 'si es tu primer tatuaje'], ['fuente', 'por dónde nos conociste']],
+};
 
-async function qrEnviar() {
-  const err = document.getElementById('q-err');
+// El artista solo se exige si hay más de uno donde elegir.
+function pasosDe(n) {
+  const base = QR_PASOS[n] || [];
+  if (n === 3 && document.getElementById('q-artista')) {
+    return [['artista', 'con quién quieres tatuarte']].concat(base);
+  }
+  return base;
+}
+
+let pasoActual = 1;
+
+// Devuelve '' si el paso está completo, o el aviso de lo que falta.
+function revisaPaso(n) {
   const d = qrCollect();
-  const faltan = QR_OBLIGATORIOS.filter(([k]) => !d[k]).map(([, txt]) => txt);
+  const faltan = pasosDe(n).filter(([k]) => !d[k]);
   if (faltan.length) {
-    err.textContent = faltan.length === 1
-      ? 'Falta ' + faltan[0] + '.'
-      : 'Faltan ' + faltan.length + ' datos: ' + faltan.join(', ') + '.';
-    const primero = QR_OBLIGATORIOS.find(([k]) => !d[k])[0];
+    const primero = faltan[0][0];
     const campo = document.getElementById('q-' + primero);
     campo.scrollIntoView({ behavior: 'smooth', block: 'center' });
     campo.focus({ preventScroll: true });
-    return;
+    const nombres = faltan.map(([, txt]) => txt);
+    return nombres.length === 1 ? 'Falta ' + nombres[0] + '.' : 'Faltan ' + nombres.join(', ') + '.';
   }
-  if (!qrReferencias.length) {
-    err.textContent = 'Sube al menos una imagen de referencia — sin ver hacia dónde vas, no podemos decidir.';
+  // Las referencias solo se piden en el paso del proyecto.
+  if (n === 2 && !qrReferencias.length) {
     document.getElementById('q-referencias').scrollIntoView({ behavior: 'smooth', block: 'center' });
-    return;
+    return 'Sube al menos una imagen de referencia — sin ver hacia dónde vas, no podemos decidir.';
+  }
+  return '';
+}
+
+function irPaso(destino) {
+  // Hacia atrás nunca se valida: revisar lo ya escrito no debe costar nada.
+  if (destino > pasoActual) {
+    const aviso = revisaPaso(pasoActual);
+    document.getElementById('q-err' + pasoActual).textContent = aviso;
+    if (aviso) return;
+  }
+  document.getElementById('q-err' + pasoActual).textContent = '';
+  document.getElementById('paso' + pasoActual).classList.remove('on');
+  pasoActual = destino;
+  document.getElementById('paso' + pasoActual).classList.add('on');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+async function qrEnviar() {
+  const err = document.getElementById('q-err3');
+  const d = qrCollect();
+  // Se revisan los tres por si alguien llegó aquí con el navegador atrás.
+  for (const n of [1, 2, 3]) {
+    const aviso = revisaPaso(n);
+    if (aviso) {
+      if (n !== pasoActual) irPaso(n);
+      document.getElementById('q-err' + n).textContent = aviso;
+      return;
+    }
   }
   if (!document.getElementById('q-consent').checked) { err.textContent = 'Debes aceptar la Política de Privacidad para continuar.'; return; }
   err.textContent = '';
+
+  // Momento de entrega: el proyecto pasa de sus manos a las nuestras.
+  document.getElementById('form-wrap').classList.add('hide');
+  document.getElementById('leyendo').classList.add('show');
+  window.scrollTo(0, 0);
+  const entregado = new Promise(r => setTimeout(r, 1600));
 
   const btn = document.getElementById('btn-enviar');
   btn.textContent = 'ENVIANDO…'; btn.disabled = true;
@@ -341,12 +466,14 @@ async function qrEnviar() {
         instagram: d.instagram, mensaje: d.idea, zona: d.zona, tamano: d.tamano,
         presupuesto: d.presupuesto, plazo: d.plazo, ya_tatuado: d.primero === 'Sí' ? 'No' : 'Sí',
         fuente: d.fuente || 'QR puerta',
+        artista: d.artista === 'Sin preferencia' ? '' : d.artista,
         referencias: qrReferencias.map(r => r.dataUrl),
         fecha_envio: new Date().toISOString()
       })
     });
   } catch (e) {}
-  document.getElementById('form-wrap').classList.add('hide');
+  await entregado;
+  document.getElementById('leyendo').classList.remove('show');
   document.getElementById('success-contacto').classList.add('show');
   window.scrollTo(0, 0);
 }

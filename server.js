@@ -146,6 +146,9 @@ const DEFAULT_CONTENT = {
   academyAlumnos: 0,
   academyResultados: [],
   academyTestimonios: [],
+  artistas: ['JJ Rodríguez'],
+  videoAtelierUrl: '/video/sacravm-atelier.mp4',
+  videoAtelierPoster: '/video/sacravm-atelier-poster.jpg',
   textos: {
     // Se muestra arriba del cuestionario del QR. Vacíalo el día que abra el Atelier.
     aperturaAviso: 'El Atelier de Paseo Quintanilla abre sus puertas en las próximas semanas. Estos son los primeros Pases: los proyectos que elijamos ahora son los que inauguran la casa.',
@@ -825,7 +828,7 @@ function sendJSON(res, status, obj, extraHeaders) {
   res.end(JSON.stringify(obj));
 }
 
-const MIME = { '.html': 'text/html', '.css': 'text/css', '.js': 'text/javascript', '.svg': 'image/svg+xml', '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.webp': 'image/webp', '.json': 'application/json', '.xml': 'application/xml', '.txt': 'text/plain' };
+const MIME = { '.html': 'text/html', '.css': 'text/css', '.js': 'text/javascript', '.svg': 'image/svg+xml', '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.webp': 'image/webp', '.json': 'application/json', '.xml': 'application/xml', '.txt': 'text/plain', '.mp4': 'video/mp4', '.m4v': 'video/mp4', '.webm': 'video/webm', '.mov': 'video/quicktime' };
 
 const server = http.createServer(async (req, res) => {
   ensureDirs();

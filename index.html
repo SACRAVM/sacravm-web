@@ -134,6 +134,25 @@ nav,footer{scroll-snap-align:none}
 .nos-ph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px}
 .nos-ph span{font-size:10px;letter-spacing:.16em;color:rgba(60,40,10,.25)}
 
+/* ── VÍDEO DEL ATELIER ── */
+.vid-sec{border-top:1px solid var(--bdr);background:var(--s1)}
+.vid-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,320px);gap:48px;align-items:center}
+.vid-play{position:relative;border-radius:8px;overflow:hidden;background:var(--dk);cursor:pointer;aspect-ratio:9/16}
+.vid-play video,.vid-play img{width:100%;height:100%;object-fit:cover;display:block}
+.vid-btn{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(28,23,20,.28);transition:background .2s;border:none;cursor:pointer;width:100%}
+.vid-btn:hover{background:rgba(28,23,20,.14)}
+.vid-btn span{width:62px;height:62px;border-radius:50%;background:rgba(253,252,249,.92);color:var(--dk);display:flex;align-items:center;justify-content:center;font-size:20px;padding-left:4px}
+.vid-peso{font-size:12px;color:var(--t3);margin-top:10px;text-align:center}
+.vid-cita{margin:20px 0 0;padding-left:22px;border-left:1px solid var(--aBdr)}
+.vid-cita p{font-family:var(--serif);font-size:42px;font-weight:300;line-height:1.22;color:var(--tx);letter-spacing:-.005em}
+.vid-cita em{font-style:italic;color:var(--a)}
+.vid-cita cite{display:block;font-style:normal;font-size:11px;letter-spacing:.22em;color:var(--t3);margin-top:20px;text-transform:uppercase}
+.vid-pie{font-size:15px;color:var(--t2);line-height:1.9;margin-top:26px;max-width:420px}
+.vid-llamada{font-family:var(--serif);font-size:19px;font-style:italic;color:var(--tx);margin-top:18px}
+.vid-cta{margin-top:24px;padding:13px 30px;font-size:13px}
+@media(max-width:900px){.vid-cita p{font-size:33px}}
+@media(max-width:900px){.vid-grid{grid-template-columns:1fr;gap:30px}.vid-play{max-width:320px;margin:0 auto}}
+
 /* ── ARTISTAS ── */
 .artista-card{display:grid;grid-template-columns:200px 1fr;gap:40px;align-items:start;max-width:760px}
 .artista-photo{aspect-ratio:1;border-radius:50%;overflow:hidden;position:relative;background:linear-gradient(160deg,#E0D8C8 0%,#D0C5B0 60%,#D5C9B5 100%)}
@@ -1263,6 +1282,28 @@ body.wz-lock{overflow:hidden}
   </div>
 </section>
 
+<!-- VÍDEO DEL ATELIER -->
+<section id="video-atelier" class="vid-sec" style="display:none">
+  <div class="sec-inner">
+    <div class="vid-grid">
+      <div class="rv">
+        <div class="sec-label">EL OFICIO</div>
+        <blockquote class="vid-cita">
+          <p>Cada trazo,<br><em>para siempre.</em></p>
+          <cite>Manifiesto SACRAVM</cite>
+        </blockquote>
+        <p class="vid-pie">El tatuaje es el arte más antiguo que el ser humano hizo sobre su propia piel. Antes del papel, antes del lienzo, ya nos contábamos en el cuerpo.</p>
+        <p class="vid-pie vid-llamada">Conoce tu historia y cuéntamela. Ahí empieza el proyecto.</p>
+        <button class="btn-o vid-cta" onclick="goBook()">PRESENTAR PROYECTO →</button>
+      </div>
+      <div class="rv d2">
+        <div class="vid-play" id="vid-play"></div>
+        <p class="vid-peso" id="vid-peso"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- GALERÍA — portfolio completo -->
 <section id="galeria">
   <div class="sec-inner">
@@ -1680,6 +1721,24 @@ function renderSite(CONFIG) {
   document.getElementById('galeria-grid').innerHTML = (CONFIG.galeria || []).map(g => `
     <div class="gal-card" onclick="openEstiloModal('${(g.estilo||'').replace(/'/g,"\\'")}')"><div class="gal-img"><img src="${g.url}" alt="Tatuaje SACRAVM — ${g.estilo||''}${g.desc?', '+g.desc:''}" loading="lazy"></div><div class="gal-body"><div class="gal-est">${g.estilo||''}</div><div class="gal-desc">${g.desc||''}</div>${(g.duracion||g.precio) ? `<div class="gal-precio">${[g.duracion,g.precio].filter(Boolean).join(' · ')}</div>` : ''}</div></div>
   `).join('');
+
+  // ── Vídeo del Atelier ─────────────────────────────────────────────
+  // preload="none" + póster: nadie se descarga 9 MB por pasar scrolleando.
+  // El vídeo solo se pide al servidor cuando alguien lo pulsa.
+  const vidUrl = CONFIG.videoAtelierUrl || '';
+  const vidPoster = CONFIG.videoAtelierPoster || '';
+  if (vidUrl) {
+    const caja = document.getElementById('vid-play');
+    caja.innerHTML = `
+      ${vidPoster ? `<img src="${vidPoster}" alt="Tatuaje terminado en el Atelier SACRAVM" loading="lazy">` : ''}
+      <button class="vid-btn" aria-label="Reproducir el vídeo"><span>▶</span></button>`;
+    document.getElementById('vid-peso').textContent = 'Toca para reproducir · 12 segundos, sin sonido';
+    caja.querySelector('.vid-btn').onclick = () => {
+      caja.innerHTML = `<video src="${vidUrl}" ${vidPoster ? `poster="${vidPoster}"` : ''} controls autoplay muted loop playsinline></video>`;
+      document.getElementById('vid-peso').textContent = '';
+    };
+    document.getElementById('video-atelier').style.display = '';
+  }
 
   // ── Experiences — vídeo y fotos de eventos reales ─────────────────
   const expShowcase = document.getElementById('exp-showcase');

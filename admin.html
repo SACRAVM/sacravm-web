@@ -322,6 +322,11 @@ function panelDatos() {
         <div><p class="field-label">EMAIL</p><input class="fi" id="f-email" value="${esc(content.email)}"></div>
         <div><p class="field-label">WHATSAPP</p><input class="fi" id="f-whatsapp" placeholder="+34612345678" value="${esc(content.whatsapp)}"></div>
       </div>
+      <div>
+        <p class="field-label">ARTISTAS DEL ATELIER (uno por línea)</p>
+        <p style="font-size:12px;color:var(--t3);margin-bottom:8px">Con un solo artista, el cuestionario no pregunta nada. En cuanto añadas el segundo, el cliente podrá elegir con quién quiere tatuarse.</p>
+        <textarea class="fi" id="db-artistas" style="height:74px">${esc((content.artistas || ['JJ Rodríguez']).join('\n'))}</textarea>
+      </div>
       <div class="row2">
         <div><p class="field-label">BIZUM (número para cobrar fianzas y vales regalo)</p><input class="fi" id="f-bizum" placeholder="+34612345678" value="${esc(content.bizum||'')}"></div>
         <div><p class="field-label">INSTAGRAM (sin @)</p><input class="fi" id="f-instagram" value="${esc(content.instagram)}"></div>
@@ -338,6 +343,11 @@ function wireDatos() {
     const el = document.getElementById('f-'+k);
     if (el) el.oninput = () => content[k] = el.value;
   });
+  // Un artista por línea; se limpian los espacios y las líneas vacías.
+  const art = document.getElementById('db-artistas');
+  if (art) art.oninput = () => {
+    content.artistas = art.value.split('\n').map(l => l.trim()).filter(Boolean);
+  };
 }
 
 // ── Horarios ─────────────────────────────────────────────────────
