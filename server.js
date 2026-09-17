@@ -380,9 +380,19 @@ function sendEmail(to, subject, html) {
     const httpReq = https.request(reqOpts, (httpRes) => {
       let body = '';
       httpRes.on('data', (c) => body += c);
-      httpRes.on('end', () => resolve({ ok: httpRes.statusCode < 300, status: httpRes.statusCode, body }));
+      httpRes.on('end', () => {
+        // Hasta ahora los fallos de envío eran mudos: si Resend rechazaba un
+        // correo no quedaba rastro en ningún sitio. Ahora sale en los logs de
+        // Render con el motivo exacto.
+        if (httpRes.statusCode >= 300) {
+          console.error('✗ Email NO enviado a ' + to + ' — ' + httpRes.statusCode + ' ' + body.slice(0, 300));
+        } else {
+          console.log('✓ Email enviado a ' + to + ' — ' + subject);
+        }
+        resolve({ ok: httpRes.statusCode < 300, status: httpRes.statusCode, body });
+      });
     });
-    httpReq.on('error', (e) => resolve({ ok: false, error: e.message }));
+    httpReq.on('error', (e) => { console.error('✗ Email NO enviado a ' + to + ' — ' + e.message); resolve({ ok: false, error: e.message }); });
     httpReq.write(payload);
     httpReq.end();
   });
@@ -540,24 +550,30 @@ function emailNuevaSolicitud(lead) {
 function emailListaEspera(lead, posicion) {
   const nombre = (lead.nombre || '').split(' ')[0] || 'Hola';
   const historico = lead.tier === 'historico';
+  const proyecto = [lead.servicio, lead.zona].filter(Boolean).join(' · ') || 'Por definir';
   // El número de puesto solo suma si ya hay lista de verdad: decirle a alguien
   // que es el nº 2 delata que la lista está vacía. A partir de 10, refuerza.
   const puesto = posicion >= 10 ? posicion : 0;
-  const proyecto = [lead.servicio, lead.zona].filter(Boolean).join(' · ') || 'Por definir';
+  const filete = '<div style="width:42px;height:1px;background:#8C6B3E;opacity:.5;margin:26px 0"></div>';
   return {
-    subject: `Ya estás dentro — Lista privada de SACRAVM`,
+    subject: `Estás dentro · Lista privada de SACRAVM`,
     html: EMAIL_WRAP(`
-      <p>Hola ${nombre},</p>
-      <p><strong>Estás dentro.</strong> Tu nombre ya figura en la lista privada con la que el Templo abrirá su agenda en León${puesto ? `, registrado en el puesto <strong>nº ${puesto}</strong>` : ''}.</p>
-      <p>Esta lista no es pública y no se puede comprar. Es sencillamente el orden en que se abrirán las primeras citas del Atelier — antes de que exista ninguna agenda abierta al resto.</p>
-      <p><strong>Tu registro:</strong><br>
-      ${proyecto}<br>
-      ${historico ? 'Acceso prioritario · Cliente histórico' : 'Nueva solicitud · En proceso de selección'}</p>
+      <p style="font-size:11px;letter-spacing:.3em;color:#8C6B3E;text-transform:uppercase;margin-bottom:26px">Lista privada de apertura · León</p>
+      <p>${nombre},</p>
+      <p style="font-family:Georgia,serif;font-size:21px;line-height:1.5;margin:18px 0"><em>Estás dentro.</em></p>
+      <p>Tu nombre queda inscrito en la lista privada con la que SACRAVM abrirá sus puertas${puesto ? `, en el lugar <strong>nº ${puesto}</strong>` : ''}. Un círculo reducido, anterior a cualquier agenda pública.</p>
+      <p>Esta lista no se anuncia ni se compra. Es, sencillamente, el orden en que se abrirán las primeras citas del Atelier.</p>
+      ${filete}
+      <p style="font-size:11px;letter-spacing:.24em;color:#6B6460;text-transform:uppercase;margin-bottom:8px">Tu inscripción</p>
+      <p style="font-family:Georgia,serif;font-size:17px;margin-bottom:4px">${proyecto}</p>
+      <p style="font-size:13px;color:#8B5E2A;letter-spacing:.06em">${historico ? 'Acceso prioritario · Cliente histórico' : 'Nueva solicitud · En proceso de selección'}</p>
+      ${filete}
       <p>${historico
-        ? 'Ya llevas una obra mía encima, así que tu solicitud entra directa en la agenda VIP de apertura: se te escribe antes que a nadie.'
-        : 'Reviso cada proyecto uno a uno. Si encaja con lo que hago, te escribo para hablarlo antes de abrir fecha.'}</p>
-      <p>Un miembro del atelier revisará tu proyecto y se pondrá en contacto contigo <strong>antes de la apertura oficial en Octubre 2026</strong>. Hasta entonces no tienes que hacer nada ni pagar nada.</p>
-      <p style="font-size:14px;color:#6B6460">Guarda este correo: es el comprobante de tu lugar en la lista.</p>
+        ? 'Ya llevas una obra mía en la piel, así que tu solicitud entra directa en la agenda de apertura: serás de los primeros en recibir fecha.'
+        : 'Cada proyecto se estudia uno a uno. Si el tuyo encaja con lo que hacemos, te escribiremos para hablarlo antes de abrir fecha.'}</p>
+      <p><strong>Mantente atento: anunciaremos las primeras fechas muy pronto.</strong> Cuando el calendario se abra, quienes estáis en esta lista lo sabréis antes que nadie.</p>
+      <p style="font-family:Georgia,serif;font-size:18px;color:#8B5E2A;margin-top:28px">Te damos la bienvenida al Templo.</p>
+      <p style="font-size:13px;color:#6B6460;margin-top:22px">Conserva este mensaje: acredita tu lugar en la lista.</p>
     `),
   };
 }
@@ -943,6 +959,7 @@ const server = http.createServer(async (req, res) => {
           sendEmail(data.email, m.subject, m.html).catch(() => {});
         }
         const jjMail = readContent().email;
+        if (!jjMail) console.error('✗ No hay email de aviso configurado en el panel: nadie se entera del registro.');
         if (jjMail) {
           const m = emailNuevoListaEspera(leadInfo, posicion);
           sendEmail(jjMail, m.subject, m.html).catch(() => {});
