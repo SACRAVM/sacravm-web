@@ -412,6 +412,14 @@ const EMAIL_WRAP = (body) => `
     <p style="margin-top:32px;font-size:13px;color:#6B6460">JJ Rodríguez · SACRAVM · León</p>
   </div>`;
 
+// Variante de EMAIL_WRAP para las cartas firmadas: mismo membrete, sin el pie
+// genérico — la firma va dentro del propio texto.
+const EMAIL_CARTA = (body) => `
+  <div style="font-family:Georgia,'Times New Roman',serif;max-width:520px;margin:0 auto;color:#1C1714;line-height:1.7">
+    <div style="font-size:22px;letter-spacing:.1em;margin-bottom:24px">SACR<em style="color:#8B5E2A;font-style:italic">AVM</em></div>
+    ${body}
+  </div>`;
+
 function emailConfirmacion(lead) {
   const nombre = (lead.nombre || '').split(' ')[0] || 'Hola';
   const fecha = fmtFechaEs(lead.fecha_cita);
@@ -550,30 +558,29 @@ function emailNuevaSolicitud(lead) {
 function emailListaEspera(lead, posicion) {
   const nombre = (lead.nombre || '').split(' ')[0] || 'Hola';
   const historico = lead.tier === 'historico';
-  const proyecto = [lead.servicio, lead.zona].filter(Boolean).join(' · ') || 'Por definir';
+  const proyecto = [lead.servicio, lead.zona].filter(Boolean).join(', ').toLowerCase();
   // El número de puesto solo suma si ya hay lista de verdad: decirle a alguien
   // que es el nº 2 delata que la lista está vacía. A partir de 10, refuerza.
   const puesto = posicion >= 10 ? posicion : 0;
-  const filete = '<div style="width:42px;height:1px;background:#8C6B3E;opacity:.5;margin:26px 0"></div>';
+  const meses = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  const hoy = new Date();
+  const fecha = `León, ${hoy.getDate()} de ${meses[hoy.getMonth()]} de ${hoy.getFullYear()}`;
   return {
     subject: `Estás dentro · Lista privada de SACRAVM`,
-    html: EMAIL_WRAP(`
-      <p style="font-size:11px;letter-spacing:.3em;color:#8C6B3E;text-transform:uppercase;margin-bottom:26px">Lista privada de apertura · León</p>
-      <p>${nombre},</p>
-      <p style="font-family:Georgia,serif;font-size:21px;line-height:1.5;margin:18px 0"><em>Estás dentro.</em></p>
-      <p>Tu nombre queda inscrito en la lista privada con la que SACRAVM abrirá sus puertas${puesto ? `, en el lugar <strong>nº ${puesto}</strong>` : ''}. Un círculo reducido, anterior a cualquier agenda pública.</p>
-      <p>Esta lista no se anuncia ni se compra. Es, sencillamente, el orden en que se abrirán las primeras citas del Atelier.</p>
-      ${filete}
-      <p style="font-size:11px;letter-spacing:.24em;color:#6B6460;text-transform:uppercase;margin-bottom:8px">Tu inscripción</p>
-      <p style="font-family:Georgia,serif;font-size:17px;margin-bottom:4px">${proyecto}</p>
-      <p style="font-size:13px;color:#8B5E2A;letter-spacing:.06em">${historico ? 'Acceso prioritario · Cliente histórico' : 'Nueva solicitud · En proceso de selección'}</p>
-      ${filete}
-      <p>${historico
-        ? 'Ya llevas una obra mía en la piel, así que tu solicitud entra directa en la agenda de apertura: serás de los primeros en recibir fecha.'
-        : 'Cada proyecto se estudia uno a uno. Si el tuyo encaja con lo que hacemos, te escribiremos para hablarlo antes de abrir fecha.'}</p>
-      <p><strong>Mantente atento: anunciaremos las primeras fechas muy pronto.</strong> Cuando el calendario se abra, quienes estáis en esta lista lo sabréis antes que nadie.</p>
-      <p style="font-family:Georgia,serif;font-size:18px;color:#8B5E2A;margin-top:28px">Te damos la bienvenida al Templo.</p>
-      <p style="font-size:13px;color:#6B6460;margin-top:22px">Conserva este mensaje: acredita tu lugar en la lista.</p>
+    html: EMAIL_CARTA(`
+      <p style="font-size:12px;letter-spacing:.14em;color:#6B6460;margin-bottom:30px">${fecha}</p>
+      <p style="margin-bottom:18px">${nombre},</p>
+      <p style="margin-bottom:18px">Tu nombre ha quedado inscrito en la lista privada con la que SACRAVM abrirá sus puertas${puesto ? `, en el lugar número <strong>${puesto}</strong>` : ''}. Un círculo reducido, anterior a cualquier agenda pública.</p>
+      <p style="margin-bottom:18px">Esta lista no se anuncia ni se compra. Es, sencillamente, el orden en que se abrirán las primeras citas del Atelier.</p>
+      <p style="margin-bottom:18px">He tomado nota de tu proyecto${proyecto ? `: <em>${proyecto}</em>` : ''}. ${historico
+        ? 'Ya llevas una obra mía en la piel, de modo que tu solicitud entra directa en la agenda de apertura: serás de los primeros en recibir fecha.'
+        : 'Estudio cada proyecto uno a uno. Si el tuyo encaja con lo que hago, te escribiré para hablarlo antes de abrir fecha.'}</p>
+      <p style="margin-bottom:18px">Anunciaremos las primeras fechas muy pronto. Cuando el calendario se abra, quienes estáis en esta lista lo sabréis antes que nadie.</p>
+      <p style="margin-bottom:18px">Permíteme además una cortesía: <strong>los cincuenta primeros inscritos</strong> reciben una lámina firmada y numerada de la obra con la que se inaugura el Atelier. Se entrega en mano, la noche de la apertura, y esa misma noche se sortea la pieza original entre los presentes.</p>
+      <p style="margin-bottom:6px">Hasta muy pronto,</p>
+      <p style="font-family:Georgia,serif;font-size:19px;color:#8B5E2A;margin-bottom:2px">JJ Rodríguez</p>
+      <p style="font-size:12px;letter-spacing:.1em;color:#6B6460">Fundador · SACRAVM Tattoo Atelier &amp; Fine Art</p>
+      <p style="font-size:13px;color:#6B6460;margin-top:26px;padding-top:16px;border-top:1px solid #E4DCCF"><em>P. D. Conserva esta carta: acredita tu lugar en la lista.</em></p>
     `),
   };
 }

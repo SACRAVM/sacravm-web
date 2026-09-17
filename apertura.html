@@ -57,7 +57,8 @@ a{color:inherit}
 .isotipo{width:42px;height:42px;margin:0 auto 26px;opacity:.85;object-fit:contain}
 h1{font-family:var(--serif);font-weight:300;font-size:clamp(30px,8.6vw,62px);letter-spacing:.34em;text-indent:.34em;line-height:1.1;margin-bottom:18px}
 .h-rule{width:44px;height:1px;background:var(--oro);margin:0 auto 18px;opacity:.75}
-.h-sub{font-size:11px;letter-spacing:.34em;color:var(--caliza2);text-transform:uppercase;margin-bottom:38px}
+.h-sub{font-size:11px;letter-spacing:.34em;color:var(--caliza2);text-transform:uppercase;margin-bottom:12px}
+.h-by{font-family:var(--serif);font-style:italic;font-size:15px;color:var(--oro);letter-spacing:.06em;margin-bottom:38px}
 .h-claim{font-family:var(--serif);font-style:italic;font-weight:300;font-size:clamp(22px,5.6vw,34px);line-height:1.35;color:var(--caliza);margin-bottom:10px}
 .h-templo{font-size:11px;letter-spacing:.42em;color:var(--oro);text-transform:uppercase;margin-bottom:40px}
 .h-cta{display:inline-flex;align-items:center;gap:10px;background:none;border:1px solid var(--bdr2);color:var(--caliza);padding:15px 32px;border-radius:2px;font-size:12px;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;text-decoration:none;transition:background .25s,border-color .25s}
@@ -66,7 +67,7 @@ h1{font-family:var(--serif);font-weight:300;font-size:clamp(30px,8.6vw,62px);let
 .scroll-hint{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);z-index:2;width:1px;height:38px;background:linear-gradient(to bottom,transparent,var(--oro));opacity:.6}
 
 /* ═══ SECCIONES ═══ */
-section{padding:74px 22px}
+section{padding:52px 22px}
 .inner{max-width:620px;margin:0 auto}
 .label{font-size:10px;letter-spacing:.34em;color:var(--oro);text-transform:uppercase;margin-bottom:20px;text-align:center}
 .lead{font-family:var(--serif);font-weight:300;font-size:clamp(19px,4.8vw,25px);line-height:1.6;text-align:center;color:var(--caliza)}
@@ -80,6 +81,44 @@ section{padding:74px 22px}
 .bar{height:2px;background:rgba(244,237,228,.10);overflow:hidden}
 .bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--bronce),var(--oro));transition:width 1.6s cubic-bezier(.22,.8,.2,1)}
 .bar-note{font-size:12px;color:var(--caliza3);margin-top:12px;text-align:center;letter-spacing:.04em}
+
+/* ═══ MANIFIESTO ═══ */
+#manifiesto{border-top:1px solid var(--bdr);border-bottom:1px solid var(--bdr);background:var(--carbon2);padding:58px 22px}
+.mf-1{font-family:var(--serif);font-weight:300;font-size:clamp(26px,6.6vw,42px);line-height:1.25;text-align:center;margin-bottom:34px}
+.mf-1 em{display:block;font-style:italic;color:var(--oro)}
+.mf-p{font-size:15px;line-height:1.95;color:var(--caliza2);text-align:center;max-width:520px;margin:0 auto 20px}
+.mf-p b{color:var(--caliza);font-weight:400}
+.mf-cierre{font-family:var(--serif);font-style:italic;font-weight:300;font-size:clamp(20px,5vw,27px);line-height:1.45;color:var(--oro);text-align:center;max-width:520px;margin:34px auto 0;padding-top:30px;border-top:1px solid var(--bdr)}
+
+/* ═══ LO QUE RECIBES ═══ */
+.regalos{display:grid;gap:14px;margin-top:8px}
+.rg{border:1px solid var(--bdr);background:rgba(244,237,228,.02);border-radius:2px;overflow:hidden}
+.rg-img{position:relative;background:#0F0D0C}
+.rg-img img{width:100%;height:230px;object-fit:cover;object-position:center 42%;opacity:.92}
+.rg-val{position:absolute;top:14px;right:14px;background:rgba(20,17,15,.86);backdrop-filter:blur(6px);border:1px solid var(--bdr2);color:var(--oro);font-size:11px;letter-spacing:.16em;padding:7px 12px;border-radius:2px}
+.rg-in{padding:24px 22px}
+.rg-k{display:flex;align-items:center;gap:9px;font-size:10px;letter-spacing:.28em;color:var(--oro);text-transform:uppercase;margin-bottom:11px}
+.rg-k s{width:4px;height:4px;border-radius:50%;background:var(--oro);text-decoration:none;flex-shrink:0}
+.rg-t{font-family:var(--serif);font-size:23px;font-weight:400;line-height:1.25;margin-bottom:10px}
+.rg-d{font-size:14px;color:var(--caliza2);line-height:1.75}
+.rg-d b{color:var(--caliza);font-weight:400}
+.rg-l{margin-top:16px;padding-top:15px;border-top:1px solid var(--bdr);font-size:12px;color:var(--caliza3);line-height:1.7}
+.rg-l em{color:var(--oro);font-style:normal}
+
+/* ═══ LO QUE CUESTA ═══ */
+.coste{border:1px solid var(--bdr2);background:rgba(169,134,82,.05);border-radius:2px;padding:26px 22px;text-align:center}
+.coste-t{font-family:var(--serif);font-size:24px;font-weight:400;line-height:1.3;margin-bottom:12px}
+.coste-t b{color:var(--oro);font-weight:400}
+.coste-d{font-size:13.5px;color:var(--caliza3);line-height:1.75;max-width:460px;margin:0 auto}
+.pasos{display:flex;flex-wrap:wrap;justify-content:center;gap:10px 26px;margin-top:24px;padding-top:20px;border-top:1px solid var(--bdr)}
+.pasos span{display:flex;align-items:center;gap:8px;font-size:11px;letter-spacing:.16em;color:var(--caliza2);text-transform:uppercase}
+.pasos s{font-family:var(--serif);font-style:italic;font-size:14px;color:var(--oro);text-decoration:none;letter-spacing:0}
+
+/* ═══ SELECTOR DENTRO DEL FORMULARIO ═══ */
+.pills{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:2px}
+.pill{background:none;border:1px solid var(--bdr);color:var(--caliza3);padding:12px 8px;font-size:12.5px;letter-spacing:.02em;border-radius:2px;cursor:pointer;transition:all .18s;line-height:1.3}
+.pill:hover{border-color:var(--bdr2);color:var(--caliza2)}
+.pill.on{border-color:var(--oro);background:rgba(169,134,82,.1);color:var(--caliza)}
 
 /* ═══ DOBLE EMBUDO ═══ */
 .vias{display:grid;gap:12px;margin:0 0 30px}
@@ -130,6 +169,7 @@ section{padding:74px 22px}
 .sello s+s{background:linear-gradient(90deg,var(--bdr2),transparent)}
 .sello img{width:62px;height:62px;object-fit:contain;opacity:.8;flex-shrink:0}
 .sello-t{text-align:center;font-size:10px;letter-spacing:.34em;color:var(--caliza3);text-transform:uppercase;margin-top:20px}
+.sello-by{text-align:center;font-family:var(--serif);font-style:italic;font-size:14px;color:var(--oro);margin-top:8px}
 footer{padding:44px 22px 40px;text-align:center;border-top:1px solid var(--bdr)}
 .f-logo{font-family:var(--serif);font-size:16px;letter-spacing:.34em;text-indent:.34em;color:var(--caliza2);margin-bottom:10px}
 .f-l{font-size:11px;color:var(--caliza3);letter-spacing:.06em;line-height:2}
@@ -137,7 +177,7 @@ footer{padding:44px 22px 40px;text-align:center;border-top:1px solid var(--bdr)}
 .f-l a:hover{color:var(--oro);border-bottom-color:var(--bdr2)}
 
 @media(min-width:720px){
-  section{padding:88px 30px}
+  section{padding:64px 30px}
   .vias{grid-template-columns:1fr 1fr}
   .form{padding:38px 40px}
   .f-row{display:grid;grid-template-columns:1fr 1fr;gap:18px}
@@ -158,6 +198,7 @@ footer{padding:44px 22px 40px;text-align:center;border-top:1px solid var(--bdr)}
     <h1>SACRAVM</h1>
     <div class="h-rule"></div>
     <p class="h-sub">Tattoo Atelier &amp; Fine Art</p>
+    <p class="h-by">by JJ Rodríguez</p>
     <p class="h-claim">Algo sagrado llega a León.</p>
     <p class="h-templo">El Templo</p>
     <a class="h-cta" href="#acceso">Solicitar acceso privado</a>
@@ -166,44 +207,39 @@ footer{padding:44px 22px 40px;text-align:center;border-top:1px solid var(--bdr)}
   <div class="scroll-hint"></div>
 </header>
 
-<!-- ═══════════════ 2 · GANCHO DE EXCLUSIVIDAD ═══════════════ -->
-<section>
+<!-- ═══════════════ 2 · MANIFIESTO ═══════════════ -->
+<section id="manifiesto">
   <div class="inner">
-    <p class="label">Agenda de apertura</p>
-    <p class="lead">Debido a la naturaleza artesanal y al alto nivel de detalle de cada obra, el Templo abrirá con una <em>agenda estrictamente limitada</em>. El acceso a las citas de apertura se gestionará por orden de registro en esta lista privada.</p>
-    <p class="note">No es un formulario de contacto. Es la lista con la que se abrirá el calendario.</p>
+    <p class="mf-1">No esculpimos tinta.<em>Inmortalizamos historias.</em></p>
+    <p class="mf-p">SACRAVM no es un estudio; es un templo dedicado a <b>materializar lo intangible</b>. El acto de grabar tu piel no es una elección estética, sino la confirmación de quién te has convertido.</p>
+    <p class="mf-p">Crear algo único de forma <b>estrictamente manual y personalizada</b> para ti. Cuando cruzas la puerta del Templo, no adquieres una pieza: consigues conservar para siempre aquello que soñaste alcanzar.</p>
+    <p class="mf-cierre">Siente tu mejor versión esculpida en la piel.</p>
   </div>
 </section>
 
-<!-- ═══════════════ 3 · ESTADO / URGENCIA ═══════════════ -->
-<section id="estado">
+<!-- ═══════════════ 3 · EL ATELIER ═══════════════ -->
+<section id="atelier">
   <div class="inner">
-    <div class="bar-top"><span>Agenda de apertura</span><b><span id="pc">0</span>% reservada</b></div>
-    <div class="bar"><i id="bar-fill"></i></div>
-    <p class="bar-note" id="bar-note"></p>
+    <p class="label">El Templo</p>
+    <p class="lead">Un Atelier privado en León. Solo con cita, una sola obra cada vez y <em>una agenda estrictamente limitada</em>.</p>
+    <p class="note">Las primeras citas no se anunciarán en ningún sitio. Se reparten por orden de registro en esta lista.</p>
   </div>
 </section>
 
-<!-- ═══════════════ 4 · DOBLE EMBUDO + FORMULARIO ═══════════════ -->
+<!-- ═══════════════ 6 · DOBLE EMBUDO + FORMULARIO ═══════════════ -->
 <section id="acceso">
   <div class="inner">
-    <p class="label">Elige tu vía de acceso</p>
-    <div class="vias">
-      <button type="button" class="via on" data-via="vip" aria-pressed="true">
-        <span class="via-k"><s></s>Opción A</span>
-        <span class="via-t">Cliente histórico / Coleccionista</span>
-        <span class="via-d">Ya llevas una obra mía en la piel. Acceso prioritario directo a la agenda VIP de apertura.</span>
-      </button>
-      <button type="button" class="via" data-via="nueva" aria-pressed="false">
-        <span class="via-k"><s></s>Opción B</span>
-        <span class="via-t">Nueva solicitud de cita</span>
-        <span class="via-d">Primera obra con nosotros. Tu proyecto entra en el proceso de selección del Atelier.</span>
-      </button>
-    </div>
-
     <form class="form" id="form" novalidate>
       <p class="form-h" id="form-h">Lista privada · Acceso prioritario</p>
-      <p class="form-s" id="form-s">Cuatro datos. Nada más. Tu lugar queda registrado con la hora exacta de envío.</p>
+      <p class="form-s" id="form-s">Cuatro datos. Nada más.</p>
+
+      <div class="f" id="f-via">
+        <label>¿Te has tatuado antes conmigo?</label>
+        <div class="pills">
+          <button type="button" class="pill" data-via="vip">Sí</button>
+          <button type="button" class="pill on" data-via="nueva">Todavía no</button>
+        </div>
+      </div>
 
       <div class="f" id="f-nombre">
         <label for="nombre">Nombre completo</label>
@@ -265,6 +301,7 @@ footer{padding:44px 22px 40px;text-align:center;border-top:1px solid var(--bdr)}
       <p class="ok-t">Tu solicitud ha sido registrada</p>
       <p class="ok-p">Tu solicitud ha sido registrada correctamente. Un miembro de nuestro atelier revisará tu proyecto y se pondrá en contacto contigo <b>antes de la apertura oficial en Octubre 2026</b>.</p>
       <p class="ok-p" style="margin-top:18px">Mantente atento: <b>anunciaremos las primeras fechas muy pronto</b>. Quienes estáis en esta lista lo sabréis antes que nadie.</p>
+      <p class="ok-p" style="margin-top:22px;padding-top:22px;border-top:1px solid var(--bdr)">Y algo que no dice la página: los cincuenta primeros inscritos reciben <b>una lámina firmada y numerada</b>, en mano, la noche de la inauguración. Esa misma noche se sortea la pieza original entre los presentes.</p>
       <div class="ok-x">
         Mientras tanto, el Templo se construye a diario
         <br><a class="ok-ig" href="https://instagram.com/sacravm" target="_blank" rel="noopener">Seguir @sacravm</a>
@@ -282,6 +319,7 @@ footer{padding:44px 22px 40px;text-align:center;border-top:1px solid var(--bdr)}
       <s></s>
     </div>
     <p class="sello-t">Tu historia merece ser eterna</p>
+    <p class="sello-by">by JJ Rodríguez</p>
   </div>
 </section>
 
@@ -298,11 +336,6 @@ footer{padding:44px 22px 40px;text-align:center;border-top:1px solid var(--bdr)}
    ✎ EDITA AQUÍ — lo único que necesitas tocar
    ═══════════════════════════════════════════════════════════════ */
 const CFG = {
-  // Porcentaje de la agenda de apertura ya reservado. Mantenlo REAL:
-  // si alguien pregunta, tiene que poder sostenerse.
-  reservado: 70,
-  // Frase bajo la barra. Deja '' para no mostrar nada.
-  nota: 'Reservada para clientes históricos y coleccionistas. Las plazas restantes se abren por orden de registro.',
   // Vídeo de fondo del hero. Pesa 9 MB: en móvil NO se carga (la foto ya se
   // mueve sola). Pon videoEnMovil: true solo si algún día hay una versión
   // ligera del vídeo (menos de 2 MB).
@@ -330,13 +363,6 @@ const CFG = {
 const _f = new URLSearchParams(location.search).get('f');
 if (_f) CFG.fuente = CFG.canales[_f.toLowerCase()] || _f.slice(0, 40);
 
-// ── Barra de estado ────────────────────────────────────────────
-document.getElementById('pc').textContent = CFG.reservado;
-document.getElementById('bar-note').textContent = CFG.nota;
-addEventListener('load', () => {
-  setTimeout(() => { document.getElementById('bar-fill').style.width = CFG.reservado + '%'; }, 250);
-});
-
 // ── Vídeo del hero: solo si la conexión aguanta ────────────────
 // El flyer se escanea con el móvil: primero pintamos la foto (117 KB) y el
 // vídeo (9 MB) solo entra después de cargar, en 4G/wifi y sin ahorro de datos.
@@ -353,19 +379,12 @@ addEventListener('load', () => {
   v.load();
 });
 
-// ── Doble embudo ───────────────────────────────────────────────
-let via = 'vip';
-const COPY = {
-  vip:   { h: 'Lista privada · Acceso prioritario', s: 'Cuatro datos. Nada más. Como cliente histórico, tu solicitud entra en la agenda VIP de apertura.' },
-  nueva: { h: 'Solicitud de acceso al Atelier',     s: 'Cuatro datos. Nada más. Revisamos cada proyecto uno a uno antes de abrir fecha.' }
-};
-document.querySelectorAll('.via').forEach(b => b.addEventListener('click', () => {
-  document.querySelectorAll('.via').forEach(o => { o.classList.remove('on'); o.setAttribute('aria-pressed', 'false'); });
-  b.classList.add('on'); b.setAttribute('aria-pressed', 'true');
+// ── Círculo de acceso: un campo más del formulario, no otro botón ──
+let via = 'nueva';
+document.querySelectorAll('.pill').forEach(b => b.addEventListener('click', () => {
+  document.querySelectorAll('.pill').forEach(o => o.classList.remove('on'));
+  b.classList.add('on');
   via = b.dataset.via;
-  document.getElementById('form-h').textContent = COPY[via].h;
-  document.getElementById('form-s').textContent = COPY[via].s;
-  document.getElementById('form').scrollIntoView({ behavior: 'smooth', block: 'center' });
 }));
 
 // ── Validación + envío ─────────────────────────────────────────
