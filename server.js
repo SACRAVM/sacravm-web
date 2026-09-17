@@ -534,6 +534,51 @@ function emailNuevaSolicitud(lead) {
   };
 }
 
+// ══ Lista privada de apertura (landing del QR / flyer) ══════════════
+// No es una cita: es un registro en la lista con la que se abrirá el
+// calendario. El correo confirma la entrada, no promete fecha.
+function emailListaEspera(lead, posicion) {
+  const nombre = (lead.nombre || '').split(' ')[0] || 'Hola';
+  const historico = lead.tier === 'historico';
+  // El número de puesto solo suma si ya hay lista de verdad: decirle a alguien
+  // que es el nº 2 delata que la lista está vacía. A partir de 10, refuerza.
+  const puesto = posicion >= 10 ? posicion : 0;
+  const proyecto = [lead.servicio, lead.zona].filter(Boolean).join(' · ') || 'Por definir';
+  return {
+    subject: `Ya estás dentro — Lista privada de SACRAVM`,
+    html: EMAIL_WRAP(`
+      <p>Hola ${nombre},</p>
+      <p><strong>Estás dentro.</strong> Tu nombre ya figura en la lista privada con la que el Templo abrirá su agenda en León${puesto ? `, registrado en el puesto <strong>nº ${puesto}</strong>` : ''}.</p>
+      <p>Esta lista no es pública y no se puede comprar. Es sencillamente el orden en que se abrirán las primeras citas del Atelier — antes de que exista ninguna agenda abierta al resto.</p>
+      <p><strong>Tu registro:</strong><br>
+      ${proyecto}<br>
+      ${historico ? 'Acceso prioritario · Cliente histórico' : 'Nueva solicitud · En proceso de selección'}</p>
+      <p>${historico
+        ? 'Ya llevas una obra mía encima, así que tu solicitud entra directa en la agenda VIP de apertura: se te escribe antes que a nadie.'
+        : 'Reviso cada proyecto uno a uno. Si encaja con lo que hago, te escribo para hablarlo antes de abrir fecha.'}</p>
+      <p>Un miembro del atelier revisará tu proyecto y se pondrá en contacto contigo <strong>antes de la apertura oficial en Octubre 2026</strong>. Hasta entonces no tienes que hacer nada ni pagar nada.</p>
+      <p style="font-size:14px;color:#6B6460">Guarda este correo: es el comprobante de tu lugar en la lista.</p>
+    `),
+  };
+}
+
+function emailNuevoListaEspera(lead, posicion) {
+  const via = lead.tier === 'historico' ? 'Cliente histórico / Coleccionista' : 'Nueva solicitud';
+  return {
+    subject: `✦ Lista de apertura${posicion ? ' (nº ' + posicion + ')' : ''}: ${lead.nombre || 'sin nombre'}`,
+    html: EMAIL_WRAP(`
+      <p><strong>Alguien acaba de entrar en la lista privada de apertura.</strong></p>
+      <p>${lead.nombre || 'Sin nombre'}<br>
+      ${lead.email || ''} · ${lead.whatsapp || 'sin teléfono'}</p>
+      <p><strong>Vía:</strong> ${via}<br>
+      <strong>Proyecto:</strong> ${lead.servicio || 'no indicado'}<br>
+      <strong>Zona o detalle:</strong> ${lead.zona || 'no indicada'}<br>
+      <strong>Origen:</strong> ${lead.fuente || 'no indicado'}</p>
+      <p>Lo tienes en el panel con la etiqueta <strong>lista-espera</strong>. No se le ha prometido fecha: solo que le escribirás antes de la apertura.</p>
+    `),
+  };
+}
+
 function emailRecordatorioValoracion(lead) {
   const nombre = (lead.nombre || '').split(' ')[0] || 'Hola';
   const fecha = fmtFechaEs(lead.fecha_cita);
@@ -875,7 +920,7 @@ const server = http.createServer(async (req, res) => {
       console.log('✓ Nuevo lead:', data.tipo, '-', data.nombre || data.email, data.estado_solicitud ? `[${data.estado_solicitud}]` : '', referenciasPaths.length ? `(${referenciasPaths.length} refs)` : '');
       sendJSON(res, 200, { ok: true }, { 'Access-Control-Allow-Origin': '*' });
       // Emails — no bloquean la respuesta al cliente
-      const leadInfo = { nombre: data.nombre, fecha_cita: data.fecha, hora_cita: data.hora, servicio: data.servicio, tier: data.tier, mensaje: data.mensaje, zona: data.zona, tamano: data.tamano, email: data.email, whatsapp: data.whatsapp, instagram: data.instagram, presupuesto: data.presupuesto, plazo: data.plazo };
+      const leadInfo = { nombre: data.nombre, fecha_cita: data.fecha, hora_cita: data.hora, servicio: data.servicio, tier: data.tier, mensaje: data.mensaje, zona: data.zona, tamano: data.tamano, email: data.email, whatsapp: data.whatsapp, instagram: data.instagram, presupuesto: data.presupuesto, plazo: data.plazo, fuente: data.fuente };
       if (data.tipo === 'reserva' && !desdeAdmin) {
         // Al cliente: acuse de recibo, NO confirmación.
         if (data.email) {
@@ -887,6 +932,20 @@ const server = http.createServer(async (req, res) => {
         if (jjEmail) {
           const m = emailNuevaSolicitud(leadInfo);
           sendEmail(jjEmail, m.subject, m.html).catch(() => {});
+        }
+      } else if (data.tipo === 'lista-espera') {
+        // Registro desde la landing de apertura: acuse de recibo al cliente y
+        // aviso a JJ, porque si no nadie se entera de que ha entrado.
+        let posicion = 0;
+        try { posicion = readLeadsRaw().rows.filter(r => r.tipo === 'lista-espera').length; } catch (e) {}
+        if (data.email) {
+          const m = emailListaEspera(leadInfo, posicion);
+          sendEmail(data.email, m.subject, m.html).catch(() => {});
+        }
+        const jjMail = readContent().email;
+        if (jjMail) {
+          const m = emailNuevoListaEspera(leadInfo, posicion);
+          sendEmail(jjMail, m.subject, m.html).catch(() => {});
         }
       } else if (data.tipo === 'reserva' && data.email) {
         const { subject, html } = data.tier === 'consulta' ? emailConfirmacionValoracion(leadInfo) : emailConfirmacion(leadInfo);
@@ -1162,6 +1221,7 @@ const server = http.createServer(async (req, res) => {
     if (filePath === '/legal') filePath = '/legal.html';
     if (filePath === '/certificado') filePath = '/certificado.html';
     if (filePath === '/qr') filePath = '/qr.html';
+    if (filePath === '/apertura') filePath = '/apertura.html';
     filePath = path.join(ROOT, decodeURIComponent(filePath));
     if (!filePath.startsWith(ROOT)) { res.writeHead(403); res.end('Prohibido'); return; }
 

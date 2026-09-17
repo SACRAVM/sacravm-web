@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>SACRAVM · Lista privada de apertura</title>
+<meta name="description" content="Algo sagrado llega a León. El Templo abre con agenda estrictamente limitada. Acceso por orden de registro en la lista privada.">
+<meta name="robots" content="noindex,follow">
+<meta name="theme-color" content="#14110F">
+<link rel="icon" href="/images/misc/logo.png">
+<meta property="og:title" content="SACRAVM · Algo sagrado llega a León">
+<meta property="og:description" content="El Templo abre con agenda estrictamente limitada. Solicita acceso a la lista privada de apertura.">
+<meta property="og:image" content="/video/sacravm-atelier-poster.jpg">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_ES">
+
+<!-- Carga rápida: la imagen del hero se pide antes que nada; la fuente no bloquea el pintado -->
+<link rel="preload" as="image" href="/video/sacravm-atelier-poster.jpg" fetchpriority="high">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&display=swap" media="print" onload="this.media='all'">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --carbon:#14110F;      /* fondo templo */
+  --carbon2:#1C1714;     /* bloques */
+  --caliza:#F4EDE4;      /* texto principal */
+  --caliza2:#BDB3A6;     /* texto secundario */
+  --caliza3:#7C736B;     /* texto terciario */
+  --oro:#A98652;         /* acento */
+  --bronce:#8C6B3E;
+  --bdr:rgba(244,237,228,.10);
+  --bdr2:rgba(169,134,82,.32);
+  --serif:'Cormorant Garamond',Georgia,'Times New Roman',serif;
+  --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{background:var(--carbon);color:var(--caliza);font-family:var(--sans);line-height:1.65;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+img,video{display:block;max-width:100%}
+::placeholder{color:#5E5750}
+input,select,button,textarea{font-family:var(--sans);font-size:16px} /* 16px evita el zoom automático en iOS */
+a{color:inherit}
+
+/* ═══ HERO ═══ */
+#hero{position:relative;min-height:100svh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:64px 22px 92px;overflow:hidden}
+.hero-bg,.hero-bg video,.hero-bg img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.hero-bg{z-index:0}
+.hero-bg img{animation:drift 26s ease-in-out infinite alternate;will-change:transform}
+.hero-bg video{opacity:0;transition:opacity 1.2s ease}
+.hero-bg video.on{opacity:1}
+@keyframes drift{from{transform:scale(1.04)}to{transform:scale(1.14)}}
+@media (prefers-reduced-motion:reduce){.hero-bg img{animation:none}}
+.hero-veil{position:absolute;inset:0;z-index:1;background:
+  radial-gradient(ellipse at 50% 42%,rgba(20,17,15,.42) 0%,rgba(20,17,15,.80) 58%,rgba(20,17,15,.96) 100%),
+  linear-gradient(to bottom,rgba(20,17,15,.55) 0%,rgba(20,17,15,0) 30%,rgba(20,17,15,.92) 100%)}
+.hero-in{position:relative;z-index:2;max-width:720px;width:100%}
+.isotipo{width:42px;height:42px;margin:0 auto 26px;opacity:.85;object-fit:contain}
+h1{font-family:var(--serif);font-weight:300;font-size:clamp(30px,8.6vw,62px);letter-spacing:.34em;text-indent:.34em;line-height:1.1;margin-bottom:18px}
+.h-rule{width:44px;height:1px;background:var(--oro);margin:0 auto 18px;opacity:.75}
+.h-sub{font-size:11px;letter-spacing:.34em;color:var(--caliza2);text-transform:uppercase;margin-bottom:38px}
+.h-claim{font-family:var(--serif);font-style:italic;font-weight:300;font-size:clamp(22px,5.6vw,34px);line-height:1.35;color:var(--caliza);margin-bottom:10px}
+.h-templo{font-size:11px;letter-spacing:.42em;color:var(--oro);text-transform:uppercase;margin-bottom:40px}
+.h-cta{display:inline-flex;align-items:center;gap:10px;background:none;border:1px solid var(--bdr2);color:var(--caliza);padding:15px 32px;border-radius:2px;font-size:12px;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;text-decoration:none;transition:background .25s,border-color .25s}
+.h-cta:hover{background:rgba(169,134,82,.12);border-color:var(--oro)}
+.h-loc{margin-top:34px;font-size:10px;letter-spacing:.3em;color:var(--caliza3);text-transform:uppercase}
+.scroll-hint{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);z-index:2;width:1px;height:38px;background:linear-gradient(to bottom,transparent,var(--oro));opacity:.6}
+
+/* ═══ SECCIONES ═══ */
+section{padding:74px 22px}
+.inner{max-width:620px;margin:0 auto}
+.label{font-size:10px;letter-spacing:.34em;color:var(--oro);text-transform:uppercase;margin-bottom:20px;text-align:center}
+.lead{font-family:var(--serif);font-weight:300;font-size:clamp(19px,4.8vw,25px);line-height:1.6;text-align:center;color:var(--caliza)}
+.lead em{font-style:italic;color:var(--oro)}
+.note{font-size:13.5px;color:var(--caliza3);text-align:center;line-height:1.75;margin-top:22px}
+
+/* ═══ CONTADOR DE URGENCIA ═══ */
+#estado{border-top:1px solid var(--bdr);border-bottom:1px solid var(--bdr);background:var(--carbon2);padding:30px 22px}
+.bar-top{display:flex;justify-content:space-between;align-items:baseline;gap:12px;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--caliza2);margin-bottom:12px}
+.bar-top b{color:var(--oro);font-weight:400;letter-spacing:.1em}
+.bar{height:2px;background:rgba(244,237,228,.10);overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--bronce),var(--oro));transition:width 1.6s cubic-bezier(.22,.8,.2,1)}
+.bar-note{font-size:12px;color:var(--caliza3);margin-top:12px;text-align:center;letter-spacing:.04em}
+
+/* ═══ DOBLE EMBUDO ═══ */
+.vias{display:grid;gap:12px;margin:0 0 30px}
+.via{display:block;width:100%;text-align:left;background:rgba(244,237,228,.02);border:1px solid var(--bdr);color:var(--caliza);padding:20px 22px;border-radius:2px;cursor:pointer;transition:border-color .2s,background .2s}
+.via:hover{border-color:var(--bdr2)}
+.via.on{border-color:var(--oro);background:rgba(169,134,82,.09)}
+.via-k{display:flex;align-items:center;gap:10px;font-size:10px;letter-spacing:.3em;color:var(--oro);text-transform:uppercase;margin-bottom:8px}
+.via-k s{width:5px;height:5px;border-radius:50%;background:var(--oro);opacity:.35;text-decoration:none;flex-shrink:0;transition:opacity .2s}
+.via.on .via-k s{opacity:1;box-shadow:0 0 0 4px rgba(169,134,82,.18)}
+.via-t{display:block;font-family:var(--serif);font-size:21px;font-weight:400;line-height:1.25;margin-bottom:5px}
+.via-d{display:block;font-size:13px;color:var(--caliza3);line-height:1.6}
+
+/* ═══ FORMULARIO ═══ */
+.form{border:1px solid var(--bdr);background:var(--carbon2);padding:28px 22px;border-radius:2px}
+.form-h{font-family:var(--serif);font-size:20px;font-weight:400;text-align:center;margin-bottom:6px}
+.form-s{font-size:12.5px;color:var(--caliza3);text-align:center;margin-bottom:26px;line-height:1.6}
+.f{margin-bottom:16px}
+.f label{display:block;font-size:10px;letter-spacing:.24em;color:var(--caliza3);text-transform:uppercase;margin-bottom:7px}
+.f input,.f select{width:100%;background:transparent;border:none;border-bottom:1px solid var(--bdr);color:var(--caliza);padding:9px 0;outline:none;border-radius:0;transition:border-color .2s}
+.f select{-webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23A98652' fill='none' stroke-width='1.2'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 2px center;padding-right:20px}
+.f select option{background:var(--carbon2);color:var(--caliza)}
+.f input:focus,.f select:focus{border-bottom-color:var(--oro)}
+.f.err input,.f.err select{border-bottom-color:#B4574B}
+.f-err{display:none;font-size:11.5px;color:#C8695C;margin-top:6px;letter-spacing:.02em}
+.f.err .f-err{display:block}
+.consent{display:flex;gap:10px;align-items:flex-start;font-size:12px;color:var(--caliza3);line-height:1.55;margin:22px 0 20px;cursor:pointer}
+.consent input{width:16px;height:16px;margin-top:2px;accent-color:var(--oro);flex-shrink:0}
+.consent a{color:var(--caliza2);text-underline-offset:3px}
+.send{width:100%;background:var(--caliza);border:none;color:var(--carbon);padding:17px 20px;font-size:12px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;border-radius:2px;cursor:pointer;transition:opacity .2s}
+.send:hover{opacity:.86}
+.send:disabled{opacity:.5;cursor:default}
+.form-foot{font-size:11.5px;color:var(--caliza3);text-align:center;margin-top:14px;line-height:1.6}
+
+/* ═══ CONFIRMACIÓN ═══ */
+#ok{display:none;text-align:center;padding:16px 4px 6px}
+#ok.on{display:block;animation:up .7s ease}
+@keyframes up{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.ok-sello{width:54px;height:54px;border:1px solid var(--bdr2);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 22px;color:var(--oro);font-size:20px}
+.ok-t{font-family:var(--serif);font-size:24px;font-weight:400;margin-bottom:14px;line-height:1.3}
+.ok-p{font-size:14.5px;color:var(--caliza2);line-height:1.8;max-width:430px;margin:0 auto}
+.ok-p b{color:var(--oro);font-weight:400}
+.ok-x{margin-top:28px;padding-top:22px;border-top:1px solid var(--bdr);font-size:12px;letter-spacing:.14em;color:var(--caliza3);text-transform:uppercase}
+.ok-ig{display:inline-block;margin-top:12px;font-size:12px;letter-spacing:.2em;color:var(--oro);text-decoration:none;text-transform:uppercase;border-bottom:1px solid var(--bdr2);padding-bottom:3px}
+
+/* ═══ DETALLES + PIE ═══ */
+.sello{display:flex;align-items:center;justify-content:center;gap:22px;padding:14px 0}
+.sello s{display:block;height:1px;flex:1;max-width:120px;text-decoration:none;background:linear-gradient(90deg,transparent,var(--bdr2))}
+.sello s+s{background:linear-gradient(90deg,var(--bdr2),transparent)}
+.sello img{width:62px;height:62px;object-fit:contain;opacity:.8;flex-shrink:0}
+.sello-t{text-align:center;font-size:10px;letter-spacing:.34em;color:var(--caliza3);text-transform:uppercase;margin-top:20px}
+footer{padding:44px 22px 40px;text-align:center;border-top:1px solid var(--bdr)}
+.f-logo{font-family:var(--serif);font-size:16px;letter-spacing:.34em;text-indent:.34em;color:var(--caliza2);margin-bottom:10px}
+.f-l{font-size:11px;color:var(--caliza3);letter-spacing:.06em;line-height:2}
+.f-l a{color:var(--caliza3);text-decoration:none;border-bottom:1px solid transparent}
+.f-l a:hover{color:var(--oro);border-bottom-color:var(--bdr2)}
+
+@media(min-width:720px){
+  section{padding:88px 30px}
+  .vias{grid-template-columns:1fr 1fr}
+  .form{padding:38px 40px}
+  .f-row{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════ 1 · HERO ═══════════════ -->
+<header id="hero">
+  <div class="hero-bg">
+    <img src="/video/sacravm-atelier-poster.jpg" alt="" fetchpriority="high" decoding="async">
+    <video id="hero-video" muted loop playsinline preload="none" poster="/video/sacravm-atelier-poster.jpg"></video>
+  </div>
+  <div class="hero-veil"></div>
+  <div class="hero-in">
+    <img class="isotipo" src="/images/misc/logo-sm.png" alt="SACRAVM" width="42" height="42" decoding="async">
+    <h1>SACRAVM</h1>
+    <div class="h-rule"></div>
+    <p class="h-sub">Tattoo Atelier &amp; Fine Art</p>
+    <p class="h-claim">Algo sagrado llega a León.</p>
+    <p class="h-templo">El Templo</p>
+    <a class="h-cta" href="#acceso">Solicitar acceso privado</a>
+    <p class="h-loc">León · Apertura Octubre 2026</p>
+  </div>
+  <div class="scroll-hint"></div>
+</header>
+
+<!-- ═══════════════ 2 · GANCHO DE EXCLUSIVIDAD ═══════════════ -->
+<section>
+  <div class="inner">
+    <p class="label">Agenda de apertura</p>
+    <p class="lead">Debido a la naturaleza artesanal y al alto nivel de detalle de cada obra, el Templo abrirá con una <em>agenda estrictamente limitada</em>. El acceso a las citas de apertura se gestionará por orden de registro en esta lista privada.</p>
+    <p class="note">No es un formulario de contacto. Es la lista con la que se abrirá el calendario.</p>
+  </div>
+</section>
+
+<!-- ═══════════════ 3 · ESTADO / URGENCIA ═══════════════ -->
+<section id="estado">
+  <div class="inner">
+    <div class="bar-top"><span>Agenda de apertura</span><b><span id="pc">0</span>% reservada</b></div>
+    <div class="bar"><i id="bar-fill"></i></div>
+    <p class="bar-note" id="bar-note"></p>
+  </div>
+</section>
+
+<!-- ═══════════════ 4 · DOBLE EMBUDO + FORMULARIO ═══════════════ -->
+<section id="acceso">
+  <div class="inner">
+    <p class="label">Elige tu vía de acceso</p>
+    <div class="vias">
+      <button type="button" class="via on" data-via="vip" aria-pressed="true">
+        <span class="via-k"><s></s>Opción A</span>
+        <span class="via-t">Cliente histórico / Coleccionista</span>
+        <span class="via-d">Ya llevas una obra mía en la piel. Acceso prioritario directo a la agenda VIP de apertura.</span>
+      </button>
+      <button type="button" class="via" data-via="nueva" aria-pressed="false">
+        <span class="via-k"><s></s>Opción B</span>
+        <span class="via-t">Nueva solicitud de cita</span>
+        <span class="via-d">Primera obra con nosotros. Tu proyecto entra en el proceso de selección del Atelier.</span>
+      </button>
+    </div>
+
+    <form class="form" id="form" novalidate>
+      <p class="form-h" id="form-h">Lista privada · Acceso prioritario</p>
+      <p class="form-s" id="form-s">Cuatro datos. Nada más. Tu lugar queda registrado con la hora exacta de envío.</p>
+
+      <div class="f" id="f-nombre">
+        <label for="nombre">Nombre completo</label>
+        <input id="nombre" name="nombre" type="text" autocomplete="name" placeholder="Tu nombre y apellidos">
+        <span class="f-err">Necesitamos tu nombre completo.</span>
+      </div>
+
+      <div class="f-row">
+        <div class="f" id="f-email">
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="tucorreo@email.com">
+          <span class="f-err">Revisa el email: ahí te escribiremos.</span>
+        </div>
+        <div class="f" id="f-tel">
+          <label for="tel">Teléfono / WhatsApp</label>
+          <input id="tel" name="tel" type="tel" inputmode="tel" autocomplete="tel" placeholder="+34 600 000 000">
+          <span class="f-err">Necesitamos un teléfono de contacto.</span>
+        </div>
+      </div>
+
+      <div class="f" id="f-proyecto">
+        <label for="proyecto">Idea o zona del proyecto</label>
+        <select id="proyecto" name="proyecto">
+          <option value="">Selecciona…</option>
+          <option>Micro-realismo</option>
+          <option>Realismo conceptual</option>
+          <option>Obra de autor (carta blanca)</option>
+          <option>Fine line / minimal</option>
+          <option>Cobertura de un tatuaje anterior</option>
+          <option>Continuación de una obra existente</option>
+          <option>Cicatriz o corrección</option>
+          <option>Aún por definir</option>
+        </select>
+        <span class="f-err">Elige la naturaleza del proyecto.</span>
+      </div>
+
+      <div class="f">
+        <label for="detalle">Zona del cuerpo o detalle <span style="text-transform:none;letter-spacing:0">(opcional)</span></label>
+        <input id="detalle" name="detalle" type="text" maxlength="120" placeholder="Ej.: antebrazo interior, retrato de mi abuela">
+      </div>
+
+      <label class="consent" id="f-consent">
+        <input type="checkbox" id="consent">
+        <span>He leído y acepto la <a href="/legal" target="_blank" rel="noopener">Política de Privacidad</a>. Mis datos se usan únicamente para gestionar el acceso a la agenda de apertura.</span>
+      </label>
+      <p class="f-err" id="consent-err" style="display:none;margin:-12px 0 18px">Debes aceptar la Política de Privacidad para continuar.</p>
+
+      <button class="send" type="submit" id="send">Solicitar acceso privado</button>
+      <p class="form-foot">Registro sin compromiso ni pago. Ninguna cita queda confirmada hasta que el Atelier revisa tu proyecto.</p>
+      <p class="f-err" id="fallo" style="display:none;text-align:center;margin-top:14px;line-height:1.7">
+        No hemos podido registrar tu solicitud. Vuelve a intentarlo en unos segundos o escríbenos a
+        <a href="mailto:hola@sacravm.com" style="color:var(--oro)">hola@sacravm.com</a> y te reservamos el lugar manualmente.
+      </p>
+    </form>
+
+    <!-- Confirmación -->
+    <div id="ok">
+      <div class="ok-sello">✦</div>
+      <p class="ok-t">Tu solicitud ha sido registrada</p>
+      <p class="ok-p">Tu solicitud ha sido registrada correctamente. Un miembro de nuestro atelier revisará tu proyecto y se pondrá en contacto contigo <b>antes de la apertura oficial en Octubre 2026</b>.</p>
+      <div class="ok-x">
+        Mientras tanto, el Templo se construye a diario
+        <br><a class="ok-ig" href="https://instagram.com/sacravm" target="_blank" rel="noopener">Seguir @sacravm</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ 5 · SELLO ═══════════════ -->
+<section style="padding-top:0">
+  <div class="inner">
+    <div class="sello">
+      <s></s>
+      <img src="/images/misc/logo-sm.png" alt="SACRAVM" width="62" height="62" loading="lazy" decoding="async">
+      <s></s>
+    </div>
+    <p class="sello-t">Tu historia merece ser eterna</p>
+  </div>
+</section>
+
+<footer>
+  <p class="f-logo">SACRAVM</p>
+  <p class="f-l">
+    Tattoo Atelier &amp; Fine Art · León<br>
+    <a href="/">Web principal</a> · <a href="/legal">Aviso legal y privacidad</a> · <a href="https://instagram.com/sacravm" target="_blank" rel="noopener">@sacravm</a>
+  </p>
+</footer>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════
+   ✎ EDITA AQUÍ — lo único que necesitas tocar
+   ═══════════════════════════════════════════════════════════════ */
+const CFG = {
+  // Porcentaje de la agenda de apertura ya reservado. Mantenlo REAL:
+  // si alguien pregunta, tiene que poder sostenerse.
+  reservado: 70,
+  // Frase bajo la barra. Deja '' para no mostrar nada.
+  nota: 'Reservada para clientes históricos y coleccionistas. Las plazas restantes se abren por orden de registro.',
+  // Vídeo de fondo del hero. Pesa 9 MB: en móvil NO se carga (la foto ya se
+  // mueve sola). Pon videoEnMovil: true solo si algún día hay una versión
+  // ligera del vídeo (menos de 2 MB).
+  video: '/video/sacravm-atelier.mp4',
+  videoEnMovil: false,
+  // De dónde viene la gente que escanea (aparece en el panel de leads).
+  // Se puede afinar por canal añadiendo ?f= a la URL:
+  //   /apertura?f=flyer      -> "QR · Flyer apertura"
+  //   /apertura?f=insta      -> "Instagram"
+  //   /apertura?f=cartel     -> "Cartel en el local"
+  //   /apertura?f=wasap      -> "WhatsApp"
+  // Cualquier otra cosa se guarda tal cual (máx. 40 caracteres).
+  fuente: 'QR · Flyer apertura',
+  canales: {
+    flyer: 'QR · Flyer apertura',
+    insta: 'Instagram',
+    cartel: 'Cartel en el local',
+    wasap: 'WhatsApp',
+    tarjeta: 'Tarjeta de visita'
+  }
+};
+/* ═══════════════ fin de la zona editable ═══════════════ */
+
+// ── Canal de entrada (?f=) — para saber qué soporte llena la lista ──
+const _f = new URLSearchParams(location.search).get('f');
+if (_f) CFG.fuente = CFG.canales[_f.toLowerCase()] || _f.slice(0, 40);
+
+// ── Barra de estado ────────────────────────────────────────────
+document.getElementById('pc').textContent = CFG.reservado;
+document.getElementById('bar-note').textContent = CFG.nota;
+addEventListener('load', () => {
+  setTimeout(() => { document.getElementById('bar-fill').style.width = CFG.reservado + '%'; }, 250);
+});
+
+// ── Vídeo del hero: solo si la conexión aguanta ────────────────
+// El flyer se escanea con el móvil: primero pintamos la foto (117 KB) y el
+// vídeo (9 MB) solo entra después de cargar, en 4G/wifi y sin ahorro de datos.
+addEventListener('load', () => {
+  const c = navigator.connection || {};
+  if (!CFG.video) return;
+  if (c.saveData) return;
+  if (c.effectiveType && c.effectiveType !== '4g') return;
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (!CFG.videoEnMovil && innerWidth < 900) return;
+  const v = document.getElementById('hero-video');
+  v.src = CFG.video;
+  v.addEventListener('canplay', () => { v.play().then(() => v.classList.add('on')).catch(() => {}); }, { once: true });
+  v.load();
+});
+
+// ── Doble embudo ───────────────────────────────────────────────
+let via = 'vip';
+const COPY = {
+  vip:   { h: 'Lista privada · Acceso prioritario', s: 'Cuatro datos. Nada más. Como cliente histórico, tu solicitud entra en la agenda VIP de apertura.' },
+  nueva: { h: 'Solicitud de acceso al Atelier',     s: 'Cuatro datos. Nada más. Revisamos cada proyecto uno a uno antes de abrir fecha.' }
+};
+document.querySelectorAll('.via').forEach(b => b.addEventListener('click', () => {
+  document.querySelectorAll('.via').forEach(o => { o.classList.remove('on'); o.setAttribute('aria-pressed', 'false'); });
+  b.classList.add('on'); b.setAttribute('aria-pressed', 'true');
+  via = b.dataset.via;
+  document.getElementById('form-h').textContent = COPY[via].h;
+  document.getElementById('form-s').textContent = COPY[via].s;
+  document.getElementById('form').scrollIntoView({ behavior: 'smooth', block: 'center' });
+}));
+
+// ── Validación + envío ─────────────────────────────────────────
+const $ = id => document.getElementById(id);
+const clearErr = el => el.closest('.f')?.classList.remove('err');
+['nombre','email','tel','proyecto'].forEach(id => $(id).addEventListener('input', e => clearErr(e.target)));
+$('consent').addEventListener('change', () => { if ($('consent').checked) $('consent-err').style.display = 'none'; });
+
+$('form').addEventListener('submit', async e => {
+  e.preventDefault();
+  const nombre = $('nombre').value.trim();
+  const email = $('email').value.trim();
+  const tel = $('tel').value.trim();
+  const proyecto = $('proyecto').value;
+  const detalle = $('detalle').value.trim();
+
+  let primerFallo = null;
+  const check = (id, ok) => {
+    const f = $('f-' + id);
+    f.classList.toggle('err', !ok);
+    if (!ok && !primerFallo) primerFallo = f;
+  };
+  check('nombre', nombre.length >= 2);
+  check('email', /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email));
+  check('tel', tel.replace(/\D/g, '').length >= 9);
+  check('proyecto', !!proyecto);
+  if (!$('consent').checked) {
+    $('consent-err').style.display = 'block';
+    if (!primerFallo) primerFallo = $('f-consent');
+  }
+  if (primerFallo) { primerFallo.scrollIntoView({ behavior: 'smooth', block: 'center' }); return; }
+
+  const btn = $('send');
+  btn.disabled = true;
+  btn.textContent = 'Registrando…';
+
+  const payload = {
+    tipo: 'lista-espera',
+    nombre, email,
+    whatsapp: tel,
+    servicio: proyecto,
+    zona: detalle,
+    mensaje: (via === 'vip' ? 'Cliente histórico / Coleccionista' : 'Nueva solicitud') + ' · ' + proyecto + (detalle ? ' · ' + detalle : ''),
+    tier: via === 'vip' ? 'historico' : 'nueva',
+    fuente: CFG.fuente
+  };
+
+  let guardado = false;
+  try {
+    const res = await fetch('/api/lead', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    guardado = res.ok;
+  } catch (err) { guardado = false; }
+
+  // Si el registro no llegó al servidor no se finge una confirmación: se le da
+  // una vía real de contacto para que no pierda su lugar en la lista.
+  if (!guardado) {
+    btn.disabled = false;
+    btn.textContent = 'Solicitar acceso privado';
+    $('fallo').style.display = 'block';
+    $('fallo').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return;
+  }
+
+  $('form').style.display = 'none';
+  $('ok').classList.add('on');
+  $('ok').scrollIntoView({ behavior: 'smooth', block: 'center' });
+});
+</script>
+</body>
+</html>
