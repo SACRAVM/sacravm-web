@@ -118,13 +118,7 @@ section{padding:52px 22px}
 .pasos span{display:flex;align-items:center;gap:8px;font-size:11px;letter-spacing:.16em;color:var(--caliza2);text-transform:uppercase}
 .pasos s{font-family:var(--serif);font-style:italic;font-size:14px;color:var(--oro);text-decoration:none;letter-spacing:0}
 
-/* ═══ SELECTOR DENTRO DEL FORMULARIO ═══ */
-.pills{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:2px}
-.pill{background:none;border:1px solid var(--bdr);color:var(--caliza3);padding:12px 8px;font-size:12.5px;letter-spacing:.02em;border-radius:2px;cursor:pointer;transition:all .18s;line-height:1.3}
-.pill:hover{border-color:var(--bdr2);color:var(--caliza2)}
-.pill.on{border-color:var(--oro);background:rgba(169,134,82,.1);color:var(--caliza)}
-
-/* ═══ DOBLE EMBUDO ═══ */
+/* ═══ FORMULARIO ═══ */
 .vias{display:grid;gap:12px;margin:0 0 30px}
 .via{display:block;width:100%;text-align:left;background:rgba(244,237,228,.02);border:1px solid var(--bdr);color:var(--caliza);padding:20px 22px;border-radius:2px;cursor:pointer;transition:border-color .2s,background .2s}
 .via:hover{border-color:var(--bdr2)}
@@ -204,8 +198,8 @@ footer{padding:44px 22px 40px;text-align:center;border-top:1px solid var(--bdr)}
     <p class="h-sub">Tattoo Atelier &amp; Fine Art</p>
     <p class="h-by">by JJ Rodríguez</p>
     <p class="h-claim">Algo sagrado llega a León.</p>
-    <p class="h-templo">El Templo</p>
-    <a class="h-cta" href="#acceso">Solicitar acceso privado</a>
+    <p class="h-templo">El Templo abre</p>
+    <a class="h-cta" href="#acceso">Acceder primero</a>
     <p class="h-loc">León · Apertura Octubre 2026</p>
   </div>
   <div class="scroll-hint"></div>
@@ -216,9 +210,8 @@ footer{padding:44px 22px 40px;text-align:center;border-top:1px solid var(--bdr)}
   <div class="inner">
     <p class="mf-1">No esculpimos tinta.<em>Inmortalizamos historias.</em></p>
     <div class="mf-sep"></div>
-    <p class="mf-p">SACRAVM no es un estudio; es un templo dedicado a <b>materializar lo intangible</b>.</p>
-    <p class="mf-p">El acto de grabar tu piel no es una elección estética, sino la confirmación de <b>quién te has convertido</b>.</p>
-    <p class="mf-p">Cuando cruzas la puerta del Templo no adquieres una pieza: conservas para siempre <b>aquello que soñaste alcanzar</b>.</p>
+    <p class="mf-p">Un templo dedicado a <b>materializar lo intangible</b>.</p>
+    <p class="mf-p">Cruzas la puerta y aquello que soñaste alcanzar <b>se queda contigo para siempre</b>.</p>
     <p class="mf-cierre">Siente tu mejor versión esculpida en la piel.</p>
   </div>
 </section>
@@ -228,7 +221,7 @@ footer{padding:44px 22px 40px;text-align:center;border-top:1px solid var(--bdr)}
   <div class="inner">
     <p class="label">El Templo</p>
     <p class="lead">Un Atelier privado en León. Solo con cita, una sola obra cada vez y <em>una agenda estrictamente limitada</em>.</p>
-    <p class="note">Las primeras citas no se anunciarán en ningún sitio. Se reparten por orden de registro en esta lista.</p>
+    <p class="note">Antes de abrir las puertas, abriremos la agenda. Quienes estén en la lista de apertura recibirán el acceso primero.</p>
   </div>
 </section>
 
@@ -236,55 +229,25 @@ footer{padding:44px 22px 40px;text-align:center;border-top:1px solid var(--bdr)}
 <section id="acceso">
   <div class="inner">
     <form class="form" id="form" novalidate>
-      <p class="form-h" id="form-h">Lista privada · Acceso prioritario</p>
-      <p class="form-s" id="form-s">Cuatro datos. Nada más.</p>
-
-      <div class="f" id="f-via">
-        <label>¿Te has tatuado antes conmigo?</label>
-        <div class="pills">
-          <button type="button" class="pill" data-via="vip">Sí</button>
-          <button type="button" class="pill on" data-via="nueva">Todavía no</button>
-        </div>
-      </div>
+      <p class="form-h" id="form-h">Lista de apertura</p>
+      <p class="form-s" id="form-s">Tres datos. Nada más.</p>
 
       <div class="f" id="f-nombre">
-        <label for="nombre">Nombre completo</label>
-        <input id="nombre" name="nombre" type="text" autocomplete="name" placeholder="Tu nombre y apellidos">
-        <span class="f-err">Necesitamos tu nombre completo.</span>
+        <label for="nombre">Nombre</label>
+        <input id="nombre" name="nombre" type="text" autocomplete="name" placeholder="Tu nombre">
+        <span class="f-err">Necesitamos tu nombre.</span>
       </div>
 
-      <div class="f-row">
-        <div class="f" id="f-email">
-          <label for="email">Email</label>
-          <input id="email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="tucorreo@email.com">
-          <span class="f-err">Revisa el email: ahí te escribiremos.</span>
-        </div>
-        <div class="f" id="f-tel">
-          <label for="tel">Teléfono / WhatsApp</label>
-          <input id="tel" name="tel" type="tel" inputmode="tel" autocomplete="tel" placeholder="+34 600 000 000">
-          <span class="f-err">Necesitamos un teléfono de contacto.</span>
-        </div>
+      <div class="f" id="f-tel">
+        <label for="tel">WhatsApp</label>
+        <input id="tel" name="tel" type="tel" inputmode="tel" autocomplete="tel" placeholder="+34 600 000 000">
+        <span class="f-err">Necesitamos un teléfono de contacto.</span>
       </div>
 
-      <div class="f" id="f-proyecto">
-        <label for="proyecto">Idea o zona del proyecto</label>
-        <select id="proyecto" name="proyecto">
-          <option value="">Selecciona…</option>
-          <option>Micro-realismo</option>
-          <option>Realismo conceptual</option>
-          <option>Obra de autor (carta blanca)</option>
-          <option>Fine line / minimal</option>
-          <option>Cobertura de un tatuaje anterior</option>
-          <option>Continuación de una obra existente</option>
-          <option>Cicatriz o corrección</option>
-          <option>Aún por definir</option>
-        </select>
-        <span class="f-err">Elige la naturaleza del proyecto.</span>
-      </div>
-
-      <div class="f">
-        <label for="detalle">Zona del cuerpo o detalle <span style="text-transform:none;letter-spacing:0">(opcional)</span></label>
-        <input id="detalle" name="detalle" type="text" maxlength="120" placeholder="Ej.: antebrazo interior, retrato de mi abuela">
+      <div class="f" id="f-email">
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="tucorreo@email.com">
+        <span class="f-err">Revisa el email: ahí te escribiremos.</span>
       </div>
 
       <label class="consent" id="f-consent">
@@ -293,8 +256,8 @@ footer{padding:44px 22px 40px;text-align:center;border-top:1px solid var(--bdr)}
       </label>
       <p class="f-err" id="consent-err" style="display:none;margin:-12px 0 18px">Debes aceptar la Política de Privacidad para continuar.</p>
 
-      <button class="send" type="submit" id="send">Solicitar acceso privado</button>
-      <p class="form-foot">Registro sin compromiso ni pago. Ninguna cita queda confirmada hasta que el Atelier revisa tu proyecto.</p>
+      <button class="send" type="submit" id="send">Acceder primero</button>
+      <p class="form-foot">Sin compromiso ni pago. Solo el acceso, antes que nadie.</p>
       <p class="f-err" id="fallo" style="display:none;text-align:center;margin-top:14px;line-height:1.7">
         No hemos podido registrar tu solicitud. Vuelve a intentarlo en unos segundos o escríbenos a
         <a href="mailto:hola@sacravm.com" style="color:var(--oro)">hola@sacravm.com</a> y te reservamos el lugar manualmente.
@@ -304,13 +267,11 @@ footer{padding:44px 22px 40px;text-align:center;border-top:1px solid var(--bdr)}
     <!-- Confirmación -->
     <div id="ok">
       <div class="ok-sello">✦</div>
-      <p class="ok-t">Tu solicitud ha sido registrada</p>
-      <p class="ok-p">Tu solicitud ha sido registrada correctamente. Un miembro de nuestro atelier revisará tu proyecto y se pondrá en contacto contigo <b>antes de la apertura oficial en Octubre 2026</b>.</p>
-      <p class="ok-p" style="margin-top:18px">Mantente atento: <b>anunciaremos las primeras fechas muy pronto</b>. Quienes estáis en esta lista lo sabréis antes que nadie.</p>
-      <p class="ok-p" style="margin-top:22px;padding-top:22px;border-top:1px solid var(--bdr)">Y algo que no dice la página: los cincuenta primeros inscritos reciben <b>una lámina firmada y numerada</b>, en mano, la noche de la inauguración. Esa misma noche se sortea la pieza original entre los presentes.</p>
+      <p class="ok-t">Ya estás dentro.</p>
+      <p class="ok-p">Cuando la agenda de apertura esté lista, lo sabrás <b>antes de que se anuncie públicamente</b>.</p>
+      <p class="ok-p" style="margin-top:16px">Hasta entonces, SACRAVM sigue tomando forma.</p>
       <div class="ok-x">
-        Mientras tanto, el Templo se construye a diario
-        <br><a class="ok-ig" href="https://instagram.com/sacravm" target="_blank" rel="noopener">Seguir @sacravm</a>
+        <a class="ok-ig" href="https://instagram.com/sacravm" target="_blank" rel="noopener">Sigue el proceso · @sacravm</a>
       </div>
     </div>
   </div>
@@ -333,7 +294,7 @@ footer{padding:44px 22px 40px;text-align:center;border-top:1px solid var(--bdr)}
   <p class="f-logo">SACRAVM</p>
   <p class="f-l">
     Tattoo Atelier &amp; Fine Art · León<br>
-    <a href="/">Web principal</a> · <a href="/legal">Aviso legal y privacidad</a> · <a href="https://instagram.com/sacravm" target="_blank" rel="noopener">@sacravm</a>
+    <a href="/legal">Aviso legal y privacidad</a>
   </p>
 </footer>
 
@@ -385,18 +346,10 @@ addEventListener('load', () => {
   v.load();
 });
 
-// ── Círculo de acceso: un campo más del formulario, no otro botón ──
-let via = 'nueva';
-document.querySelectorAll('.pill').forEach(b => b.addEventListener('click', () => {
-  document.querySelectorAll('.pill').forEach(o => o.classList.remove('on'));
-  b.classList.add('on');
-  via = b.dataset.via;
-}));
-
 // ── Validación + envío ─────────────────────────────────────────
 const $ = id => document.getElementById(id);
 const clearErr = el => el.closest('.f')?.classList.remove('err');
-['nombre','email','tel','proyecto'].forEach(id => $(id).addEventListener('input', e => clearErr(e.target)));
+['nombre','email','tel'].forEach(id => $(id).addEventListener('input', e => clearErr(e.target)));
 $('consent').addEventListener('change', () => { if ($('consent').checked) $('consent-err').style.display = 'none'; });
 
 $('form').addEventListener('submit', async e => {
@@ -404,8 +357,6 @@ $('form').addEventListener('submit', async e => {
   const nombre = $('nombre').value.trim();
   const email = $('email').value.trim();
   const tel = $('tel').value.trim();
-  const proyecto = $('proyecto').value;
-  const detalle = $('detalle').value.trim();
 
   let primerFallo = null;
   const check = (id, ok) => {
@@ -414,9 +365,8 @@ $('form').addEventListener('submit', async e => {
     if (!ok && !primerFallo) primerFallo = f;
   };
   check('nombre', nombre.length >= 2);
-  check('email', /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email));
   check('tel', tel.replace(/\D/g, '').length >= 9);
-  check('proyecto', !!proyecto);
+  check('email', /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email));
   if (!$('consent').checked) {
     $('consent-err').style.display = 'block';
     if (!primerFallo) primerFallo = $('f-consent');
@@ -431,10 +381,7 @@ $('form').addEventListener('submit', async e => {
     tipo: 'lista-espera',
     nombre, email,
     whatsapp: tel,
-    servicio: proyecto,
-    zona: detalle,
-    mensaje: (via === 'vip' ? 'Cliente histórico / Coleccionista' : 'Nueva solicitud') + ' · ' + proyecto + (detalle ? ' · ' + detalle : ''),
-    tier: via === 'vip' ? 'historico' : 'nueva',
+    mensaje: 'Lista de apertura',
     fuente: CFG.fuente
   };
 
@@ -452,7 +399,7 @@ $('form').addEventListener('submit', async e => {
   // una vía real de contacto para que no pierda su lugar en la lista.
   if (!guardado) {
     btn.disabled = false;
-    btn.textContent = 'Solicitar acceso privado';
+    btn.textContent = 'Acceder primero';
     $('fallo').style.display = 'block';
     $('fallo').scrollIntoView({ behavior: 'smooth', block: 'center' });
     return;

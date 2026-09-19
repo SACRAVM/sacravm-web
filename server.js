@@ -557,8 +557,6 @@ function emailNuevaSolicitud(lead) {
 // calendario. El correo confirma la entrada, no promete fecha.
 function emailListaEspera(lead, posicion) {
   const nombre = (lead.nombre || '').split(' ')[0] || 'Hola';
-  const historico = lead.tier === 'historico';
-  const proyecto = [lead.servicio, lead.zona].filter(Boolean).join(', ').toLowerCase();
   // El número de puesto solo suma si ya hay lista de verdad: decirle a alguien
   // que es el nº 2 delata que la lista está vacía. A partir de 10, refuerza.
   const puesto = posicion >= 10 ? posicion : 0;
@@ -566,17 +564,14 @@ function emailListaEspera(lead, posicion) {
   const hoy = new Date();
   const fecha = `León, ${hoy.getDate()} de ${meses[hoy.getMonth()]} de ${hoy.getFullYear()}`;
   return {
-    subject: `Estás dentro · Lista privada de SACRAVM`,
+    subject: `Ya estás dentro · SACRAVM`,
     html: EMAIL_CARTA(`
       <p style="font-size:12px;letter-spacing:.14em;color:#6B6460;margin-bottom:30px">${fecha}</p>
       <p style="margin-bottom:18px">${nombre},</p>
-      <p style="margin-bottom:18px">Tu nombre ha quedado inscrito en la lista privada con la que SACRAVM abrirá sus puertas${puesto ? `, en el lugar número <strong>${puesto}</strong>` : ''}. Un círculo reducido, anterior a cualquier agenda pública.</p>
-      <p style="margin-bottom:18px">Esta lista no se anuncia ni se compra. Es, sencillamente, el orden en que se abrirán las primeras citas del Atelier.</p>
-      <p style="margin-bottom:18px">He tomado nota de tu proyecto${proyecto ? `: <em>${proyecto}</em>` : ''}. ${historico
-        ? 'Ya llevas una obra mía en la piel, de modo que tu solicitud entra directa en la agenda de apertura: serás de los primeros en recibir fecha.'
-        : 'Estudio cada proyecto uno a uno. Si el tuyo encaja con lo que hago, te escribiré para hablarlo antes de abrir fecha.'}</p>
-      <p style="margin-bottom:18px">Anunciaremos las primeras fechas muy pronto. Cuando el calendario se abra, quienes estáis en esta lista lo sabréis antes que nadie.</p>
+      <p style="margin-bottom:18px">Tu nombre ha quedado inscrito en la lista de apertura de SACRAVM${puesto ? `, en el lugar número <strong>${puesto}</strong>` : ''}.</p>
+      <p style="margin-bottom:18px">Antes de abrir las puertas, abriremos la agenda. Quienes estáis en esta lista recibiréis el acceso primero — <strong>antes de que se anuncie públicamente</strong>.</p>
       <p style="margin-bottom:18px">Permíteme además una cortesía: <strong>los cincuenta primeros inscritos</strong> reciben una lámina firmada y numerada de la obra con la que se inaugura el Atelier. Se entrega en mano, la noche de la apertura, y esa misma noche se sortea la pieza original entre los presentes.</p>
+      <p style="margin-bottom:18px">Hasta entonces, SACRAVM sigue tomando forma.</p>
       <p style="margin-bottom:6px">Hasta muy pronto,</p>
       <p style="font-family:Georgia,serif;font-size:19px;color:#8B5E2A;margin-bottom:2px">JJ Rodríguez</p>
       <p style="font-size:12px;letter-spacing:.1em;color:#6B6460">Fundador · SACRAVM Tattoo Atelier &amp; Fine Art</p>
@@ -586,17 +581,14 @@ function emailListaEspera(lead, posicion) {
 }
 
 function emailNuevoListaEspera(lead, posicion) {
-  const via = lead.tier === 'historico' ? 'Cliente histórico / Coleccionista' : 'Nueva solicitud';
+
   return {
     subject: `✦ Lista de apertura${posicion ? ' (nº ' + posicion + ')' : ''}: ${lead.nombre || 'sin nombre'}`,
     html: EMAIL_WRAP(`
       <p><strong>Alguien acaba de entrar en la lista privada de apertura.</strong></p>
       <p>${lead.nombre || 'Sin nombre'}<br>
       ${lead.email || ''} · ${lead.whatsapp || 'sin teléfono'}</p>
-      <p><strong>Vía:</strong> ${via}<br>
-      <strong>Proyecto:</strong> ${lead.servicio || 'no indicado'}<br>
-      <strong>Zona o detalle:</strong> ${lead.zona || 'no indicada'}<br>
-      <strong>Origen:</strong> ${lead.fuente || 'no indicado'}</p>
+      <p><strong>Origen:</strong> ${lead.fuente || 'no indicado'}</p>
       <p>Lo tienes en el panel con la etiqueta <strong>lista-espera</strong>. No se le ha prometido fecha: solo que le escribirás antes de la apertura.</p>
     `),
   };
