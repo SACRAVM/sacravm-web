@@ -261,6 +261,25 @@ let CONFIG = {};
 
 function esc(s) { return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
+// ── Atribución (UTM) ─────────────────────────────────────────────────
+(function captureUtm() {
+  try {
+    const p = new URLSearchParams(location.search);
+    ['utm_source', 'utm_campaign', 'utm_medium'].forEach(k => {
+      if (p.get(k)) sessionStorage.setItem(k, p.get(k));
+    });
+  } catch (e) {}
+})();
+function getUtm() {
+  try {
+    return {
+      utm_source: sessionStorage.getItem('utm_source') || '',
+      utm_campaign: sessionStorage.getItem('utm_campaign') || '',
+      utm_medium: sessionStorage.getItem('utm_medium') || '',
+    };
+  } catch (e) { return { utm_source: '', utm_campaign: '', utm_medium: '' }; }
+}
+
 async function loadContent() {
   try {
     const res = await fetch('/api/content');
@@ -462,6 +481,7 @@ async function qrEnviar() {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
+        ...getUtm(),
         tipo: 'reserva', nombre: d.nombre, email: d.email, whatsapp: d.telefono,
         instagram: d.instagram, mensaje: d.idea, zona: d.zona, tamano: d.tamano,
         presupuesto: d.presupuesto, plazo: d.plazo, ya_tatuado: d.primero === 'Sí' ? 'No' : 'Sí',

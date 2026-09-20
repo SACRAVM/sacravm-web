@@ -1040,6 +1040,8 @@ async function loadLeads() {
         <div><p class="field-label">PLAZO</p><input class="fi" id="le-plazo"></div>
       </div>
       <p class="field-label">MENSAJE / IDEA</p><textarea class="fi" id="le-mensaje"></textarea>
+      <p class="field-label" style="margin-top:10px">ORIGEN (UTM)</p>
+      <p id="le-utm" style="font-size:13px;color:var(--t2)">—</p>
       <div class="auth-msg" id="lead-edit-msg"></div>
       <button class="btn-p" id="btn-save-lead-edit" style="width:auto;padding:12px 28px">GUARDAR CAMBIOS</button>
     </div>
@@ -1238,6 +1240,7 @@ function openEditLead(rowIndex) {
   document.getElementById('le-presupuesto').value = lead.presupuesto || '';
   document.getElementById('le-plazo').value = lead.plazo || '';
   document.getElementById('le-mensaje').value = lead.mensaje || '';
+  document.getElementById('le-utm').textContent = [lead.utm_source, lead.utm_campaign, lead.utm_medium].filter(Boolean).join(' · ') || '—';
   document.getElementById('lead-edit-msg').textContent = '';
   const panel = document.getElementById('lead-edit-panel');
   panel.style.display = 'block';

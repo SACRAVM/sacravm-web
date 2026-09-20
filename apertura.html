@@ -208,7 +208,7 @@ footer{padding:44px 22px 40px;text-align:center;border-top:1px solid var(--bdr)}
 <!-- ═══════════════ 2 · MANIFIESTO ═══════════════ -->
 <section id="manifiesto">
   <div class="inner">
-    <p class="mf-1">No esculpimos tinta.<em>Inmortalizamos historias.</em></p>
+    <p class="mf-1">Inmortalizar historias.<em>Hacer eterno lo que eres.</em></p>
     <div class="mf-sep"></div>
     <p class="mf-p">Un templo dedicado a <b>materializar lo intangible</b>.</p>
     <p class="mf-p">Cruzas la puerta y aquello que soñaste alcanzar <b>se queda contigo para siempre</b>.</p>
@@ -302,6 +302,25 @@ footer{padding:44px 22px 40px;text-align:center;border-top:1px solid var(--bdr)}
 /* ═══════════════════════════════════════════════════════════════
    ✎ EDITA AQUÍ — lo único que necesitas tocar
    ═══════════════════════════════════════════════════════════════ */
+// ── Atribución (UTM) — coexiste con el sistema ?f= de arriba ──────────
+(function captureUtm() {
+  try {
+    const p = new URLSearchParams(location.search);
+    ['utm_source', 'utm_campaign', 'utm_medium'].forEach(k => {
+      if (p.get(k)) sessionStorage.setItem(k, p.get(k));
+    });
+  } catch (e) {}
+})();
+function getUtm() {
+  try {
+    return {
+      utm_source: sessionStorage.getItem('utm_source') || '',
+      utm_campaign: sessionStorage.getItem('utm_campaign') || '',
+      utm_medium: sessionStorage.getItem('utm_medium') || '',
+    };
+  } catch (e) { return { utm_source: '', utm_campaign: '', utm_medium: '' }; }
+}
+
 const CFG = {
   // Vídeo de fondo del hero. Pesa 9 MB: en móvil NO se carga (la foto ya se
   // mueve sola). Pon videoEnMovil: true solo si algún día hay una versión
@@ -378,6 +397,7 @@ $('form').addEventListener('submit', async e => {
   btn.textContent = 'Registrando…';
 
   const payload = {
+    ...getUtm(),
     tipo: 'lista-espera',
     nombre, email,
     whatsapp: tel,

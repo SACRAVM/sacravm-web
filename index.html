@@ -663,7 +663,7 @@ body.wz-lock{overflow:hidden}
     <button class="nl" onclick="scroll2('tarifas')">Inversión</button>
     <button class="nl" onclick="scroll2('galeria')">Galería</button>
   </div>
-  <button class="btn-book" onclick="goBook()">PEDIR CITA</button>
+  <button class="btn-book" onclick="goBook()">PRESENTAR PROYECTO</button>
   <button class="nav-burger" id="nav-burger" onclick="toggleMobileNav()" aria-label="Abrir menú">☰</button>
 </nav>
 
@@ -676,7 +676,7 @@ body.wz-lock{overflow:hidden}
     <p class="h-sub" id="hero-sub-txt">No tatúo a cualquiera, ni con prisa — esto es para toda la vida.</p>
     <p class="h-styles">MICRO-REALISMO · REALISMO CONCEPTUAL · FINE LINE</p>
     <div class="h-btns">
-      <button class="btn-p" onclick="goBook()">PEDIR CITA →</button>
+      <button class="btn-p" onclick="goBook()">PRESENTAR MI PROYECTO →</button>
       <button class="btn-o" onclick="scroll2('portfolio')">VER TRABAJO</button>
     </div>
     <p class="h-btns-note"><strong>Presenta tu proyecto</strong> — cada mes concedemos un número limitado de Pases y elegimos cada uno, uno a uno.</p>
@@ -716,7 +716,7 @@ body.wz-lock{overflow:hidden}
     <div class="origen-grid rv">
       <div class="origen-body">
         <p>SACRAVM toma su nombre del latín <em style="color:rgba(196,160,80,.7)">"sacrum"</em> — sagrado — y del eco de Asturica Augusta, la ciudad romana que fundó esta tierra. Un nombre que no es casual: elige lo permanente sobre lo efímero, lo significativo sobre lo decorativo.</p>
-        <p>Lo que yo quería ofrecer no cabe en un estudio con tres artistas, turnos y walk-ins. Cabe en un espacio privado, con tiempo de sobra, donde el cliente entra sabiendo que esa sesión es suya.</p>
+        <p>Lo que yo quería ofrecer no cabe en un estudio con tres artistas, turnos y walk-ins. Cabe en un espacio privado, con tiempo de sobra, donde quien entra sabe que ese proyecto es suyo.</p>
         <p>SACRAVM nació de la idea de crear una experiencia única e inolvidable — no un simple tatuaje. Es un atelier donde cada pieza empieza con una idea, pensando en construir la mejor historia posible: tu idea y la nuestra, juntas, hasta crear algo que no existía antes.</p>
       </div>
       <div class="origen-values">
@@ -867,8 +867,9 @@ body.wz-lock{overflow:hidden}
 <section id="tarifas" style="border-top:1px solid var(--bdr)">
   <div class="sec-inner">
     <div class="rv">
-      <div class="sec-label">FORMATOS Y PRECIO <span style="color:var(--t3);font-weight:400">· DESDE 90€</span></div>
-      <p id="txt-inversion-texto" style="font-size:16px;color:var(--t2);line-height:1.85;margin-bottom:18px;max-width:540px">El diseño se prepara en exclusiva para tu Pase. La señal lo confirma y se descuenta del total — el resto se abona al cerrar la sesión.</p>
+      <div class="sec-label">FORMATOS Y PRECIO</div>
+      <p style="font-size:16px;color:var(--t2);line-height:1.85;margin-bottom:6px;max-width:540px">Las experiencias privadas parten desde 750€. Cada proyecto se valora individualmente.</p>
+      <p id="txt-inversion-texto" style="font-size:16px;color:var(--t2);line-height:1.85;margin-bottom:18px;max-width:540px">El diseño se prepara en exclusiva para tu Pase. La señal lo confirma y se descuenta del total — el resto se abona al cerrar el proyecto.</p>
       <p style="font-family:var(--serif);font-size:18px;font-style:italic;color:var(--a);line-height:1.7;max-width:520px;margin-bottom:40px">No todos los proyectos entran en SACRAVM. Si el tuyo entra, recibe toda nuestra atención — como se merece lo que va a quedarse contigo para siempre.</p>
     </div>
     <div class="tar-list rv" id="tar-list"></div>
@@ -907,24 +908,6 @@ body.wz-lock{overflow:hidden}
       </div>
     </div>
 
-    <div class="rv">
-      <div class="zona-title">Sesiones estimadas por zona</div>
-      <p class="zona-sub">Orientativo — y solo eso. Cada tatuaje y cada persona son únicos: el diseño, tu piel y tu aguante influyen tanto que no tiene sentido darte un número cerrado. Te damos una estimación personalizada en el primer contacto.</p>
-    </div>
-    <div class="zona-list rv">
-      <div class="zona-row"><div class="zona-row-name">Manga completa</div><div class="zona-row-r"><div class="zona-row-ses">6–9 sesiones</div><div class="zona-row-fmt">Proyecto multisesión</div></div></div>
-      <div class="zona-row"><div class="zona-row-name">Medio brazo</div><div class="zona-row-r"><div class="zona-row-ses">3–4 sesiones</div><div class="zona-row-fmt">Sesiones completas</div></div></div>
-      <div class="zona-row"><div class="zona-row-name">Antebrazo</div><div class="zona-row-r"><div class="zona-row-ses">2–3 sesiones</div><div class="zona-row-fmt">Media sesión × 2-3</div></div></div>
-      <div class="zona-row"><div class="zona-row-name">Pecho</div><div class="zona-row-r"><div class="zona-row-ses">3–5 sesiones</div><div class="zona-row-fmt">Sesiones completas</div></div></div>
-      <div class="zona-row"><div class="zona-row-name">Espalda completa</div><div class="zona-row-r"><div class="zona-row-ses">6–9 sesiones</div><div class="zona-row-fmt">Proyecto multisesión</div></div></div>
-      <div class="zona-row"><div class="zona-row-name">Media espalda</div><div class="zona-row-r"><div class="zona-row-ses">3–5 sesiones</div><div class="zona-row-fmt">Sesiones completas</div></div></div>
-      <div class="zona-row"><div class="zona-row-name">Muslo</div><div class="zona-row-r"><div class="zona-row-ses">3–5 sesiones</div><div class="zona-row-fmt">Sesiones completas</div></div></div>
-      <div class="zona-row"><div class="zona-row-name">Pierna completa</div><div class="zona-row-r"><div class="zona-row-ses">14–20 sesiones</div><div class="zona-row-fmt">Proyecto multisesión</div></div></div>
-      <div class="zona-row"><div class="zona-row-name">Costado</div><div class="zona-row-r"><div class="zona-row-ses">3–4 sesiones</div><div class="zona-row-fmt">Sesiones completas</div></div></div>
-      <div class="zona-row"><div class="zona-row-name">Pie / tobillo</div><div class="zona-row-r"><div class="zona-row-ses">1–2 sesiones</div><div class="zona-row-fmt">Mini o media sesión</div></div></div>
-      <div class="zona-row"><div class="zona-row-name">Mano / muñeca</div><div class="zona-row-r"><div class="zona-row-ses">1–2 sesiones</div><div class="zona-row-fmt">Mini o media sesión</div></div></div>
-      <div class="zona-row"><div class="zona-row-name">Pieza pequeña (−8cm)</div><div class="zona-row-r"><div class="zona-row-ses">1 sesión</div><div class="zona-row-fmt">Mini tattoo 1-2h</div></div></div>
-    </div>
   </div>
 </section>
 
@@ -1181,11 +1164,11 @@ body.wz-lock{overflow:hidden}
         <div class="term-block">
           <h4>Nuestro enfoque y cómo elegimos proyectos</h4>
           <p>Creamos cada tatuaje con total libertad artística dentro del tema acordado. Tu idea inspira el diseño, pero añadimos nuestro toque personal. No copiamos otros tatuajes ni estilos. El diseño final lo preparamos el primer día de tu Pase.</p>
-          <div class="term-highlight"><p>Priorizamos a los clientes con grandes ideas y buen ambiente, especialmente a quienes confían en nosotros para hacer lo que mejor sabemos hacer. <strong>Si consideramos que un diseño o ubicación no es adecuado, te lo haremos saber y podemos rechazar el proyecto.</strong></p></div>
+          <div class="term-highlight"><p>Priorizamos a quienes traen grandes ideas y buen ambiente, especialmente a quienes confían en nosotros para hacer lo que mejor sabemos hacer. <strong>Si consideramos que un diseño o ubicación no es adecuado, te lo haremos saber y podemos rechazar el proyecto.</strong></p></div>
         </div>
         <div class="term-block">
           <h4>Horario de estudio</h4>
-          <p>Lunes a viernes, de 09:00 a 17:00. Las sesiones son privadas — un cliente a la vez.</p>
+          <p>Lunes a viernes, de 09:00 a 17:00. Los encuentros son privados — un proyecto a la vez.</p>
         </div>
         <div class="term-block">
           <h4>¿Cuánto tarda tu tatuaje?</h4>
@@ -1196,16 +1179,16 @@ body.wz-lock{overflow:hidden}
             <li>Tamaño y ubicación de la pieza</li>
             <li>Complejidad del diseño y nivel de detalle</li>
           </ul>
-          <p style="margin-top:10px">Las estimaciones de sesiones de arriba son orientativas. En el primer contacto te damos una estimación personalizada.</p>
+          <p style="margin-top:10px">No damos una cifra cerrada por adelantado — te damos una estimación personalizada en el primer contacto, una vez conocemos tu proyecto.</p>
         </div>
       </div>
       <div>
         <div class="term-block">
           <h4>Señal y pago</h4>
-          <p>La señal no es reembolsable bajo ninguna circunstancia. Se descuenta del total al finalizar la sesión. Sin señal, el Pase no queda confirmado.</p>
-          <p><strong>El precio se fija el día que te concedemos el Pase</strong>, no el día de la sesión. Cuando el Atelier abra sus puertas la tarifa por sesión sube; los Pases concedidos antes mantienen su precio hasta terminar el proyecto.</p>
+          <p>La señal no es reembolsable bajo ninguna circunstancia. Se descuenta del total al finalizar el proyecto. Sin señal, el Pase no queda confirmado.</p>
+          <p><strong>El precio se fija el día que te concedemos el Pase</strong>, no el día del encuentro. Cuando el Atelier abra sus puertas la tarifa sube; los Pases concedidos antes mantienen su precio hasta terminar el proyecto.</p>
           <div class="term-highlight">
-            <p><strong>Formas de pago de la señal:</strong> Bizum o transferencia bancaria. El resto del pago se realiza el día de la sesión en efectivo, Bizum o transferencia.</p>
+            <p><strong>Formas de pago de la señal:</strong> Bizum o transferencia bancaria. El resto del pago se realiza el día del encuentro, en efectivo, Bizum o transferencia.</p>
           </div>
         </div>
         <div class="term-block">
@@ -1224,8 +1207,82 @@ body.wz-lock{overflow:hidden}
         </div>
       </div>
     </div>
+    <div class="rv" style="margin-top:52px">
+      <div class="sec-label">PREGUNTAS FRECUENTES</div>
+    </div>
+    <div class="terms-grid rv">
+      <div>
+        <div class="term-block">
+          <h4>¿Dónde está SACRAVM?</h4>
+          <p>En León, España. Al conceder tu Pase te compartimos la dirección exacta del Atelier.</p>
+        </div>
+        <div class="term-block">
+          <h4>¿Cómo presento mi proyecto?</h4>
+          <p>A través del formulario de solicitud. Cuéntanos tu idea, referencias y lo que buscas — lo revisamos personalmente.</p>
+        </div>
+        <div class="term-block">
+          <h4>¿Puedo enviar referencias?</h4>
+          <p>Sí, y te lo recomendamos. Cuanto más claro esté el concepto, mejor se prepara el diseño.</p>
+        </div>
+        <div class="term-block">
+          <h4>¿Hacéis diseños personalizados?</h4>
+          <p>Sí, el 100% del diseño está incluido — no trabajamos sobre catálogos ni diseños repetidos.</p>
+        </div>
+      </div>
+      <div>
+        <div class="term-block">
+          <h4>¿Puedo viajar desde otra ciudad?</h4>
+          <p>Sí, muchos proyectos llegan desde fuera de León — lo tenemos en cuenta al proponerte fecha.</p>
+        </div>
+        <div class="term-block">
+          <h4>¿Cuánto cuesta?</h4>
+          <p>Las experiencias privadas parten desde 750€; piezas pequeñas desde 90€. Cada proyecto se valora individualmente según tamaño y complejidad.</p>
+        </div>
+        <div class="term-block">
+          <h4>¿Cómo funciona la señal?</h4>
+          <p>Ver "Señal y pago" arriba — confirma tu Pase y se descuenta del total.</p>
+        </div>
+        <div class="term-block">
+          <h4>¿Qué ocurre después de presentar mi proyecto?</h4>
+          <p>Lo revisamos personalmente. Si entra, te contactamos con la fecha y las instrucciones de la señal.</p>
+        </div>
+      </div>
+    </div>
     <div class="terms-footer rv">
       Al enviar la solicitud, confirmas haber leído y aceptado esta información. Si tienes cualquier duda antes de presentar tu proyecto, <strong>escríbenos</strong> — mejor hablar antes que tener malentendidos después.
+    </div>
+  </div>
+</section>
+
+<!-- DESPUÉS -->
+<section id="despues" style="border-top:1px solid var(--bdr)">
+  <div class="sec-inner">
+    <div class="rv">
+      <div class="sec-label">DESPUÉS</div>
+      <h2 class="sec-title">La experiencia no termina al salir del Atelier.</h2>
+      <p style="font-size:16px;color:var(--t2);line-height:1.85;margin-top:12px;max-width:540px">Seguimos contigo durante toda la curación — con indicaciones claras y disponibles si surge cualquier duda.</p>
+    </div>
+    <div class="terms-grid rv">
+      <div>
+        <div class="term-block">
+          <h4>Cuidado inmediato</h4>
+          <p>Mantén la zona limpia y seca las primeras horas. Lava con agua y jabón neutro, sin frotar, y seca a toques.</p>
+        </div>
+        <div class="term-block">
+          <h4>Hidratación</h4>
+          <p>Aplica la crema recomendada varias veces al día durante todo el proceso de curación, sin excederte.</p>
+        </div>
+      </div>
+      <div>
+        <div class="term-block">
+          <h4>Lo que hay que evitar</h4>
+          <p>Sol directo, piscina, playa y ropa que roce la pieza mientras cura. Nada de rascar ni arrancar la piel que se desprende.</p>
+        </div>
+        <div class="term-block">
+          <h4>Seguimiento</h4>
+          <p>Estamos disponibles si algo no evoluciona como esperas. El repaso, cuando corresponde, ya está incluido en tu Pase.</p>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -1322,7 +1379,7 @@ body.wz-lock{overflow:hidden}
   <div>
     <div class="foot-logo" id="foot-logo">SACRAVM</div>
     <div class="foot-sub" id="foot-sub">TATTOO ATELIER · LEÓN</div>
-    <div class="foot-sub" style="margin-top:6px">SOLO CON CITA PREVIA · PASES LIMITADOS AL MES</div>
+    <div class="foot-sub" style="margin-top:6px">PASES LIMITADOS AL MES · UN PROYECTO A LA VEZ</div>
   </div>
   <div class="foot-links">
     <button class="fl" onclick="scroll2('nosotros')">Quiénes somos</button>
@@ -1334,14 +1391,14 @@ body.wz-lock{overflow:hidden}
     <button class="fl" onclick="scroll2('vale-regalo')">Vale regalo</button>
     <button class="fl" onclick="scroll2('formacion')">Academy</button>
     <button class="fl" onclick="scroll2('galeria')">Galería</button>
-    <button class="fl" onclick="scroll2('booking')">Pedir cita</button>
+    <button class="fl" onclick="scroll2('booking')">Presentar proyecto</button>
   </div>
   <div class="foot-right">
     <a class="btn-wa" id="btn-wa" href="#" target="_blank">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
       WhatsApp
     </a>
-    <button class="btn-book" onclick="goBook()">PEDIR CITA</button>
+    <button class="btn-book" onclick="goBook()">PRESENTAR PROYECTO</button>
   </div>
 </footer>
 <div style="background:var(--dk);border-top:1px solid rgba(255,255,255,.05);padding:14px 24px;text-align:center">
@@ -1620,7 +1677,7 @@ function renderSite(CONFIG) {
       <div class="svc-n">${String(i+1).padStart(2,'0')}</div>
       ${s.foto ? `<div class="svc-img">
         <div class="svc-img-ph"><img src="${s.foto}" alt="Ejemplo de ${s.nombre}" loading="lazy"></div>
-        <div class="svc-img-cap"><span class="svc-img-price">${s.precio}</span><button class="svc-img-cta" onclick="goBook('${s.nombre}')">Pedir cita →</button></div>
+        <div class="svc-img-cap"><span class="svc-img-price">${s.precio}</span><button class="svc-img-cta" onclick="goBook('${s.nombre}')">Presentar proyecto →</button></div>
       </div>` : ''}
       <div class="svc-row-l">
         <h3 class="svc-name">${s.nombre}</h3>
@@ -1634,7 +1691,7 @@ function renderSite(CONFIG) {
   document.getElementById('tar-list').innerHTML = (CONFIG.tarifas || []).map(t => `
     <div class="tar-row">
       <div class="tar-row-l">
-        <div class="tar-dur">${t.duracion || ''}${t.tag ? ` <span class="tar-tag">· ${t.tag}</span>` : ''}</div>
+        <div class="tar-dur">${t.tag ? `<span class="tar-tag">${t.tag}</span>` : ''}</div>
         <div class="tar-name">${t.nombre || ''}</div>
         <div class="tar-desc">${t.desc || ''}</div>
         <div class="tar-includes-line">${t.incluye || ''}</div>
@@ -1643,7 +1700,7 @@ function renderSite(CONFIG) {
       <div class="tar-row-r">
         <div class="tar-price">${t.precio || ''}</div>
         <div class="tar-senal">${t.senal || ''}</div>
-        <button class="btn-tar" onclick="goBook(${t.bookKey ? `'${t.bookKey.replace(/'/g, "\\'")}'` : ''})">${t.ctaLabel || 'Pedir cita →'}</button>
+        <button class="btn-tar" onclick="goBook(${t.bookKey ? `'${t.bookKey.replace(/'/g, "\\'")}'` : ''})">${t.ctaLabel || 'Presentar proyecto →'}</button>
       </div>
     </div>
   `).join('');
@@ -1657,7 +1714,7 @@ function renderSite(CONFIG) {
     const img = p.url
       ? `<img src="${p.url}" alt="Tatuaje SACRAVM — ${p.estilo||''}${p.desc?', '+p.desc:''}" loading="lazy">`
       : `<div class="pimg-ph" style="min-height:${cls==='big'?'460px':'210px'}"><span>★ Sube esta foto desde /admin</span></div>`;
-    const tag = (p.duracion || p.precio) ? `<span class="pimg-tag">${[p.duracion,p.precio].filter(Boolean).join(' · ')}</span>` : '';
+    const tag = p.precio ? `<span class="pimg-tag">${p.precio}</span>` : '';
     return `<div class="pimg ${cls}">${img}<div class="pimg-info"><em>${p.desc||''}</em><small>${p.estilo||''}</small><br>${tag}</div></div>`;
   }).join('');
 
@@ -1707,11 +1764,11 @@ function renderSite(CONFIG) {
   const espacioFotos = CONFIG.estudioFotos || [];
   document.getElementById('espacio-grid').innerHTML = espacioFotos.filter(f => f.url).length
     ? espacioFotos.filter(f => f.url).map(f => `<div class="esp-img"><img src="${f.url}" alt="${f.desc||'El espacio SACRAVM'}" loading="lazy"></div>`).join('')
-    : `<div class="esp-placeholder"><div class="esp-placeholder-txt">El espacio, muy pronto en imágenes.</div></div>`;
+    : `<div class="esp-placeholder"><div class="esp-placeholder-txt">El Atelier, muy pronto en imágenes.</div></div>`;
 
   // ── Galería completa ───────────────────────────────────────────────
   document.getElementById('galeria-grid').innerHTML = (CONFIG.galeria || []).map(g => `
-    <div class="gal-card" onclick="openEstiloModal('${(g.estilo||'').replace(/'/g,"\\'")}')"><div class="gal-img"><img src="${g.url}" alt="Tatuaje SACRAVM — ${g.estilo||''}${g.desc?', '+g.desc:''}" loading="lazy"></div><div class="gal-body"><div class="gal-est">${g.estilo||''}</div><div class="gal-desc">${g.desc||''}</div>${(g.duracion||g.precio) ? `<div class="gal-precio">${[g.duracion,g.precio].filter(Boolean).join(' · ')}</div>` : ''}</div></div>
+    <div class="gal-card" onclick="openEstiloModal('${(g.estilo||'').replace(/'/g,"\\'")}')"><div class="gal-img"><img src="${g.url}" alt="Tatuaje SACRAVM — ${g.estilo||''}${g.desc?', '+g.desc:''}" loading="lazy"></div><div class="gal-body"><div class="gal-est">${g.estilo||''}</div><div class="gal-desc">${g.desc||''}</div></div></div>
   `).join('');
 
   // ── Vídeo del Atelier ─────────────────────────────────────────────
@@ -1742,7 +1799,7 @@ function renderSite(CONFIG) {
     videoHtml = `<div class="exp-video-wrap">${embed.type === 'iframe' ? `<iframe src="${embed.url}" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>` : `<video src="${embed.url}" controls playsinline></video>`}</div>`;
   }
   const fotosHtml = expFotos.length ? `<div class="exp-fotos-grid">${expFotos.map(f => `<div class="exp-foto"><img src="${f.url}" alt="${f.desc || 'SACRAVM Experience'}" loading="lazy"></div>`).join('')}</div>` : '';
-  expShowcase.innerHTML = videoHtml + fotosHtml;
+  expShowcase.innerHTML = (videoHtml || fotosHtml) ? (videoHtml + fotosHtml) : `<div class="esp-placeholder"><div class="esp-placeholder-txt">Cada Experiences, muy pronto en imágenes.</div></div>`;
 
   // ── Reveal on scroll (incluye elementos recién creados) ──────────
   const obs = new IntersectionObserver(entries => {
@@ -1751,13 +1808,32 @@ function renderSite(CONFIG) {
   document.querySelectorAll('.rv').forEach(el => obs.observe(el));
 }
 
+// ── Atribución (UTM) — se captura una vez por visita y se adjunta a cada lead ──
+(function captureUtm() {
+  try {
+    const p = new URLSearchParams(location.search);
+    ['utm_source', 'utm_campaign', 'utm_medium'].forEach(k => {
+      if (p.get(k)) sessionStorage.setItem(k, p.get(k));
+    });
+  } catch (e) {}
+})();
+function getUtm() {
+  try {
+    return {
+      utm_source: sessionStorage.getItem('utm_source') || '',
+      utm_campaign: sessionStorage.getItem('utm_campaign') || '',
+      utm_medium: sessionStorage.getItem('utm_medium') || '',
+    };
+  } catch (e) { return { utm_source: '', utm_campaign: '', utm_medium: '' }; }
+}
+
 // ── Enviar leads al servidor local (leads/leads.csv) ────────────────
 async function sendLead(payload) {
   try {
     const res = await fetch('/api/lead', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
+      body: JSON.stringify({ ...getUtm(), ...payload })
     });
     if (!res.ok) throw new Error('status ' + res.status);
     return { ok: true };
@@ -2019,9 +2095,9 @@ function renderWzRefPreview() {
 }
 
 const WZ_SERVICE_OPTIONS = [
-  { nombre: 'Mini tattoo', ideal: '1–2 horas · piezas pequeñas y rápidas', precio: 'Desde 90€', tier: 'pequeno', fianza: 50 },
-  { nombre: 'Media sesión', ideal: '3–5 horas · el formato más solicitado', precio: '450–550€', tier: 'pequeno', fianza: 100 },
-  { nombre: 'Sesión completa', ideal: '6–8 horas · proyectos con más profundidad', precio: '750–850€', tier: 'grande', fianza: 150 },
+  { nombre: 'Mini tattoo', ideal: 'Piezas pequeñas y precisas', precio: 'Desde 90€', tier: 'pequeno', fianza: 50 },
+  { nombre: 'Media sesión', ideal: 'El formato más elegido', precio: '450–550€', tier: 'pequeno', fianza: 100 },
+  { nombre: 'Sesión completa', ideal: 'Proyectos con más profundidad y capas', precio: '750–850€', tier: 'grande', fianza: 150 },
   { nombre: 'A consultar', ideal: 'No sabes qué formato encaja todavía', precio: '', tier: null, fianza: null },
   { nombre: VALORACION_SERVICIO, ideal: 'Te guiamos sin compromiso', precio: 'Gratis', tier: 'consulta', fianza: 0 },
 ];

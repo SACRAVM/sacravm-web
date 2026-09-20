@@ -44,7 +44,7 @@ function readJSON(file, fallback) {
 function writeJSON(file, data) {
   fs.writeFileSync(file, JSON.stringify(data, null, 2), 'utf8');
 }
-const LEADS_HEADER = ['fecha_registro','tipo','nombre','email','whatsapp','servicio','fecha_cita','hora_cita','mensaje','instagram','zona','tamano','bebida','ya_tatuado','fuente','tier','fianza','referencias','estado_fianza','recordatorio_enviado','seguimiento_enviado','reactivacion_6m_enviado','reactivacion_1a_enviado','alerta_fianza_enviado','aviso_prep_24h_enviado','artista','estado_solicitud','fecha_aprobacion','alerta_senal_enviado','presupuesto','plazo'];
+const LEADS_HEADER = ['fecha_registro','tipo','nombre','email','whatsapp','servicio','fecha_cita','hora_cita','mensaje','instagram','zona','tamano','bebida','ya_tatuado','fuente','tier','fianza','referencias','estado_fianza','recordatorio_enviado','seguimiento_enviado','reactivacion_6m_enviado','reactivacion_1a_enviado','alerta_fianza_enviado','aviso_prep_24h_enviado','artista','estado_solicitud','fecha_aprobacion','alerta_senal_enviado','presupuesto','plazo','utm_source','utm_campaign','utm_medium'];
 const ARTISTA_DEFAULT = 'JJ Rodríguez';
 const PROVEEDORES_FILE = path.join(DATA_DIR, 'proveedores.csv');
 const PROVEEDORES_HEADER = ['fecha_registro','nombre','que_suministra','contacto','telefono','email','condiciones','notas'];
@@ -202,6 +202,7 @@ function appendLead(data, referenciasPaths) {
     data.estado_solicitud || '',
     '', '', // fecha_aprobacion, alerta_senal_enviado — los rellena el visto bueno y el planificador
     data.presupuesto || '', data.plazo || '',
+    data.utm_source || '', data.utm_campaign || '', data.utm_medium || '',
   ].map(csvEscape).join(',');
   fs.appendFileSync(LEADS_FILE, row + '\n', 'utf8');
 }
@@ -1237,6 +1238,7 @@ const server = http.createServer(async (req, res) => {
     if (filePath === '/legal') filePath = '/legal.html';
     if (filePath === '/certificado') filePath = '/certificado.html';
     if (filePath === '/qr') filePath = '/qr.html';
+    if (filePath === '/solicitar') filePath = '/qr.html';
     if (filePath === '/apertura') filePath = '/apertura.html';
     filePath = path.join(ROOT, decodeURIComponent(filePath));
     if (!filePath.startsWith(ROOT)) { res.writeHead(403); res.end('Prohibido'); return; }
