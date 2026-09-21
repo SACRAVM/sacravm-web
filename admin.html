@@ -143,6 +143,24 @@ table.leads-table tr:hover td{background:var(--s1)}
 .lead-decision .ok{border-color:#3d7a4e;color:#3d7a4e}
 .lead-decision .no{border-color:#8c2f2f;color:#c96b6b}
 
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:10px;margin-top:14px}
+.cal-day{background:var(--w);border:1px solid var(--bdr);border-radius:8px;min-height:220px;display:flex;flex-direction:column;overflow:hidden}
+.cal-day.today{border-color:var(--a);box-shadow:0 0 0 1px var(--a)}
+.cal-day-hd{padding:10px 12px;border-bottom:1px solid var(--bdr);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--t2);display:flex;justify-content:space-between;align-items:center}
+.cal-day.today .cal-day-hd{color:var(--a);font-weight:600}
+.cal-day-hd span{font-family:var(--serif);font-size:16px;letter-spacing:0;color:var(--tx)}
+.cal-day-body{padding:8px;display:flex;flex-direction:column;gap:6px;flex:1}
+.cal-chip{border:1px solid;border-radius:6px;padding:6px 8px;cursor:pointer;font-size:11px;line-height:1.5;transition:opacity .15s}
+.cal-chip:hover{opacity:.75}
+.cal-chip strong{display:block;font-size:11px}
+.cal-chip span{display:block;font-size:12px;color:var(--tx);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cal-chip small{display:block;color:var(--t3)}
+.cal-chip.pendiente{color:#b8892f;border-color:#b8892f;background:#b8892f14}
+.cal-chip.aprobada{color:#3d7a4e;border-color:#3d7a4e;background:#3d7a4e14}
+.cal-chip.rechazada{color:#8c2f2f;border-color:#8c2f2f;background:#8c2f2f14}
+.cal-empty{font-size:11px;color:var(--t3);text-align:center;padding:20px 0}
+@media(max-width:900px){.cal-grid{grid-template-columns:1fr;gap:8px}.cal-day{min-height:auto}}
+
 @media(max-width:780px){
   .layout{flex-direction:column}
   .tabs{position:static;width:100%;height:auto;display:flex;overflow-x:auto;padding:14px 16px;gap:4px}
@@ -159,6 +177,7 @@ table.leads-table tr:hover td{background:var(--s1)}
 let content = null;
 let session = { hasAccount: false, loggedIn: false };
 let activeTab = 'datos';
+let calWeekStart = mondayOf(new Date());
 
 const app = document.getElementById('app');
 
@@ -248,6 +267,7 @@ const TABS = [
   { id: 'experiences', label: 'Experiences' },
   { id: 'estudio', label: 'El Espacio' },
   { id: 'university', label: 'University' },
+  { id: 'calendario', label: 'Calendario' },
   { id: 'leads', label: 'Leads' },
   { id: 'proveedores', label: 'Proveedores' },
   { id: 'colaboraciones', label: 'Colaboraciones' },
@@ -299,6 +319,7 @@ function renderPanel() {
   if (activeTab === 'experiences') area.innerHTML = panelExperiences();
   if (activeTab === 'estudio') area.innerHTML = panelEstudio();
   if (activeTab === 'university') area.innerHTML = panelUniversity();
+  if (activeTab === 'calendario') { area.innerHTML = '<div class="panel-title">Calendario</div><div class="panel-desc">Cargando…</div>'; loadCalendario(); }
   if (activeTab === 'leads') { area.innerHTML = '<div class="panel-title">Leads</div><div class="panel-desc">Cargando…</div>'; loadLeads(); }
   if (activeTab === 'proveedores') { area.innerHTML = '<div class="panel-title">Proveedores</div><div class="panel-desc">Cargando…</div>'; loadProveedores(); }
   if (activeTab === 'colaboraciones') { area.innerHTML = '<div class="panel-title">Colaboraciones</div><div class="panel-desc">Cargando…</div>'; loadColaboraciones(); }
@@ -909,6 +930,8 @@ async function uploadFoto(inp) {
 
 // ── Leads ────────────────────────────────────────────────────────
 async function loadLeads() {
+  leadsSearchQuery = '';
+  leadsFilterStatus = 'todos';
   const area = document.getElementById('content-area');
   area.innerHTML = `
     <div class="panel-hd" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;gap:10px;flex-wrap:wrap">
@@ -916,6 +939,15 @@ async function loadLeads() {
       <div style="display:flex;gap:10px">
         <button class="btn-o" id="btn-toggle-import">+ IMPORTAR DE EXCEL</button>
         <button class="btn-o" id="btn-toggle-ficha">+ AÑADIR CLIENTE</button>
+      </div>
+    </div>
+    <div class="card" style="margin-bottom:16px;padding:14px 16px">
+      <input class="fi" id="leads-search" placeholder="Buscar por nombre, email, teléfono, Instagram o servicio…" style="margin-bottom:12px">
+      <div class="ftog-row" id="leads-filter-row">
+        <button class="ftog on-gold" data-f="todos">Todos</button>
+        <button class="ftog" data-f="pendiente">Por elegir</button>
+        <button class="ftog" data-f="aprobada">Concedidos</button>
+        <button class="ftog" data-f="rechazada">No encaja</button>
       </div>
     </div>
     <div class="panel-desc">Se guardan también en el archivo leads/leads.csv, por si prefieres abrirlo en Excel.</div>
@@ -1048,6 +1080,13 @@ async function loadLeads() {
     <div id="leads-table-wrap"><div class="empty-note">Cargando…</div></div>
   `;
   document.getElementById('btn-save-lead-edit').onclick = saveLeadEdit;
+  document.getElementById('leads-search').oninput = (e) => { leadsSearchQuery = e.target.value; renderLeadsCards(); };
+  document.querySelectorAll('#leads-filter-row .ftog').forEach(b => b.onclick = () => {
+    leadsFilterStatus = b.dataset.f;
+    document.querySelectorAll('#leads-filter-row .ftog').forEach(x => x.classList.remove('on-gold'));
+    b.classList.add('on-gold');
+    renderLeadsCards();
+  });
   document.getElementById('btn-toggle-ficha').onclick = () => {
     const p = document.getElementById('ficha-panel');
     const opening = p.style.display === 'none';
@@ -1284,6 +1323,80 @@ async function saveLeadEdit() {
   await renderLeadsTable();
 }
 
+// ── Calendario ───────────────────────────────────────────────────────
+function mondayOf(d) {
+  const x = new Date(d);
+  const day = x.getDay();
+  x.setDate(x.getDate() + (day === 0 ? -6 : 1 - day));
+  x.setHours(0, 0, 0, 0);
+  return x;
+}
+function addDays(d, n) { const x = new Date(d); x.setDate(x.getDate() + n); return x; }
+function isoDate(d) { return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
+
+function calMove(deltaWeeks) { calWeekStart = addDays(calWeekStart, deltaWeeks * 7); loadCalendario(); }
+function calToday() { calWeekStart = mondayOf(new Date()); loadCalendario(); }
+
+async function loadCalendario() {
+  const area = document.getElementById('content-area');
+  const days = [...Array(7)].map((_, i) => addDays(calWeekStart, i));
+  const rangeLabel = `${days[0].toLocaleDateString('es-ES', { day: 'numeric', month: 'short' })} – ${days[6].toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' })}`;
+  area.innerHTML = `
+    <div class="panel-hd" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;gap:10px;flex-wrap:wrap">
+      <div class="panel-title" style="margin-bottom:0">Calendario</div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <button class="btn-o" id="cal-prev">‹ Semana</button>
+        <button class="btn-o" id="cal-today">Hoy</button>
+        <button class="btn-o" id="cal-next">Semana ›</button>
+      </div>
+    </div>
+    <div class="panel-desc">${rangeLabel} · citas y valoraciones. Toca una para abrir su ficha en Leads.</div>
+    <div id="cal-grid" class="cal-grid"><div class="empty-note">Cargando…</div></div>
+  `;
+  document.getElementById('cal-prev').onclick = () => calMove(-1);
+  document.getElementById('cal-next').onclick = () => calMove(1);
+  document.getElementById('cal-today').onclick = () => calToday();
+
+  const res = await fetch('/api/leads');
+  const data = await res.json();
+  const allLeads = data.leads || [];
+  currentLeads = allLeads;
+  const reservas = allLeads.filter(l => l.tipo === 'reserva' && l.fecha_cita);
+
+  const byDate = {};
+  reservas.forEach(l => { (byDate[l.fecha_cita] = byDate[l.fecha_cita] || []).push(l); });
+  Object.values(byDate).forEach(arr => arr.sort((a, b) => (a.hora_cita || '').localeCompare(b.hora_cita || '')));
+
+  const todayIso = isoDate(new Date());
+  const grid = document.getElementById('cal-grid');
+  grid.innerHTML = days.map(d => {
+    const iso = isoDate(d);
+    const dayLeads = byDate[iso] || [];
+    return `
+      <div class="cal-day ${iso === todayIso ? 'today' : ''}">
+        <div class="cal-day-hd">${d.toLocaleDateString('es-ES', { weekday: 'short' })}<span>${d.getDate()}</span></div>
+        <div class="cal-day-body">
+          ${dayLeads.length ? dayLeads.map(l => {
+            const sol = l.estado_solicitud || 'aprobada';
+            return `<div class="cal-chip ${sol}" onclick="calOpenLead(${l._row})">
+              <strong>${esc(l.hora_cita || '')}</strong>
+              <span>${esc(l.nombre || 'Sin nombre')}</span>
+              ${l.servicio ? `<small>${esc(l.servicio)}</small>` : ''}
+            </div>`;
+          }).join('') : `<div class="cal-empty">—</div>`}
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+async function calOpenLead(rowIndex) {
+  activeTab = 'leads';
+  renderDashboard();
+  await renderLeadsTable();
+  openEditLead(rowIndex);
+}
+
 let currentLeads = [];
 // Borrar un lead es irreversible (no hay papelera), así que se pide confirmación
 // mostrando el nombre concreto.
@@ -1301,6 +1414,9 @@ async function borrarLead(rowIndex) {
   await renderLeadsTable();
 }
 
+let leadsSearchQuery = '';
+let leadsFilterStatus = 'todos';
+
 async function renderLeadsTable() {
   const res = await fetch('/api/leads');
   const data = await res.json();
@@ -1308,6 +1424,11 @@ async function renderLeadsTable() {
   // Las que esperan tu visto bueno van arriba: son lo único que bloquea a alguien.
   leads.sort((a, b) => ((b.estado_solicitud === 'pendiente') ? 1 : 0) - ((a.estado_solicitud === 'pendiente') ? 1 : 0));
   currentLeads = leads;
+  renderLeadsCards();
+}
+
+function renderLeadsCards() {
+  const leads = currentLeads;
   const nPend = leads.filter(l => l.estado_solicitud === 'pendiente').length;
   document.getElementById('leads-title').textContent = 'Leads (' + leads.length + ')' + (nPend ? ' · ' + nPend + ' por elegir' : '');
   const wrap = document.getElementById('leads-table-wrap');
@@ -1315,9 +1436,21 @@ async function renderLeadsTable() {
     wrap.innerHTML = '<div class="empty-note">Todavía no hay ninguno. En cuanto alguien reserve, se apunte a una lista, o añadas una ficha manual, aparecerá aquí.</div>';
     return;
   }
+  let filtered = leads;
+  if (leadsFilterStatus !== 'todos') {
+    filtered = filtered.filter(l => (l.estado_solicitud || (l.tipo === 'reserva' ? 'aprobada' : '')) === leadsFilterStatus);
+  }
+  const q = leadsSearchQuery.trim().toLowerCase();
+  if (q) {
+    filtered = filtered.filter(l => [l.nombre, l.email, l.whatsapp, l.instagram, l.servicio, l.mensaje].filter(Boolean).join(' ').toLowerCase().includes(q));
+  }
+  if (!filtered.length) {
+    wrap.innerHTML = '<div class="empty-note">Nada encaja con esa búsqueda.</div>';
+    return;
+  }
   wrap.innerHTML = `
     <div class="leads-cards">
-      ${leads.map(l => {
+      ${filtered.map(l => {
         const fecha = (l.tipo === 'reserva' && l.fecha_cita) ? esc(l.fecha_cita) + (l.hora_cita ? ' · ' + esc(l.hora_cita) : '') : esc(l.fecha_registro);
         const idea = esc(l.mensaje || l.instagram || '');
         // Columna vacía = ficha anterior a este flujo, ya estaba confirmada.
