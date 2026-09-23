@@ -2177,7 +2177,11 @@ async function wzLoadOcupados() {
   } catch (e) { wzOcupados = []; }
 }
 function wzHorasOcupadas(fechaStr) {
-  return wzOcupados.filter(o => o.fecha === fechaStr).map(o => o.hora);
+  const delDia = wzOcupados.filter(o => o.fecha === fechaStr);
+  // Una reserva de jornada completa ('grande') ocupa todo el día, sea cual sea
+  // el tier de quien esté mirando el calendario — no solo su propia franja.
+  if (delDia.some(o => o.tier === 'grande')) return ['10:00', '12:00', '14:00', '16:00', '18:00'];
+  return delDia.map(o => o.hora);
 }
 function wzDateStr(d) {
   return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');

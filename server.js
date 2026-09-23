@@ -263,7 +263,7 @@ function readOcupados() {
     // Una solicitud pendiente bloquea el hueco provisionalmente para que no se
     // pida dos veces el mismo día. Si se rechaza, el hueco vuelve a liberarse.
     .filter(r => r.tipo === 'reserva' && r.fecha_cita && !esRechazada(r))
-    .map(r => ({ fecha: r.fecha_cita, hora: r.hora_cita }));
+    .map(r => ({ fecha: r.fecha_cita, hora: r.hora_cita, tier: r.tier || '' }));
 }
 
 // ── Calendario suscribible (.ics) — para verlo automáticamente en el Calendario del iPhone ──
