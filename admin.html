@@ -144,22 +144,41 @@ table.leads-table tr:hover td{background:var(--s1)}
 .lead-decision .no{border-color:#8c2f2f;color:#c96b6b}
 
 .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:10px;margin-top:14px}
-.cal-day{background:var(--w);border:1px solid var(--bdr);border-radius:8px;min-height:220px;display:flex;flex-direction:column;overflow:hidden}
+.cal-grid.month{gap:6px}
+.cal-dow{font-size:10px;letter-spacing:.08em;color:var(--t3);text-align:center;padding-bottom:4px}
+.cal-day{background:var(--w);border:1px solid var(--bdr);border-radius:8px;display:flex;flex-direction:column;overflow:hidden;cursor:pointer;transition:border-color .15s}
+.cal-day:hover{border-color:var(--a)}
+.cal-grid.week .cal-day{min-height:220px}
+.cal-grid.month .cal-day{min-height:92px}
+.cal-day.dim{opacity:.35}
 .cal-day.today{border-color:var(--a);box-shadow:0 0 0 1px var(--a)}
-.cal-day-hd{padding:10px 12px;border-bottom:1px solid var(--bdr);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--t2);display:flex;justify-content:space-between;align-items:center}
+.cal-day-hd{padding:8px 10px 4px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--t2);display:flex;justify-content:space-between;align-items:center}
+.cal-grid.week .cal-day-hd{border-bottom:1px solid var(--bdr);padding:10px 12px}
 .cal-day.today .cal-day-hd{color:var(--a);font-weight:600}
 .cal-day-hd span{font-family:var(--serif);font-size:16px;letter-spacing:0;color:var(--tx)}
-.cal-day-body{padding:8px;display:flex;flex-direction:column;gap:6px;flex:1}
-.cal-chip{border:1px solid;border-radius:6px;padding:6px 8px;cursor:pointer;font-size:11px;line-height:1.5;transition:opacity .15s}
-.cal-chip:hover{opacity:.75}
-.cal-chip strong{display:block;font-size:11px}
+.cal-day-body{padding:6px 8px 8px;display:flex;flex-direction:column;gap:5px;flex:1}
+.cal-chip{border:1px solid;border-radius:6px;padding:5px 7px;font-size:11px;line-height:1.4}
+.cal-chip strong{display:block;font-size:10px}
 .cal-chip span{display:block;font-size:12px;color:var(--tx);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .cal-chip small{display:block;color:var(--t3)}
 .cal-chip.pendiente{color:#b8892f;border-color:#b8892f;background:#b8892f14}
 .cal-chip.aprobada{color:#3d7a4e;border-color:#3d7a4e;background:#3d7a4e14}
 .cal-chip.rechazada{color:#8c2f2f;border-color:#8c2f2f;background:#8c2f2f14}
+.cal-more{font-size:10px;color:var(--t3);padding:2px 2px}
 .cal-empty{font-size:11px;color:var(--t3);text-align:center;padding:20px 0}
-@media(max-width:900px){.cal-grid{grid-template-columns:1fr;gap:8px}.cal-day{min-height:auto}}
+@media(max-width:900px){.cal-grid{grid-template-columns:1fr;gap:8px}.cal-grid.week .cal-day{min-height:auto}.cal-dow{display:none}}
+
+.cal-modal-backdrop{position:fixed;inset:0;background:rgba(20,15,10,.45);display:flex;align-items:flex-start;justify-content:center;padding:5vh 16px;overflow-y:auto;z-index:200}
+.cal-modal{background:var(--bg);border:1px solid var(--bdr);border-radius:10px;padding:26px 28px;max-width:560px;width:100%;box-shadow:0 30px 80px rgba(20,15,10,.25)}
+.cal-modal-hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;font-family:var(--serif);font-size:20px;color:var(--tx)}
+.cal-row{border:1px solid var(--bdr);border-radius:8px;padding:12px 14px;margin-bottom:10px}
+.cal-row-top{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:4px}
+.cal-row-top strong{font-family:var(--serif);font-size:15px;color:var(--tx)}
+.cal-row-nombre{font-weight:600;color:var(--tx);flex:1}
+.cal-row-meta{font-size:12px;color:var(--t2);margin-bottom:8px}
+.cal-row-btns{display:flex;gap:8px}
+.cal-row-btns button{flex:1;font-size:12px}
+.cal-edit-form{margin-top:10px;padding-top:10px;border-top:1px solid var(--bdr)}
 
 @media(max-width:780px){
   .layout{flex-direction:column}
@@ -177,7 +196,6 @@ table.leads-table tr:hover td{background:var(--s1)}
 let content = null;
 let session = { hasAccount: false, loggedIn: false };
 let activeTab = 'datos';
-let calWeekStart = mondayOf(new Date());
 
 const app = document.getElementById('app');
 
@@ -1332,69 +1350,244 @@ function mondayOf(d) {
   return x;
 }
 function addDays(d, n) { const x = new Date(d); x.setDate(x.getDate() + n); return x; }
+function addMonths(d, n) { const x = new Date(d); x.setDate(1); x.setMonth(x.getMonth() + n); return x; }
+function firstOfMonth(d) { const x = new Date(d); x.setDate(1); x.setHours(0, 0, 0, 0); return x; }
 function isoDate(d) { return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
 
-function calMove(deltaWeeks) { calWeekStart = addDays(calWeekStart, deltaWeeks * 7); loadCalendario(); }
-function calToday() { calWeekStart = mondayOf(new Date()); loadCalendario(); }
+let calViewMode = 'month'; // 'month' | 'week'
+let calAnchor = new Date();
+let calByDate = {};
+let calOpenIso = null;
 
-async function loadCalendario() {
+function calSetView(mode) { calViewMode = mode; loadCalendario(); }
+function calMove(delta) {
+  calAnchor = calViewMode === 'month' ? addMonths(calAnchor, delta) : addDays(calAnchor, delta * 7);
+  loadCalendario();
+}
+function calToday() { calAnchor = new Date(); loadCalendario(); }
+
+async function loadCalendario(keepOpenDay) {
   const area = document.getElementById('content-area');
-  const days = [...Array(7)].map((_, i) => addDays(calWeekStart, i));
-  const rangeLabel = `${days[0].toLocaleDateString('es-ES', { day: 'numeric', month: 'short' })} – ${days[6].toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' })}`;
+  const rangeLabel = calViewMode === 'month'
+    ? calAnchor.toLocaleDateString('es-ES', { month: 'long', year: 'numeric' })
+    : (() => { const days = [...Array(7)].map((_, i) => addDays(mondayOf(calAnchor), i)); return `${days[0].toLocaleDateString('es-ES', { day: 'numeric', month: 'short' })} – ${days[6].toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' })}`; })();
   area.innerHTML = `
     <div class="panel-hd" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;gap:10px;flex-wrap:wrap">
-      <div class="panel-title" style="margin-bottom:0">Calendario</div>
-      <div style="display:flex;gap:8px;align-items:center">
-        <button class="btn-o" id="cal-prev">‹ Semana</button>
+      <div class="panel-title" style="margin-bottom:0;text-transform:capitalize">${esc(rangeLabel)}</div>
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+        <div class="ftog-row" style="width:auto">
+          <button class="ftog ${calViewMode==='month'?'on-gold':''}" id="cal-view-month" style="flex:none;padding:0 16px">Mes</button>
+          <button class="ftog ${calViewMode==='week'?'on-gold':''}" id="cal-view-week" style="flex:none;padding:0 16px">Semana</button>
+        </div>
+        <button class="btn-o" id="cal-prev">‹</button>
         <button class="btn-o" id="cal-today">Hoy</button>
-        <button class="btn-o" id="cal-next">Semana ›</button>
+        <button class="btn-o" id="cal-next">›</button>
       </div>
     </div>
-    <div class="panel-desc">${rangeLabel} · citas y valoraciones. Toca una para abrir su ficha en Leads.</div>
-    <div id="cal-grid" class="cal-grid"><div class="empty-note">Cargando…</div></div>
+    <div class="panel-desc">Toca cualquier día para ver, añadir, mover o borrar citas — hora por hora.</div>
+    <div id="cal-grid" class="cal-grid ${calViewMode}"><div class="empty-note">Cargando…</div></div>
+    <div id="cal-day-panel"></div>
   `;
+  document.getElementById('cal-view-month').onclick = () => calSetView('month');
+  document.getElementById('cal-view-week').onclick = () => calSetView('week');
   document.getElementById('cal-prev').onclick = () => calMove(-1);
   document.getElementById('cal-next').onclick = () => calMove(1);
   document.getElementById('cal-today').onclick = () => calToday();
 
   const res = await fetch('/api/leads');
   const data = await res.json();
-  const allLeads = data.leads || [];
-  currentLeads = allLeads;
-  const reservas = allLeads.filter(l => l.tipo === 'reserva' && l.fecha_cita);
-
-  const byDate = {};
-  reservas.forEach(l => { (byDate[l.fecha_cita] = byDate[l.fecha_cita] || []).push(l); });
-  Object.values(byDate).forEach(arr => arr.sort((a, b) => (a.hora_cita || '').localeCompare(b.hora_cita || '')));
+  currentLeads = data.leads || [];
+  const reservas = currentLeads.filter(l => l.tipo === 'reserva' && l.fecha_cita);
+  calByDate = {};
+  reservas.forEach(l => { (calByDate[l.fecha_cita] = calByDate[l.fecha_cita] || []).push(l); });
+  Object.values(calByDate).forEach(arr => arr.sort((a, b) => (a.hora_cita || '').localeCompare(b.hora_cita || '')));
 
   const todayIso = isoDate(new Date());
   const grid = document.getElementById('cal-grid');
-  grid.innerHTML = days.map(d => {
+  const dayCell = (d, dim) => {
     const iso = isoDate(d);
-    const dayLeads = byDate[iso] || [];
+    const dayLeads = calByDate[iso] || [];
+    const max = calViewMode === 'month' ? 3 : 99;
     return `
-      <div class="cal-day ${iso === todayIso ? 'today' : ''}">
-        <div class="cal-day-hd">${d.toLocaleDateString('es-ES', { weekday: 'short' })}<span>${d.getDate()}</span></div>
+      <div class="cal-day ${iso === todayIso ? 'today' : ''} ${dim ? 'dim' : ''}" onclick="calOpenDay('${iso}')">
+        <div class="cal-day-hd">${calViewMode === 'week' ? d.toLocaleDateString('es-ES', { weekday: 'short' }) : ''}<span>${d.getDate()}</span></div>
         <div class="cal-day-body">
-          ${dayLeads.length ? dayLeads.map(l => {
+          ${dayLeads.slice(0, max).map(l => {
             const sol = l.estado_solicitud || 'aprobada';
-            return `<div class="cal-chip ${sol}" onclick="calOpenLead(${l._row})">
+            return `<div class="cal-chip ${sol}">
               <strong>${esc(l.hora_cita || '')}</strong>
               <span>${esc(l.nombre || 'Sin nombre')}</span>
-              ${l.servicio ? `<small>${esc(l.servicio)}</small>` : ''}
+              ${calViewMode === 'week' && l.servicio ? `<small>${esc(l.servicio)}</small>` : ''}
             </div>`;
-          }).join('') : `<div class="cal-empty">—</div>`}
+          }).join('')}
+          ${dayLeads.length > max ? `<div class="cal-more">+${dayLeads.length - max} más</div>` : ''}
+          ${!dayLeads.length && calViewMode === 'week' ? `<div class="cal-empty">—</div>` : ''}
         </div>
       </div>
     `;
-  }).join('');
+  };
+
+  if (calViewMode === 'week') {
+    const days = [...Array(7)].map((_, i) => addDays(mondayOf(calAnchor), i));
+    grid.innerHTML = days.map(d => dayCell(d, false)).join('');
+  } else {
+    const first = firstOfMonth(calAnchor);
+    const gridStart = mondayOf(first);
+    const last = new Date(calAnchor.getFullYear(), calAnchor.getMonth() + 1, 0);
+    const gridEnd = addDays(mondayOf(last), 6);
+    const totalDays = Math.round((gridEnd - gridStart) / 86400000) + 1;
+    const cells = [...Array(totalDays)].map((_, i) => addDays(gridStart, i));
+    const dow = ['LUN', 'MAR', 'MIÉ', 'JUE', 'VIE', 'SÁB', 'DOM'];
+    grid.innerHTML =
+      dow.map(w => `<div class="cal-dow">${w}</div>`).join('') +
+      cells.map(d => dayCell(d, d.getMonth() !== calAnchor.getMonth())).join('');
+  }
+
+  if (keepOpenDay) calOpenDay(keepOpenDay);
 }
 
-async function calOpenLead(rowIndex) {
-  activeTab = 'leads';
-  renderDashboard();
-  await renderLeadsTable();
-  openEditLead(rowIndex);
+// ── Panel de día: ver, añadir, editar y borrar citas hora por hora ────
+function calDayLeads(iso) { return calByDate[iso] || []; }
+
+function calOpenDay(iso) {
+  calOpenIso = iso;
+  const panel = document.getElementById('cal-day-panel');
+  const d = new Date(iso + 'T00:00:00');
+  const leads = calDayLeads(iso);
+  const label = d.toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+  panel.innerHTML = `
+    <div class="cal-modal-backdrop" onclick="if(event.target===this) calCloseDay()">
+      <div class="cal-modal">
+        <div class="cal-modal-hd">
+          <span style="text-transform:capitalize">${esc(label)}</span>
+          <button class="intake-x" onclick="calCloseDay()">✕</button>
+        </div>
+        <div id="cal-modal-body">
+          ${leads.length ? leads.map(l => calRowHtml(l)).join('') : '<div class="empty-note">Sin citas este día.</div>'}
+        </div>
+        <button class="btn-o" style="width:100%;margin-top:14px" onclick="calShowAddForm('${iso}')">+ AÑADIR CITA ESTE DÍA</button>
+        <div id="cal-add-form"></div>
+      </div>
+    </div>
+  `;
+}
+function calCloseDay() { calOpenIso = null; document.getElementById('cal-day-panel').innerHTML = ''; }
+
+function calRowHtml(l) {
+  const sol = l.estado_solicitud || 'aprobada';
+  const chipSol = `<span class="chip-sol ${sol}">${sol === 'pendiente' ? '● Por elegir' : sol === 'rechazada' ? '✕ No encaja' : '✓ Pase concedido'}</span>`;
+  return `
+    <div class="cal-row" id="cal-row-${l._row}">
+      <div class="cal-row-top">
+        <strong>${esc(l.hora_cita || 'sin hora')}</strong>
+        <span class="cal-row-nombre">${esc(l.nombre) || '(sin nombre)'}</span>
+        ${chipSol}
+      </div>
+      <div class="cal-row-meta">${[esc(l.servicio), l.tier === 'grande' ? 'jornada completa' : '', esc(l.whatsapp)].filter(Boolean).join(' · ') || '—'}</div>
+      <div class="cal-row-btns">
+        <button class="btn-o" onclick="calEditRow(${l._row})">✎ Editar</button>
+        <button class="btn-o lead-card-borrar" onclick="calDeleteRow(${l._row})">🗑 Borrar</button>
+      </div>
+      <div id="cal-edit-${l._row}"></div>
+    </div>
+  `;
+}
+
+function calEditRow(rowIndex) {
+  const l = currentLeads.find(x => x._row === rowIndex);
+  if (!l) return;
+  const box = document.getElementById('cal-edit-' + rowIndex);
+  if (box.innerHTML) { box.innerHTML = ''; return; } // toggle cerrar si ya está abierto
+  box.innerHTML = `
+    <div class="cal-edit-form">
+      <div class="row2">
+        <div><p class="field-label">NOMBRE</p><input class="fi" id="ce-nombre-${rowIndex}" value="${esc(l.nombre)}"></div>
+        <div><p class="field-label">WHATSAPP</p><input class="fi" id="ce-whatsapp-${rowIndex}" value="${esc(l.whatsapp)}"></div>
+      </div>
+      <div class="row2">
+        <div><p class="field-label">HORA</p><input class="fi" id="ce-hora-${rowIndex}" value="${esc(l.hora_cita)}" placeholder="ej. 10:00"></div>
+        <div><p class="field-label">SERVICIO</p><input class="fi" id="ce-servicio-${rowIndex}" value="${esc(l.servicio)}"></div>
+      </div>
+      <div class="row2">
+        <div><p class="field-label">TIPO DE FRANJA</p>
+          <select class="fi" id="ce-tier-${rowIndex}">
+            <option value="" ${!l.tier ? 'selected' : ''}>Normal</option>
+            <option value="pequeno" ${l.tier === 'pequeno' ? 'selected' : ''}>Media franja</option>
+            <option value="grande" ${l.tier === 'grande' ? 'selected' : ''}>Jornada completa (bloquea todo el día)</option>
+            <option value="consulta" ${l.tier === 'consulta' ? 'selected' : ''}>Valoración</option>
+          </select>
+        </div>
+        <div><p class="field-label">FIANZA (€)</p><input class="fi" id="ce-fianza-${rowIndex}" value="${esc(l.fianza)}"></div>
+      </div>
+      <p class="field-label">MENSAJE</p><textarea class="fi" id="ce-mensaje-${rowIndex}">${esc(l.mensaje)}</textarea>
+      <button class="btn-p" style="width:auto;padding:10px 24px;margin-top:10px" onclick="calSaveEdit(${rowIndex})">GUARDAR</button>
+    </div>
+  `;
+}
+
+async function calSaveEdit(rowIndex) {
+  const g = id => document.getElementById(id + '-' + rowIndex).value.trim();
+  const fields = {
+    nombre: g('ce-nombre'), whatsapp: g('ce-whatsapp'), hora_cita: g('ce-hora'),
+    servicio: g('ce-servicio'), tier: g('ce-tier'), fianza: g('ce-fianza'), mensaje: g('ce-mensaje'),
+  };
+  await fetch('/api/lead-edit', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ rowIndex, fields }) });
+  flashSaved('✓ Cita actualizada');
+  await loadCalendario(calOpenIso);
+}
+
+async function calDeleteRow(rowIndex) {
+  const l = currentLeads.find(x => x._row === rowIndex);
+  if (!confirm('¿Borrar la cita de ' + (l?.nombre || 'esta persona') + '?\n\nEsto no se puede deshacer.')) return;
+  await fetch('/api/lead-delete', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ rowIndex }) });
+  flashSaved('✓ Cita borrada');
+  await loadCalendario(calOpenIso);
+}
+
+function calShowAddForm(iso) {
+  const box = document.getElementById('cal-add-form');
+  if (box.innerHTML) { box.innerHTML = ''; return; }
+  box.innerHTML = `
+    <div class="cal-edit-form" style="margin-top:14px">
+      <div class="row2">
+        <div><p class="field-label">NOMBRE</p><input class="fi" id="ca-nombre"></div>
+        <div><p class="field-label">WHATSAPP</p><input class="fi" id="ca-whatsapp"></div>
+      </div>
+      <div class="row2">
+        <div><p class="field-label">HORA</p><input class="fi" id="ca-hora" placeholder="ej. 10:00"></div>
+        <div><p class="field-label">SERVICIO</p><input class="fi" id="ca-servicio"></div>
+      </div>
+      <div class="row2">
+        <div><p class="field-label">TIPO DE FRANJA</p>
+          <select class="fi" id="ca-tier">
+            <option value="">Normal</option>
+            <option value="pequeno">Media franja</option>
+            <option value="grande">Jornada completa (bloquea todo el día)</option>
+            <option value="consulta">Valoración</option>
+          </select>
+        </div>
+        <div><p class="field-label">FIANZA (€)</p><input class="fi" id="ca-fianza"></div>
+      </div>
+      <p class="field-label">MENSAJE</p><textarea class="fi" id="ca-mensaje"></textarea>
+      <div class="auth-msg" id="ca-msg"></div>
+      <button class="btn-p" style="width:auto;padding:10px 24px;margin-top:10px" onclick="calSaveNew('${iso}')">AÑADIR CITA</button>
+    </div>
+  `;
+}
+
+async function calSaveNew(iso) {
+  const nombre = document.getElementById('ca-nombre').value.trim();
+  const hora = document.getElementById('ca-hora').value.trim();
+  if (!nombre || !hora) { document.getElementById('ca-msg').textContent = 'Pon al menos nombre y hora.'; return; }
+  const payload = {
+    tipo: 'reserva', nombre, whatsapp: document.getElementById('ca-whatsapp').value.trim(),
+    fecha: iso, hora, servicio: document.getElementById('ca-servicio').value.trim(),
+    tier: document.getElementById('ca-tier').value, fianza: document.getElementById('ca-fianza').value.trim(),
+    mensaje: document.getElementById('ca-mensaje').value.trim(), fuente: 'Ficha manual (admin)',
+  };
+  await fetch('/api/lead', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+  flashSaved('✓ Cita añadida');
+  await loadCalendario(iso);
 }
 
 let currentLeads = [];
