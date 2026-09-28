@@ -82,6 +82,24 @@ nav.nav-hidden{transform:translateY(-100%)}
 .nav-links{display:flex;gap:2px;flex-wrap:wrap}
 .nl{background:none;border:none;color:var(--t2);font-size:13px;padding:6px 8px;cursor:pointer;letter-spacing:.02em;transition:color .15s;border-radius:3px;white-space:nowrap}
 .nl:hover{color:var(--tx)}
+a.nl,a.fl,a.btn-book{text-decoration:none;display:inline-flex;align-items:center}
+.nl.on{color:var(--tx);box-shadow:inset 0 -1px 0 var(--a)}
+.v-off{display:none!important}
+.v-cta{background:var(--dk);padding:96px 52px;border-top:1px solid rgba(255,255,255,.05)}
+.vcta-alt{margin-top:18px}
+.vcta-link{background:none;border:none;color:rgba(196,160,80,.85);font-size:14px;cursor:pointer;text-decoration:none;border-bottom:1px solid rgba(196,160,80,.3);padding:2px 0;font-family:inherit}
+.vcta-link:hover{color:rgba(196,160,80,1);border-color:rgba(196,160,80,.8)}
+.vcta-fund{font-family:var(--serif);font-style:italic;font-size:18px;color:rgba(196,160,80,.8);margin-top:26px}
+.vcta-fund:empty{display:none}
+.m-cta{display:none}
+@media(max-width:768px){
+  .v-cta{padding:72px 20px}
+  .m-cta{display:flex;flex-direction:column;align-items:center;gap:5px;position:fixed;left:0;right:0;bottom:0;z-index:90;padding:10px 16px calc(10px + env(safe-area-inset-bottom));background:rgba(26,22,20,.96);backdrop-filter:blur(10px);transform:translateY(110%);transition:transform .3s ease}
+  .m-cta.show{transform:none}
+  .m-cta button{width:100%;background:rgba(196,160,80,.95);border:none;color:#1a1614;font-weight:700;letter-spacing:.12em;font-size:14px;padding:14px;border-radius:var(--r);cursor:pointer}
+  .m-cta span{font-size:11px;color:var(--dt2);letter-spacing:.04em}
+  footer{padding-bottom:110px}
+}
 .btn-book{background:var(--dk);border:none;color:var(--dtx);font-size:13px;font-weight:600;padding:0 22px;height:36px;border-radius:var(--r);cursor:pointer;letter-spacing:.1em;transition:opacity .15s;white-space:nowrap;flex-shrink:0}
 .nav-burger{display:none;background:none;border:1px solid var(--bdr2);color:var(--tx);width:38px;height:38px;border-radius:6px;cursor:pointer;font-size:17px;align-items:center;justify-content:center;flex-shrink:0}
 .nav-burger:hover{border-color:var(--aBdr);color:var(--a)}
@@ -655,15 +673,13 @@ body.wz-lock{overflow:hidden}
     <small id="nav-sub">TATTOO ATELIER</small>
   </a>
   <div class="nav-links" id="nav-links">
-    <button class="nl" onclick="scroll2('nosotros')">Quiénes somos</button>
-    <button class="nl" onclick="scroll2('espacio')">El Espacio</button>
-    <button class="nl" onclick="scroll2('portfolio')">Trabajo</button>
-    <button class="nl" onclick="scroll2('servicios')">Spécialités</button>
-    <button class="nl" onclick="scroll2('experiences')">Experiences</button>
-    <button class="nl" onclick="scroll2('tarifas')">Inversión</button>
-    <button class="nl" onclick="scroll2('galeria')">Galería</button>
+    <a class="nl" href="/" data-go="home">Inicio</a>
+    <a class="nl" href="/atelier" data-go="atelier">Atelier</a>
+    <a class="nl" href="/obra" data-go="obra">Obra</a>
+    <a class="nl" href="/experiences" data-go="experience">Experiences</a>
+    <a class="nl nl-pase" href="/pase" data-go="pase">Solicitar Pase</a>
   </div>
-  <button class="btn-book" onclick="goBook()">PRESENTAR PROYECTO</button>
+  <a class="btn-book" href="/pase" data-go="pase">SOLICITAR PASE</a>
   <button class="nav-burger" id="nav-burger" onclick="toggleMobileNav()" aria-label="Abrir menú">☰</button>
 </nav>
 
@@ -677,7 +693,7 @@ body.wz-lock{overflow:hidden}
     <p class="h-styles">MICRO-REALISMO · REALISMO CONCEPTUAL · FINE LINE</p>
     <div class="h-btns">
       <button class="btn-p" onclick="goBook()">PRESENTAR MI PROYECTO →</button>
-      <button class="btn-o" onclick="scroll2('portfolio')">VER TRABAJO</button>
+      <a class="btn-o" href="/obra" data-go="obra" style="text-decoration:none;display:inline-flex;align-items:center">VER LA OBRA</a>
     </div>
     <p class="h-btns-note"><strong>Presenta tu proyecto</strong> — cada mes concedemos un número limitado de Pases y elegimos cada uno, uno a uno.</p>
   </div>
@@ -841,7 +857,7 @@ body.wz-lock{overflow:hidden}
   <div class="sec-inner">
     <div class="port-top rv">
       <div>
-        <div class="sec-label">TRABAJO · SPÉCIALITÉS · INVERSIÓN</div>
+        <div class="sec-label">OBRA · MICRO-REALISMO · FINE LINE</div>
         <h2 class="sec-title">Llevar SACRAVM es pertenecer a algo distinto.</h2>
         <p class="port-body">Micro-realismo, realismo conceptual y fine line. Cada pieza que sale de aquí te convierte en parte de algo que pocos llegan a tener.</p>
       </div>
@@ -884,11 +900,11 @@ body.wz-lock{overflow:hidden}
 
     <div class="rv" style="background:var(--w);border:1px solid var(--aBdr);border-radius:6px;padding:28px 32px;margin-bottom:32px;display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap">
       <div>
-        <div class="sec-label" style="margin-bottom:6px">¿AÚN NO LO TIENES CLARO?</div>
-        <div style="font-family:var(--serif);font-size:22px;font-weight:400;color:var(--tx);margin-bottom:4px">Antes del Pase, una valoración de 30 min sin coste</div>
-        <p style="font-size:14px;color:var(--t2)">Hablamos de tu idea, resolvemos dudas y cerramos el proyecto — sin compromiso ni coste.</p>
+        <div class="sec-label" style="margin-bottom:6px">INCLUIDO EN TU PASE</div>
+        <div style="font-family:var(--serif);font-size:22px;font-weight:400;color:var(--tx);margin-bottom:4px">Estudio de diseño, sin coste</div>
+        <p style="font-size:14px;color:var(--t2);max-width:560px">Con tu Pase concedido y la señal abonada, diseñamos la pieza contigo: idea, referencias, zona, tamaño y composición. Llegas al día del tatuaje sabiendo exactamente lo que vas a llevar.</p>
       </div>
-      <button class="btn-p" style="flex-shrink:0" onclick="goBook('Valoración y diseño (30 min, gratis)')">SOLICITAR VALORACIÓN →</button>
+      <button class="btn-p" style="flex-shrink:0" onclick="goBook()">PRESENTAR MI PROYECTO →</button>
     </div>
 
     <div class="tar-note rv">
@@ -1052,8 +1068,8 @@ body.wz-lock{overflow:hidden}
   </div>
 </section>
 
-<!-- SACRAVM ETERNO -->
-<section id="eterno">
+<!-- SACRAVM ETERNO — oculto hasta que la ropa exista (quitar el display:none para volver a mostrarlo) -->
+<section id="eterno" style="display:none">
   <div class="sec-inner">
     <div class="rv" style="margin-bottom:20px">
       <div class="sec-label">SACRAVM ETERNO</div>
@@ -1164,7 +1180,7 @@ body.wz-lock{overflow:hidden}
       <div>
         <div class="term-block">
           <h4>Nuestro enfoque y cómo elegimos proyectos</h4>
-          <p>Creamos cada tatuaje con total libertad artística dentro del tema acordado. Tu idea inspira el diseño, pero añadimos nuestro toque personal. No copiamos otros tatuajes ni estilos. El diseño final lo preparamos el primer día de tu Pase.</p>
+          <p>Creamos cada tatuaje con total libertad artística dentro del tema acordado. Tu idea inspira el diseño, pero añadimos nuestro toque personal. No copiamos otros tatuajes ni estilos. El diseño lo cerramos contigo en el Estudio de diseño, una vez concedido tu Pase y abonada la señal.</p>
           <div class="term-highlight"><p>Priorizamos a quienes traen grandes ideas y buen ambiente, especialmente a quienes confían en nosotros para hacer lo que mejor sabemos hacer. <strong>Si consideramos que un diseño o ubicación no es adecuado, te lo haremos saber y podemos rechazar el proyecto.</strong></p></div>
         </div>
         <div class="term-block">
@@ -1204,7 +1220,7 @@ body.wz-lock{overflow:hidden}
         </div>
         <div class="term-block">
           <h4>Diseño y referencias</h4>
-          <p>Envía las referencias antes del Pase. Cuanto más claro esté el concepto, mejor se prepara. El diseño final puede diferir de las referencias — eso es parte del proceso creativo.</p>
+          <p>Envía las referencias con tu proyecto y tráelas al Estudio de diseño. Cuanto más claro esté el concepto, mejor se prepara. El diseño final puede diferir de las referencias — eso es parte del proceso creativo.</p>
         </div>
       </div>
     </div>
@@ -1227,7 +1243,7 @@ body.wz-lock{overflow:hidden}
         </div>
         <div class="term-block">
           <h4>¿Hacéis diseños personalizados?</h4>
-          <p>Sí, el 100% del diseño está incluido — no trabajamos sobre catálogos ni diseños repetidos.</p>
+          <p>Sí, el 100% del diseño está incluido. Con tu Pase concedido y la señal abonada, lo creamos contigo en el Estudio de diseño — sin catálogos ni diseños repetidos.</p>
         </div>
       </div>
       <div>
@@ -1308,10 +1324,76 @@ body.wz-lock{overflow:hidden}
 </section>
 
 <!-- TU HISTORIA MERECE SER ETERNA -->
-<div class="eterna-wrap rv">
-  <div class="eterna-q">Tu historia<br><em>merece ser eterna.</em></div>
-  <div style="width:40px;height:1px;background:rgba(196,160,80,.4);margin:22px auto 18px"></div>
-  <div class="eterna-sub">SACRAVM · TATTOO ATELIER · LEÓN</div>
+<section id="cta-home" class="v-cta">
+  <div class="bk-inner">
+    <div class="bk-sup rv">TU TURNO</div>
+    <h2 class="bk-title rv">Tu historia<br><em>merece ser eterna.</em></h2>
+    <div class="bk-rule rv"></div>
+    <p class="bk-sub rv">Cada mes concedemos un número limitado de Pases. Cuéntanos tu idea: la leemos en 48 h y te respondemos personalmente.</p>
+    <div class="rv">
+      <button class="btn-bk-main" onclick="goBook()">PRESENTAR MI PROYECTO →</button>
+      <div class="vcta-alt"><a class="vcta-link" href="/obra" data-go="obra">Antes, quiero ver la obra →</a></div>
+      <p class="vcta-fund"></p>
+      <p class="bk-note">Presentarlo es gratis y sin compromiso · Con tu Pase concedido, el Estudio de diseño va incluido</p>
+    </div>
+  </div>
+</section>
+<section id="cta-atelier" class="v-cta">
+  <div class="bk-inner">
+    <div class="bk-sup rv">EL SIGUIENTE PASO</div>
+    <h2 class="bk-title rv">Ya sabes quién hay detrás.<br><em>Ahora queremos conocerte a ti.</em></h2>
+    <div class="bk-rule rv"></div>
+    <p class="bk-sub rv">Cuéntanos qué quieres llevar contigo para siempre. Leemos cada proyecto, uno a uno, y te respondemos en 48 h.</p>
+    <div class="rv">
+      <button class="btn-bk-main" onclick="goBook()">PRESENTAR MI PROYECTO →</button>
+      <div class="vcta-alt"><a class="vcta-link" href="/obra" data-go="obra">Antes, quiero ver la obra →</a></div>
+      <p class="vcta-fund"></p>
+      <p class="bk-note">Presentarlo es gratis y sin compromiso · Con tu Pase concedido, el Estudio de diseño va incluido</p>
+    </div>
+  </div>
+</section>
+<section id="cta-obra" class="v-cta">
+  <div class="bk-inner">
+    <div class="bk-sup rv">LA SIGUIENTE PIEZA</div>
+    <h2 class="bk-title rv">¿Te imaginas<br><em>una pieza así en tu piel?</em></h2>
+    <div class="bk-rule rv"></div>
+    <p class="bk-sub rv">Cada obra que has visto empezó con alguien contándonos su historia. La tuya puede ser la siguiente.</p>
+    <div class="rv">
+      <button class="btn-bk-main" onclick="goBook()">PRESENTAR MI PROYECTO →</button>
+      <div class="vcta-alt"><a class="vcta-link vcta-wa" href="#" target="_blank" rel="noopener">¿Una duda antes? Escríbenos por WhatsApp →</a></div>
+      <p class="vcta-fund"></p>
+      <p class="bk-note">Presentarlo es gratis y sin compromiso · Con tu Pase concedido, el Estudio de diseño va incluido</p>
+    </div>
+  </div>
+</section>
+<section id="cta-experience" class="v-cta">
+  <div class="bk-inner">
+    <div class="bk-sup rv">SOLO PARA TI</div>
+    <h2 class="bk-title rv">Y si la pieza<br><em>es solo tuya…</em></h2>
+    <div class="bk-rule rv"></div>
+    <p class="bk-sub rv">Las Experiences se viven en grupo. El Pase es una sesión privada en el Atelier: una sola obra y toda la atención puesta en tu historia.</p>
+    <div class="rv">
+      <button class="btn-bk-main" onclick="goBook()">PRESENTAR MI PROYECTO →</button>
+      <div class="vcta-alt"><button class="vcta-link" onclick="scroll2('exp-form-wrap')">Prefiero consultar una Experience →</button></div>
+      <p class="vcta-fund"></p>
+      <p class="bk-note">Presentarlo es gratis y sin compromiso · Con tu Pase concedido, el Estudio de diseño va incluido</p>
+    </div>
+  </div>
+</section>
+<section id="cta-pase" class="v-cta">
+  <div class="bk-inner">
+    <div class="bk-sup rv">TODO LISTO</div>
+    <h2 class="bk-title rv">Tu Pase<br><em>empieza aquí.</em></h2>
+    <div class="bk-rule rv"></div>
+    <p class="bk-sub rv">Presentar tu proyecto lleva unos minutos. Nosotros hacemos el resto.</p>
+    <div class="rv">
+      <button class="btn-bk-main" onclick="goBook()">PRESENTAR MI PROYECTO →</button>
+      <div class="vcta-alt"><a class="vcta-link vcta-wa" href="#" target="_blank" rel="noopener">¿Una duda antes? Escríbenos por WhatsApp →</a></div>
+      <p class="vcta-fund"></p>
+      <p class="bk-note">Presentarlo es gratis y sin compromiso · Con tu Pase concedido, el Estudio de diseño va incluido</p>
+    </div>
+  </div>
+</section>
 </div>
 
 <!-- BOOKING CTA -->
@@ -1329,6 +1411,8 @@ body.wz-lock{overflow:hidden}
       <div class="bk-step"><span class="bk-step-n">3</span><div class="bk-step-t"><strong>Cuéntanos la historia</strong>Es lo único que tenemos para decidir</div></div>
       <span class="bk-step-sep">→</span>
       <div class="bk-step"><span class="bk-step-n">4</span><div class="bk-step-t"><strong>El Pase se concede</strong>La leemos en 48 h. Si entra, te damos fecha y la señal la confirma</div></div>
+      <span class="bk-step-sep">→</span>
+      <div class="bk-step"><span class="bk-step-n">5</span><div class="bk-step-t"><strong>Estudio de diseño</strong>Con la señal abonada, diseñamos tu pieza contigo. Incluido</div></div>
     </div>
     <div class="rv">
       <button class="btn-bk-main" onclick="goBook()">PRESENTAR MI PROYECTO →</button>
@@ -1383,28 +1467,27 @@ body.wz-lock{overflow:hidden}
     <div class="foot-sub" style="margin-top:6px">PASES LIMITADOS AL MES · UN PROYECTO A LA VEZ</div>
   </div>
   <div class="foot-links">
-    <button class="fl" onclick="scroll2('nosotros')">Quiénes somos</button>
-    <button class="fl" onclick="scroll2('artistas')">Artistas</button>
-    <button class="fl" onclick="scroll2('portfolio')">Trabajo</button>
-    <button class="fl" onclick="scroll2('servicios')">Spécialités</button>
-    <button class="fl" onclick="scroll2('experiences')">Experiences</button>
-    <button class="fl" onclick="scroll2('tarifas')">Inversión</button>
+    <a class="fl" href="/" data-go="home">Inicio</a>
+    <a class="fl" href="/atelier" data-go="atelier">Atelier</a>
+    <a class="fl" href="/obra" data-go="obra">Obra</a>
+    <a class="fl" href="/experiences" data-go="experience">Experiences</a>
+    <a class="fl" href="/pase" data-go="pase">Solicitar Pase</a>
     <button class="fl" onclick="scroll2('vale-regalo')">Vale regalo</button>
     <button class="fl" onclick="scroll2('formacion')">Academy</button>
-    <button class="fl" onclick="scroll2('galeria')">Galería</button>
-    <button class="fl" onclick="scroll2('booking')">Presentar proyecto</button>
   </div>
   <div class="foot-right">
     <a class="btn-wa" id="btn-wa" href="#" target="_blank">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
       WhatsApp
     </a>
-    <button class="btn-book" onclick="goBook()">PRESENTAR PROYECTO</button>
+    <a class="btn-book" href="/pase" data-go="pase">SOLICITAR PASE</a>
   </div>
 </footer>
 <div style="background:var(--dk);border-top:1px solid rgba(255,255,255,.05);padding:14px 24px;text-align:center">
   <a href="/legal" style="font-size:12px;color:var(--dt2);text-decoration:none">Aviso legal · Política de privacidad · Cookies</a>
 </div>
+
+<div class="m-cta" id="m-cta"><button onclick="goBook()">SOLICITAR PASE →</button><span>Gratis y sin compromiso · Respuesta en 48 h</span></div>
 
 <!-- ═══ WIZARD DE RESERVA (experiencia interactiva) ═══ -->
 <div class="obra-overlay" id="obra-overlay" onclick="if(event.target===this)closeObraModal()">
@@ -1996,7 +2079,86 @@ async function submitExperience() {
 }
 
 // ── Scroll ─────────────────────────────────────────────────────────
-function scroll2(id) { closeMobileNav(); document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+// ── Páginas: Home · Atelier · Art · Experience · Solicitar Pase ─────
+// Una sola página por dentro (todo el JS y los formularios siguen igual),
+// pero cada vista enseña solo sus secciones y tiene su propia URL.
+const VIEWS = {
+  home:       { path: '/',            title: 'SACRAVM · Tattoo Atelier en León',  secs: ['hero','manifesto','proceso','origen','queHacemos','testimonios','cta-home'] },
+  atelier:    { path: '/atelier',     title: 'El Atelier · SACRAVM',               secs: ['nosotros','artistas','espacio','video-atelier','despues','formacion','cta-atelier'] },
+  obra:       { path: '/obra',        title: 'Obra · SACRAVM',                     secs: ['portfolio','galeria','servicios','colecciones','obras','eterno','cta-obra'] },
+  experience: { path: '/experiences', title: 'Experiences · SACRAVM',              secs: ['experiences','vale-regalo','cta-experience'] },
+  pase:       { path: '/pase',        title: 'Solicitar Pase · SACRAVM',           secs: ['booking','tarifas','terminos','cta-pase'] }
+};
+const VIEW_ALIAS = { '/art': 'obra', '/experience': 'experience' };
+const VIEW_OF = {};
+let currentView = 'home';
+(function initViews() {
+  const footer = document.querySelector('footer');
+  Object.entries(VIEWS).forEach(([v, cfg]) => cfg.secs.forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.dataset.v = v; VIEW_OF[id] = v;
+    footer.parentNode.insertBefore(el, footer);   // orden fijo: por vista
+  }));
+  document.addEventListener('click', e => {
+    const a = e.target.closest('[data-go]');
+    if (!a || e.metaKey || e.ctrlKey || e.shiftKey) return;
+    e.preventDefault(); closeWizard(); showView(a.dataset.go);
+  });
+  window.addEventListener('popstate', () => showView(viewFromPath(), { push: false }));
+})();
+function viewFromPath() {
+  const p = location.pathname.replace(/\/+$/, '') || '/';
+  return Object.keys(VIEWS).find(v => VIEWS[v].path === p) || VIEW_ALIAS[p] || 'home';
+}
+function showView(v, opts = {}) {
+  if (!VIEWS[v]) v = 'home';
+  closeMobileNav();
+  currentView = v;
+  document.querySelectorAll('[data-v]').forEach(el => el.classList.toggle('v-off', el.dataset.v !== v));
+  document.querySelectorAll('[data-go]').forEach(a => a.classList.toggle('on', a.dataset.go === v && a.classList.contains('nl')));
+  document.title = VIEWS[v].title;
+  if (opts.push === false && location.pathname !== VIEWS[v].path && !location.hash) history.replaceState({ v }, '', VIEWS[v].path);
+  if (opts.push !== false && location.pathname !== VIEWS[v].path) history.pushState({ v }, '', VIEWS[v].path);
+  if (!opts.keepScroll) window.scrollTo({ top: 0, behavior: 'instant' });
+}
+function scroll2(id) {
+  closeMobileNav();
+  const el = document.getElementById(id);
+  if (!el) return;
+  const sec = el.closest('[data-v]');
+  const go = () => el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  if (sec && sec.dataset.v !== currentView) { showView(sec.dataset.v); requestAnimationFrame(go); }
+  else go();
+}
+contentReady.then(() => {
+  const T = (CONFIG && CONFIG.textos) || {};
+  document.querySelectorAll('.vcta-fund').forEach(el => el.textContent = T.fundacionalTitulo || '');
+  const waNum = ((CONFIG && CONFIG.whatsapp) || '').replace(/[^0-9]/g, '');
+  const wa = waNum.length >= 9 ? 'https://wa.me/' + waNum + '?text=' + encodeURIComponent('Hola, tengo una duda antes de presentar mi proyecto') : '';
+  document.querySelectorAll('.vcta-wa').forEach(el => { if (wa) el.href = wa; else el.parentNode.style.display = 'none'; });
+});
+// Botón fijo en móvil: aparece al bajar y se retira cuando ya hay un cierre o el asistente en pantalla
+function syncMobileCta() {
+  const bar = document.getElementById('m-cta');
+  if (!bar) return;
+  const ctaVisible = [...document.querySelectorAll('.v-cta:not(.v-off), #booking:not(.v-off)')].some(el => {
+    const r = el.getBoundingClientRect(); return r.top < innerHeight && r.bottom > 0;
+  });
+  const overlay = document.querySelector('.wz-overlay.show, .lp-overlay.show, .obra-overlay.show, .estilo-overlay.show');
+  bar.classList.toggle('show', scrollY > 500 && !ctaVisible && !overlay);
+}
+window.addEventListener('scroll', syncMobileCta, { passive: true });
+setInterval(syncMobileCta, 800);
+// Arranque: la URL manda; los enlaces antiguos con #seccion (p. ej. /#booking) siguen funcionando
+(function bootView() {
+  const h = location.hash.slice(1);
+  if (h === 'qrbook') { showView('pase', { push: false }); return; }
+  const target = h && document.getElementById(h);
+  const sec = target && target.closest('[data-v]');
+  if (sec) { showView(sec.dataset.v, { push: false }); history.replaceState(null, '', VIEWS[sec.dataset.v].path + '#' + h); setTimeout(() => target.scrollIntoView({ block: 'start' }), 60); return; }
+  showView(viewFromPath(), { push: false });
+})();
 function toggleMobileNav() {
   const nav = document.getElementById('nav-links');
   const burger = document.getElementById('nav-burger');
@@ -2007,7 +2169,7 @@ function closeMobileNav() {
   document.getElementById('nav-links').classList.remove('open');
   document.getElementById('nav-burger').textContent = '☰';
 }
-function goHome() { closeWizard(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+function goHome() { closeWizard(); showView('home'); }
 
 // ── Navegación silenciosa: se oculta al bajar, reaparece al subir ──
 let lastScrollY = window.scrollY;
@@ -2100,7 +2262,6 @@ const WZ_SERVICE_OPTIONS = [
   { nombre: 'Media sesión', ideal: 'El formato más elegido', precio: '450–550€', tier: 'pequeno', fianza: 100 },
   { nombre: 'Sesión completa', ideal: 'Proyectos con más profundidad y capas', precio: '750–850€', tier: 'grande', fianza: 150 },
   { nombre: 'A consultar', ideal: 'No sabes qué formato encaja todavía', precio: '', tier: null, fianza: null },
-  { nombre: VALORACION_SERVICIO, ideal: 'Te guiamos sin compromiso', precio: 'Gratis', tier: 'consulta', fianza: 0 },
 ];
 function renderWzServices() {
   document.getElementById('wz-services').innerHTML = WZ_SERVICE_OPTIONS.map(s => `

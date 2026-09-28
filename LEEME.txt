@@ -1,0 +1,5 @@
+Subir a GitHub (repo sacravm-web) estos 3 archivos, sustituyendo los que hay:
+  index.html · server.js · sitemap.xml
+Render redespliega en 1-2 min (un 502 durante ese rato es normal).
+Comprobar después: /  /atelier  /obra  /experiences  /pase  y  /#booking (debe llevar a /pase).
+Copia de seguridad de la versión anterior en ~/Downloads/SACRAVM-Web/*.backup-2026-09-28.*

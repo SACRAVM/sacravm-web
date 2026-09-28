@@ -474,6 +474,16 @@ function emailSolicitudRecibida(lead) {
   };
 }
 
+// El Estudio de diseño va incluido en cada Pase, pero solo se abre con la señal
+// dentro: es la primera parte del ritual, no una forma de entrar gratis.
+const BLOQUE_ESTUDIO_DISENO = `
+  <div style="margin:30px 0 8px;padding:22px 24px;border:1px solid #D9C9A8;background:#FBF8F3">
+    <p style="margin:0 0 6px;font-size:11px;letter-spacing:.22em;color:#8B5E2A">LO QUE VIENE AHORA</p>
+    <p style="margin:0 0 14px;font-family:Georgia,serif;font-size:20px;color:#1C1714">Tu Estudio de diseño</p>
+    <p style="margin:0 0 12px;font-size:14px;line-height:1.75;color:#3A332E">Con tu señal dentro se abre la primera parte del ritual: me siento contigo a diseñar la pieza. Idea, referencias, zona, tamaño y composición — todo se decide ahí, entre los dos.</p>
+    <p style="margin:0;font-size:14px;line-height:1.75;color:#3A332E">Está incluido en tu Pase, sin coste. Llegarás al día del tatuaje sabiendo exactamente lo que vas a llevar contigo para siempre.</p>
+  </div>`;
+
 function emailAprobacion(lead, cfg) {
   const nombre = (lead.nombre || '').split(' ')[0] || 'Hola';
   const fecha = fmtFechaEs(lead.fecha_cita);
@@ -505,10 +515,42 @@ function emailAprobacion(lead, cfg) {
         : 'He leído tu proyecto y lo he elegido. <strong>Tienes Pase.</strong>'}</p>
       <p><strong>Fecha:</strong> ${fecha}<br><strong>Hora:</strong> ${lead.hora_cita || ''}<br><strong>Servicio:</strong> ${lead.servicio || ''}</p>
       ${pago}
+      ${esConsulta ? '' : BLOQUE_ESTUDIO_DISENO}
       <p>Unos días antes te escribo con todo lo que conviene saber para llegar preparado.</p>
       <p style="font-style:italic;color:#8B5E2A">Tu historia merece ser eterna.</p>
     `),
   };
+}
+
+function emailSenalRecibida(lead) {
+  const nombre = (lead.nombre || '').split(' ')[0] || 'Hola';
+  const fecha = fmtFechaEs(lead.fecha_cita);
+  return {
+    subject: `Tu Pase está confirmado · Empieza tu Estudio de diseño`,
+    html: EMAIL_WRAP(`
+      <p>Hola ${nombre},</p>
+      <p>Tu señal ha llegado. <strong>Tu Pase está confirmado</strong> y la fecha es tuya.</p>
+      <p><strong>Fecha:</strong> ${fecha}${lead.hora_cita ? '<br><strong>Hora:</strong> ' + lead.hora_cita : ''}<br><strong>Servicio:</strong> ${lead.servicio || ''}</p>
+      <div style="margin:30px 0 8px;padding:22px 24px;border:1px solid #D9C9A8;background:#FBF8F3">
+        <p style="margin:0 0 6px;font-size:11px;letter-spacing:.22em;color:#8B5E2A">EL SIGUIENTE PASO</p>
+        <p style="margin:0 0 14px;font-family:Georgia,serif;font-size:20px;color:#1C1714">Tu Estudio de diseño</p>
+        <p style="margin:0 0 12px;font-size:14px;line-height:1.75;color:#3A332E">Ahora empieza lo importante: crear tu pieza. En tu Estudio de diseño trabajamos juntos la idea, las referencias, la zona, el tamaño y la composición, hasta que el diseño sea exactamente tuyo.</p>
+        <p style="margin:0;font-size:14px;line-height:1.75;color:#3A332E">En los próximos días te escribo para fijarlo. Mientras tanto, si tienes más referencias, fotos o algo que quieras que tenga en cuenta, respóndeme a este correo.</p>
+      </div>
+      <p>Gracias por confiarme tu historia.</p>
+      <p style="font-style:italic;color:#8B5E2A">Tu historia merece ser eterna.</p>
+    `),
+  };
+}
+
+// Se envía una sola vez por cambio real (pendiente → pagada), nunca a solicitudes
+// sin Pase concedido ni a fichas sin email.
+function avisarSenalRecibida(antes, estadoNuevo) {
+  if (!antes || estadoNuevo !== 'pagada' || antes.estado_fianza === 'pagada') return;
+  if (!antes.email || antes.tier === 'consulta') return;
+  if (antes.estado_solicitud === 'pendiente' || antes.estado_solicitud === 'rechazada') return;
+  const m = emailSenalRecibida(antes);
+  sendEmail(antes.email, m.subject, m.html).catch(() => {});
 }
 
 function emailNoEncaja(lead) {
@@ -1051,7 +1093,9 @@ const server = http.createServer(async (req, res) => {
       const rowIndex = Number(body.rowIndex);
       const estado = body.estado === 'pagada' ? 'pagada' : '';
       if (Number.isNaN(rowIndex)) return sendJSON(res, 400, { ok: false, error: 'Falta rowIndex.' });
+      const antes = readLeadsRaw().rows.find(r => r._row === rowIndex);
       const ok = setLeadEstadoFianza(rowIndex, estado);
+      if (ok) avisarSenalRecibida(antes, estado);
       return sendJSON(res, ok ? 200 : 404, { ok });
     }
 
@@ -1062,7 +1106,9 @@ const server = http.createServer(async (req, res) => {
       if (Number.isNaN(rowIndex)) return sendJSON(res, 400, { ok: false, error: 'Falta rowIndex.' });
       const fields = {};
       EDITABLE_LEAD_FIELDS.forEach(k => { if (Object.prototype.hasOwnProperty.call(body.fields || {}, k)) fields[k] = body.fields[k]; });
+      const antes = readLeadsRaw().rows.find(r => r._row === rowIndex);
       const ok = updateLeadFields(rowIndex, fields);
+      if (ok && 'estado_fianza' in fields) avisarSenalRecibida(antes, fields.estado_fianza);
       return sendJSON(res, ok ? 200 : 404, { ok });
     }
 
@@ -1237,6 +1283,7 @@ const server = http.createServer(async (req, res) => {
     if (filePath === '/academy') filePath = '/academy.html';
     if (filePath === '/legal') filePath = '/legal.html';
     if (filePath === '/certificado') filePath = '/certificado.html';
+    if (['/atelier', '/obra', '/art', '/experiences', '/experience', '/pase'].includes(filePath)) filePath = '/index.html';
     if (filePath === '/qr') filePath = '/qr.html';
     if (filePath === '/solicitar') filePath = '/qr.html';
     if (filePath === '/apertura') filePath = '/apertura.html';
