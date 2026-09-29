@@ -1275,6 +1275,15 @@ const server = http.createServer(async (req, res) => {
       });
     }
 
+    // ═══ QR de la puerta del Atelier ═══
+    // El QR impreso apunta SIEMPRE a /puerta; el destino se cambia aquí sin reimprimir.
+    // Lleva al formulario único de solicitud de Pase (el mismo de la web, Instagram y WhatsApp).
+    if (pathname === '/puerta' || pathname === '/puerta/') {
+      const PUERTA_DESTINO = '/solicitar?f=puerta';
+      res.writeHead(302, { Location: PUERTA_DESTINO, 'Cache-Control': 'no-store' });
+      res.end(); return;
+    }
+
     // ═══ Archivos estáticos (código de la web, siempre en ROOT) ═══
     let filePath = pathname;
     if (filePath === '/') filePath = '/index.html';

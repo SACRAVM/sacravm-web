@@ -1404,15 +1404,13 @@ body.wz-lock{overflow:hidden}
     <div class="bk-rule rv"></div>
     <p class="bk-sub rv">Cada mes se abre un número limitado de Pases. Elegimos cada proyecto, uno a uno.</p>
     <div class="bk-flow rv">
-      <div class="bk-step"><span class="bk-step-n">1</span><div class="bk-step-t"><strong>Elige el formato</strong>Día entero, media sesión o mini tattoo</div></div>
+      <div class="bk-step"><span class="bk-step-n">1</span><div class="bk-step-t"><strong>Cuéntanos la historia</strong>Tu idea, la zona, el tamaño y tus referencias. Es lo que usamos para decidir</div></div>
       <span class="bk-step-sep">→</span>
-      <div class="bk-step"><span class="bk-step-n">2</span><div class="bk-step-t"><strong>Marca tu preferencia</strong>Una fecha que te vendría bien — todavía no es tuya</div></div>
+      <div class="bk-step"><span class="bk-step-n">2</span><div class="bk-step-t"><strong>La leemos</strong>Cada proyecto, uno a uno. Te respondemos en 48 h</div></div>
       <span class="bk-step-sep">→</span>
-      <div class="bk-step"><span class="bk-step-n">3</span><div class="bk-step-t"><strong>Cuéntanos la historia</strong>Es lo único que tenemos para decidir</div></div>
+      <div class="bk-step"><span class="bk-step-n">3</span><div class="bk-step-t"><strong>El Pase se concede</strong>Si entra, te damos fecha y la señal la confirma</div></div>
       <span class="bk-step-sep">→</span>
-      <div class="bk-step"><span class="bk-step-n">4</span><div class="bk-step-t"><strong>El Pase se concede</strong>La leemos en 48 h. Si entra, te damos fecha y la señal la confirma</div></div>
-      <span class="bk-step-sep">→</span>
-      <div class="bk-step"><span class="bk-step-n">5</span><div class="bk-step-t"><strong>Estudio de diseño</strong>Con la señal abonada, diseñamos tu pieza contigo. Incluido</div></div>
+      <div class="bk-step"><span class="bk-step-n">4</span><div class="bk-step-t"><strong>Estudio de diseño</strong>Con la señal abonada, diseñamos tu pieza contigo. Incluido</div></div>
     </div>
     <div class="rv">
       <button class="btn-bk-main" onclick="goBook()">PRESENTAR MI PROYECTO →</button>
@@ -2432,6 +2430,11 @@ function showWzStep(n) {
 }
 
 async function goBook(preselectServicio) {
+  // Formulario único: web, puerta, Instagram y WhatsApp llevan a la misma solicitud de Pase.
+  // (El asistente antiguo sigue aquí debajo por si se quiere recuperar.)
+  closeMobileNav && closeMobileNav();
+  location.href = '/solicitar?f=web';
+  return;
   await contentReady;
   const esValoracionPreselect = preselectServicio === VALORACION_SERVICIO;
   wz = { step: 1, servicio: preselectServicio || null, tier: esValoracionPreselect ? 'consulta' : null, fianza: esValoracionPreselect ? 0 : null, fecha: null, hora: null, nombre: '', email: '', whatsapp: '', zona: '', tamano: '', bebida: '', mensaje: '', repeticion: '', fuente: '', referencias: [] };
