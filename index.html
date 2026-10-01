@@ -51,7 +51,7 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --bg:#FBF8F3;--s1:#F5EFE4;--s2:#EEE7D9;--w:#FDFCF9;
+  --bg:#FAF9F6;--s1:#F3F1EA;--s2:#ECE9E0;--w:#FEFEFC;
   --bdr:rgba(60,40,10,.08);--bdr2:rgba(60,40,10,.16);
   --tx:#1C1714;--t2:#6B6460;--t3:#A8A29C;
   --a:#8B5E2A;--aLt:rgba(139,94,42,.08);--aBdr:rgba(139,94,42,.22);
@@ -280,7 +280,7 @@ nav,footer{scroll-snap-align:none}
 .art-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:36px;margin-top:40px}
 .art-card{background:transparent;transition:opacity .2s;cursor:pointer}
 .art-card:hover{opacity:.9}
-.art-img{aspect-ratio:2/3;border-radius:3px;overflow:hidden;background:linear-gradient(155deg,#E4DCC9 0%,#CBB99B 55%,#DACBAE 100%);display:flex;align-items:center;justify-content:center;position:relative}
+.art-img{aspect-ratio:4/5;border-radius:3px;overflow:hidden;background:linear-gradient(155deg,#E4DCC9 0%,#CBB99B 55%,#DACBAE 100%);display:flex;align-items:center;justify-content:center;position:relative}
 .art-img span{font-size:10px;letter-spacing:.16em;color:rgba(60,40,10,.32);text-align:center;line-height:2}
 .art-badge{position:absolute;top:12px;right:12px;background:rgba(139,94,42,.14);color:var(--a);font-size:9px;letter-spacing:.1em;font-weight:700;padding:4px 10px;border-radius:20px}
 .art-body{padding:16px 2px 0}
@@ -302,7 +302,7 @@ nav,footer{scroll-snap-align:none}
 .exp-video-wrap{border-radius:10px;overflow:hidden;box-shadow:var(--sh);margin-bottom:18px;background:#000;aspect-ratio:16/9}
 .exp-video-wrap video,.exp-video-wrap iframe{width:100%;height:100%;display:block;border:none;object-fit:cover}
 .exp-fotos-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
-.exp-foto{aspect-ratio:1;border-radius:6px;overflow:hidden}
+.exp-foto{aspect-ratio:4/5;border-radius:6px;overflow:hidden}
 .exp-foto img{width:100%;height:100%;object-fit:cover;display:block}
 @media(max-width:720px){.exp-fotos-grid{grid-template-columns:repeat(2,1fr)}}
 .col-soon{background:var(--w);border:1px solid var(--bdr);border-radius:6px;padding:44px 28px;text-align:center;box-shadow:var(--sh)}
@@ -392,11 +392,11 @@ nav,footer{scroll-snap-align:none}
 
 /* ── GALERÍA ─── */
 #galeria{padding:88px 52px}
-.gal-grid{columns:3;column-gap:28px}
-.gal-card{break-inside:avoid;margin-bottom:32px;background:transparent;transition:opacity .25s;cursor:pointer}
+.gal-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px 24px}
+.gal-card{background:transparent;transition:opacity .25s;cursor:pointer}
 .gal-card:hover{opacity:.9}
-.gal-img{width:100%;overflow:hidden;border-radius:3px}
-.gal-img img{width:100%;height:auto;display:block;transition:transform .4s ease}
+.gal-img{width:100%;aspect-ratio:4/5;overflow:hidden;border-radius:3px}
+.gal-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s ease}
 .gal-card:hover .gal-img img{transform:scale(1.03)}
 .gal-body{padding:12px 2px 0}
 .gal-est{font-size:10px;letter-spacing:.2em;color:var(--a);font-weight:700;margin-bottom:3px}
@@ -606,7 +606,7 @@ body.wz-lock{overflow:hidden}
   .zona-list .zona-row:last-child{border-bottom:1px solid var(--bdr)}
   .terms-grid{grid-template-columns:1fr}
   .proc-row3{grid-template-columns:1fr}
-  .gal-grid{columns:1}
+  .gal-grid{grid-template-columns:1fr 1fr}
   .eterno-product{grid-template-columns:1fr!important}
   .foot-links{display:none}
   .wz-box{padding:30px 22px 24px}
@@ -933,19 +933,15 @@ body.wz-lock{overflow:hidden}
   <div class="sec-inner">
     <div class="col-intro rv">
       <div>
-        <div class="sec-label">COLECCIONES</div>
-        <h2 class="sec-title">Diseños disponibles ahora</h2>
-        <p class="col-body">Muchas veces tienes claro que quieres algo, pero te falta plasmarlo. Aquí te dejamos algunas ideas que podrían cuadrar con la tuya. Podemos modificarlas para darles tu toque personal — si alguna te gusta o se adapta a lo que buscas, dínoslo.</p>
+        <div class="sec-label">TU PROYECTO</div>
+        <h2 class="sec-title">Escríbeme qué idea te gusta —<br>juntos crearemos algo único.</h2>
+        <p class="col-body">No trabajamos desde una colección cerrada de diseños. Cada pieza nace de tu idea, se piensa contigo desde cero y se construye para que sea solo tuya.</p>
         <div class="col-tag-row">
-          <span class="col-tag">Punto de partida</span>
-          <span class="col-tag">100% personalizable</span>
+          <span class="col-tag">100% personalizado</span>
           <span class="col-tag">Se concede como cualquier Pase</span>
         </div>
+        <button class="btn-o" style="margin-top:28px" onclick="goBook()">Presentar mi proyecto →</button>
       </div>
-    </div>
-    <div class="col-soon rv">
-      <strong>Próximamente</strong>
-      <p>Estamos preparando las primeras ideas para dejarte aquí. ¿Quieres ser el primero en verlas? Apúntate a la lista de formación o síguenos en Instagram — se anuncian ahí primero.</p>
     </div>
   </div>
 </section>
